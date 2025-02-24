@@ -1,0 +1,44 @@
+{
+  "PTA": {
+    "Ability": {
+      "Atk": { "long": "Attack", "abbr": "atk" },
+      "Def": { "long": "Defence", "abbr": "def" }, 
+      "SAtk": { "long": "Special Attack", "abbr": "satk" },
+      "SDef": { "long": "Special Defence", "abbr": "sdef" },
+      "Spd": { "long": "Speed", "abbr": "spd" }
+    },
+    "SheetLabels": {
+      "Actor": "pta Actor Sheet",
+      "Item": "pta Item Sheet"
+    },
+    "Item": {
+      "Pokeball": {
+
+      },
+      "Spell": {
+        "SpellLVL": "Level {level} Spells",
+        "AddLVL": "Add LVL {level}"
+      }
+    },
+    "Effect": {
+      "Source": "Source",
+      "Toggle": "Toggle Effect",
+      "Temporary": "Temporary Effects",
+      "Passive": "Passive Effects",
+      "Inactive": "Inactive Effects"
+    }
+  },
+
+  "TYPES": {
+    "Actor": {
+      "character": "Character",
+      "pokemon": "Pokémon",
+      "npc": "NPC"
+    },
+    "Item": {
+      "item": "Item",
+      "feature": "Feature",
+      "spell": "Spell"
+    }
+  }
+}
