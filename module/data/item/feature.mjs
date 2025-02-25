@@ -1,3 +1,3 @@
-import ptaItemBase from "../base-item.mjs";
+import ItemData from "../base-item.mjs";
 
-export default class ptaFeature extends ptaItemBase {}
+export default class FeatureData extends ItemData {}

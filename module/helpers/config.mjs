@@ -10,6 +10,7 @@ PTA.Pokedex = {
   Moves: [],
   Types: [],
   Berries: [],
+  Ailments: []
 }
 
 //if the pokedex was previously registered, check if its been expired
@@ -38,6 +39,7 @@ if (!localStorage.getItem('pta.pokedex') || expired) {
   for (const i of _apiMoves.results) PTA.Pokedex.Moves.push(i.name);
   for (const i of _apiTypes.results) PTA.Pokedex.Types.push(i.name);
   for (const i of _apiBerries.results) PTA.Pokedex.Berries.push(i.name);
+  for (const i of await pokeapi.ailment('?limit=100000&offset=0').results) PTA.Pokedex.Ailments.push(i.name)
 
   localStorage.setItem('pta.pokedex', JSON.stringify(PTA.Pokedex));
   localStorage.setItem('pta.pokedexExpiry', today.toISOString());
@@ -170,4 +172,8 @@ PTA.skillGroups = {
 PTA.pokemonTypes = {};
 for (const t of PTA.Pokedex.Types) {
   PTA.pokemonTypes[t] = `PTA.Type.${t}`;
+}
+
+PTA.statusEffects = {
+
 }

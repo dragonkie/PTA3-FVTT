@@ -1,5 +1,28 @@
+/* Import utilities */
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+:root {
+  --pta-c-type-normal: #A8A77A;
+  --pta-c-type-fire: #EE8130;
+  --pta-c-type-water: #6390F0;
+  --pta-c-type-electric: #F7D02C;
+  --pta-c-type-grass: #7AC74C;
+  --pta-c-type-ice: #96D9D6;
+  --pta-c-type-fighting: #C22E28;
+  --pta-c-type-poison: #A33EA1;
+  --pta-c-type-ground: #E2BF65;
+  --pta-c-type-flying: #A98FF3;
+  --pta-c-type-psychic: #F95587;
+  --pta-c-type-bug: #A6B91A;
+  --pta-c-type-rock: #B6A136;
+  --pta-c-type-ghost: #735797;
+  --pta-c-type-dragon: #6F35FC;
+  --pta-c-type-dark: #705746;
+  --pta-c-type-steel: #B7B7CE;
+  --pta-c-type-fairy: #D685AD;
+}
+
 /* Global styles */
+/* Import utilities */
 .window-app {
   font-family: "Roboto", sans-serif;
 }
@@ -203,11 +226,13 @@
   text-align: center;
 }
 
-/* Styles limited to pta3 sheets */
-.pta3 .item-form {
+/* System specific styling */
+/* Import utilities */
+.item-form {
   font-family: "Roboto", sans-serif;
 }
-.pta3 .sheet-header {
+
+.sheet-header {
   flex: 0 auto;
   overflow: hidden;
   display: flex;
@@ -216,43 +241,49 @@
   justify-content: flex-start;
   margin-bottom: 10px;
 }
-.pta3 .sheet-header .profile-img {
+.sheet-header .profile-img {
   flex: 0 0 100px;
   height: 100px;
   margin-right: 10px;
 }
-.pta3 .sheet-header .header-fields {
+.sheet-header .header-fields {
   flex: 1;
 }
-.pta3 .sheet-header h1.charname {
+.sheet-header h1.charname {
   height: 50px;
   padding: 0px;
   margin: 5px 0;
   border-bottom: 0;
 }
-.pta3 .sheet-header h1.charname input {
+.sheet-header h1.charname input {
   width: 100%;
   height: 100%;
   margin: 0;
 }
-.pta3 .sheet-tabs {
+
+.sheet-tabs {
   flex: 0;
 }
-.pta3 .sheet-body,
-.pta3 .sheet-body .tab,
-.pta3 .sheet-body .tab .editor {
+
+.sheet-body,
+.sheet-body .tab,
+.sheet-body .tab .editor {
   height: 100%;
 }
-.pta3 .tox .tox-editor-container {
+
+.tox .tox-editor-container {
   background: #fff;
 }
-.pta3 .tox .tox-edit-area {
+.tox .tox-edit-area {
   padding: 0 8px;
 }
-.pta3 .resource-label {
+
+.resource-label {
   font-weight: bold;
 }
-.pta3 .items-header {
+
+/* Import utilities */
+.items-header {
   height: 28px;
   margin: 2px 0;
   padding: 0;
@@ -261,17 +292,18 @@
   border: 2px groove #eeede0;
   font-weight: bold;
 }
-.pta3 .items-header > * {
+.items-header > * {
   font-size: 14px;
   text-align: center;
 }
-.pta3 .items-header .item-name {
+.items-header .item-name {
   font-weight: bold;
   padding-left: 5px;
   text-align: left;
   display: flex;
 }
-.pta3 .items-list {
+
+.items-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -279,12 +311,12 @@
   scrollbar-width: thin;
   color: #444;
 }
-.pta3 .items-list .item-list {
+.items-list .item-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.pta3 .items-list .item-name {
+.items-list .item-name {
   flex: 2;
   margin: 0;
   overflow: hidden;
@@ -293,46 +325,46 @@
   align-items: center;
   display: flex;
 }
-.pta3 .items-list .item-name h3, .pta3 .items-list .item-name h4 {
+.items-list .item-name h3, .items-list .item-name h4 {
   margin: 0;
   white-space: nowrap;
   overflow-x: hidden;
 }
-.pta3 .items-list .item-controls {
+.items-list .item-controls {
   display: flex;
   flex: 0 0 100px;
   justify-content: flex-end;
 }
-.pta3 .items-list .item-controls a {
+.items-list .item-controls a {
   font-size: 12px;
   text-align: center;
   margin: 0 6px;
 }
-.pta3 .items-list .item {
+.items-list .item {
   align-items: center;
   padding: 0 2px;
   border-bottom: 1px solid #c9c7b8;
 }
-.pta3 .items-list .item:last-child {
+.items-list .item:last-child {
   border-bottom: none;
 }
-.pta3 .items-list .item .item-name {
+.items-list .item .item-name {
   color: #191813;
 }
-.pta3 .items-list .item .item-name .item-image {
+.items-list .item .item-name .item-image {
   flex: 0 0 30px;
   height: 30px;
   background-size: 30px;
   border: none;
   margin-right: 5px;
 }
-.pta3 .items-list .item-prop {
+.items-list .item-prop {
   text-align: center;
   border-left: 1px solid #c9c7b8;
   border-right: 1px solid #c9c7b8;
   font-size: 12px;
 }
-.pta3 .items-list .items-header {
+.items-list .items-header {
   height: 28px;
   margin: 2px 0;
   padding: 0;
@@ -341,26 +373,172 @@
   border: 2px groove #eeede0;
   font-weight: bold;
 }
-.pta3 .items-list .items-header > * {
+.items-list .items-header > * {
   font-size: 12px;
   text-align: center;
 }
-.pta3 .items-list .items-header .item-name {
+.items-list .items-header .item-name {
   padding-left: 5px;
   text-align: left;
 }
-.pta3 .item-formula {
+
+.item-formula {
   flex: 0 0 200px;
   padding: 0 8px;
 }
-.pta3 .effects .item .effect-source,
-.pta3 .effects .item .effect-duration,
-.pta3 .effects .item .effect-controls {
+
+.effects .item .effect-source,
+.effects .item .effect-duration,
+.effects .item .effect-controls {
   text-align: center;
   border-left: 1px solid #c9c7b8;
   border-right: 1px solid #c9c7b8;
   font-size: 12px;
 }
-.pta3 .effects .item .effect-controls {
+.effects .item .effect-controls {
   border: none;
 }
+
+/* Import utilities */
+/* Classes for creating pokemon type boxs and their effects */
+ol.pokemon-team {
+  list-style: none;
+  padding: 0px;
+}
+ol.pokemon-team .pokemon {
+  --angle: 110deg;
+  --scale: 60%;
+  --type-c-one: var(--pta-c-type-normal);
+  --type-c-two: var(--pta-c-type-normal);
+  background-color: var(--type-c-one);
+  margin-bottom: 5px;
+  position: relative;
+  width: 225px;
+  height: 75px;
+}
+ol.pokemon-team .pokemon[data-type-two] {
+  background-image: linear-gradient(var(--angle), var(--type-c-one) var(--scale), var(--type-c-two) calc(var(--scale) + 2px));
+}
+ol.pokemon-team .pokemon::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: width 0.1s ease-in-out;
+  float: right;
+}
+ol.pokemon-team .pokemon:hover::after {
+  width: 0%;
+}
+ol.pokemon-team .pokemon[data-type-one=normal] {
+  --type-c-one: var(--pta-c-type-normal);
+}
+ol.pokemon-team .pokemon[data-type-one=fire] {
+  --type-c-one: var(--pta-c-type-fire);
+}
+ol.pokemon-team .pokemon[data-type-one=water] {
+  --type-c-one: var(--pta-c-type-water);
+}
+ol.pokemon-team .pokemon[data-type-one=electric] {
+  --type-c-one: var(--pta-c-type-electric);
+}
+ol.pokemon-team .pokemon[data-type-one=grass] {
+  --type-c-one: var(--pta-c-type-grass);
+}
+ol.pokemon-team .pokemon[data-type-one=ice] {
+  --type-c-one: var(--pta-c-type-ice);
+}
+ol.pokemon-team .pokemon[data-type-one=fighting] {
+  --type-c-one: var(--pta-c-type-fighting);
+}
+ol.pokemon-team .pokemon[data-type-one=poison] {
+  --type-c-one: var(--pta-c-type-poison);
+}
+ol.pokemon-team .pokemon[data-type-one=ground] {
+  --type-c-one: var(--pta-c-type-ground);
+}
+ol.pokemon-team .pokemon[data-type-one=flying] {
+  --type-c-one: var(--pta-c-type-flying);
+}
+ol.pokemon-team .pokemon[data-type-one=psychic] {
+  --type-c-one: var(--pta-c-type-psychic);
+}
+ol.pokemon-team .pokemon[data-type-one=bug] {
+  --type-c-one: var(--pta-c-type-bug);
+}
+ol.pokemon-team .pokemon[data-type-one=rock] {
+  --type-c-one: var(--pta-c-type-rock);
+}
+ol.pokemon-team .pokemon[data-type-one=ghost] {
+  --type-c-one: var(--pta-c-type-ghost);
+}
+ol.pokemon-team .pokemon[data-type-one=dragon] {
+  --type-c-one: var(--pta-c-type-dragon);
+}
+ol.pokemon-team .pokemon[data-type-one=dark] {
+  --type-c-one: var(--pta-c-type-dark);
+}
+ol.pokemon-team .pokemon[data-type-one=steel] {
+  --type-c-one: var(--pta-c-type-steel);
+}
+ol.pokemon-team .pokemon[data-type-one=fairy] {
+  --type-c-one: var(--pta-c-type-fairy);
+}
+ol.pokemon-team .pokemon[data-type-two=normal] {
+  --type-c-two: var(--pta-c-type-normal);
+}
+ol.pokemon-team .pokemon[data-type-two=fire] {
+  --type-c-two: var(--pta-c-type-fire);
+}
+ol.pokemon-team .pokemon[data-type-two=water] {
+  --type-c-two: var(--pta-c-type-water);
+}
+ol.pokemon-team .pokemon[data-type-two=electric] {
+  --type-c-two: var(--pta-c-type-electric);
+}
+ol.pokemon-team .pokemon[data-type-two=grass] {
+  --type-c-two: var(--pta-c-type-grass);
+}
+ol.pokemon-team .pokemon[data-type-two=ice] {
+  --type-c-two: var(--pta-c-type-ice);
+}
+ol.pokemon-team .pokemon[data-type-two=fighting] {
+  --type-c-two: var(--pta-c-type-fighting);
+}
+ol.pokemon-team .pokemon[data-type-two=poison] {
+  --type-c-two: var(--pta-c-type-poison);
+}
+ol.pokemon-team .pokemon[data-type-two=ground] {
+  --type-c-two: var(--pta-c-type-ground);
+}
+ol.pokemon-team .pokemon[data-type-two=flying] {
+  --type-c-two: var(--pta-c-type-flying);
+}
+ol.pokemon-team .pokemon[data-type-two=psychic] {
+  --type-c-two: var(--pta-c-type-psychic);
+}
+ol.pokemon-team .pokemon[data-type-two=bug] {
+  --type-c-two: var(--pta-c-type-bug);
+}
+ol.pokemon-team .pokemon[data-type-two=rock] {
+  --type-c-two: var(--pta-c-type-rock);
+}
+ol.pokemon-team .pokemon[data-type-two=ghost] {
+  --type-c-two: var(--pta-c-type-ghost);
+}
+ol.pokemon-team .pokemon[data-type-two=dragon] {
+  --type-c-two: var(--pta-c-type-dragon);
+}
+ol.pokemon-team .pokemon[data-type-two=dark] {
+  --type-c-two: var(--pta-c-type-dark);
+}
+ol.pokemon-team .pokemon[data-type-two=steel] {
+  --type-c-two: var(--pta-c-type-steel);
+}
+ol.pokemon-team .pokemon[data-type-two=fairy] {
+  --type-c-two: var(--pta-c-type-fairy);
+}
+
+/* Styles limited to pta3 sheets */
+
+/*# sourceMappingURL=pta3.css.map */

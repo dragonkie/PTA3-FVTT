@@ -31,7 +31,7 @@ Hooks.once('init', function () {
    * @type {String}
    */
   CONFIG.Combat.initiative = {
-    formula: '1d20 + @abilities.dex.mod',
+    formula: '1d20 + @abilities.dex.mod + (1d100 / 10)',
     decimals: 2,
   };
 
@@ -46,10 +46,12 @@ Hooks.once('init', function () {
     npc: models.ptaNPC
   }
   CONFIG.Item.documentClass = ptaItem;
+  for (const [key, value] of Object.entries(models)) {
+    CONFIG.Item.dataModels[key] = value;
+  }
   CONFIG.Item.dataModels = {
     item: models.ptaItem,
     feature: models.ptaFeature,
-    spell: models.ptaSpell
   }
 
   // Active Effects are never copied to the Actor,

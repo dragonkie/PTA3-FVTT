@@ -1,4 +1,4 @@
-export default class ptaDataModel extends foundry.abstract.TypeDataModel {
+export default class PtaDataModel extends foundry.abstract.TypeDataModel {
   /**
    * Convert the schema to a plain object.
    * 
@@ -9,6 +9,6 @@ export default class ptaDataModel extends foundry.abstract.TypeDataModel {
    * @returns {object} Plain object either via deepClone or the spread operator.
    */
   toPlainObject() {
-    return {...this};
+    return { ...this };
   }
 }

@@ -4,7 +4,7 @@ const {
     ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField
 } = foundry.data.fields;
 
-export default class ptaPokemon extends ptaActorBase {
+export default class PokemonData extends ptaActorBase {
 
   static defineSchema() {
 

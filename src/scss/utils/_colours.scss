@@ -1,0 +1,47 @@
+$c-white: #fff;
+$c-black: #000;
+
+$c-dark: #191813;
+$c-faint: #c9c7b8;
+$c-beige: #b5b3a4;
+$c-tan: #444;
+
+$c-type-normal: #A8A77A;
+$c-type-fire: #EE8130;
+$c-type-water: #6390F0;
+$c-type-electric: #F7D02C;
+$c-type-grass: #7AC74C;
+$c-type-ice: #96D9D6;
+$c-type-fighting: #C22E28;
+$c-type-poison: #A33EA1;
+$c-type-ground: #E2BF65;
+$c-type-flying: #A98FF3;
+$c-type-psychic: #F95587;
+$c-type-bug: #A6B91A;
+$c-type-rock: #B6A136;
+$c-type-ghost: #735797;
+$c-type-dragon: #6F35FC;
+$c-type-dark: #705746;
+$c-type-steel: #B7B7CE;
+$c-type-fairy: #D685AD;
+
+:root {
+    --pta-c-type-normal: #{$c-type-normal};
+    --pta-c-type-fire: #{$c-type-fire};
+    --pta-c-type-water: #{$c-type-water};
+    --pta-c-type-electric: #{$c-type-electric};
+    --pta-c-type-grass: #{$c-type-grass};
+    --pta-c-type-ice: #{$c-type-ice};
+    --pta-c-type-fighting: #{$c-type-fighting};
+    --pta-c-type-poison: #{$c-type-poison};
+    --pta-c-type-ground: #{$c-type-ground};
+    --pta-c-type-flying: #{$c-type-flying};
+    --pta-c-type-psychic: #{$c-type-psychic};
+    --pta-c-type-bug: #{$c-type-bug};
+    --pta-c-type-rock: #{$c-type-rock};
+    --pta-c-type-ghost: #{$c-type-ghost};
+    --pta-c-type-dragon: #{$c-type-dragon};
+    --pta-c-type-dark: #{$c-type-dark};
+    --pta-c-type-steel: #{$c-type-steel};
+    --pta-c-type-fairy: #{$c-type-fairy};
+}

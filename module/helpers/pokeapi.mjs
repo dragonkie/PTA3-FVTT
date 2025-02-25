@@ -8,6 +8,7 @@ export default class pokeapi {
     static async pokemon(name = '') { return await this.request(this.url + 'pokemon/' + name) };
     static async species(name = '') { return await this.request(this.url + 'pokemon-species/' + name) };
     static async type(name = '') { return await this.request(this.url + 'type/' + name) };
+    static async ailment(name = '') { return await this.request(this.url + 'move-ailment/' + name) };
 
     static async request(url) {
         try {

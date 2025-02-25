@@ -1,6 +1,6 @@
-import ptaItemBase from "../base-item.mjs";
+import ItemData from "../base-item.mjs";
 
-export default class ptaItem extends ptaItemBase {
+export default class ptaItem extends ItemData {
 
   static defineSchema() {
     const fields = foundry.data.fields;
