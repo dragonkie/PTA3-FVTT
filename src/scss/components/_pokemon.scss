@@ -1,4 +1,4 @@
-@use '../module';
+@use '../module' as util;
 
 /* Classes for creating pokemon type boxs and their effects */
 
@@ -17,36 +17,71 @@ ol.pokemon-team {
         position: relative;
         width: 225px;
         height: 75px;
+        box-sizing: border-box;
+        padding: var(--pta-scale-px);
+        display: flex;
+        flex-direction: row;
+
+        .portrait {
+            flex: 0 0;
+            background-image: url(https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/814.png);
+            background-repeat: no-repeat;
+            background-size: contain;
+            height: 100%;
+            aspect-ratio: 1;
+        }
+
+        .details {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: center;
+            text-align: center;
+            >* {
+                flex: 1;
+                width: 100%;
+            }
+
+            .nickname {
+                font-weight: bold;
+                font-size: var(--pta-scale-em);
+            }
+
+            .health {
+                flex: 0;
+            }
+        }
 
         &[data-type-two] {
             background-image: linear-gradient(var(--angle), var(--type-c-one) var(--scale), var(--type-c-two) calc(var(--scale) + 2px));
         }
 
-        &::after {
-            content: '';
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.2);
-            transition: width 0.1s ease-in-out;
-            float: right;
-        }
-
-        &:hover {
-            &::after {
-                width: 0%;
-            }
-        }
-
-        @each $type in module.$pokemon-types {
+        @each $type in util.$pokemon-types {
             &[data-type-one=#{$type}] {
                 --type-c-one: var(--pta-c-type-#{$type});
             }
         }
 
-        @each $type in module.$pokemon-types {
+        @each $type in util.$pokemon-types {
             &[data-type-two=#{$type}] {
                 --type-c-two: var(--pta-c-type-#{$type});
             }
         }
+    }
+
+    .ailment {
+        display: none;
+        min-width: 50px;
+    }
+
+    [data-ailment]:not([data-ailment="none"], [data-ailment=""]) .ailment {
+        display: block;
+        background-color: red;
+        padding: 2px 4px;
+        right: 0%;
+        top: 0%;
+        transform: translate(10px, -10px);
+        position: absolute;
     }
 }

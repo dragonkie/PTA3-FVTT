@@ -1,0 +1,28 @@
+<div class="flexcol remote-image-browser" style="gap: 1rem; height: 100%;">
+    <div class="form-group">
+        <div class="form-fields">
+            <input class="search-input" style="flex: 2;" type="text" name="imageURL" placeholder="Search" list="datalist-{{id}}">
+            <select name="query-type" class="flex1">
+                <option data-api="pokemon" value="Pokemon" selected>Pokémon</option>
+                <option data-api="item" value="Items">Item</option>
+            </select>
+            <button type="button" data-action="search" style="height: 36px; width: 36px; flex: 0 0 36px">
+                <i class="fa-solid fa-magnifying-glass" style="height: 100%;"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex1" style="flex: 1 0; overflow: auto;">
+        <div class="sprite-gallery"></div>
+    </div>
+    <div class="form-group">
+        <label>URL:</label>
+        <div class="form-fields">
+            <input type="text" name="image-url" placeholder="url/to/final/image.png">
+        </div>
+    </div>
+    <button type="button" data-action="submit">
+        <span>{{localize "PTA.Button.Submit"}}</span>
+    </button>
+    <datalist class="search-options" id="datalist-{{id}}"></datalist>
+</div>

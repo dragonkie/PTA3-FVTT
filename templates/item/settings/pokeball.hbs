@@ -1,0 +1,20 @@
+<div>
+    <div class="form-group">
+        <label>Quantity</label>
+        <div class="form-fields">
+            {{ formInput (getField schema 'quantity')}}
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Capture Rate</label>
+        <div class="form-fields">
+            {{ formInput (getField schema 'capture.base')}}
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Conditional Bonus</label>
+        <div class="form-fields">
+            {{ formInput (getField schema 'capture.conditional')}}
+        </div>
+    </div>
+</div>

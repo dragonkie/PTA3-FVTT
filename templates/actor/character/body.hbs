@@ -1,0 +1,23 @@
+<div class="pta-sheet-body flexcol">
+  <header class="sheet-header flex0">
+    <div class="pta-id-card">
+      <h1><input type="text" value="{{document.name}}" name="name"></h1>
+      <div class="flexrow">
+        <img class="flex0" title="{{document.type}} " data-action="editImage" width="100" height="100" src="{{document.img}}">
+        <div>
+          <input type="text">
+          <input type="text">
+          <input type="text">
+        </div>
+        <div>
+          <input type="text">
+          <input type="text">
+          <input type="text">
+        </div>
+      </div>
+    </div>
+    <div class="pta-classes"></div>
+  </header>
+  {{> "pta.tabs-nav"}}
+  {{> "pta.tabs-content"}}
+</div>

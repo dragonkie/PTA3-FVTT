@@ -1,5 +1,5 @@
 /* Import utilities */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Quicksand:wght@300..700&display=swap");
 :root {
   --pta-c-type-normal: #A8A77A;
   --pta-c-type-fire: #EE8130;
@@ -19,14 +19,99 @@
   --pta-c-type-dark: #705746;
   --pta-c-type-steel: #B7B7CE;
   --pta-c-type-fairy: #D685AD;
+  --pta-c-hp-red: red;
+  --pta-c-hp-yellow: yellow;
+  --pta-c-hp-green: green;
+}
+
+:root {
+  --pta-scale-px: 8px;
+}
+
+:root {
+  --pta-scale-px: 8px;
+  --pta-scale-em: 1em;
+  --pta-scale-rem: 1rem;
+}
+
+.pta-xs {
+  --pta-scale-px: 4px;
+  --pta-scale-em: 0.6em;
+  --pta-scale-rem: 0.6rem;
+}
+
+.pta-s {
+  --pta-scale-px: 8px;
+  --pta-scale-em: 0.8em;
+  --pta-scale-rem: 0.8rem;
+}
+
+.pta-m {
+  --pta-scale-px: 12px;
+  --pta-scale-em: 1em;
+  --pta-scale-rem: 1rem;
+}
+
+.pta-l {
+  --pta-scale-px: 16px;
+  --pta-scale-em: 1.5em;
+  --pta-scale-rem: 1.5rem;
+}
+
+.pta-xl {
+  --pta-scale-px: 20px;
+  --pta-scale-em: 2em;
+  --pta-scale-rem: 2rem;
+}
+
+/* || ------------------------------ Font scaling ------------------------------- */
+.pta-font-xs {
+  --pta-scale-em: 0.6em;
+  --pta-scale-rem: 0.6rem;
+}
+
+.pta-font-s {
+  --pta-scale-em: 0.8em;
+  --pta-scale-rem: 0.8rem;
+}
+
+.pta-font-m {
+  --pta-scale-em: 1em;
+  --pta-scale-rem: 1rem;
+}
+
+.pta-font-l {
+  --pta-scale-em: 1.5em;
+  --pta-scale-rem: 1.5rem;
+}
+
+.pta-font-xl {
+  --pta-scale-em: 2em;
+  --pta-scale-rem: 2rem;
+}
+
+/* || ------------------------------ Pixel scaling ----------------------------- */
+.pta-px-xs {
+  --pta-scale-px: 4px;
+}
+
+.pta-px-s {
+  --pta-scale-px: 8px;
+}
+
+.pta-px-m {
+  --pta-scale-px: 12px;
+}
+
+.pta-px-l {
+  --pta-scale-px: 16px;
+}
+
+.pta-px-xl {
+  --pta-scale-px: 20px;
 }
 
 /* Global styles */
-/* Import utilities */
-.window-app {
-  font-family: "Roboto", sans-serif;
-}
-
 .rollable:hover, .rollable:focus {
   color: #000;
   text-shadow: 0 0 10px red;
@@ -234,7 +319,6 @@
 
 .sheet-header {
   flex: 0 auto;
-  overflow: hidden;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -303,20 +387,19 @@
   display: flex;
 }
 
-.items-list {
+ol.items-list {
   list-style: none;
   margin: 0;
   padding: 0;
   overflow-y: auto;
   scrollbar-width: thin;
-  color: #444;
 }
-.items-list .item-list {
+ol.items-list .item-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.items-list .item-name {
+ol.items-list .item-name {
   flex: 2;
   margin: 0;
   overflow: hidden;
@@ -325,46 +408,42 @@
   align-items: center;
   display: flex;
 }
-.items-list .item-name h3, .items-list .item-name h4 {
+ol.items-list .item-name h3, ol.items-list .item-name h4 {
   margin: 0;
   white-space: nowrap;
-  overflow-x: hidden;
 }
-.items-list .item-controls {
+ol.items-list .item-controls {
   display: flex;
   flex: 0 0 100px;
   justify-content: flex-end;
 }
-.items-list .item-controls a {
+ol.items-list .item-controls a {
   font-size: 12px;
   text-align: center;
   margin: 0 6px;
 }
-.items-list .item {
+ol.items-list .item {
   align-items: center;
   padding: 0 2px;
   border-bottom: 1px solid #c9c7b8;
 }
-.items-list .item:last-child {
+ol.items-list .item:last-child {
   border-bottom: none;
 }
-.items-list .item .item-name {
-  color: #191813;
-}
-.items-list .item .item-name .item-image {
+ol.items-list .item .item-name .item-image {
   flex: 0 0 30px;
   height: 30px;
   background-size: 30px;
   border: none;
   margin-right: 5px;
 }
-.items-list .item-prop {
+ol.items-list .item-prop {
   text-align: center;
   border-left: 1px solid #c9c7b8;
   border-right: 1px solid #c9c7b8;
   font-size: 12px;
 }
-.items-list .items-header {
+ol.items-list .items-header {
   height: 28px;
   margin: 2px 0;
   padding: 0;
@@ -373,11 +452,11 @@
   border: 2px groove #eeede0;
   font-weight: bold;
 }
-.items-list .items-header > * {
+ol.items-list .items-header > * {
   font-size: 12px;
   text-align: center;
 }
-.items-list .items-header .item-name {
+ol.items-list .items-header .item-name {
   padding-left: 5px;
   text-align: left;
 }
@@ -415,20 +494,40 @@ ol.pokemon-team .pokemon {
   position: relative;
   width: 225px;
   height: 75px;
+  box-sizing: border-box;
+  padding: var(--pta-scale-px);
+  display: flex;
+  flex-direction: row;
+}
+ol.pokemon-team .pokemon .portrait {
+  flex: 0 0;
+  background-image: url(https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/814.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 100%;
+  aspect-ratio: 1;
+}
+ol.pokemon-team .pokemon .details {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  text-align: center;
+}
+ol.pokemon-team .pokemon .details > * {
+  flex: 1;
+  width: 100%;
+}
+ol.pokemon-team .pokemon .details .nickname {
+  font-weight: bold;
+  font-size: var(--pta-scale-em);
+}
+ol.pokemon-team .pokemon .details .health {
+  flex: 0;
 }
 ol.pokemon-team .pokemon[data-type-two] {
   background-image: linear-gradient(var(--angle), var(--type-c-one) var(--scale), var(--type-c-two) calc(var(--scale) + 2px));
-}
-ol.pokemon-team .pokemon::after {
-  content: "";
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
-  transition: width 0.1s ease-in-out;
-  float: right;
-}
-ol.pokemon-team .pokemon:hover::after {
-  width: 0%;
 }
 ol.pokemon-team .pokemon[data-type-one=normal] {
   --type-c-one: var(--pta-c-type-normal);
@@ -538,7 +637,131 @@ ol.pokemon-team .pokemon[data-type-two=steel] {
 ol.pokemon-team .pokemon[data-type-two=fairy] {
   --type-c-two: var(--pta-c-type-fairy);
 }
+ol.pokemon-team .ailment {
+  display: none;
+  min-width: 50px;
+}
+ol.pokemon-team [data-ailment]:not([data-ailment=none], [data-ailment=""]) .ailment {
+  display: block;
+  background-color: red;
+  padding: 2px 4px;
+  right: 0%;
+  top: 0%;
+  transform: translate(10px, -10px);
+  position: absolute;
+}
+
+.progress-bar {
+  width: 100%;
+  background-color: black;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+.progress-bar label {
+  background-color: gray;
+  height: 100%;
+  padding: 0 calc(var(--pta-scale-px) / 2);
+  font-size: var(--pta-scale-em);
+  font-weight: bold;
+}
+.progress-bar .bar {
+  min-height: 100%;
+  margin: 1px;
+  /* || Colour options */
+}
+.progress-bar .bar.red {
+  background-color: red;
+}
+.progress-bar .bar.green {
+  background-color: green;
+}
+
+.round {
+  border-radius: var(--pta-scale-px);
+}
 
 /* Styles limited to pta3 sheets */
+.pta {
+  /* || Abilities component*/
+  /* || remote server browser */
+}
+.pta input[type=text] {
+  font-family: "DM Sans", serif;
+  font-size: var(--pta-scale-rem);
+}
+.pta select {
+  font-family: "DM Sans", serif;
+  font-size: var(--pta-scale-rem);
+}
+.pta .pta-sheet-body {
+  height: 100%;
+}
+.pta .pta-abilities > * {
+  margin-bottom: calc(var(--pta-scale-px));
+}
+.pta .pta-abilities .pta-ability-wrap .pta-score {
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex: 0 0 64px;
+  height: 64px;
+  width: 64px;
+  overflow: hidden;
+  text-align: center;
+  border: 2px solid rgb(255, 255, 255);
+  margin-right: var(--pta-scale-px);
+}
+.pta .pta-abilities .pta-ability-wrap .pta-score > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  align-self: center;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+.pta .pta-abilities .pta-ability-wrap .pta-skills-wrap {
+  text-align: left;
+}
+.pta .pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-skill {
+  font-size: calc(var(--pta-scale-em) + 0.1em);
+  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+}
+.pta .pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-skill > * {
+  flex: 1;
+}
+.pta .pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-talent {
+  flex: 0;
+}
+.pta .pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-mod {
+  text-align: center;
+  flex: 0 0 2em;
+}
+.pta .remote-image-browser .sprite-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 6px;
+  overflow: auto;
+}
+.pta .remote-image-browser .sprite-gallery .sprite-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+}
+.pta .remote-image-browser .sprite-gallery .sprite {
+  object-fit: contain;
+  margin: auto;
+  border: none;
+  image-rendering: pixelated;
+}
 
 /*# sourceMappingURL=pta3.css.map */

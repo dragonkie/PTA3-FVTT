@@ -1,28 +1,36 @@
-import { ptaNPC } from "./_module.mjs";
-import { ptaCharacter } from "./_module.mjs";
-
 // Export Actors
-export {default as ptaActorBase} from "./base-actor.mjs";
-export {default as ptaCharacter} from "./actor/character.mjs";
-export {default as ptaNPC} from "./actor/npc.mjs";
+import ActorData from "./actor.mjs";
+import CharacterData from "./actor/character.mjs";
+import NpcData from "./actor/npc.mjs";
+import PokemonData from "./actor/pokemon.mjs";
 
 // Export Items
-export {default as ptaItemBase} from "./base-item.mjs";
-export {default as ptaItem} from "./item/item.mjs";
-export {default as ptaFeature} from "./item/feature.mjs";
+import ItemData from "./item.mjs";
+import ConsumableData from "./item/consumable.mjs";
+import FeatureData from "./item/feature.mjs";
+import PokeballData from "./item/pokeball.mjs";
 
-const PtaItemModels = {
-
+export const ActorModels = {
+    ActorData,
+    CharacterData,
+    NpcData,
+    PokemonData,
 }
 
-const PtaActorModels = {
-
+export const ActorConfig = {
+    character: CharacterData,
+    npc: NpcData,
+    pokemon: PokemonData
 }
 
-export const PtaModels = {
-    Actor: {
-        character: ptaCharacter,
-        npc: ptaNPC,
-        
-    }
-};
+export const ItemModels = {
+    ItemData,
+    FeatureData,
+    ConsumableData
+}
+
+export const ItemConfig = {
+    consumable: ConsumableData,
+    pokeball: PokeballData,
+    feature: FeatureData
+}

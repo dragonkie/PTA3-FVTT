@@ -1,0 +1,83 @@
+:root {
+    --pta-scale-px: 8px;
+    --pta-scale-em: 1em;
+    --pta-scale-rem: 1rem;
+}
+
+.pta-xs {
+    --pta-scale-px: 4px;
+    --pta-scale-em: 0.6em;
+    --pta-scale-rem: 0.6rem;
+}
+
+.pta-s {
+    --pta-scale-px: 8px;
+    --pta-scale-em: 0.8em;
+    --pta-scale-rem: 0.8rem;
+}
+
+.pta-m {
+    --pta-scale-px: 12px;
+    --pta-scale-em: 1em;
+    --pta-scale-rem: 1rem;
+}
+
+.pta-l {
+    --pta-scale-px: 16px;
+    --pta-scale-em: 1.5em;
+    --pta-scale-rem: 1.5rem;
+}
+
+.pta-xl {
+    --pta-scale-px: 20px;
+    --pta-scale-em: 2em;
+    --pta-scale-rem: 2rem;
+}
+
+/* || ------------------------------ Font scaling ------------------------------- */
+
+.pta-font-xs {
+    --pta-scale-em: 0.6em;
+    --pta-scale-rem: 0.6rem;
+}
+
+.pta-font-s {
+    --pta-scale-em: 0.8em;
+    --pta-scale-rem: 0.8rem;
+}
+
+.pta-font-m {
+    --pta-scale-em: 1em;
+    --pta-scale-rem: 1rem;
+}
+
+.pta-font-l {
+    --pta-scale-em: 1.5em;
+    --pta-scale-rem: 1.5rem;
+}
+
+.pta-font-xl {
+    --pta-scale-em: 2em;
+    --pta-scale-rem: 2rem;
+}
+
+/* || ------------------------------ Pixel scaling ----------------------------- */
+.pta-px-xs {
+    --pta-scale-px: 4px;
+}
+
+.pta-px-s {
+    --pta-scale-px: 8px;
+}
+
+.pta-px-m {
+    --pta-scale-px: 12px;
+}
+
+.pta-px-l {
+    --pta-scale-px: 16px;
+}
+
+.pta-px-xl {
+    --pta-scale-px: 20px;
+}

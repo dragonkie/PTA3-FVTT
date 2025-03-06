@@ -1,0 +1,53 @@
+<div>
+    <div class="pta-id-card">
+        <h1><input type="text" value="{{document.name}}" name="name"></h1>
+        <div class="flexrow">
+            <img class="flex0" data-action="editImage" width="100" height="100" src="{{document.img}}">
+            <div class="flexrow">
+                <div>
+                    <div class="form-group">
+                        <label>Species</label>
+                        <div class="form-fields">
+                            {{formInput (getField schema 'species') value=system.species}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label> {{!-- NEEDS_SPECIAL_HANDLING_FOR_DUO_TYPES_SHOULD_BE_CONFIG_FIELD --}}
+                        <div class="form-fields">
+                            <!-- formInput (getField schema 'types') value=system.types -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nature</label>
+                        <div class="form-fields">
+                            {{formInput (getField schema 'nature') value=system.nature}}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label>Size</label>
+                        <div class="form-fields">
+                            {{formInput (getField schema 'size') value=system.size}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Weight</label>
+                        <div class="form-fields">
+                            {{formInput (getField schema 'weight') value=system.weight}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <div class="form-fields">
+                            {{formInput (getField schema 'gender') value=system.gender}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{> "pta.tabs-nav"}}
+    {{> "pta.tabs-content"}}
+</div>

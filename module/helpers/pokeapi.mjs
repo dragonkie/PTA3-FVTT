@@ -1,18 +1,18 @@
 export default class pokeapi {
     static url = 'https://pokeapi.co/api/v2/';
-    static async berry(name = '') { return await this.request(this.url + 'berry/' + name) };
-    static async egg(name = '') { return await this.request(this.url + 'egg-group/' + name) };
-    static async evolution(name = '') { return await this.request(this.url + 'evolution-chain/' + name) };
-    static async item(name = '') { return await this.request(this.url + 'item/' + name) };
-    static async move(name = '') { return await this.request(this.url + 'move/' + name) };
-    static async pokemon(name = '') { return await this.request(this.url + 'pokemon/' + name) };
-    static async species(name = '') { return await this.request(this.url + 'pokemon-species/' + name) };
-    static async type(name = '') { return await this.request(this.url + 'type/' + name) };
-    static async ailment(name = '') { return await this.request(this.url + 'move-ailment/' + name) };
+    static async berry(name = '', options={}) { return await this.request(this.url + 'berry/' + name) };
+    static async egg(name = '', options={}) { return await this.request(this.url + 'egg-group/' + name) };
+    static async evolution(name = '', options={}) { return await this.request(this.url + 'evolution-chain/' + name) };
+    static async item(name = '', options={}) { return await this.request(this.url + 'item/' + name) };
+    static async move(name = '', options={}) { return await this.request(this.url + 'move/' + name) };
+    static async pokemon(name = '', options={}) { return await this.request(this.url + 'pokemon/' + name) };
+    static async species(name = '', options={}) { return await this.request(this.url + 'pokemon-species/' + name) };
+    static async type(name = '', options={}) { return await this.request(this.url + 'type/' + name) };
+    static async ailment(name = '', options={}) { return await this.request(this.url + 'move-ailment/' + name) };
 
-    static async request(url) {
+    static async request(url, options={}) {
         try {
-            let request = await fetch(url);
+            let request = await fetch(url, options);
             if (!request.ok) throw new Error(`pokeAPI request failed: ${request.status}`);
             return await request.json();
         } catch (error) {

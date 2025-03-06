@@ -1,6 +1,6 @@
-import ptaActorBase from "../base-actor.mjs";
+import ActorData from "../actor.mjs";
 
-export default class ptaNPC extends ptaActorBase {
+export default class NpcData extends ActorData {
 
   static defineSchema() {
     const fields = foundry.data.fields;

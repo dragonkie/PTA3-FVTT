@@ -1,67 +1,47 @@
-import ptaActorBase from "../base-actor.mjs";
+import ActorData from "../actor.mjs";
 
-export default class ptaCharacter extends ptaActorBase {
+export default class CharacterData extends ActorData {
 
   static defineSchema() {
     const fields = foundry.data.fields;
     const requiredInteger = { required: true, nullable: false, integer: true };
     const schema = super.defineSchema();
 
-    schema.attributes = new fields.SchemaField({
-      level: new fields.SchemaField({
-        value: new fields.NumberField({ ...requiredInteger, initial: 1 })
-      }),
-    });
-
-    // Iterate over ability names and create a new SchemaField for each.
-    schema.abilities = new fields.SchemaField(Object.keys(CONFIG.PTA.abilities).reduce((obj, ability) => {
-      obj[ability] = new fields.SchemaField({
-        value: new fields.NumberField({ ...requiredInteger, initial: 3, min: 0 }),
-      });
-      return obj;
-    }, {}));
-
-    schema.honors = new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 });
-    schema.hp = new fields.SchemaField({
-      value: new fields.NumberField({ ...requiredInteger, initial: 20, min: 0 }),
-      max: new fields.NumberField({ ...requiredInteger, initial: 20, min: 0 }),
-      min: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 0 }),
-    })
+    schema.honours = new fields.NumberField({ ...requiredInteger, initial: 0, min: 0 });
 
     // helper function for defining skills
     const _getSkillField = () => {
       let _field = {};
-      // loop through the different groups
-      for (const [key, skills] of Object.entries(CONFIG.PTA.skillGroups)) {
-        // assign the new fields to the skills group data
-        Object.assign(_field,
-          // loop through the keys available to create the entries
-          Object.keys(skills).reduce((obj, skill) => {
-            // add the new skill to the obj data to then assign
-            obj[skill] = new fields.SchemaField({
-              talent: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 2 }),
-              ability: new fields.StringField({ required: true, initial: key, nullable: false })
-            })
-            return obj;
-          }, {})// must supply empty object as starting value
-        )
+      // loop through list of skills
+      for (const [skill, ability] of Object.entries(CONFIG.PTA.skillAbilities)) {
+        // grab the ability that matches this skill
+        for (const [key, value] of Object.entries(CONFIG.PTA.abilities)) {
+          if (ability === value) _field[skill] = new fields.SchemaField({
+            talent: new fields.NumberField({ ...requiredInteger, max: 2, min: 0, initial: 0 }),
+            ability: new fields.StringField({ required: true, nullable: false, initial: key }),
+            value: new fields.NumberField({ ...requiredInteger, initial: 0 })
+          })
+        }
       }
-      return _field;
+      return new fields.SchemaField(_field);
     }
 
-    schema.skills = new fields.SchemaField(_getSkillField());
-    schema.credits = new fields.NumberField({ ...requiredInteger, initial: 0 })
+    schema.skills = _getSkillField();
+    schema.credits = new fields.NumberField({ ...requiredInteger, initial: 0 });
+
+    schema.pokemon = new fields.SchemaField({
+
+    })
 
     return schema;
   }
 
   prepareDerivedData() {
-    // Loop through ability scores, and add their modifiers to our sheet output.
-    for (const key in this.abilities) {
-      // Calculate the modifier using d20 rules.
-      this.abilities[key].mod = Math.floor(this.abilities[key].value / 2);
-      // Handle ability label localization.
-      this.abilities[key].label = game.i18n.localize(CONFIG.PTA.abilities[key]) ?? key;
+    super.prepareDerivedData();
+    for (const key in this.skills) {
+      let skill = this.skills[key]
+      let ability = this.abilities[skill.ability];
+      skill.total = skill.value + ability.mod + Math.floor(skill.talent * 2.5);
     }
   }
 
@@ -75,8 +55,6 @@ export default class ptaCharacter extends ptaActorBase {
         data[k] = foundry.utils.deepClone(v);
       }
     }
-
-    data.lvl = this.attributes.level.value;
 
     return data
   }

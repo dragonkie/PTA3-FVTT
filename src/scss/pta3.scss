@@ -12,10 +12,108 @@
 @use 'components/items';
 @use 'components/effects';
 @use 'components/pokemon';
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@use 'components/progressBar';
 
 /* Styles limited to pta3 sheets */
-.pta3 {
+.pta {
 
+    // force our sheets to use the set font instead of foundrys very specific declarations
+    input[type=text] {
+        font-family: "DM Sans", serif;
+        font-size: var(--pta-scale-rem);
+    }
+
+    select {
+        font-family: "DM Sans", serif;
+        font-size: var(--pta-scale-rem);
+    }
+
+    .pta-sheet-body {
+        height: 100%;
+    }
+
+    /* || Abilities component*/
+    .pta-abilities {
+        >* {
+            margin-bottom: calc(var(--pta-scale-px));
+        }
+
+        .pta-ability-wrap {
+
+            .pta-score {
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                flex: 0 0 64px;
+                height: 64px;
+                width: 64px;
+                overflow: hidden;
+                text-align: center;
+                border: 2px solid rgba(255, 255, 255, 1);
+                margin-right: var(--pta-scale-px);
+
+                >* {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    justify-self: center;
+                    align-self: center;
+                    border-radius: 0;
+                    border-left: none;
+                    border-right: none;
+                    border-top: none;
+                }
+            }
+
+            .pta-skills-wrap {
+                text-align: left;
+
+                .pta-skill {
+                    font-size: calc(var(--pta-scale-em) + 0.1em);
+                    font-weight: 500;
+                    display: flex;
+                    flex-direction: row;
+
+                    >* {
+                        flex: 1;
+                    }
+                }
+
+                .pta-talent {
+                    flex: 0;
+                }
+
+                .pta-mod {
+                    text-align: center;
+                    flex: 0 0 2em;
+                }
+            }
+        }
+    }
+
+    /* || remote server browser */
+    .remote-image-browser {
+        .sprite-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 6px;
+            overflow: auto;
+
+            .sprite-wrapper {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid black;
+            }
+
+            .sprite {
+                object-fit: contain;
+                margin: auto;
+                border: none;
+                image-rendering: pixelated;
+            }
+        }
+    }
 }

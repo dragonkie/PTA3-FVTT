@@ -1,4 +1,5 @@
 import pokeapi from "./pokeapi.mjs";
+import utils from "./utils.mjs";
 export const PTA = {};
 
 /**
@@ -10,44 +11,55 @@ PTA.Pokedex = {
   Moves: [],
   Types: [],
   Berries: [],
-  Ailments: []
+  Ailments: [],
+  Species: [],
+  Items: [],
+  count: 0
 }
 
-//if the pokedex was previously registered, check if its been expired
-const expiry = localStorage.getItem('pta.pokedexExpiry');
-const today = await new Date();
-let expired = false;
-if (expiry) {
-  const thirtyDays = 1000 * 60 * 60 * 24 * 30;
-  const expiryDate = await new Date(expiry);
-  if (today - expiryDate > thirtyDays) {
-    console.log('pokedex is expired, refreshing');
-    expired = true;
+// Call in main init hook, needs ot be called after PTA is registered, or it slows down the init
+// enough to prevent it from being loaded at all
+PTA.loadPokedex = async (force = false) => {
+  //if the pokedex was previously registered, check if its been expired
+  const expiry = localStorage.getItem('pta.pokedexExpiry');
+  const today = await new Date();
+  let expired = false;
+  if (expiry) {
+    const thirtyDays = 1000 * 60 * 60 * 24 * 30;
+    const expiryDate = await new Date(expiry);
+    if (today - expiryDate > thirtyDays) {
+      console.log('pokedex is expired, refreshing');
+      expired = true;
+    }
+  }
+
+  // retrieve the pokedex data
+  if (!localStorage.getItem('pta.pokedex') || expired || force) {
+    const _apiNames = await pokeapi.pokemon('?limit=100000', { cache: 'reload' });
+    const _apiEggs = await pokeapi.egg('?limit=100000', { cache: 'reload' });
+    const _apiMoves = await pokeapi.move('?limit=100000', { cache: 'reload' });
+    const _apiTypes = await pokeapi.type('?limit=100000', { cache: 'reload' });
+    const _apiBerries = await pokeapi.berry('?limit=100000', { cache: 'reload' });
+    const _apiAilments = await pokeapi.ailment('?limit=100000', { cache: 'reload' });
+    const _apiSpecies = await pokeapi.species('?limit=100000', { cache: 'reload' });
+    const _apiItems = await pokeapi.item('?limit=100000', { cache: 'reload' });
+
+    for (const i of _apiNames.results) PTA.Pokedex.Pokemon.push(i.name);
+    for (const i of _apiEggs.results) PTA.Pokedex.Eggs.push(i.name);
+    for (const i of _apiMoves.results) PTA.Pokedex.Moves.push(i.name);
+    for (const i of _apiTypes.results) PTA.Pokedex.Types.push(i.name);
+    for (const i of _apiBerries.results) PTA.Pokedex.Berries.push(i.name);
+    for (const i of _apiAilments.results) PTA.Pokedex.Ailments.push(i.name);
+    for (const i of _apiSpecies.results) PTA.Pokedex.Species.push(i.name);
+    for (const i of _apiItems.results) PTA.Pokedex.Items.push(i.name);
+    PTA.Pokedex.count = _apiSpecies.count;
+
+    localStorage.setItem('pta.pokedex', JSON.stringify(PTA.Pokedex));
+    localStorage.setItem('pta.pokedexExpiry', today.toISOString());
+  } else {
+    PTA.Pokedex = JSON.parse(localStorage.getItem('pta.pokedex'));
   }
 }
-
-// retrieve the pokedex data
-if (!localStorage.getItem('pta.pokedex') || expired) {
-  const _apiNames = await pokeapi.pokemon('?limit=100000&offset=0');
-  const _apiEggs = await pokeapi.egg('?limit=100000&offset=0');
-  const _apiMoves = await pokeapi.move('?limit=100000&offset=0');
-  const _apiTypes = await pokeapi.type('?limit=100000&offset=0');
-  const _apiBerries = await pokeapi.berry('?limit=100000&offset=0');
-
-  for (const i of _apiNames.results) PTA.Pokedex.Pokemon.push(i.name);
-  for (const i of _apiEggs.results) PTA.Pokedex.Eggs.push(i.name);
-  for (const i of _apiMoves.results) PTA.Pokedex.Moves.push(i.name);
-  for (const i of _apiTypes.results) PTA.Pokedex.Types.push(i.name);
-  for (const i of _apiBerries.results) PTA.Pokedex.Berries.push(i.name);
-  for (const i of await pokeapi.ailment('?limit=100000&offset=0').results) PTA.Pokedex.Ailments.push(i.name)
-
-  localStorage.setItem('pta.pokedex', JSON.stringify(PTA.Pokedex));
-  localStorage.setItem('pta.pokedexExpiry', today.toISOString());
-} else {
-  PTA.Pokedex = JSON.parse(localStorage.getItem('pta.pokedex'));
-}
-
-console.log('Pokedex data loaded:', PTA);
 
 /**
  * The set of Ability Scores used within the system.
@@ -61,16 +73,17 @@ PTA.abilities = {
   spd: 'PTA.Ability.Spd.long',
 };
 
-PTA.abilityAbbreviations = {
-  atk: 'PTA.Ability.Atk.abbr',
-  def: 'PTA.Ability.Def.abbr',
-  satk: 'PTA.Ability.SAtk.abbr',
-  sdef: 'PTA.Ability.SDef.abbr',
-  spd: 'PTA.Ability.Spd.abbr',
-};
+PTA.abilitiesAbbr = {};
+for (const [key, value] of Object.entries(PTA.abilities)) {
+  PTA.abilitiesAbbr[key] = value.replace("long", "abbr");
+}
 
-
-PTA.skillAbility = {
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*                           PLAYER SKILLS                            */
+/*                                                                    */
+/* ------------------------------------------------------------------ */
+PTA.skillAbilities = {
   acrobatics: PTA.abilities.spd,
   athletics: PTA.abilities.atk,
   bluff: PTA.abilities.sdef,
@@ -90,46 +103,11 @@ PTA.skillAbility = {
   subterfuge: PTA.abilities.spd,
 }
 
-PTA.skills = {
-  acrobatics: 'Pta.Skill.Acrobatics.long',
-  athletics: 'Pta.Skill.Athletics.long',
-  bluff: 'Pta.Skill.Bluff.long',
-  concentration: 'Pta.Skill.Concentration.long',
-  constitution: 'Pta.Skill.Constitution.long',
-  diplomacy: 'Pta.Skill.Diplomacy.long',
-  engineering: 'Pta.Skill.Engineering.long',
-  handling: 'Pta.Skill.Handling.long',
-  history: 'Pta.Skill.History.long',
-  insight: 'Pta.Skill.Insight.long',
-  investigation: 'Pta.Skill.Investigation.long',
-  medicine: 'Pta.Skill.Medicine.long',
-  nature: 'Pta.Skill.Nature.long',
-  perception: 'Pta.Skill.Perception.long',
-  perform: 'Pta.Skill.Perform.long',
-  programming: 'Pta.Skill.Programming.long',
-  stealth: 'Pta.Skill.Stealth.long',
-  subterfuge: 'PTA.Skill.Subterfuge.long',
-}
-
-PTA.skillAbbreviations = {
-  acrobatics: 'Pta.Skill.Acrobatics.abbr',
-  athletics: 'Pta.Skill.Athletics.abbr',
-  bluff: 'Pta.Skill.Bluff.abbr',
-  concentration: 'Pta.Skill.Concentration.abbr',
-  constitution: 'Pta.Skill.Constitution.abbr',
-  diplomacy: 'Pta.Skill.Diplomacy.abbr',
-  engineering: 'Pta.Skill.Engineering.abbr',
-  handling: 'Pta.Skill.Handling.abbr',
-  history: 'Pta.Skill.History.abbr',
-  insight: 'Pta.Skill.Insight.abbr',
-  investigation: 'Pta.Skill.Investigation.abbr',
-  medicine: 'Pta.Skill.Medicine.abbr',
-  nature: 'Pta.Skill.Nature.abbr',
-  perception: 'Pta.Skill.Perception.abbr',
-  perform: 'Pta.Skill.Perform.abbr',
-  programming: 'Pta.Skill.Programming.abbr',
-  stealth: 'Pta.Skill.Stealth.abbr',
-  subterfuge: 'PTA.Skill.Subterfuge.abbr',
+PTA.skills = {};
+PTA.skillsAbbr = {};
+for (const [key, value] of Object.entries(PTA.skillAbilities)) {
+  PTA.skills[key] = `PTA.Skill.${utils.toTitleCase(key)}.long`;
+  PTA.skillsAbbr[key] = `PTA.Skill.${utils.toTitleCase(key)}.abbr`
 }
 
 PTA.skillAttack = { athletics: PTA.abilities.atk, };
@@ -161,19 +139,303 @@ PTA.skillSpeed = {
   subterfuge: PTA.abilities.spd,
 };
 
-PTA.skillGroups = {
-  ...PTA.skillAttack,
-  ...PTA.skillSpecialAttack,
-  ...PTA.skillDefence,
-  ...PTA.skillSpecialDefence,
-  ...PTA.skillSpeed,
+PTA.genders = {
+  male: 'PTA.Gender.Male',
+  female: 'PTA.Gender.Female',
+  none: 'PTA.Gender.None'
 }
 
-PTA.pokemonTypes = {};
-for (const t of PTA.Pokedex.Types) {
-  PTA.pokemonTypes[t] = `PTA.Type.${t}`;
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*                          POKEMON TYPING                            */
+/*                                                                    */
+/* ------------------------------------------------------------------ */
+
+PTA.pokemonTypes = {
+  normal: 'PTA.Type.Normal',
+  fire: 'PTA.Type.Fire',
+  water: 'PTA.Type.Water',
+  electric: 'PTA.Type.Electric',
+  grass: 'PTA.Type.Grass',
+  ice: 'PTA.Type.Ice',
+  fighting: 'PTA.Type.Fighting',
+  poison: 'PTA.Type.Poison',
+  ground: 'PTA.Type.Ground',
+  flying: 'PTA.Type.Flying',
+  psychic: 'PTA.Type.Psychic',
+  bug: 'PTA.Type.Bug',
+  rock: 'PTA.Type.Rock',
+  ghost: 'PTA.Type.Ghost',
+  dragon: 'PTA.Type.Dragon',
+  dark: 'PTA.Type.Dark',
+  steel: 'PTA.Type.Steel',
+  fairy: 'PTA.Type.Fairy'
+};
+
+PTA.typeEffectiveness = {
+  normal: {
+    double: ['fighting'],
+    half: [],
+    immune: ['ghost']
+  },
+  fire: {
+    double: ['water', 'rock', 'ground'],
+    half: ['fire', 'grass', 'ice', 'bug', 'steel', 'fairy'],
+    immune: []
+  },
+  water: {
+    double: ['electric', 'grass'],
+    half: ['fire', 'water', 'ice', 'steel'],
+    immune: []
+  },
+  electric: {
+    double: ['ground'],
+    half: ['electric', 'flying', 'steel'],
+    immune: []
+  },
+  grass: {
+    double: ['fire', 'ice', 'poison', 'flying', 'bug'],
+    half: ['water', 'electric', 'grass', 'ground'],
+    immune: []
+  },
+  ice: {
+    double: ['fire', 'fighting', 'rock', 'steel'],
+    half: ['ice'],
+    immune: []
+  },
+  fighting: {
+    double: ['flying', 'psychic', 'fairy'],
+    half: ['bug', 'rock', 'dark'],
+    immune: []
+  },
+  poison: {
+    double: ['ground', 'psychic'],
+    half: ['grass', 'fighting', 'poison', 'bug', 'fairy'],
+    immune: []
+  },
+  ground: {
+    double: ['water', 'grass', 'ice'],
+    half: ['poison', 'rock'],
+    immune: ['electric']
+  },
+  flying: {
+    double: ['electric', 'ice', 'rock'],
+    half: ['grass', 'fighting', 'bug'],
+    immune: ['ground']
+  },
+  psychic: {
+    double: ['bug', 'ghost', 'dark'],
+    half: ['fighting', 'psychic'],
+    immune: []
+  },
+  bug: {
+    double: ['fire', 'flying', 'rock'],
+    half: ['grass', 'fighting', 'ground'],
+    immune: []
+  },
+  rock: {
+    double: ['water', 'grass', 'fighting', 'ground', 'steel'],
+    half: ['normal', 'fire', 'poison', 'flying'],
+    immune: []
+  },
+  ghost: {
+    double: ['ghost', 'dark'],
+    half: ['poison', 'bug'],
+    immune: ['normal', 'fighting']
+  },
+  dragon: {
+    double: ['ice', 'dragon', 'fairy'],
+    half: ['fire', 'water', 'electric', 'grass'],
+    immune: []
+  },
+  dark: {
+    double: ['fighting', 'bug', 'fairy'],
+    half: ['ghost', 'dark'],
+    immune: ['psychic']
+  },
+  steel: {
+    double: ['fire', 'fighting', 'ground'],
+    half: ['normal', 'grass', 'ice', 'flying', 'psychic', 'bug', 'rock', 'dragon', 'steel', 'fairy'],
+    immune: ['poison']
+  },
+  fairy: {
+    double: ['poison', 'steel'],
+    half: ['fighting', 'bug', 'dark'],
+    immune: ['dragon']
+  }
+};
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*                        STATUS AILMENTS                             */
+/*                                                                    */
+/* ------------------------------------------------------------------ */
+PTA.ailments = {
+  dead: 'PTA.Ailment.Dead.long',
+  fainted: 'PTA.Ailment.Fainted.long',
+  burn: 'PTA.Ailment.Burn.long',
+  confuse: 'PTA.Ailment.Confuse.long',
+  curse: 'PTA.Ailment.Curse.long',
+  frozen: 'PTA.Ailment.Frozen.long',
+  charm: 'PTA.Ailment.Charm.long',
+  paralyzed: 'PTA.Ailment.Paralyzed.long',
+  poison: 'PTA.Ailment.Poison.long',
+  sleep: 'PTA.Ailment.Sleep.long',
+  stun: 'PTA.Ailment.Stun.long',
+  toxic: 'PTA.Ailment.Toxic.long',
+};
+
+PTA.ailmentsAbbr = {};
+for (const a in PTA.ailments) {
+  PTA.ailmentsAbbr[a] = PTA.ailments[a].replace('long', 'abbr');
 }
 
-PTA.statusEffects = {
+PTA.statusEffects = [];
+for (const a in PTA.ailments) {
+  PTA.statusEffects.push({
+    id: a,
+    img: `systems/pta3/assets/icons/status-${a}.svg`,
+    name: PTA.ailments[a]
+  })
+}
 
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*                      POKEMON NATURES                               */
+/*                                                                    */
+/* ------------------------------------------------------------------ */
+PTA.natureNeutral = {
+  bashful: 'PTA.Nature.Bashful',
+  docile: 'PTA.Nature.Docile',
+  hardy: 'PTA.Nature.Hardy',
+  quirky: 'PTA.Nature.Quirky',
+  serious: 'PTA.Nature.Serious',
+}
+
+PTA.natureIncreaseAttack = {
+  adamant: 'PTA.Nature.Adamant',
+  brave: 'PTA.Nature.Brave',
+  lonely: 'PTA.Nature.Lonely',
+  naughty: 'PTA.Nature.Naughty',
+}
+
+PTA.natureIncreaseDefence = {
+  bold: 'PTA.Nature.Bold',
+  impish: 'PTA.Nature.Impish',
+  lax: 'PTA.Nature.Lax',
+  relaxed: 'PTA.Nature.Relaxed',
+}
+
+PTA.natureIncreaseSpAttack = {
+  mild: 'PTA.Nature.Mild',
+  modest: 'PTA.Nature.Modest',
+  quiet: 'PTA.Nature.Quiet',
+  rash: 'PTA.Nature.Rash',
+}
+
+PTA.natureIncreaseSpDefence = {
+  calm: 'PTA.Nature.Calm',
+  careful: 'PTA.Nature.Careful',
+  gentle: 'PTA.Nature.Gentle',
+  sassy: 'PTA.Nature.Sassy',
+}
+
+PTA.natureIncreaseSpeed = {
+  hasty: 'PTA.Nature.Hasty',
+  jolly: 'PTA.Nature.Jolly',
+  naive: 'PTA.Nature.Naive',
+  timid: 'PTA.Nature.Timid',
+}
+
+PTA.natureIncreases = {};
+for (const a in PTA.natureIncreaseAttack) PTA.natureIncreases[a] = PTA.abilities.atk;
+for (const a in PTA.natureIncreaseDefence) PTA.natureIncreases[a] = PTA.abilities.def;
+for (const a in PTA.natureIncreaseSpAttack) PTA.natureIncreases[a] = PTA.abilities.satk;
+for (const a in PTA.natureIncreaseSpDefence) PTA.natureIncreases[a] = PTA.abilities.sdef;
+for (const a in PTA.natureIncreaseSpeed) PTA.natureIncreases[a] = PTA.abilities.spd;
+
+PTA.natureDecreaseAttack = {
+  bold: 'PTA.Nature.Bold',
+  calm: 'PTA.Nature.Calm',
+  modest: 'PTA.Nature.Modest',
+  timid: 'PTA.Nature.Timid',
+};
+
+PTA.natureDecreaseDefence = {
+  gentle: 'PTA.Nature.Gentle',
+  hasty: 'PTA.Nature.Hasty',
+  lonely: 'PTA.Nature.Lonely',
+  mild: 'PTA.Nature.Mild',
+};
+
+PTA.natureDecreaseSpAttack = {
+  adamant: 'PTA.Nature.Adamant',
+  careful: 'PTA.Nature.Careful',
+  impish: 'PTA.Nature.Impish',
+  jolly: 'PTA.Nature.Jolly',
+};
+
+PTA.natureDecreaseSpDefence = {
+  lax: 'PTA.Nature.Lax',
+  naive: 'PTA.Nature.Naive',
+  naughty: 'PTA.Nature.Naughty',
+  rash: 'PTA.Nature.Rash',
+};
+
+PTA.natureDecreaseSpeed = {
+  brave: 'PTA.Nature.Brave',
+  quiet: 'PTA.Nature.Quiet',
+  relaxed: 'PTA.Nature.Relaxed',
+  sassy: 'PTA.Nature.Sassy',
+};
+
+PTA.natureDecreases = {};
+for (const a in PTA.natureDecreaseAttack) PTA.natureDecreases[a] = PTA.abilities.atk;
+for (const a in PTA.natureDecreaseDefence) PTA.natureDecreases[a] = PTA.abilities.def;
+for (const a in PTA.natureDecreaseSpAttack) PTA.natureDecreases[a] = PTA.abilities.satk;
+for (const a in PTA.natureDecreaseSpDefence) PTA.natureDecreases[a] = PTA.abilities.sdef;
+for (const a in PTA.natureDecreaseSpeed) PTA.natureDecreases[a] = PTA.abilities.spd;
+
+PTA.naturesNoNeutral = {
+  ...PTA.natureIncreaseAttack,
+  ...PTA.natureIncreaseDefence,
+  ...PTA.natureIncreaseSpAttack,
+  ...PTA.natureIncreaseSpDefence,
+  ...PTA.natureIncreaseSpeed,
+}
+
+PTA.natures = {
+  ...PTA.naturesNoNeutral,
+  ...PTA.natureNeutral,
+}
+
+
+PTA.flavours = {
+  bitter: 'PTA.Flavour.Bitter',
+  dry: 'PTA.Flavour.Dry',
+  repulsive: 'PTA.Flavour.Repulsive',
+  sour: 'PTA.Flavour.Sour',
+  spicy: 'PTA.Flavour.Spicy',
+  sweet: 'PTA.Flavour.Sweet',
+}
+
+PTA.pokemonSizes = {
+  tiny: "PTA.Size.Tiny",
+  small: "PTA.Size.Small",
+  medium: "PTA.Size.Medium",
+  large: "PTA.Size.Large",
+  huge: "PTA.Size.Huge",
+  gigantic: "PTA.Size.Gigantic",
+}
+
+PTA.pokemonWeights = {
+  feather: "PTA.Weight.Feather",
+  light: "PTA.Weight.Light",
+  medium: "PTA.Weight.Medium",
+  heavy: "PTA.Weight.Heavy",
+  super: "PTA.Weight.Super",
+}
+
+PTA.tabs = {
+  feature: "PTA.Tab.Features",
+  inventory: "PTA.Tab.Inventory"
 }

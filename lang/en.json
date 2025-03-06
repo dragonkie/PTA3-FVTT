@@ -1,44 +1,254 @@
 {
   "PTA": {
     "Ability": {
-      "Atk": { "long": "Attack", "abbr": "atk" },
-      "Def": { "long": "Defence", "abbr": "def" }, 
-      "SAtk": { "long": "Special Attack", "abbr": "satk" },
-      "SDef": { "long": "Special Defence", "abbr": "sdef" },
-      "Spd": { "long": "Speed", "abbr": "spd" }
+      "Atk": {
+        "abbr": "atk",
+        "long": "Attack"
+      },
+      "Def": {
+        "abbr": "def",
+        "long": "Defence"
+      },
+      "SAtk": {
+        "abbr": "satk",
+        "long": "Sp. Attack"
+      },
+      "SDef": {
+        "abbr": "sdef",
+        "long": "Sp. Defence"
+      },
+      "Spd": {
+        "abbr": "spd",
+        "long": "Speed"
+      }
+    },
+    "Ailment": {
+      "Burn": {
+        "abbr": "brn",
+        "long": "Burn"
+      },
+      "Charm": {
+        "abbr": "inf",
+        "long": "Infatuated"
+      },
+      "Confuse": {
+        "abbr": "cfn",
+        "long": "Confuse"
+      },
+      "Curse": {
+        "abbr": "cur",
+        "long": "Curse"
+      },
+      "Dead": {
+        "abbr": "ded",
+        "long": "Dead"
+      },
+      "Fainted": {
+        "abbr": "fnt",
+        "long": "Fainted"
+      },
+      "Frozen": {
+        "abbr": "frz",
+        "long": "Frozen"
+      },
+      "Paralyzed": {
+        "abbr": "par",
+        "long": "Paralysis"
+      },
+      "Poison": {
+        "abbr": "psn",
+        "long": "Poison"
+      },
+      "Sleep": {
+        "abbr": "slp",
+        "long": "Sleep"
+      },
+      "Stun": {
+        "abbr": "stn",
+        "long": "Stun"
+      },
+      "Toxic": {
+        "abbr": "tox",
+        "long": "Toxic"
+      }
+    },
+    "App":{
+      "ServerBrowser": "Remote Server Browser"
+    },
+    "Button": {
+      "Submit": "Submit",
+      "Local": "Local",
+      "Online": "Online"
+    },
+    "Dialog": {
+      "FileLocation": "File Location"
+    },
+    "Effect": {
+      "Inactive": "Inactive Effects",
+      "Passive": "Passive Effects",
+      "Source": "Source",
+      "Temporary": "Temporary Effects",
+      "Toggle": "Toggle Effect"
+    },
+    "Flavour": {
+      "Bitter": "Bitter",
+      "Dry": "Dry",
+      "long": "Flavour",
+      "Repulsive": "Repulsive",
+      "Sour": "Sour",
+      "Spicy": "Spicy",
+      "Sweet": "Sweet"
+    },
+    "Generic": {
+      "All": "All",
+      "Nature": "Nature",
+      "None": "None",
+      "Pokemon": "Pokémon",
+      "Size": "Size",
+      "Trainer": "Trainer",
+      "Weight": "Weight"
+    },
+    "Nature": {
+      "Adamant": "Adamant",
+      "Bashful": "Bashful",
+      "Bold": "Bold",
+      "Brave": "Brave",
+      "Calm": "Calm",
+      "Careful": "Careful",
+      "Docile": "Docile",
+      "Gentle": "Gentle",
+      "Hardy": "Hardy",
+      "Hasty": "Hasty",
+      "Impish": "Impish",
+      "Jolly": "Jolly",
+      "Lax": "Lax",
+      "Lonely": "Lonely",
+      "Mild": "Mild",
+      "Modest": "Modest",
+      "Naive": "Naive",
+      "Naughty": "Naughty",
+      "Quiet": "Quiet",
+      "Quirky": "Quirky",
+      "Rash": "Rash",
+      "Relaxed": "Relaxed",
+      "Sassy": "Sassy",
+      "Serious": "Serious",
+      "Timid": "Timid"
     },
     "SheetLabels": {
       "Actor": "pta Actor Sheet",
       "Item": "pta Item Sheet"
     },
-    "Item": {
-      "Pokeball": {
-
+    "Size": {
+      "Gigantic": "Gigantic",
+      "Huge": "Huge",
+      "Large": "Lage",
+      "Medium": "Medium",
+      "Small": "Small",
+      "Tiny": "Tiny"
+    },
+    "Skill": {
+      "Acrobatics": {
+        "abbr": "",
+        "long": "Acrobatics"
       },
-      "Spell": {
-        "SpellLVL": "Level {level} Spells",
-        "AddLVL": "Add LVL {level}"
+      "Athletics": {
+        "abbr": "",
+        "long": "Athletics"
+      },
+      "Bluff": {
+        "abbr": "",
+        "long": "Bluff"
+      },
+      "Concentration": {
+        "abbr": "",
+        "long": "Concentration"
+      },
+      "Constitution": {
+        "abbr": "",
+        "long": "Constitution"
+      },
+      "Diplomacy": {
+        "abbr": "",
+        "long": "Diplomacy"
+      },
+      "Engineering": {
+        "abbr": "",
+        "long": "Engineering"
+      },
+      "Handling": {
+        "abbr": "",
+        "long": "Handling"
+      },
+      "History": {
+        "abbr": "",
+        "long": "History"
+      },
+      "Insight": {
+        "abbr": "",
+        "long": "Insight"
+      },
+      "Investigation": {
+        "abbr": "",
+        "long": "Investigation"
+      },
+      "Medicine": {
+        "abbr": "",
+        "long": "Medicine"
+      },
+      "Nature": {
+        "abbr": "",
+        "long": "Nature"
+      },
+      "Perception": {
+        "abbr": "",
+        "long": "Perception"
+      },
+      "Perform": {
+        "abbr": "",
+        "long": "Perform"
+      },
+      "Stealth": {
+        "abbr": "",
+        "long": "Stealth"
+      },
+      "Subterfuge": {
+        "abbr": "",
+        "long": "Sleight of Hand"
       }
     },
-    "Effect": {
-      "Source": "Source",
-      "Toggle": "Toggle Effect",
-      "Temporary": "Temporary Effects",
-      "Passive": "Passive Effects",
-      "Inactive": "Inactive Effects"
+    "Tab": {
+      "Description": "Description",
+      "Details": "Details",
+      "Effects": "Effects",
+      "Features": "Features",
+      "Inventory": "Inventory",
+      "Pokedex": "Pokédex",
+      "Pokemon": "Pokemon",
+      "Settings": "Settings"
+    },
+    "Weight": {
+      "Feather": "Feather Weight",
+      "Heavy": "Heavy",
+      "Light": "Light",
+      "Medium": "Medium",
+      "Super": "Super Heavy"
     }
   },
-
   "TYPES": {
     "Actor": {
       "character": "Character",
-      "pokemon": "Pokémon",
-      "npc": "NPC"
+      "npc": "NPC",
+      "pokemon": "Pokémon"
     },
     "Item": {
-      "item": "Item",
+      "consumable": "Consumable",
+      "egg": "Pokémon Egg",
+      "equipment": "Equipment",
       "feature": "Feature",
-      "spell": "Spell"
+      "move": "Move",
+      "pokeball": "Pokéball",
+      "potion": "Potion"
     }
   }
 }

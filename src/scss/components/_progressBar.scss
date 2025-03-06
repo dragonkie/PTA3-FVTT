@@ -1,0 +1,35 @@
+.progress-bar {
+    width: 100%;
+    background-color: black;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+
+    label {
+        background-color: gray;
+        height: 100%;
+        padding: 0 calc(var(--pta-scale-px) / 2);
+        font-size: var(--pta-scale-em);
+        font-weight: bold;
+    }
+
+    .bar {
+        min-height: 100%;
+        margin: 1px;
+
+        /* || Colour options */
+        &.red {
+            background-color: red;
+        }
+
+        &.green {
+            background-color: green;
+        }
+    }
+}
+
+.round {
+    border-radius: var(--pta-scale-px);
+}
