@@ -5,6 +5,7 @@ export default {
     localize(str) { return game.i18n.localize(str); },
     format(str, data) { return game.i18n.format(str, data); },
     honourLevel(num) {
+        num += 1;
         let level = 1;
         let cost = 1;
         let count = 0;
@@ -63,11 +64,67 @@ export default {
         return choices[Math.floor(Math.random() * choices.length)];
     },
 
-    typeWeakness() {
+    /**
+     * Converts the effectiveness level
+     * @param {Array|String} attacker
+     * @param {Array|String} defender 
+     */
+    typeEffectiveness(attacker = [], defender = []) {
+        if (!attacker || !defender) return null;
+        if (!Array.isArray(attacker)) attacker = [attacker];
+        if (!Array.isArray(defender)) defender = [defender];
 
+        let data = {
+            value: 0,
+            immune: false,
+        }
+        
+        for (const a of attacker) {
+            if (typeof a != 'string' || a == '') continue;
+            for (const d of defender) {
+                if (typeof d != 'string' || d == '') continue;
+                if (pta.config.typeEffectiveness[d].double.includes(a)) data.value += 1;
+                if (pta.config.typeEffectiveness[d].half.includes(a)) data.value -= 1;
+                if (pta.config.typeEffectiveness[d].immune.includes(a)) data.immune = true;
+            }
+        }
+        return data;
     },
 
-    typeStrength() {
+    /**
+     * Calculates the damage dealt based on type effectiveness
+     * @param {Number} num 
+     * @param {String} type 
+     */
+    damageCalc(num, type) {
 
     },
+    lerp(x, y, t) {
+        return x * (1 - t) + y * t;
+    },
+    lerpPoint(x1, y1, x2, y2, t) {
+        return {
+            x: this.lerp(x1, x2, t),
+            y: this.lerp(y1, y2, t)
+        }
+    },
+    fastBezier(x1, y1, x2, y2, t) {
+        const x3 = x1;
+        const y3 = y2;
+
+        const a = {
+            x: this.lerp(x1, x3, t),
+            y: this.lerp(y1, y3, t)
+        }
+
+        const b = {
+            x: this.lerp(x3, x2, t),
+            y: this.lerp(y3, y2, t)
+        }
+
+        return { x: this.lerp(a.x, b.x, t), y: this.lerp(a.y, b.y, t) };
+    },
+    quadraticBezier(x1, y1, x2, y2, x3, y3, t) {
+
+    }
 }

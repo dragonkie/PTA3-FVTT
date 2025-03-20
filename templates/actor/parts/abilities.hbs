@@ -1,37 +1,40 @@
 <div class="pta-abilities">
   {{#each abilities as | ability key |}}
-    <div class="pta-ability-wrap flexcol">
-      <div class="pta-ability-label">{{ability.label.abbr}}</div>
+    <div class="pta-ability-wrap" data-pta-ability="{{key}}">
+
+      {{!-- Ability score pokeball --}}
       <div class="pta-score-wrap flexrow">
-        <div class="pta-score flexcol pta-m" data-ability="{{key}}">
+        <div class="pta-ability-label">{{ability.label.abbr}}</div>
+        <div class="pta-score flexcol pta-m">
           {{#if ../isEditMode}}
             <input class="flex1" type="number" name="system.abilities.{{key}}.value" value="{{ability.value}}">
           {{else}}
             <input class="flex1" type="number" disabled value="{{ability.total}}">
           {{/if}}
-
           <div class="flex1">{{numberFormat ability.mod sign=true decimals=0}}</div>
         </div>
-        {{#if (eq ../document.type 'character')}}
-          <div class="pta-skills-wrap">
-            {{#with key as | abilityKey |}}
-              {{#each ../../skills as | skill key |}}
-                {{#if (eq ../this skill.ability)}}
-                  <div class="pta-skill pta-s" data-skill="{{key}}">
-                    <a class="pta-talent" data-action="trainTalent">
-                      <i class="fa-{{#if (eq skill.talent 0)}}regular{{else}}solid{{/if}} fa-circle{{#if (eq skill.talent 1)}}-half-stroke{{/if}}"></i>
-                    </a>
-                    <a class="pta-value flexrow">
-                      <div class="pta-mod">{{numberFormat skill.total sign=true}}</div>
-                      <div class="pta-skill-label">{{skill.label.long}}</div>
-                    </a>
-                  </div>
-                {{/if}}
-              {{/each}}
-            {{/with}}
-          </div>
-        {{/if}}
       </div>
+
+      {{!-- Skills list --}}
+      {{#if (eq ../document.type 'character')}}
+        <div class="pta-skills-wrap">
+          {{#with key as | abilityKey |}}
+            {{#each ../../skills as | skill key |}}
+              {{#if (eq ../this skill.ability)}}
+                <div class="pta-skill pta-s" data-pta-skill="{{key}}">
+                  <a class="pta-talent" data-action="trainTalent">
+                    <i class="fa-{{#if (eq skill.talent 0)}}regular{{else}}solid{{/if}} fa-circle{{#if (eq skill.talent 1)}}-half-stroke{{/if}}"></i>
+                  </a>
+                  <a class="pta-skill-label">
+                    {{numberFormat skill.total sign=true}} {{skill.label.long}}
+                  </a>
+                </div>
+              {{/if}}
+            {{/each}}
+          {{/with}}
+        </div>
+      {{/if}}
+
     </div>
   {{/each}}
 </div>

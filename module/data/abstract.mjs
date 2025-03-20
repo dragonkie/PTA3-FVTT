@@ -27,4 +27,8 @@ export default class DataModel extends foundry.abstract.TypeDataModel {
     schema.gmNotes = new HTMLField({ required: true, nullable: false, gmOnly: true, initial: "" });
     return schema;
   }
+
+  get name() {
+    return this.parent.name;
+  }
 }

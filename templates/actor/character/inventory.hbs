@@ -1,11 +1,11 @@
-<div class="pta-tab-inventory">
+<div class="pta-tab">
     <span class="items-header flexrow">
         <span class="item-name">Inventory</span>
         <span>Controls</span>
     </span>
     <ol class="pta-inventory items-list">
         {{#each items as | item key |}}
-            {{> "pta.list-item" item=item}}
+            {{> "pta.list-item" item=item isEditMode=../isEditMode isPlayMode=../isPlayMode}}
         {{/each}}
     </ol>
 </div>

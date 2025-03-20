@@ -1,7 +1,8 @@
+import pokeapi from "../../helpers/pokeapi.mjs";
 import ActorData from "../actor.mjs";
 
 const {
-  ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField
+  ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField, ObjectField
 } = foundry.data.fields;
 
 export default class PokemonData extends ActorData {
@@ -69,6 +70,13 @@ export default class PokemonData extends ActorData {
 
     schema.shiny = new BooleanField({ ...isRequired, initial: false });
 
+    schema.contest = new SchemaField({
+
+    })
+
+    // Holds the base API ref that this pokemon is generated from
+    schema.api_ref = new ObjectField({ initial: {} });
+
     return schema
   }
 
@@ -94,14 +102,10 @@ export default class PokemonData extends ActorData {
 
   // Changes made to the sheet here are temporary and do not persist
   prepareDerivedData() {
-    // add bonus stat from nature
+    // add bonus stat changes from nature
     for (const [key, value] of Object.entries(pta.config.abilities)) {
       // if the bonuses match, that means the key var is the stat we want to bump
       if (pta.config.natureIncreases[this.nature] === value) this.abilities[key].total += 1;
-    }
-    // apply stat debuff from nature
-    for (const [key, value] of Object.entries(pta.config.abilities)) {
-      // if the bonuses match, that means the key var is the stat we want to bump
       if (pta.config.natureDecreases[this.nature] === value) this.abilities[key].total -= 1;
     }
 
@@ -109,5 +113,11 @@ export default class PokemonData extends ActorData {
     super.prepareDerivedData();
 
 
+  }
+
+  async _getApiReference() {
+    let data = await pokeapi.pokemon(this.parent.name);
+    if (!data) return void console.log('Failed to update');
+    else console.log('data', data);
   }
 }

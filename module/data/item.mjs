@@ -18,4 +18,18 @@ export default class ItemData extends DataModel {
     return schema;
   }
 
+  get actor() {
+    return this.parent.actor;
+  }
+
+  async use(event, target, action) {
+    console.warn('No uses defined for this object!');
+  }
+
+  getRollData() {
+    if (!this.actor) return null;
+    else {
+      return this.actor.getRollData();
+    }
+  }
 }

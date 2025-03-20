@@ -89,4 +89,8 @@ export default class ptaItem extends Item {
       return roll;
     }
   }
+
+  async use() {
+    return this.system.use();
+  }
 }

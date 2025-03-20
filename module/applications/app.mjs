@@ -171,7 +171,7 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
 
     async _onSortItem(item, target) {
         if (item.documentName !== "Item") return;
-        LOGGER.debug('Sorting item');
+
         const self = target.closest("[data-tab]")?.querySelector(`[data-item-uuid="${item.uuid}"]`);
         if (!self || !target.closest("[data-item-uuid]")) return;
 

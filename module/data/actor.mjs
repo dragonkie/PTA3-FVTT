@@ -38,4 +38,7 @@ export default class ActorData extends DataModel {
 
   get isDead() { return this.hp <= 0 };
   get isAlive() { return this.hp > 0 };
+  get isFainted() {
+    return this.hp.value <= 0;
+  }
 }

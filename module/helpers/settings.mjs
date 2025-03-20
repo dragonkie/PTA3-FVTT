@@ -7,10 +7,7 @@ export default function registerSystemSettings() {
             config: true, // does this setting appear in the settings menu
             type: Boolean, // what type of data is this setting
             default: false,// what does this setting start as
-            onChange: () => {// callback for when the setting is changed in any way 
-
-            }
-
+            onChange: () => { }
         },
         neutralNatures: {
             name: "PTA.Settings.NeutralNatures.label",
@@ -19,9 +16,7 @@ export default function registerSystemSettings() {
             config: true, // does this setting appear in the settings menu
             type: Boolean, // what type of data is this setting
             default: false,// what does this setting start as
-            onChange: () => {// callback for when the setting is changed in any way 
-
-            }
+            onChange: () => { }
         },
         abilityEv: {// Pokemon spawn in with a random assignment of a few extra stat points equal to this setting
             name: "PTA.Settings.AbilityEv.label",
@@ -30,7 +25,7 @@ export default function registerSystemSettings() {
             config: true,
             type: Number,
             default: 0,
-            onChange: () => {}
+            onChange: () => { }
         },
         shinyRate: {
             name: "PTA.Settings.ShinyRate.label",
@@ -39,7 +34,16 @@ export default function registerSystemSettings() {
             config: true,
             type: Number,
             default: 4096,
-            onChange: () => {}
+            onChange: () => { }
+        },
+        automation: {
+            name: "PTA.Settings.Automation.label",
+            name: "PTA.Settings.Automation.hint",
+            scope: "world",
+            config: true,
+            type: Boolean,
+            default: true,
+            onChange: () => { }
         }
     }
 

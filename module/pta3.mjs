@@ -1,8 +1,11 @@
+import BattleTester from './BattleTester.mjs';
+
 globalThis.pta = {
     id: 'pta3',
     paths: {
         template: 'systems/pta3/templates'
-    }
+    },
+    battle: BattleTester
 }
 
 import PtaActor from './documents/actor.mjs';
@@ -13,11 +16,14 @@ import applications from "./applications/_module.mjs";
 // Import helper/utility classes and constants.
 import PtaUtils from './helpers/utils.mjs'
 import { PTA } from './helpers/config.mjs';
+import PtaSocketManager from './helpers/socket.mjs';
 // Import DataModel classes
 import * as models from './data/_module.mjs';
 import registerPtaHandlebars from './helpers/handlebars.mjs';
 import registerSystemSettings from './helpers/settings.mjs';
 import registerHooks from './helpers/hooks.mjs';
+import pokeapi from './helpers/pokeapi.mjs';
+
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -27,6 +33,7 @@ Hooks.once('init', function () {
     // Add utility classes to the global game object so that they're more easily
     // accessible in global contexts.
     pta.utils = Object.assign(PtaUtils, foundry.utils);
+    pta.api = pokeapi;
     pta.data = models;
 
     PTA.loadPokedex();
@@ -83,6 +90,8 @@ Hooks.once('init', function () {
     /*  system hooks                                */
     /* -------------------------------------------- */
     registerHooks();
+
+    pta.socket = new PtaSocketManager();
 });
 
 /* -------------------------------------------- */

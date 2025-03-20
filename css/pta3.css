@@ -311,7 +311,7 @@
   text-align: center;
 }
 
-/* System specific styling */
+/* Components */
 /* Import utilities */
 .item-form {
   font-family: "Roboto", sans-serif;
@@ -408,7 +408,8 @@ ol.items-list .item-name {
   align-items: center;
   display: flex;
 }
-ol.items-list .item-name h3, ol.items-list .item-name h4 {
+ol.items-list .item-name h3,
+ol.items-list .item-name h4 {
   margin: 0;
   white-space: nowrap;
 }
@@ -436,6 +437,25 @@ ol.items-list .item .item-name .item-image {
   background-size: 30px;
   border: none;
   margin-right: 5px;
+}
+ol.items-list .item .item-quantity {
+  display: flex;
+  flex-direction: row;
+  flex: 0;
+}
+ol.items-list .item .item-quantity .item-count {
+  text-align: center;
+  min-width: 3em;
+  flex: 1;
+}
+ol.items-list .item .item-quantity > * {
+  flex: 0;
+}
+ol.items-list .item .item-quantity button {
+  padding: 2px;
+}
+ol.items-list .item .item-quantity i {
+  margin: 0;
 }
 ol.items-list .item-prop {
   text-align: center;
@@ -682,26 +702,30 @@ ol.pokemon-team [data-ailment]:not([data-ailment=none], [data-ailment=""]) .ailm
   border-radius: var(--pta-scale-px);
 }
 
-/* Styles limited to pta3 sheets */
-.pta {
-  /* || Abilities component*/
-  /* || remote server browser */
+/* Import utilities */
+/* || Abilities component*/
+.pta-abilities {
+  flex: 1;
+  flex-wrap: nowrap;
+  display: flex;
+  flex-direction: column;
 }
-.pta input[type=text] {
-  font-family: "DM Sans", serif;
-  font-size: var(--pta-scale-rem);
-}
-.pta select {
-  font-family: "DM Sans", serif;
-  font-size: var(--pta-scale-rem);
-}
-.pta .pta-sheet-body {
-  height: 100%;
-}
-.pta .pta-abilities > * {
+.pta-abilities > * {
   margin-bottom: calc(var(--pta-scale-px));
+  flex: 1;
 }
-.pta .pta-abilities .pta-ability-wrap .pta-score {
+.pta-abilities .pta-ability-wrap {
+  flex-wrap: none;
+  display: flex;
+  flex: 0;
+  flex-direction: row;
+  align-items: center;
+}
+.pta-abilities .pta-ability-wrap .pta-score-wrap {
+  flex: 0;
+  margin-right: var(--pta-scale-px);
+}
+.pta-abilities .pta-ability-wrap .pta-score {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
@@ -711,9 +735,8 @@ ol.pokemon-team [data-ailment]:not([data-ailment=none], [data-ailment=""]) .ailm
   overflow: hidden;
   text-align: center;
   border: 2px solid rgb(255, 255, 255);
-  margin-right: var(--pta-scale-px);
 }
-.pta .pta-abilities .pta-ability-wrap .pta-score > * {
+.pta-abilities .pta-ability-wrap .pta-score > * {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -724,24 +747,54 @@ ol.pokemon-team [data-ailment]:not([data-ailment=none], [data-ailment=""]) .ailm
   border-right: none;
   border-top: none;
 }
-.pta .pta-abilities .pta-ability-wrap .pta-skills-wrap {
+.pta-abilities .pta-ability-wrap .pta-skills-wrap {
   text-align: left;
+  flex: 1;
 }
-.pta .pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-skill {
+.pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-skill {
   font-size: calc(var(--pta-scale-em) + 0.1em);
   font-weight: 500;
   display: flex;
   flex-direction: row;
+  text-wrap: nowrap;
 }
-.pta .pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-skill > * {
+.pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-skill > * {
   flex: 1;
 }
-.pta .pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-talent {
+.pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-talent {
   flex: 0;
+  margin-right: calc(var(--pta-scale-em));
 }
-.pta .pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-mod {
+.pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-mod {
   text-align: center;
   flex: 0 0 2em;
+}
+
+/* Styles limited to pta3 sheets */
+.pta {
+  /* || remote server browser */
+}
+.pta input[type=text] {
+  font-family: "DM Sans", serif;
+  font-size: var(--pta-scale-rem);
+}
+.pta select {
+  font-family: "DM Sans", serif;
+  font-size: var(--pta-scale-rem);
+}
+.pta .tab.active {
+  height: 100%;
+}
+.pta .pta-sheet-body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.pta .pta-tab {
+  height: 100%;
+}
+.pta .pta-tab[data-application-part=features] [data-application-part=abilities] {
+  flex: 0;
 }
 .pta .remote-image-browser .sprite-gallery {
   display: grid;

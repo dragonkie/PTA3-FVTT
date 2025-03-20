@@ -52,7 +52,7 @@ export default class PtaActor extends Actor {
    * @returns {object} Plain object either via deepClone or the spread operator.
    */
   toPlainObject() {
-    const result = {...this};
+    const result = { ...this };
 
     // Simplify system data.
     result.system = this.system.toPlainObject();
@@ -66,4 +66,12 @@ export default class PtaActor extends Actor {
     return result;
   }
 
+  _onUpdate(changed, options, userId) {
+    console.log('_onUpdate actor');
+    // if the actor has run out of HP and hasn't had the fainted condition applied yet
+    if (this.system.hp.value <= 0 && !this.statuses.has('fainted')) {
+      console.log('Toggle fainted condition')
+      this.toggleStatusEffect('fainted', { active: true, overlay: true });
+    }
+  }
 }

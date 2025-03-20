@@ -3,11 +3,12 @@ import PtaSheetMixin from "./mixin.mjs";
 export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sheets.ActorSheetV2) {
     static DEFAULT_OPTIONS = {
         classes: ["actor"],
-        position: { height: 800, width: 700},
+        position: { height: 800, width: 700 },
         actions: {
             itemUse: this._onUseItem,
             itemEdit: this._onEditItem,
             itemDelete: this._onDeleteItem,
+            itemQuantity: this._onChangeItemQuantity,
             roll: this._onRoll,
             createEffect: this._onCreateEffect,
             disableEffect: this._onDisableEffect
@@ -37,7 +38,9 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         const context = await super._prepareContext();
 
         // Add the actor's data to cfontext.data for easier access, as well as flags.
-        context.items = this.document.items;
+        context.items = this.document.items.contents.sort((a, b) => {
+            return a.sort - b.sort;
+        });
         context.itemTypes = this.document.itemTypes;
         context.editable = this.isEditable && (this._mode === this.constructor.SHEET_MODES.EDIT);
         context.userSettings = game.user.getFlag('pta3', 'userSettings');
@@ -46,7 +49,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         for (const [key, value] of Object.entries(this.document.system.abilities)) {
             context.abilities[key] = value;
             context.abilities[key].label = {
-                long: pta.utils.localize(CONFIG.PTA.abilities[key]) ,
+                long: pta.utils.localize(CONFIG.PTA.abilities[key]),
                 abbr: pta.utils.localize(CONFIG.PTA.abilitiesAbbr[key])
             }
         }
@@ -86,11 +89,9 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         // Get the item were actually targeting
         const uuid = target.closest(".item[data-item-uuid]").dataset.itemUuid;
         const item = await fromUuid(uuid);
-
-        // Grabs an optional argument to pass to the item, useful for when an item has multiple use cases such as weapons attacking / damaging
         const action = target.closest("[data-use]")?.dataset.use;
 
-        return item.system.use(action);
+        return item.use(event, target, action);
     };
 
     static async _onDeleteItem(event, target) {
@@ -103,6 +104,17 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             modal: true
         });
         if (confirm) return item.delete();
+    }
+
+    static async _onChangeItemQuantity(event, target) {
+        const item = await fromUuid(target.closest('[data-item-uuid]').dataset.itemUuid);
+        if (!item) return void console.error('Couldnt find item to update');
+
+        let value = Number(target.dataset.value);
+        if (event.shiftKey) value = value * 5;
+        value += item.system.quantity;
+
+        item.update({ system: { quantity: value } });
     }
 
     /**
@@ -171,13 +183,13 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
     }
 
     async _onSortItem(item, target) {
-        if (item.documentName !== "Item") return;
-        LOGGER.debug('Sorting item');
+        if (item.documentName !== "Item") return void console.log('isnt an item');
+
         const self = target.closest("[data-tab]")?.querySelector(`[data-item-uuid="${item.uuid}"]`);
-        if (!self || !target.closest("[data-item-uuid]")) return;
+        if (!self || !target.closest("[data-item-uuid]")) return void console.log('Didnt find myself');
 
         let sibling = target.closest("[data-item-uuid]") ?? null;
-        if (sibling?.dataset.itemUuid === item.uuid) return;
+        if (sibling?.dataset.itemUuid === item.uuid) return void console.log('Didnt find sibling');
         if (sibling) sibling = await fromUuid(sibling.dataset.itemUuid);
 
         let siblings = target.closest("[data-tab]").querySelectorAll("[data-item-uuid]");
@@ -187,5 +199,6 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         let updates = SortingHelpers.performIntegerSort(item, { target: sibling, siblings: siblings, sortKey: "sort" });
         updates = updates.map(({ target, update }) => ({ _id: target.id, sort: update.sort }));
         this.document.updateEmbeddedDocuments("Item", updates);
+        console.log('item sorted', updates, siblings)
     }
 }

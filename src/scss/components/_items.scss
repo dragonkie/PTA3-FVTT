@@ -9,10 +9,12 @@
   background: rgba(0, 0, 0, 0.05);
   border: $border-groove;
   font-weight: bold;
-  > * {
+
+  >* {
     font-size: 14px;
     text-align: center;
   }
+
   .item-name {
     font-weight: bold;
     padding-left: 5px;
@@ -49,7 +51,9 @@ ol.items-list {
     text-align: left;
     align-items: center;
     display: flex;
-    h3, h4 {
+
+    h3,
+    h4 {
       margin: 0;
       white-space: nowrap;
     }
@@ -60,6 +64,7 @@ ol.items-list {
     display: flex;
     flex: 0 0 100px;
     justify-content: flex-end;
+
     a {
       font-size: 12px;
       text-align: center;
@@ -72,7 +77,11 @@ ol.items-list {
     align-items: center;
     padding: 0 2px; // to align with the header border
     border-bottom: 1px solid $c-faint;
-    &:last-child { border-bottom: none; }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
     .item-name {
       .item-image {
         flex: 0 0 30px;
@@ -80,6 +89,30 @@ ol.items-list {
         background-size: 30px;
         border: none;
         margin-right: 5px;
+      }
+    }
+
+    .item-quantity {
+      display: flex;
+      flex-direction: row;
+      flex: 0;
+
+      .item-count {
+        text-align: center;
+        min-width: 3em;
+        flex: 1;
+      }
+
+      >* {
+        flex: 0;
+      }
+
+      button {
+        padding: 2px;
+      }
+
+      i {
+        margin: 0;
       }
     }
   }
@@ -100,10 +133,12 @@ ol.items-list {
     background: rgba(0, 0, 0, 0.05);
     border: $border-groove;
     font-weight: bold;
-    > * {
+
+    >* {
       font-size: 12px;
       text-align: center;
     }
+
     .item-name {
       padding-left: 5px;
       text-align: left;
@@ -114,7 +149,7 @@ ol.items-list {
 
 // Example style for pta (can be removed if not needed).
 .item-formula {
-  
+
   flex: 0 0 200px;
   padding: 0 8px;
 }

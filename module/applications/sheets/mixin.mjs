@@ -30,8 +30,8 @@ export default function PtaSheetMixin(Base) {
         static SHEET_MODES = { PLAY: 1, EDIT: 2 };
         _sheetMode = this.constructor.SHEET_MODES.PLAY;
         get sheetMode() { return this._sheetMode; };
-        get isPlayMode() { return this._sheetMode === this.constructor.SHEET_MODES.PLAY; };
-        get isEditMode() { return this._sheetMode === this.constructor.SHEET_MODES.EDIT; };
+        get isPlayMode() { return this._sheetMode == this.constructor.SHEET_MODES.PLAY; };
+        get isEditMode() { return this._sheetMode == this.constructor.SHEET_MODES.EDIT; };
 
         async _prepareContext() {
             const context = await super._prepareContext();

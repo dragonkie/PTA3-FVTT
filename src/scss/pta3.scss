@@ -6,13 +6,14 @@
 @use 'global/grid';
 @use 'global/flex';
 
-/* System specific styling */
+/* Components */
 @use 'components/forms';
 @use 'components/resource';
 @use 'components/items';
 @use 'components/effects';
 @use 'components/pokemon';
 @use 'components/progressBar';
+@use 'components/abilities';
 
 /* Styles limited to pta3 sheets */
 .pta {
@@ -28,68 +29,27 @@
         font-size: var(--pta-scale-rem);
     }
 
-    .pta-sheet-body {
+    .tab.active {
         height: 100%;
     }
 
-    /* || Abilities component*/
-    .pta-abilities {
-        >* {
-            margin-bottom: calc(var(--pta-scale-px));
-        }
+    .pta-sheet-body {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
 
-        .pta-ability-wrap {
+    .pta-tab {
+        height: 100%;
+    }
 
-            .pta-score {
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                flex: 0 0 64px;
-                height: 64px;
-                width: 64px;
-                overflow: hidden;
-                text-align: center;
-                border: 2px solid rgba(255, 255, 255, 1);
-                margin-right: var(--pta-scale-px);
-
-                >* {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    justify-self: center;
-                    align-self: center;
-                    border-radius: 0;
-                    border-left: none;
-                    border-right: none;
-                    border-top: none;
-                }
-            }
-
-            .pta-skills-wrap {
-                text-align: left;
-
-                .pta-skill {
-                    font-size: calc(var(--pta-scale-em) + 0.1em);
-                    font-weight: 500;
-                    display: flex;
-                    flex-direction: row;
-
-                    >* {
-                        flex: 1;
-                    }
-                }
-
-                .pta-talent {
-                    flex: 0;
-                }
-
-                .pta-mod {
-                    text-align: center;
-                    flex: 0 0 2em;
-                }
-            }
+    .pta-tab[data-application-part=features] {
+        [data-application-part=abilities] {
+            flex: 0;
         }
     }
+
+    
 
     /* || remote server browser */
     .remote-image-browser {

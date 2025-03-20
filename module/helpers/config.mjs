@@ -2,6 +2,11 @@ import pokeapi from "./pokeapi.mjs";
 import utils from "./utils.mjs";
 export const PTA = {};
 
+export function PtaLoadConfig() {
+  const PTA = {};
+  return config;
+}
+
 /**
  * Load config lists from pokeapi if possible, or default if unable
  */
@@ -76,6 +81,19 @@ PTA.abilities = {
 PTA.abilitiesAbbr = {};
 for (const [key, value] of Object.entries(PTA.abilities)) {
   PTA.abilitiesAbbr[key] = value.replace("long", "abbr");
+}
+
+PTA.contestAbilities = {
+  beauty: 'PTA.Context.Beauty.long',
+  clever: 'PTA.Context.Clever.long',
+  cool: 'PTA.Context.Cool.long',
+  cute: 'PTA.Context.Cute.long',
+  tough: 'PTA.Context.Tough.long',
+}
+
+PTA.contestAbilitiesAbbr = {};
+for (const [key, value] of Object.entries(PTA.contestAbilities)) {
+  PTA.contestAbilitiesAbbr[key] = value.replace("long", "abbr");
 }
 
 /* ------------------------------------------------------------------ */
@@ -270,8 +288,6 @@ PTA.typeEffectiveness = {
 /*                                                                    */
 /* ------------------------------------------------------------------ */
 PTA.ailments = {
-  dead: 'PTA.Ailment.Dead.long',
-  fainted: 'PTA.Ailment.Fainted.long',
   burn: 'PTA.Ailment.Burn.long',
   confuse: 'PTA.Ailment.Confuse.long',
   curse: 'PTA.Ailment.Curse.long',
@@ -289,12 +305,18 @@ for (const a in PTA.ailments) {
   PTA.ailmentsAbbr[a] = PTA.ailments[a].replace('long', 'abbr');
 }
 
+PTA.statuses = {
+  dead: 'PTA.Ailment.Dead.long',
+  fainted: 'PTA.Ailment.Fainted.long',
+  ...PTA.ailments
+}
+
 PTA.statusEffects = [];
-for (const a in PTA.ailments) {
+for (const [key, value] of Object.entries(PTA.statuses)) {
   PTA.statusEffects.push({
-    id: a,
-    img: `systems/pta3/assets/icons/status-${a}.svg`,
-    name: PTA.ailments[a]
+    id: key,
+    img: `systems/pta3/assets/icons/status-${key}.svg`,
+    name: value
   })
 }
 
@@ -439,3 +461,26 @@ PTA.tabs = {
   feature: "PTA.Tab.Features",
   inventory: "PTA.Tab.Inventory"
 }
+
+PTA.flavourPreferance = {
+  spicy: {
+    liked: ["Lonely", "Adamant", "Naughty", "Brave"],
+    disliked: ["Bold", "Modest", "Calm", "Timid"]
+  },
+  dry: {
+    liked: ["Rash", "Modest", "Mild", "Quiet"],
+    disliked: ["Jolly", "Adamant", "Careful", "Impish"]
+  },
+  sweet: {
+    liked: ["Timid", "Hasty", "Jolly", "Naive"],
+    disliked: ["Relaxed", "Sassy", "Quiet", "Brave"]
+  },
+  bitter: {
+    liked: ["Calm", "Gentle", "Careful", "Sassy"],
+    disliked: ["Naughty", "Rash", "Naive", "Lax"]
+  },
+  sour: {
+    liked: ["Relaxed", "Lax", "Impish", "Bold"],
+    disliked: ["Lonely", "Mild", "Hasty", "Gentle"]
+  }
+};

@@ -52,6 +52,7 @@ export default class AppServerBrowser extends PtaApplication {
         // Get the pokemon if its possible
         let data = await pokeapi.request(`${pokeapi.url}${searchKey.dataset.api}/${searchInput.value}`);
         if (!data) return;
+        console.log('Search data', data)
 
         // create the grid of sprites to choose from
         const gallery = content.querySelector('.sprite-gallery');
