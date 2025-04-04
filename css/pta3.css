@@ -500,16 +500,15 @@ ol.items-list .items-header .item-name {
 
 /* Import utilities */
 /* Classes for creating pokemon type boxs and their effects */
-ol.pokemon-team {
+ol.pta-pokemon-team {
   list-style: none;
-  padding: 0px;
+  padding: 0;
+  margin: 0;
 }
-ol.pokemon-team .pokemon {
+ol.pta-pokemon-team .pta-pokemon {
   --angle: 110deg;
   --scale: 60%;
-  --type-c-one: var(--pta-c-type-normal);
-  --type-c-two: var(--pta-c-type-normal);
-  background-color: var(--type-c-one);
+  background-color: var(--color-cool-4);
   margin-bottom: 5px;
   position: relative;
   width: 225px;
@@ -518,16 +517,20 @@ ol.pokemon-team .pokemon {
   padding: var(--pta-scale-px);
   display: flex;
   flex-direction: row;
+  --corner: 1em;
+  clip-path: polygon(var(--corner) 0%, calc(100% - var(--corner)) 0%, 100% var(--corner), 100% calc(100% - var(--corner)), calc(100% - var(--corner)) 100%, var(--corner) 100%, 0% calc(100% - var(--corner)), 0% var(--corner));
 }
-ol.pokemon-team .pokemon .portrait {
+ol.pta-pokemon-team .pta-pokemon .portrait {
   flex: 0 0;
-  background-image: url(https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/814.png);
   background-repeat: no-repeat;
   background-size: contain;
   height: 100%;
   aspect-ratio: 1;
 }
-ol.pokemon-team .pokemon .details {
+ol.pta-pokemon-team .pta-pokemon .portrait img {
+  border: 0;
+}
+ol.pta-pokemon-team .pta-pokemon .details {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -535,140 +538,17 @@ ol.pokemon-team .pokemon .details {
   justify-content: center;
   text-align: center;
 }
-ol.pokemon-team .pokemon .details > * {
+ol.pta-pokemon-team .pta-pokemon .details > * {
   flex: 1;
   width: 100%;
 }
-ol.pokemon-team .pokemon .details .nickname {
+ol.pta-pokemon-team .pta-pokemon .details .nickname {
+  text-align: left;
   font-weight: bold;
-  font-size: var(--pta-scale-em);
+  font-size: calc(var(--pta-scale-em) * 0.8);
 }
-ol.pokemon-team .pokemon .details .health {
+ol.pta-pokemon-team .pta-pokemon .details .health {
   flex: 0;
-}
-ol.pokemon-team .pokemon[data-type-two] {
-  background-image: linear-gradient(var(--angle), var(--type-c-one) var(--scale), var(--type-c-two) calc(var(--scale) + 2px));
-}
-ol.pokemon-team .pokemon[data-type-one=normal] {
-  --type-c-one: var(--pta-c-type-normal);
-}
-ol.pokemon-team .pokemon[data-type-one=fire] {
-  --type-c-one: var(--pta-c-type-fire);
-}
-ol.pokemon-team .pokemon[data-type-one=water] {
-  --type-c-one: var(--pta-c-type-water);
-}
-ol.pokemon-team .pokemon[data-type-one=electric] {
-  --type-c-one: var(--pta-c-type-electric);
-}
-ol.pokemon-team .pokemon[data-type-one=grass] {
-  --type-c-one: var(--pta-c-type-grass);
-}
-ol.pokemon-team .pokemon[data-type-one=ice] {
-  --type-c-one: var(--pta-c-type-ice);
-}
-ol.pokemon-team .pokemon[data-type-one=fighting] {
-  --type-c-one: var(--pta-c-type-fighting);
-}
-ol.pokemon-team .pokemon[data-type-one=poison] {
-  --type-c-one: var(--pta-c-type-poison);
-}
-ol.pokemon-team .pokemon[data-type-one=ground] {
-  --type-c-one: var(--pta-c-type-ground);
-}
-ol.pokemon-team .pokemon[data-type-one=flying] {
-  --type-c-one: var(--pta-c-type-flying);
-}
-ol.pokemon-team .pokemon[data-type-one=psychic] {
-  --type-c-one: var(--pta-c-type-psychic);
-}
-ol.pokemon-team .pokemon[data-type-one=bug] {
-  --type-c-one: var(--pta-c-type-bug);
-}
-ol.pokemon-team .pokemon[data-type-one=rock] {
-  --type-c-one: var(--pta-c-type-rock);
-}
-ol.pokemon-team .pokemon[data-type-one=ghost] {
-  --type-c-one: var(--pta-c-type-ghost);
-}
-ol.pokemon-team .pokemon[data-type-one=dragon] {
-  --type-c-one: var(--pta-c-type-dragon);
-}
-ol.pokemon-team .pokemon[data-type-one=dark] {
-  --type-c-one: var(--pta-c-type-dark);
-}
-ol.pokemon-team .pokemon[data-type-one=steel] {
-  --type-c-one: var(--pta-c-type-steel);
-}
-ol.pokemon-team .pokemon[data-type-one=fairy] {
-  --type-c-one: var(--pta-c-type-fairy);
-}
-ol.pokemon-team .pokemon[data-type-two=normal] {
-  --type-c-two: var(--pta-c-type-normal);
-}
-ol.pokemon-team .pokemon[data-type-two=fire] {
-  --type-c-two: var(--pta-c-type-fire);
-}
-ol.pokemon-team .pokemon[data-type-two=water] {
-  --type-c-two: var(--pta-c-type-water);
-}
-ol.pokemon-team .pokemon[data-type-two=electric] {
-  --type-c-two: var(--pta-c-type-electric);
-}
-ol.pokemon-team .pokemon[data-type-two=grass] {
-  --type-c-two: var(--pta-c-type-grass);
-}
-ol.pokemon-team .pokemon[data-type-two=ice] {
-  --type-c-two: var(--pta-c-type-ice);
-}
-ol.pokemon-team .pokemon[data-type-two=fighting] {
-  --type-c-two: var(--pta-c-type-fighting);
-}
-ol.pokemon-team .pokemon[data-type-two=poison] {
-  --type-c-two: var(--pta-c-type-poison);
-}
-ol.pokemon-team .pokemon[data-type-two=ground] {
-  --type-c-two: var(--pta-c-type-ground);
-}
-ol.pokemon-team .pokemon[data-type-two=flying] {
-  --type-c-two: var(--pta-c-type-flying);
-}
-ol.pokemon-team .pokemon[data-type-two=psychic] {
-  --type-c-two: var(--pta-c-type-psychic);
-}
-ol.pokemon-team .pokemon[data-type-two=bug] {
-  --type-c-two: var(--pta-c-type-bug);
-}
-ol.pokemon-team .pokemon[data-type-two=rock] {
-  --type-c-two: var(--pta-c-type-rock);
-}
-ol.pokemon-team .pokemon[data-type-two=ghost] {
-  --type-c-two: var(--pta-c-type-ghost);
-}
-ol.pokemon-team .pokemon[data-type-two=dragon] {
-  --type-c-two: var(--pta-c-type-dragon);
-}
-ol.pokemon-team .pokemon[data-type-two=dark] {
-  --type-c-two: var(--pta-c-type-dark);
-}
-ol.pokemon-team .pokemon[data-type-two=steel] {
-  --type-c-two: var(--pta-c-type-steel);
-}
-ol.pokemon-team .pokemon[data-type-two=fairy] {
-  --type-c-two: var(--pta-c-type-fairy);
-}
-ol.pokemon-team .ailment {
-  display: none;
-  min-width: 50px;
-}
-ol.pokemon-team [data-ailment]:not([data-ailment=none], [data-ailment=""]) .ailment {
-  display: block;
-  background-color: red;
-  padding: 2px 4px;
-  right: 0%;
-  top: 0%;
-  transform: translate(10px, -10px);
-  position: absolute;
 }
 
 .progress-bar {

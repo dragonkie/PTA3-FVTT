@@ -1,6 +1,632 @@
 import pokeapi from "./helpers/pokeapi.mjs";
 
-export default async function BattleTester(pokemonOne, pokemonTwo, moveOne, moveTwo, method = 0, iterations = 10) {
+
+/**
+ * =========================
+ * Pokémon Move Typedefs
+ * =========================
+ */
+/**
+ * @typedef {Object} UrlObject
+ * @property {string} name
+ * @property {string} url
+ *
+ * @typedef {Object} ContestCombo
+ * @property {UrlObject[] | null} use_after
+ * @property {UrlObject[] | null} use_before
+ *
+ * @typedef {Object} ContestCombos
+ * @property {ContestCombo} normal
+ * @property {ContestCombo} super
+ *
+ * @typedef {Object} EffectEntry
+ * @property {string} effect
+ * @property {UrlObject} language
+ * @property {string} short_effect
+ *
+ * @typedef {Object} MetaData
+ * @property {UrlObject} ailment
+ * @property {number} ailment_chance
+ * @property {UrlObject} category
+ * @property {number} crit_rate
+ * @property {number} drain
+ * @property {number} flinch_chance
+ * @property {number} healing
+ * @property {number | null} max_hits
+ * @property {number | null} max_turns
+ * @property {number | null} min_hits
+ * @property {number | null} min_turns
+ * @property {number} stat_chance
+ *
+ * @typedef {Object} NameEntry
+ * @property {UrlObject} language
+ * @property {string} name
+ *
+ * @typedef {Object} PastValue
+ * @property {number | null} accuracy
+ * @property {number | null} effect_chance
+ * @property {EffectEntry[]} effect_entries
+ * @property {number | null} power
+ * @property {number | null} pp
+ * @property {null} type
+ * @property {UrlObject} version_group
+ *
+ * @typedef {Object} Move
+ * @property {number} accuracy
+ * @property {ContestCombos} contest_combos
+ * @property {UrlObject} contest_effect
+ * @property {UrlObject} contest_type
+ * @property {UrlObject} damage_class
+ * @property {number | null} effect_chance
+ * @property {EffectEntry[]} effect_changes
+ * @property {EffectEntry[]} effect_entries
+ * @property {UrlObject} generation
+ * @property {number} id
+ * @property {any[]} machines
+ * @property {MetaData} meta
+ * @property {string} name
+ * @property {NameEntry[]} names
+ * @property {PastValue[]} past_values
+ * @property {number} power
+ * @property {number} pp
+ * @property {number} priority
+ * @property {any[]} stat_changes
+ * @property {UrlObject} super_contest_effect
+ * @property {UrlObject} target
+ * @property {UrlObject} type
+ */
+/**
+ * =========================
+ * Pokémon Data Typedefs
+ * =========================
+ */
+/**
+ * @typedef {Object} AbilitySlot
+ * @property {UrlObject} ability
+ * @property {boolean} is_hidden
+ * @property {number} slot
+ *
+ * @typedef {Object} HeldItemVersion
+ * @property {number} rarity
+ * @property {UrlObject} version
+ *
+ * @typedef {Object} HeldItem
+ * @property {UrlObject} item
+ * @property {HeldItemVersion[]} version_details
+ *
+ * @typedef {Object} PastAbility
+ * @property {AbilitySlot[]} abilities
+ * @property {UrlObject} generation
+ *
+ * @typedef {Object} Stat
+ * @property {number} base_stat
+ * @property {number} effort
+ * @property {UrlObject} stat
+ *
+ * @typedef {Object} TypeSlot
+ * @property {number} slot
+ * @property {UrlObject} type
+ * 
+ * @typedef {Object} MoveVersionSlot
+ * @property {Number} level_learned_at
+ * @property {UrlObject} move_learn_method
+ * @property {UrlObject} version_group
+ * 
+ * @typedef {Object} MoveSlot
+ * @property {UrlObject} move
+ * @property {MoveVersionSlot[]} version_group_details
+ *
+ * @typedef {Object} Pokemon
+ * @property {AbilitySlot[]} abilities
+ * @property {MoveSlot[]} moves
+ * @property {number} base_experience
+ * @property {UrlObject[]} forms
+ * @property {number} height
+ * @property {HeldItem[]} held_items
+ * @property {number} id
+ * @property {boolean} is_default
+ * @property {string} name
+ * @property {UrlObject[]} names
+ * @property {number} order
+ * @property {PastAbility[]} past_abilities
+ * @property {any[]} past_types
+ * @property {UrlObject} species
+ * @property {Stat[]} stats
+ * @property {TypeSlot[]} types
+ * @property {number} weight
+ */
+
+const MoveGarbageList = [
+    'contest_combos',
+    'contest_effect',
+    'contest_type',
+    'flavor_text_entries',
+    'generation',
+    'machines',
+    'super_contest_effect',
+    'past_values',
+    'learned_by_pokemon',
+    'names',
+    'target'
+];
+
+const SpeciesGarbageList = [
+    'names',
+    'generation',
+    'habitat',
+    'shape',
+    'genera',
+    'base_happiness',
+    'capture_rate',
+    'color',
+    'egg_groups',
+    'pal_park_encounters',
+    'growth_rate',
+    'flavor_text_entries',
+    'hatch_counter',
+];
+
+const AbilityGarbageList = [
+    'flavor_text_entries',
+    'is_main_series',
+    'names',
+    'pokemon',
+    'generation'
+]
+
+/*
+
+STAT BOOST METHOD
+when adding a bonus / detriment to a stat, the equation is Max(2, increase)/Max(2, increase) by default
+decreases affects the second number, meaning your damage is modified in final by 2 / 2 + decrease level
+the opposite is done for boosts, increaseing the first number, so 3/2 = 1.5 for 50% bonus damage
+
+*/
+
+function PurgeProperties(obj, list) {
+    for (const key of list) if (Object.hasOwn(obj, key)) delete obj[key];
+}
+
+// converts a number from -6 to +6 into its relative boost
+function BoostConversion(num) {
+    num = Math.max(Math.min(6, num), -6); // clamps the boost value to what it should be
+    if (num < 0) {
+        return 2 / (num * -1);// convert number to positive, reduce damage by the reduciton value
+    } else if (num > 0) {
+        return num / 2; // nice and easy
+    }
+    return 1;
+}
+
+function CriticalChanceStage(stage) {
+    if (stage >= 3) return 1;
+    if (stage == 2) return 1 / 2;
+    if (stage == 1) return 1 / 8;
+    return 1 / 24;
+}
+
+export class simPokemon {
+    _ready = false;
+    _api = null;
+    abilities = [];
+    forms = [];
+    height = 0;
+    id = 0;
+    moves = [];
+    /**@type {Array<Move>} */
+    moveset = []; // available moves given to this pokemon
+    name = '';
+    species = '';
+    stats = {
+        hp: { base: 0, current: 0, boosts: 0 },
+        atk: { base: 0, current: 0, boosts: 0 },
+        def: { base: 0, current: 0, boosts: 0 },
+        satk: { base: 0, current: 0, boosts: 0 },
+        sdef: { base: 0, current: 0, boosts: 0 },
+        spd: { base: 0, current: 0, boosts: 0 },
+    };
+    types = [];
+    weight = 0;
+    statuses = [];
+
+    get isFaitned() { return this.stats.hp.current <= 0 };
+    get attack() { return this._finalStat(this.stats.atk) };
+    get defence() { return this._finalStat(this.stats.def) };
+    get sAttack() { return this._finalStat(this.stats.satk) };
+    get sDefence() { return this._finalStat(this.stats.sdef) };
+    get speed() { return this._finalStat(this.stats.spd) };
+
+    _finalStat(stat) {
+        return stat.base * BoostConversion(stat.boosts)
+    }
+
+    /**
+     * @param {apiPokemon} data
+     */
+    constructor(api = undefined) {
+        if (api) this._api = api;
+    }
+
+    // loads in a pokemon from the api using a name or id
+    static async CreateFromApi(pokemonId) {
+        const pokemon = new simPokemon();
+
+        try {
+            /**@type {Pokemon} */
+            const _apiData = await pokeapi.pokemon(pokemonId);
+            pokemon._api = _apiData;
+            pokemon.id = _apiData.id;
+            pokemon.name = _apiData.name;
+
+            // prepare pokemons stats
+            const _stats = _apiData.stats;
+            pokemon.stats.hp.base = pokemon.stats.hp.current = Math.round(_stats[0].base_stat / 10 * 8);
+            pokemon.stats.atk.base = pokemon.stats.atk.current = Math.round(_stats[1].base_stat / 10);
+            pokemon.stats.def.base = pokemon.stats.def.current = Math.round(_stats[2].base_stat / 10);
+            pokemon.stats.satk.base = pokemon.stats.satk.current = Math.round(_stats[3].base_stat / 10);
+            pokemon.stats.sdef.base = pokemon.stats.sdef.current = Math.round(_stats[4].base_stat / 10);
+            pokemon.stats.spd.base = pokemon.stats.spd.current = Math.round(_stats[5].base_stat / 10);
+
+            // load moves into the pokemon
+            for (let i = 0; i < _apiData.moves.length; i++) {
+                /**@type {Move} */
+                const move = await pokeapi.move(_apiData.moves[i].move.name);
+                _apiData.moves[i] = move;
+
+                // clean out useless api data
+                PurgeProperties(move, MoveGarbageList);
+                pokemon.moves.push({
+                    name: move.name,
+                    power: move.damage_class.name != 'status' ? `${Math.max(1, Math.round(move.power / 20))}d6` : null,
+                    power_average: move.damage_class.name != 'status' ? Math.max(1, Math.round(move.power / 20)) * 3.5 : null,
+                    pp: move.pp,
+                    priority: move.priority,
+                    accuracy: move.accuracy,
+                    id: move.id,
+                    class: move.damage_class.name,
+                    type: move.type.name,
+                    ailment: {
+                        name: move.meta?.ailment.name,
+                        chance: move.meta?.ailment_chance
+                    },
+                    flinch_chance: move.meta?.flinch_chance,
+                    crit_stage: move.meta?.crit_rate,
+                    crit_chance: CriticalChanceStage(move.meta?.crit_rate),
+                    max_hits: move.meta?.max_hits,
+                    min_hits: move.meta?.min_hits,
+                    drain: move.meta ? move.meta.drain / 10 : null,
+                })
+            }
+
+            // Loads the pokemons abilities data
+            for (let index = 0; index < _apiData.abilities.length; index++) {
+                const _api = _apiData.abilities[index];
+                const _url = _api.ability.url;
+                const _ability = await pokeapi.request(_url)
+                PurgeProperties(_ability, AbilityGarbageList);
+
+                _apiData.abilities[index] = {
+                    is_hidden: _api.is_hidden,
+                    ..._ability
+                }
+
+                pokemon.abilities.push(_ability.name);
+            };
+
+            // Loads in pokemons types
+            for (const t of _apiData.types) {
+                pokemon.types.push(t.type.name);
+            }
+
+            // get the pokemons species
+            const _species = await pokeapi.species(_apiData.species.name);
+            _apiData.species = _species;
+            PurgeProperties(_species, SpeciesGarbageList);
+            pokemon.species = {
+                name: _species.name,
+                isBaby: _species.is_baby,
+                isLegendary: _species.is_legendary,
+                isMythic: _species.is_mythical,
+            }
+        } catch (err) {
+            console.error('Failed to load pokemon:', err);
+            return null;
+        }
+
+        console.log(pokemon);
+        pokemon._ready = true;
+        return pokemon;
+    }
+
+    /**
+     * 
+     * @param {Array<String>|String} list 
+     */
+    async LoadMoveset(list) {
+        if (!Array.isArray(list)) list = [list];
+
+        for (const move of this.moves) {
+            if (list.includes(move.name)) {
+                this.moveset.push(move);
+            }
+        }
+    }
+}
+
+/**
+ * @typedef PokemonTeam
+ * @prop {Array<Pokemon>} pokemon - List of available pokemon
+ * @prop {Object} statistics - data from this teams simulations
+ * @prop {String} name - the team name to use
+ * @prop {Pokemon} active_pokemon - the currently in use pokemon
+ */
+export class PokemonTeam {
+    pokemon = []; // pokemon list
+    statistics = { // stored global statistics
+        wins: 0,
+        losses: 0,
+        win_rate: 0,
+        mvp: '',// pokemon that performed the best
+        weakest: '',// pokemon that did the least
+    };
+    name = ''; // team name
+    /**@type {null|Pokemon} */
+    active_pokemon = null; // the pokemon currently in use
+    constructor() {
+
+    }
+
+    getPokemon(name) {
+        for (const pokemon of this.pokemon) if (pokemon.name == name || pokemon.nickname == name || pokemon.id == name) return pokemon;
+    }
+}
+
+/**
+ * ===========================================
+ * Pokémon combat helper functions
+ * ===========================================
+ */
+
+/**
+ * Returns data about the current matchup between two pokemon including the number of expected turns to KO
+ * @param {Pokemon} attacker 
+ * @param {Pokemon} defender 
+ * @returns {Object}
+ */
+export function GetMatchupDetails(attacker, defender) {
+    const data = {
+        attacker: attacker,
+        defender: defender,
+        move_summary: [],
+        best_move: null,
+        highest_damage: 0,
+        goes_first: false,
+        ko_turns: 0,
+        physical_scale: attacker.attack / defender.defence,
+        special_scale: attacker.sAttack / defender.sDefence,
+        ailments: []
+    }
+
+    if (attacker.speed > defender.speed) data.goes_first = true;
+
+    for (const move of attacker.moveset) {
+        if (move.class == 'status') {
+            //if this is a status effect move, evaluate how helpful it would be
+            if (move.ailment && move.ailment.name != 'none') data.ailments.push(move.ailment);
+            const effectiveness = pta.utils.typeEffectiveness(move.type, defender.types); // checks the effectiveness of the move
+            data.move_summary.push({
+                name: move.name,
+                class: move.class,
+                damage: null,
+                scaling: null,
+                effectiveness: effectiveness,
+                stab: null,
+                ailment: (move.ailment && move.ailment.name != 'none') ? move.ailment : null
+            })
+        } else {
+            const effectiveness = pta.utils.typeEffectiveness(move.type, defender.types); // checks the effectiveness of the move
+            const stab = (attacker.types.includes(move.type)) ? 1.5 : 1; // gives 50% bonus damage if theres a stab matching type
+            // checks the final damage to be dealt to the defender
+            const expected_damage = (move.power_average * (move.class == 'physical' ? data.physical_scale : data.special_scale) * stab * effectiveness.percent) * (move.accuracy / 100);
+
+            if (expected_damage > data.highest_damage) {
+                data.highest_damage = expected_damage;
+                data.best_move = move;
+            }
+
+            if (move.ailment && move.ailment.name != 'none') data.ailments.push(move.ailment);
+
+            data.move_summary.push({
+                name: move.name,
+                class: move.class,
+                damage: expected_damage,
+                scaling: (move.class == 'physical' ? data.physical_scale : data.special_scale),
+                effectiveness: effectiveness,
+                stab: (stab > 1 ? true : false),
+                ailment: (move.ailment && move.ailment.name != 'none') ? move.ailment : null
+            })
+        }
+    }
+
+    data.ko_turns = Math.ceil(defender.stats.hp.current / data.highest_damage);
+
+    return data;
+}
+
+/**
+ * 
+ * @param {Pokemon} attacker - the pokemon fighting
+ * @param {Pokemon} defender - the pokemon to be potentially swapped out
+ * @returns {Boolean}
+ */
+export function SwapPokemon(attacker, defender) {
+    let swap = false;
+    if (defender.isFaitned) return true;
+    // checks if the enemys a good attacker against us, assuming it has moves to match its types
+    else {
+        const attacker_details = GetMatchupDetails(attacker, defender);
+        const defender_details = GetMatchupDetails(defender, attacker);
+
+        // predictions with just base stats
+        if (attacker_details.ko_turns <= 2 && attacker_details.goes_first) swap = true; // if the enemy goes first and kills us in two turns, run away
+        if (attacker_details.ko_turns <= 1) swap = true; // if we can be one tapped at all, run away
+        if (defender_details.ko_turns >= attacker_details.ko_turns) swap = true; // if the enemy kills us sooner than we kill them
+        if (defender_details.ko_turns >= 5) swap = true; // five turns is to long even if we can win, try swapping to a more effective matchup
+
+        // predictions with status effects / applying them
+
+        // predictions with stat boosts / decreases, probs needs 3 turns to be proper benefidical
+
+        // predictions with wheather effects
+
+
+
+        // if we can one tap enemies, we shouldn't swap, overide previous options
+        if (defender_details.ko_turns <= 1 && defender_details.goes_first) swap = false;
+    }
+
+    return swap;
+}
+
+/**
+ * checks the red teams pokemons state, and swaps out based on it's oponent
+ * @param {PokemonTeam} _TeamRed 
+ * @param {PokemonTeam} _TeamBlue 
+ */
+export function TeamSwapPokemon(_TeamRed, _TeamBlue) {
+    // determin if we need to swap pokemon
+    let swap = false;
+
+    const defender = _TeamRed.active_pokemon;
+    const attacker = _TeamBlue.active_pokemon;
+
+    // check if the pokemon is fainted, forcing us to swap
+    if (defender.isFaitned) swap = true;
+    // checks if the enemys a good attacker against us, assuming it has moves to match its types
+    else {
+        for (const move of attacker.moveset) {
+            if (move.class == 'status') continue;
+            const effectiveness = pta.utils.typeEffectiveness(move.type, defender.types); // checks the effectiveness of the move
+            const stab = (attacker.types.includes(move.type)) ? 1.5 : 1; // gives 50% bonus damage if theres a stab matching type
+            // checks the attacker vs defenders relevant stat
+            const stat_ratio = 1;
+            if (move.class == 'physical') stat_ratio = (attacker.attack / defender.defence);
+            if (move.class == 'special') stat_ratio = (attacker.sAttack / defender.sDefence);
+            // checks the final damage to be dealt to the defender
+            const expected_damage = move.power_average * stat_ratio * stab * effectiveness.percent;
+
+            // check if we need to swap
+            if (effectiveness.value >= 2) swap = true; // if the enemy has a 4x move, just swap
+            if (expected_damage >= defender.stats.hp.current && defender.speed < attacker.speed) swap = true
+        }
+
+        // checks if defenders moves allow us to take them on
+        for (const move of defender.moveset) {
+            if (move.class == 'status') continue;
+            const effectiveness = pta.utils.typeEffectiveness(move.type, attacker.types); // checks the effectiveness of the move
+            const stab = (defender.types.includes(move.type)) ? 1.5 : 1; // gives 50% bonus damage if theres a stab matching type
+            // checks the attacker vs defenders relevant stat
+            const stat_ratio = 1;
+            if (move.class == 'physical') stat_ratio = (defender.attack / attacker.defence);
+            if (move.class == 'special') stat_ratio = (defender.sAttack / attacker.sDefence);
+            // checks the final damage to be dealt to the defender
+            const expected_damage = move.power_average * stat_ratio * stab * effectiveness.percent;
+
+            if (defender.speed > attacker.speed && expected_damage >= attacker.stats.hp.current) swap = false;
+        }
+    }
+
+    // swap the pokemon if we met a previous criteria
+    if (swap) {
+
+    }
+}
+
+/**
+ * ===========================================
+ * Simulation data definitions
+ * ===========================================
+ */
+
+/**
+ * @typedef {Object} SimulationConfig
+ * @prop {Number} iterations - The number of battles to simulate over
+ * @prop {Array<String>} rules - Array of optional rules 
+ */
+
+/**
+ * @typedef SimulationResults
+ * @prop {String} winner - team name of the winners
+ * @prop {Array<String>} log - array of text detailing the events that occured
+ * @prop {Number} rounds - number of rounds it took to fight
+ */
+
+/**
+ * ===========================================
+ * Combat simulator functions
+ * ===========================================
+ */
+
+/**
+ * Runs the actual battle 
+ * @param {PokemonTeam} TeamRed 
+ * @param {PokemonTeam} TeamBlue 
+ * @returns {SimulationResults}
+ */
+export function SimulateBattle(_TeamRed, _TeamBlue) {
+    if (!TeamRed || !TeamBlue) return void console.log('Requires two teams to simulate');
+    // Make safe copies of the teams to modify
+    const TeamRed = structuredClone(TeamRed);
+    const TeamBlue = structuredClone(TeamBlue);
+
+    // Prep data tracking for the fight
+    /**@type {SimulationResults} */
+    const results = {
+        winner: '',
+        log: [],
+        rounds: 0,
+    }
+
+    // Begin combat!
+    let finished = false;
+    while (!finished) {
+        // initial pokemon summong, done at random if not pre chosen by the teams
+        if (results.rounds == 0) {
+            // if this is the start of the battler, open with a random pokemon if one isnt pre chosen
+            if (!TeamRed.active_pokemon) TeamRed.active_pokemon = TeamRed.pokemon[Math.floor(Math.random() * TeamRed.pokemon.length)];
+            if (!TeamBlue.active_pokemon) TeamBlue.active_pokemon = TeamBlue.pokemon[Math.floor(Math.random() * TeamBlue.pokemon.length)];
+        }
+
+        // tick over the round counter
+        results.rounds += 1;
+        results.log.push(`------------------- ROUND ${results.rounds} -------------------`)
+
+        // switch out fainted pokemon, or poor type matchups potentially
+
+        // pokemon attack
+
+        // trigger status effects
+
+        // trigger wheather effects
+
+    }
+}
+
+export function SimulateDoubleBattle(TeamRed, TeamBlue, options) {
+
+}
+
+/**
+ * 
+ * @param {*} pokemonOne 
+ * @param {*} pokemonTwo 
+ * @param {*} moveOne 
+ * @param {*} moveTwo 
+ * @param {*} method 
+ * @param {*} iterations 
+ */
+
+export async function BattleSimulation(pokemonOne, pokemonTwo, moveOne, moveTwo, method = 0, iterations = 10) {
     const _apiRed = await pokeapi.pokemon(pokemonOne);
     const _apiBlue = await pokeapi.pokemon(pokemonTwo);
 

@@ -2,17 +2,16 @@
 
 /* Classes for creating pokemon type boxs and their effects */
 
-ol.pokemon-team {
+ol.pta-pokemon-team {
     list-style: none;
-    padding: 0px;
-    .pokemon {
+    padding: 0;
+    margin: 0;
+
+    .pta-pokemon {
         --angle: 110deg;
         --scale: 60%;
 
-        --type-c-one: var(--pta-c-type-normal);
-        --type-c-two: var(--pta-c-type-normal);
-
-        background-color: var(--type-c-one);
+        background-color: var(--color-cool-4);
         margin-bottom: 5px;
         position: relative;
         width: 225px;
@@ -22,13 +21,31 @@ ol.pokemon-team {
         display: flex;
         flex-direction: row;
 
+        --corner: 1em;
+        clip-path: polygon(
+                /* top edge */
+                var(--corner) 0%,
+                calc(100% - var(--corner)) 0%,
+                /* right edge */
+                100% var(--corner),
+                100% calc(100% - var(--corner)),
+                /* bottom edge */
+                calc(100% - var(--corner)) 100%,
+                var(--corner) 100%,
+                /* left edge */
+                0% calc(100% - var(--corner)),
+                0% var(--corner));
+
         .portrait {
             flex: 0 0;
-            background-image: url(https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/814.png);
             background-repeat: no-repeat;
             background-size: contain;
             height: 100%;
             aspect-ratio: 1;
+
+            img {
+                border: 0;
+            }
         }
 
         .details {
@@ -38,50 +55,21 @@ ol.pokemon-team {
             flex: 1;
             justify-content: center;
             text-align: center;
+
             >* {
                 flex: 1;
                 width: 100%;
             }
 
             .nickname {
+                text-align: left;
                 font-weight: bold;
-                font-size: var(--pta-scale-em);
+                font-size: calc(var(--pta-scale-em) * 0.8);
             }
 
             .health {
                 flex: 0;
             }
         }
-
-        &[data-type-two] {
-            background-image: linear-gradient(var(--angle), var(--type-c-one) var(--scale), var(--type-c-two) calc(var(--scale) + 2px));
-        }
-
-        @each $type in util.$pokemon-types {
-            &[data-type-one=#{$type}] {
-                --type-c-one: var(--pta-c-type-#{$type});
-            }
-        }
-
-        @each $type in util.$pokemon-types {
-            &[data-type-two=#{$type}] {
-                --type-c-two: var(--pta-c-type-#{$type});
-            }
-        }
-    }
-
-    .ailment {
-        display: none;
-        min-width: 50px;
-    }
-
-    [data-ailment]:not([data-ailment="none"], [data-ailment=""]) .ailment {
-        display: block;
-        background-color: red;
-        padding: 2px 4px;
-        right: 0%;
-        top: 0%;
-        transform: translate(10px, -10px);
-        position: absolute;
     }
 }

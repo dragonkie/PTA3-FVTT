@@ -4,6 +4,11 @@ const {
   ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField, HTMLField
 } = foundry.data.fields;
 
+/**
+ * @typedef {Object} UseOptions
+ * @prop {String} action
+ */
+
 export default class ItemData extends DataModel {
 
   static defineSchema() {
@@ -17,12 +22,28 @@ export default class ItemData extends DataModel {
 
     return schema;
   }
+  /**
+   * ============================================================
+   * Custom item schema mixins
+   * ============================================================
+   */
+
+  /**
+   * ============================================================
+   * General item fucntions
+   * ============================================================
+   */
 
   get actor() {
     return this.parent.actor;
   }
 
-  async use(event, target, action) {
+  /**
+   * 
+   * @param {*} event 
+   * @param {*} action 
+   */
+  async use(event, action) {
     console.warn('No uses defined for this object!');
   }
 

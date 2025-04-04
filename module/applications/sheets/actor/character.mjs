@@ -1,12 +1,14 @@
-import PtaActorSheet from "../actor.mjs";
+import PtaDialog from "../../dialog.mjs";
+import PtaActorSheet, { PtaTrainerMixin } from "../actor.mjs";
 
-export default class PtaCharacterSheet extends PtaActorSheet {
+export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
     static DEFAULT_OPTIONS = {
         classes: ["character"],
         actions: {
             trainTalent: this._onTrainTalent,
             pokemonSheet: this._onPokemonSheet,
-            pokemonActivate: this._onActivatePokemon
+            pokemonActivate: this._onActivatePokemon,
+            pokemonRemove: this._onRemovePokemon
         }
     }
 
@@ -54,29 +56,36 @@ export default class PtaCharacterSheet extends PtaActorSheet {
             const poke = await fromUuid(pkmn.uuid);
             let _p = { ...pkmn };
             _p.img = poke.img;
+            _p.data = poke.getRollData();
             context.pokemon.push(_p);
         }
 
-        console.log(context)
         return context;
     }
 
+    /* -------------------------------------------------------------------------------------- */
+    /*                                                                                        */
+    /*                               DRAG AND DROP ACTIONS                                    */
+    /*                                                                                        */
+    /* -------------------------------------------------------------------------------------- */
+
     async _onDropActor(event, actor) {
-        console.log(actor);
+        try {
+            if (this.document.type != 'pokemon') throw new Error("Only pokemon can be added to an actor sheet!");
+            let mons = this.document.system.pokemon;
 
-        console.log(this.document.system);
+            for (const p of mons) if (p.uuid == actor.uuid) throw new Error('Actor already owns this pokémon!')
 
-        let mons = this.document.system.pokemon;
-        mons.push({
-            uuid: actor.uuid,
-            name: actor.name
-        })
+            mons.push({
+                uuid: actor.uuid,
+                name: actor.name
+            });
 
-        this.document.update({
-            system: {
-                pokemon: mons
-            }
-        })
+            await this.document.update({ system: { pokemon: mons } });
+            await this.render(false);
+        } catch (err) {
+
+        }
     }
 
     /* -------------------------------------------------------------------------------------- */
@@ -85,7 +94,7 @@ export default class PtaCharacterSheet extends PtaActorSheet {
     /*                                                                                        */
     /* -------------------------------------------------------------------------------------- */
     static async _onTrainTalent(event, target) {
-        const key = target.closest('[data-skill]')?.dataset.skill;
+        const key = target.closest('[data-pta-skill]')?.dataset.ptaSkill;
         if (!key) return;
         const skill = this.document.system.skills[key];
 
@@ -95,7 +104,8 @@ export default class PtaCharacterSheet extends PtaActorSheet {
         if (skill.talent > 2) skill.talent = 0;
         if (skill.talent < 0) skill.talent = 2;
 
-        this.document.update({ [`system.skills.${key}`]: skill });
+        await this.document.update({ [`system.skills.${key}`]: skill });
+        await this.render(false);
     }
 
     static async _onActivatePokemon(event, target) {
@@ -108,12 +118,36 @@ export default class PtaCharacterSheet extends PtaActorSheet {
             list.push(p);
         }
 
-        this.document.update({ system: { pokemon: list } });
+        await this.document.update({ system: { pokemon: list } });
+        await this.render(false);
     }
 
     static async _onRemovePokemon(event, target) {
         const uuid = target.closest('[data-pokemon-uuid]')?.dataset?.pokemonUuid;
         if (!uuid) return void console.error('Couldnt find pokemon uuid');
+
+        let list = [];
+        let pokemon = null;
+        for (const p of this.document.system.pokemon) {
+            if (p.uuid != uuid) list.push(p);
+            else pokemon = p;
+        }
+
+        try {
+            if (!event.shiftKey) {
+                let confirm = await PtaDialog.confirm({
+                    title: 'PTA.Dialog.ReleasePokemon.title',
+                    content: `
+                    <p>PTA.Dialog.ReleasePokemon.content</p>
+                    <p>Are you sure you would like to release <b>${pokemon.name}</b>?</p>`
+                })
+
+                if (!confirm) return;
+            }
+
+            await this.document.update({ system: { pokemon: list } });
+            await this.render(false);
+        } catch (err) { }
     }
 
     static async _onPokemonSheet(event, target) {

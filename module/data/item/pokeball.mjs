@@ -106,8 +106,8 @@ export default class PokeballData extends ItemData {
         return schema;
     }
 
-    async use(event, target, action) {
-        if (!this.actor) return void console.warn("Can't throw a pokeball without a trainer!");
+    async use(event, options) {
+        if (!this.actor) return void pta.utils.warn("Can't throw a pokeball without a trainer!");
         if (this.quantity <= 0) return void console.warn("You need to ahve one to use one");
         let rollData = this.getRollData();
 

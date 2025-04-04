@@ -38,12 +38,28 @@ export default function registerSystemSettings() {
         },
         automation: {
             name: "PTA.Settings.Automation.label",
-            name: "PTA.Settings.Automation.hint",
+            hint: "PTA.Settings.Automation.hint",
             scope: "world",
             config: true,
             type: Boolean,
             default: true,
             onChange: () => { }
+        },
+        pokesim: {// Automation is always true with this rule, brings the tabletop closer to the actual pokemon games
+            name: "PTA.Settings.Pokesim.label",
+            hint: "PTA.Settings.Pokesim.hint",
+            scope: "world",
+            config: true,
+            type: Boolean,
+            default: false,
+        },
+        simMinEvasion: {
+            name: "PTA.Settings.simMinEvasion.label",
+            hint: "PTA.Settings.simMinEvasion.hint",
+            scope: "world",
+            config: true,
+            type: Number,
+            default: 33,
         }
     }
 

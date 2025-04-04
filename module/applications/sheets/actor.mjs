@@ -202,3 +202,11 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         console.log('item sorted', updates, siblings)
     }
 }
+
+
+// Special mixin for making pokemon trainer options available, rather than declaring and extending a whole new seperate class
+export function PtaTrainerMixin(BaseApplication) {
+    return class TrainerSheet extends BaseApplication {
+
+    }
+}

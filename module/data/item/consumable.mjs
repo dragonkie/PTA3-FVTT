@@ -90,7 +90,7 @@ export default class ConsumableData extends ItemData {
             heal: new SchemaField({// heals the target a flat ammount
                 active: new BooleanField({ ...isRequired, initial: false }),
                 value: new NumberField({ initial: 10 }),
-                percent: new NumberField({ initial: 0 }),
+                percent: new NumberField({ initial: 0, min: 0 }),
                 full: new BooleanField({ initial: false })
             }),
             revive: new BooleanField({ ...isRequired, initial: false }),
@@ -208,6 +208,7 @@ export default class ConsumableData extends ItemData {
 
         switch (this.target) {
             case 'trainer':
+                document = await this._getUserTrainer(event, target);
                 break;
             case 'pokemon':
                 document = await this._getUserPokemon(event, target);
@@ -222,9 +223,10 @@ export default class ConsumableData extends ItemData {
 
         } else { // begin the automation proccess
             const _uDoc = document.toObject();
+            _uDoc.system.quantity = _uDoc.system.quantity;
 
             try {
-                this._onRevive(document);
+                await this._onRevive(document);
                 this._onHeal(_uDoc);
 
                 document.update(_uDoc);
@@ -295,11 +297,16 @@ export default class ConsumableData extends ItemData {
      * @param {*} doc 
      * @param {*} data 
      */
-    _onRevive(doc) {
+    async _onRevive(doc) {
         if (this.effects.revive) {
             if (doc.system.isFainted || doc.statuses.has(pta.config.statuses.fainted)) {
                 // remove the fainted status effect
-                for (const effect of doc.effects) if (effect.statuses.has('fainted')) effect.delete();
+                for (const effect of doc.effects) {
+                    if (effect.statuses.has('fainted')) {
+                        await effect.delete();
+                        await doc.sheet.render(false);
+                    }
+                }
             } else throw new Error("Pokemon isnt fainted!");
         } else if (!this.effects.revive && (pokemon.system.fainted || pokemon.statuses.has('fainted'))) {
             throw new Error("Non revival items can't be used on a fainted pokémon!");
@@ -311,6 +318,8 @@ export default class ConsumableData extends ItemData {
         if (heal.percent > 0) doc.system.hp.value += doc.system.hp.max * (heal.percent / 100)
         if (heal.value > 0) doc.system.hp.value += heal.value;
         if (heal.full) doc.system.hp.value = doc.system.hp.max;
+
+        // clamp to the max hp possible
         doc.system.hp.value = Math.min(doc.system.hp.max, doc.system.hp.value);
     }
 
