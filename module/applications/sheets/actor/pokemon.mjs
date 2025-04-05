@@ -97,8 +97,6 @@ export default class PtaPokemonSheet extends PtaActorSheet {
 
         update_data.hp.value = Math.min(this.document.system.hp.value, update_data.hp.max);
 
-
-
         await this.document.update({ system: update_data })
         this.render(false);
     }
@@ -106,5 +104,14 @@ export default class PtaPokemonSheet extends PtaActorSheet {
     //=============================================================
     // Sheet rendering
     //=============================================================
+    async render(options = {}) {
+        // register trainers sheet application as a dependency to be re rendered
+        if (this.document.system.trainer != '') {
+            let trainer = await fromUuid(this.document.system.trainer);
+            if (trainer) this.document.apps[trainer.sheet.id] = trainer.sheet;
+        }
+
+        super.render(options);
+    }
 
 }

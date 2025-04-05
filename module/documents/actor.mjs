@@ -68,10 +68,12 @@ export default class PtaActor extends Actor {
 
   _onUpdate(changed, options, userId) {
     // if the actor has run out of HP and hasn't had the fainted condition applied yet
-    if (this.system.hp.value <= 0 && !this.statuses.has('fainted')) {
+    if (this.system.hp.value <= 0) {
       this.toggleStatusEffect('fainted', { active: true, overlay: true });
     } else if (this.system.hp.value > 0) {
-      this.toggleStatusEffect('fainted', { active: false, overlay: false });
+      this.toggleStatusEffect('fainted', { active: false });
     }
+    console.log('Super _onUpdate', super._onUpdate)
+    return super._onUpdate(changed, options, userId);
   }
 }

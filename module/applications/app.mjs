@@ -22,9 +22,9 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
         }
     }
 
-    static get PARTS() { 
+    static get PARTS() {
         console.error('Application cannot be created without any parts declared');
-        return {} 
+        return {}
     };
 
     async _prepareContext(options) { return {} };
@@ -52,32 +52,37 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
     /*                                                                                        */
     /******************************************************************************************/
     async _preRender(context, options) {
+        console.log('_preRender');
         return super._preRender(context, options);
     }
 
     /** @inheritdoc */
     _onFirstRender(context, options) {
+        console.log('_onFirstRender');
         let r = super._onFirstRender(context, options);
         return r;
     }
 
     /** @inheritdoc */
     _onRender(context, options) {
+        console.log('_onRender');
         super._onRender(context, options);
         this._setupDragAndDrop();
     }
 
 
     _configureRenderOptions(options) {
+        _console.log('_configureRenderOptions');
         super._configureRenderOptions(options);
-        return;
     }
-    
+
     async _renderHTML(context, options) {
+        console.log('_renderHTML');
         return super._renderHTML(context, options);
     }
 
     async _renderFrame(options) {
+        console.log('_renderFrame');
         const frame = super._renderFrame(options);
         return frame;
     }
@@ -87,7 +92,7 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
     /*                                                                                        */
     /******************************************************************************************/
     async _preClose(options) {
-        super._preClose(options);
+        return super._preClose(options);
     }
 
     /** @inheritdoc */

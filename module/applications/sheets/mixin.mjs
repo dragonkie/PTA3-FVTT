@@ -7,8 +7,12 @@ export default function PtaSheetMixin(Base) {
 
         static DEFAULT_OPTIONS = {
             classes: ['pta', 'sheet'],
-            form: { submitOnChange: true },
             window: { resizable: true },
+            form: {
+                submitOnChange: true,
+                submitOnClose: true,
+                closeOnSubmit: false,
+            },
             actions: {// Default actions must be static functions
                 editImage: this._onEditImage,
                 toggleSheet: this._onToggleSheet,
@@ -246,6 +250,14 @@ export default function PtaSheetMixin(Base) {
                 }
             });
             */
+        }
+
+        _preapreSubmitData(event, form, formData) {
+            console.log('event', event)
+            console.log('form', form)
+            console.log('formData', formData)
+
+            return super._preapreSubmitData(event, form, formData);
         }
     }
 }

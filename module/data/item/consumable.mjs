@@ -204,14 +204,14 @@ export default class ConsumableData extends ItemData {
      * @param {String} action 
      */
     async use(event, target, action) {
-        let document = null;
-
+        // the target user is in the document
+        let target_actor = null;
         switch (this.target) {
             case 'trainer':
-                document = await this._getUserTrainer(event, target);
+                target_actor = await this._getUserTrainer(event, target);
                 break;
             case 'pokemon':
-                document = await this._getUserPokemon(event, target);
+                target_actor = await this._getUserPokemon(event, target);
                 break;
             case 'all':
                 break;
@@ -219,19 +219,25 @@ export default class ConsumableData extends ItemData {
 
         // if we didn't manage to find a target for automation, simply put the update into the chat
         // or use this step if automation for this is disabled
-        if (!document || !game.settings.get(pta.id, 'automation')) {
+        if (!target_actor || !game.settings.get(pta.id, 'automation')) {
 
-        } else { // begin the automation proccess
-            const _uDoc = document.toObject();
+        } else if (game.settings.get(game.system.id, 'automation')) { // begin the automation proccess
+            const _uDoc = target_actor.toObject();
             _uDoc.system.quantity = _uDoc.system.quantity;
 
             try {
-                await this._onRevive(document);
+                console.log(target_actor)
+                // verify that the pokemon isn't fainted, or that this item is a revive in that case
+                if (target_actor.system.fainted && !this.effects.revive) throw new Error("This item can't be used on a fainted Pokémon!");
+
                 this._onHeal(_uDoc);
+                await target_actor.update(_uDoc);
+                await this.parent.update({ system: { quantity: this.quantity - 1 } });
 
-                document.update(_uDoc);
+                target_actor.sheet.render(false);
+                this.parent.sheet.render(false);
             } catch (err) {
-
+                pta.utils.error(err.message)
             }
         }
     }
@@ -275,6 +281,7 @@ export default class ConsumableData extends ItemData {
 
             return pokemon;
         } catch (err) {
+            console.error(err)
             return null;
         }
     }
@@ -291,39 +298,17 @@ export default class ConsumableData extends ItemData {
      * object
      */
 
-    /**
-     * Rare exception to the no updates rule, this one needs to be able to delete the fainted 
-     * effect from actors, which requires it's own seperate update
-     * @param {*} doc 
-     * @param {*} data 
-     */
-    async _onRevive(doc) {
-        if (this.effects.revive) {
-            if (doc.system.isFainted || doc.statuses.has(pta.config.statuses.fainted)) {
-                // remove the fainted status effect
-                for (const effect of doc.effects) {
-                    if (effect.statuses.has('fainted')) {
-                        await effect.delete();
-                        await doc.sheet.render(false);
-                    }
-                }
-            } else throw new Error("Pokemon isnt fainted!");
-        } else if (!this.effects.revive && (pokemon.system.fainted || pokemon.statuses.has('fainted'))) {
-            throw new Error("Non revival items can't be used on a fainted pokémon!");
-        }
-    }
-
-    _onHeal(doc) {
+    _onHeal(actor) {
         const heal = this.effects.heal;
-        if (heal.percent > 0) doc.system.hp.value += doc.system.hp.max * (heal.percent / 100)
-        if (heal.value > 0) doc.system.hp.value += heal.value;
-        if (heal.full) doc.system.hp.value = doc.system.hp.max;
+        if (heal.percent > 0) actor.system.hp.value += actor.system.hp.max * (heal.percent / 100)
+        if (heal.value > 0) actor.system.hp.value += heal.value;
+        if (heal.full) actor.system.hp.value = actor.system.hp.max;
 
         // clamp to the max hp possible
-        doc.system.hp.value = Math.min(doc.system.hp.max, doc.system.hp.value);
+        actor.system.hp.value = Math.min(actor.system.hp.max, actor.system.hp.value);
     }
 
-    _onCure(doc, data) {
+    async _onCure(doc, data) {
 
         // loop through and eliminate all status negative status ailments
         if (this.effects.cure == 'all') {

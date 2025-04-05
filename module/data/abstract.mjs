@@ -16,11 +16,6 @@ export default class DataModel extends foundry.abstract.TypeDataModel {
     return { ...this };
   }
 
-  async _prepareContext() {
-    let context = await super._prepareContext();
-
-    return context;
-  }
 
   static defineSchema() {
     const schema = {};
@@ -31,4 +26,17 @@ export default class DataModel extends foundry.abstract.TypeDataModel {
   get name() {
     return this.parent.name;
   }
+
+  prepareBaseData() {
+    const data = super.prepareBaseData();
+    console.log('baseData', data);
+    return data;
+  }
+
+  prepareDerivedData() {
+    const data = super.prepareDerivedData();
+    console.log('derivedData', data);
+    return data;
+  }
+
 }

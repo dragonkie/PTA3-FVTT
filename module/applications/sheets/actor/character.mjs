@@ -149,7 +149,9 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
 
             await this.document.update({ system: { pokemon: list } });
             await this.render(false);
-        } catch (err) { }
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     static async _onPokemonSheet(event, target) {

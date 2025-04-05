@@ -36,7 +36,8 @@ export default class ActorData extends DataModel {
     for (const key in this.stats) this.stats[key].mod = Math.floor(this.stats[key].total / 2);
   }
 
-  get isDead() { return this.hp.value <= 0 };
-  get isAlive() { return this.hp.value > 0 };
-  get isFainted() { return this.hp.value <= 0 }
+  get isFainted() { return this.hp.value <= 0 };
+  get fainted() { return this.isFainted };
+  get isDead() { return this.isFainted };
+  get isAlive() { return !this.isFainted };
 }

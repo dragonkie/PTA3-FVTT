@@ -35,7 +35,7 @@ export default class CharacterData extends ActorData {
     schema.pokemon = new ArrayField(new SchemaField({
       uuid: new StringField({ initial: '', required: true, nullable: false }),
       name: new StringField({ initial: '', required: true, nullable: false }),
-      active: new BooleanField({initial: false, required: true, nullable: false})
+      active: new BooleanField({ initial: false, required: true, nullable: false })
     }), { initial: [] })
 
     return schema;
@@ -58,18 +58,15 @@ export default class CharacterData extends ActorData {
     for (let [k, v] of Object.entries(this.stats)) {
       data[k] = foundry.utils.deepClone(v);
     }
-    
 
-    return data
+    return data;
   }
 
-  async _preUpdate(...args) {
-    console.log('preUpdate ', args);
-    return super._preUpdate(...args);
+  async _preUpdate(changed, options, userId) {
+    return await super._preUpdate(changed, options, userId);
   }
 
-  _onUpdate(...args) {
-    console.log('onUpdate ', args);
-    super._onUpdate(...args);
+  _onUpdate(changed, options, userId) {
+    return super._onUpdate(changed, options, userId);
   }
 }
