@@ -311,6 +311,18 @@
   text-align: center;
 }
 
+.gap-s {
+  gap: 8px;
+}
+
+.gap-m {
+  gap: 12px;
+}
+
+.gap-l {
+  gap: 16px;
+}
+
 /* Components */
 /* Import utilities */
 .item-form {
@@ -355,11 +367,44 @@
   height: 100%;
 }
 
-.tox .tox-editor-container {
-  background: #fff;
+.description {
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
 }
-.tox .tox-edit-area {
-  padding: 0 8px;
+.description label {
+  text-align: center;
+  font-size: 18px;
+  flex: 3;
+  border-bottom: 1px solid gold;
+}
+.description a {
+  flex: 0;
+}
+
+/*
+|| Collapsible items
+
+.collapsible - Repersents a container with collapsible elements inside of it
+.collapsible-content - a container to be shrunk down when the container is collapsed
+.wrapper - the actual content being shrunk down
+*/
+.collapsible .fa-caret-down {
+  transition: all 0.3s ease-in-out;
+}
+.collapsible.collapsed .fa-caret-down {
+  transform: rotate(-90deg);
+}
+.collapsible.collapsed .collapsible-content {
+  grid-template-rows: 0fr;
+}
+.collapsible .collapsible-content {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: all 0.3s ease-in-out;
+}
+.collapsible .collapsible-content > .wrapper {
+  overflow: hidden;
 }
 
 .resource-label {
@@ -551,6 +596,68 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   flex: 0;
 }
 
+.type-tag {
+  padding: var(--pta-scale-px);
+  border-radius: var(--pta-scale-px);
+  border: 2px solid;
+  width: fit-content;
+  text-align: center;
+}
+.type-tag.normal {
+  border-color: var(--pta-c-type-normal);
+}
+.type-tag.fire {
+  border-color: var(--pta-c-type-fire);
+}
+.type-tag.water {
+  border-color: var(--pta-c-type-water);
+}
+.type-tag.electric {
+  border-color: var(--pta-c-type-electric);
+}
+.type-tag.grass {
+  border-color: var(--pta-c-type-grass);
+}
+.type-tag.ice {
+  border-color: var(--pta-c-type-ice);
+}
+.type-tag.fighting {
+  border-color: var(--pta-c-type-fighting);
+}
+.type-tag.poison {
+  border-color: var(--pta-c-type-poison);
+}
+.type-tag.ground {
+  border-color: var(--pta-c-type-ground);
+}
+.type-tag.flying {
+  border-color: var(--pta-c-type-flying);
+}
+.type-tag.psychic {
+  border-color: var(--pta-c-type-psychic);
+}
+.type-tag.bug {
+  border-color: var(--pta-c-type-bug);
+}
+.type-tag.rock {
+  border-color: var(--pta-c-type-rock);
+}
+.type-tag.ghost {
+  border-color: var(--pta-c-type-ghost);
+}
+.type-tag.dragon {
+  border-color: var(--pta-c-type-dragon);
+}
+.type-tag.dark {
+  border-color: var(--pta-c-type-dark);
+}
+.type-tag.steel {
+  border-color: var(--pta-c-type-steel);
+}
+.type-tag.fairy {
+  border-color: var(--pta-c-type-fairy);
+}
+
 .progress-bar {
   width: 100%;
   background-color: black;
@@ -566,15 +673,19 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   font-size: var(--pta-scale-em);
   font-weight: bold;
 }
-.progress-bar .bar {
+.progress-bar > .wrapper {
+  flex: 1;
+}
+.progress-bar > .wrapper .bar {
   min-height: 100%;
+  width: 50%;
   margin: 1px;
   /* || Colour options */
 }
-.progress-bar .bar.red {
+.progress-bar > .wrapper .bar.red {
   background-color: red;
 }
-.progress-bar .bar.green {
+.progress-bar > .wrapper .bar.green {
   background-color: green;
 }
 
@@ -584,28 +695,28 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 
 /* Import utilities */
 /* || Abilities component*/
-.pta-abilities {
+.pta-stats {
   flex: 1;
   flex-wrap: nowrap;
   display: flex;
   flex-direction: column;
 }
-.pta-abilities > * {
+.pta-stats > * {
   margin-bottom: calc(var(--pta-scale-px));
   flex: 1;
 }
-.pta-abilities .pta-ability-wrap {
+.pta-stats .pta-stat-wrap {
   flex-wrap: none;
   display: flex;
   flex: 0;
   flex-direction: row;
   align-items: center;
 }
-.pta-abilities .pta-ability-wrap .pta-score-wrap {
+.pta-stats .pta-stat-wrap .pta-score-wrap {
   flex: 0;
   margin-right: var(--pta-scale-px);
 }
-.pta-abilities .pta-ability-wrap .pta-score {
+.pta-stats .pta-stat-wrap .pta-score {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
@@ -616,7 +727,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   text-align: center;
   border: 2px solid rgb(255, 255, 255);
 }
-.pta-abilities .pta-ability-wrap .pta-score > * {
+.pta-stats .pta-stat-wrap .pta-score > * {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -627,25 +738,25 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   border-right: none;
   border-top: none;
 }
-.pta-abilities .pta-ability-wrap .pta-skills-wrap {
+.pta-stats .pta-stat-wrap .pta-skills-wrap {
   text-align: left;
   flex: 1;
 }
-.pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-skill {
+.pta-stats .pta-stat-wrap .pta-skills-wrap .pta-skill {
   font-size: calc(var(--pta-scale-em) + 0.1em);
   font-weight: 500;
   display: flex;
   flex-direction: row;
   text-wrap: nowrap;
 }
-.pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-skill > * {
+.pta-stats .pta-stat-wrap .pta-skills-wrap .pta-skill > * {
   flex: 1;
 }
-.pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-talent {
+.pta-stats .pta-stat-wrap .pta-skills-wrap .pta-talent {
   flex: 0;
   margin-right: calc(var(--pta-scale-em));
 }
-.pta-abilities .pta-ability-wrap .pta-skills-wrap .pta-mod {
+.pta-stats .pta-stat-wrap .pta-skills-wrap .pta-mod {
   text-align: center;
   flex: 0 0 2em;
 }

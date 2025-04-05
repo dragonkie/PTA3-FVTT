@@ -1,5 +1,6 @@
 import pokeapi from "../../helpers/pokeapi.mjs";
 import ActorData from "../actor.mjs";
+import { PTA } from "../../helpers/config.mjs";
 
 const {
   ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField, ObjectField
@@ -12,31 +13,42 @@ export default class PokemonData extends ActorData {
     const isRequired = { required: true, nullable: false };
     const schema = super.defineSchema();
 
-    schema.types = new ArrayField(new StringField(), { ...isRequired, initial: ['normal'] });
+    schema.types = new ArrayField(new StringField(), { ...isRequired, initial: ['normal'], label: PTA.generic.types });
+    schema.trainer = new StringField({ ...isRequired, initial: '', blank: true });
+
+    const TypeChoices = {};
+    for (const a in PTA.pokemonTypes) TypeChoices[a] = pta.utils.localize(PTA.pokemonTypes[a]);
+
+    schema.types = new SchemaField({
+      primary: new StringField({ ...isRequired, initial: 'normal', label: PTA.generic.primary, choices: { ...TypeChoices } }),
+      secondary: new StringField({ ...isRequired, initial: 'none', label: PTA.generic.secondary, choices: { ...TypeChoices, none: pta.utils.localize(PTA.generic.none) } }),
+    }, { label: PTA.generic.types })
+
     schema.nature = new StringField({
       initial: pta.utils.randomNature(),
       ...isRequired,
       blank: false,
+      label: PTA.generic.nature,
       choices: () => {
         let data = {};
         if (game.settings.get(game.system.id, 'neutralNatures')) {
-          data = { ...pta.config.natures };
-        } else data = { ...pta.config.naturesNoNeutral }
+          data = { ...PTA.natures };
+        } else data = { ...PTA.naturesNoNeutral }
 
         for (const a in data) data[a] = pta.utils.localize(data[a]);
         return data;
       }
     });
 
-    schema.species = new StringField({ initial: "" })
+    schema.species = new StringField({ initial: "", label: PTA.generic.species })
 
     schema.size = new StringField({
       ...isRequired,
       initial: 'medium',
       blank: false,
-      label: "PTA.Generic.Size",
+      label: PTA.generic.size,
       choices: () => {
-        let data = { ...pta.config.pokemonSizes };
+        let data = { ...PTA.pokemonSizes };
         for (const a in data) data[a] = pta.utils.localize(data[a]);
         return data;
       }
@@ -46,9 +58,9 @@ export default class PokemonData extends ActorData {
       ...isRequired,
       initial: 'medium',
       blank: false,
-      label: "PTA.Generic.Weight",
+      label: PTA.generic.weight,
       choices: () => {
-        let data = { ...pta.config.pokemonWeights };
+        let data = { ...PTA.pokemonWeights };
         for (const a in data) data[a] = pta.utils.localize(data[a]);
         return data;
       }
@@ -61,14 +73,14 @@ export default class PokemonData extends ActorData {
     })
 
     let gender = ['male', 'female'];
-    schema.gender = new StringField({ ...isRequired, initial: gender[Math.floor(Math.random() * gender.length)] });
+    schema.gender = new StringField({ ...isRequired, initial: 'male', label: PTA.generic.gender });
 
     // list of things the pokemon can do
     schema.skills = new SchemaField({
 
     })
 
-    schema.shiny = new BooleanField({ ...isRequired, initial: false });
+    schema.shiny = new BooleanField({ ...isRequired, initial: false, label: PTA.generic.shiny });
 
     schema.contest = new SchemaField({
 
@@ -103,10 +115,10 @@ export default class PokemonData extends ActorData {
   // Changes made to the sheet here are temporary and do not persist
   prepareDerivedData() {
     // add bonus stat changes from nature
-    for (const [key, value] of Object.entries(pta.config.abilities)) {
+    for (const [key, value] of Object.entries(PTA.stats)) {
       // if the bonuses match, that means the key var is the stat we want to bump
-      if (pta.config.natureIncreases[this.nature] === value) this.abilities[key].total += 1;
-      if (pta.config.natureDecreases[this.nature] === value) this.abilities[key].total -= 1;
+      if (PTA.natureIncreases[this.nature] === value) this.stats[key].total += 1;
+      if (PTA.natureDecreases[this.nature] === value) this.stats[key].total -= 1;
     }
 
     // Calls the stat mod check, needs to happen after all other calculations are done

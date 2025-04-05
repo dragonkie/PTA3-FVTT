@@ -1,3 +1,7 @@
+import PtaDialog from "../applications/dialog.mjs";
+import pokeapi from "./pokeapi.mjs";
+import { PTA } from "./config.mjs";
+
 /**
  * @typedef {Object} NotifyOptions
  * @prop {Boolean} permanent - should the mssage be displayed until manually dismissed
@@ -9,17 +13,17 @@ export default class utils {
     //============================================================
     // Notifications
     //============================================================
-    static notify = {
-        info(message, options) {
 
-        },
-        warn(message, options) {
-
-        },
-        error(message, options) {
-
-        }
+    static info(message, options) {
+        ui.notifications.info(this.localize(message), options);
     }
+    static warn(message, options) {
+        ui.notifications.warn(this.localize(message), options);
+    }
+    static error(message, options) {
+        ui.notifications.error(this.localize(message), options);
+    }
+
     //============================================================
     // Localization
     //============================================================
@@ -29,6 +33,93 @@ export default class utils {
     //============================================================
     // Pokemon functions
     //============================================================
+
+    /**
+     * @param {Object} options -
+     * @param {String|null} options.name - if we already got a name, we can avoid prompting for one
+     * @param {Boolean} options.forms -
+     * @param {Boolean} options.species - 
+     * @param {Boolean} options.moves - 
+     * @returns 
+     */
+    static async importPokemonData(options = {}) {
+
+        options = Object.assign({
+            forms: false,
+            species: false,
+            moves: false,
+            all: false,
+            name: null
+        }, options)
+
+        try {
+            // get the pokemon name to import with
+            if (!options.name || options.name == '') {
+                options.name = await new Promise(async (resolve, reject) => {
+                    const app = await new PtaDialog({
+                        window: { title: "PTA.Dialog.PokemonImporter" },
+                        content: `
+                        <input type="text" class="pokemon-name" placeholder="${pta.utils.localize(PTA.generic.pokemon)}">
+                        <div class="form-group">
+                            <label>Moves</label>
+                            <div class="form-fields">
+                                <input type="checkbox" name="moves">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Species</label>
+                            <div class="form-fields">
+                                <input type="checkbox" name="species">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Forms</label>
+                            <div class="form-fields">
+                                <input type="checkbox" name="forms">
+                            </div>
+                        </div>
+                    `,
+                        buttons: [{
+                            label: "Confirm",
+                            action: "confirm",
+                            callback: () => { resolve(app.element.querySelector('.pokemon-name')?.value); app.close(); }
+                        }, {
+                            label: "Cancel",
+                            action: "cancel",
+                            callback: () => { reject(null); app.close() }
+                        }],
+                        submit: () => { resolve(app.element.querySelector('.pokemon-name')?.value); app.close(); }
+                    }).render(true);
+
+                    console.log(app)
+                })
+            }
+
+            if (!options.name || options.name == '') return void pta.utils.warn('PTA.Warn.NeedPokemonName');
+
+            // format the name a bit
+            options.name = options.name.replace(/\s+/g, '-');
+
+            this.info('PTA.Info.PleaseWaitImporting');
+
+            // import the pokemon
+            let pokemon = await pokeapi.pokemon(options.name);
+            if (options.all || options.species) pokemon.species = await pokeapi.request(pokemon.species.url);
+            if (options.all || options.forms) for (let i = 0; i < pokemon.forms.length; i++) pokemon.forms[i] = await pokeapi.request(pokemon.forms[i].url);
+            if (options.all || options.moves) {
+                for (let i = 0; i < pokemon.moves.length; i++) {
+                    pokemon.moves[i] = await pokeapi.request(pokemon.moves[i].move.url);
+                }
+            }
+
+            this.info('PTA.Info.ImportComplete');
+            return pokemon;
+        } catch (err) {
+            console.error(err)
+            return null;
+        }
+    }
+
     static honourLevel(num) {
         num += 1;
         let level = 1;

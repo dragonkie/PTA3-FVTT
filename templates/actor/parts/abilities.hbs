@@ -1,26 +1,26 @@
-<div class="pta-abilities">
-  {{#each abilities as | ability key |}}
-    <div class="pta-ability-wrap" data-pta-ability="{{key}}">
+<div class="pta-stats">
+  {{#each stats as | stat key |}}
+    <div class="pta-stat-wrap" data-pta-stat="{{key}}">
 
-      {{!-- Ability score pokeball --}}
+      {{!-- stat score pokeball --}}
       <div class="pta-score-wrap flexrow">
-        <div class="pta-ability-label">{{ability.label.abbr}}</div>
+        <div class="pta-stat-label">{{stat.label.abbr}}</div>
         <div class="pta-score flexcol pta-m">
           {{#if ../isEditMode}}
-            <input class="flex1" type="number" name="system.abilities.{{key}}.value" value="{{ability.value}}">
+            <input class="flex1" type="number" name="system.stats.{{key}}.value" value="{{stat.value}}">
           {{else}}
-            <input class="flex1" type="number" disabled value="{{ability.total}}">
+            <input class="flex1" type="number" disabled value="{{stat.total}}">
           {{/if}}
-          <div class="flex1">{{numberFormat ability.mod sign=true decimals=0}}</div>
+          <div class="flex1">{{numberFormat stat.mod sign=true decimals=0}}</div>
         </div>
       </div>
 
       {{!-- Skills list --}}
       {{#if (eq ../document.type 'character')}}
         <div class="pta-skills-wrap">
-          {{#with key as | abilityKey |}}
+          {{#with key as | statKey |}}
             {{#each ../../skills as | skill key |}}
-              {{#if (eq ../this skill.ability)}}
+              {{#if (eq ../this skill.stat)}}
                 <div class="pta-skill pta-s" data-pta-skill="{{key}}">
                   <a class="pta-talent" data-action="trainTalent">
                     <i class="fa-{{#if (eq skill.talent 0)}}regular{{else}}solid{{/if}} fa-circle{{#if (eq skill.talent 1)}}-half-stroke{{/if}}"></i>

@@ -16,7 +16,7 @@ export default class MoveData extends ItemData {
     async use(event, options) {
         // gather relevant data
         const attacker = this.actor;
-        if (!attacker) return void pta.utils.notify.warn('PTA.Warn.NoUser');
+        if (!attacker) return void pta.utils.warn('PTA.Warn.NoUser');
 
         const targets = pta.utils.getTargets();
 

@@ -71,7 +71,8 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
 
     async _onDropActor(event, actor) {
         try {
-            if (this.document.type != 'pokemon') throw new Error("Only pokemon can be added to an actor sheet!");
+            if (actor.type != 'pokemon' && !game.settings.get(game.system.id, 'palworld')) throw new Error("That's not a Pokémon!");
+            if (this.document.type == 'pokemon') throw new Error("Pokemon can be added to a Trainer sheet!");
             let mons = this.document.system.pokemon;
 
             for (const p of mons) if (p.uuid == actor.uuid) throw new Error('Actor already owns this pokémon!')
@@ -82,9 +83,10 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
             });
 
             await this.document.update({ system: { pokemon: mons } });
+            if (actor.type == 'pokemon') await actor.update({ system: { trainer: this.document.uuid } });
             await this.render(false);
         } catch (err) {
-
+            pta.utils.warn(err.message)
         }
     }
 
@@ -157,6 +159,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         const pokemon = await fromUuid(uuid);
         if (!pokemon) return void console.error("Couldn't find pokemon");
 
-        pokemon.sheet.render(true);
+        await pokemon.sheet.render(true);
+        pokemon.apps[this.id] = this;
     }
 }

@@ -1,52 +1,39 @@
 <div>
-    <div class="pta-id-card">
-        <h1><input type="text" value="{{document.name}}" name="name"></h1>
-        <div class="flexrow">
+    <header class="pta-id-card">
+        <input type="text" value="{{document.name}}" name="name">
+        <div class="flexrow gap-m">
             <img class="flex0" data-action="editImage" width="100" height="100" src="{{document.img}}">
-            <div class="flexrow">
-                <div>
-                    <div class="form-group">
-                        <label>Species</label>
-                        <div class="form-fields">
-                            {{formInput (getField schema 'species') value=system.species}}
+            <div class="flexcol gap-m">
+                <div class="flexrow">
+                    <div class="flexrow gap-s">
+
+                        <div class="type-tag {{system.types.primary}} pta-s">
+                            <div class="wrapper">
+                                {{toFieldInput schema 'types.primary' value=system.types.primary}}
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Type</label> {{!-- NEEDS_SPECIAL_HANDLING_FOR_DUO_TYPES_SHOULD_BE_CONFIG_FIELD --}}
-                        <div class="form-fields">
-                            <!-- formInput (getField schema 'types') value=system.types -->
+
+                        <div class="type-tag {{system.types.secondary}} pta-s">
+                            <div class="wrapper">
+                                {{toFieldInput schema 'types.secondary' value=system.types.secondary}}
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Nature</label>
-                        <div class="form-fields">
-                            {{formInput (getField schema 'nature') value=system.nature}}
-                        </div>
+
                     </div>
                 </div>
-                <div>
-                    <div class="form-group">
-                        <label>Size</label>
-                        <div class="form-fields">
-                            {{formInput (getField schema 'size') value=system.size}}
-                        </div>
+                <div class="progress-bar">
+                    <label>Health</label>
+                    <div class="wrapper">
+                        <div class="bar {{#if (lt (divide system.hp.value system.hp.max) 0.33)}}red{{else}}green{{/if}}" style="width: {{multiply 100 (divide system.hp.value system.hp.max)}}%;"></div>
                     </div>
-                    <div class="form-group">
-                        <label>Weight</label>
-                        <div class="form-fields">
-                            {{formInput (getField schema 'weight') value=system.weight}}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Gender</label>
-                        <div class="form-fields">
-                            {{formInput (getField schema 'gender') value=system.gender}}
-                        </div>
-                    </div>
+                </div>
+                <div class="flexrow pta-s">
+                    {{toFieldInput schema 'hp.value' value=system.hp.value}}/
+                    {{toFieldInput schema 'hp.max' value=system.hp.max}}
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 
     {{> "pta.tabs-nav"}}
     {{> "pta.tabs-content"}}

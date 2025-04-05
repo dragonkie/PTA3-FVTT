@@ -15,17 +15,21 @@
         font-weight: bold;
     }
 
-    .bar {
-        min-height: 100%;
-        margin: 1px;
+    >.wrapper {
+        flex: 1;
 
-        /* || Colour options */
-        &.red {
-            background-color: red;
-        }
+        .bar {
+            min-height: 100%;
+            width: 50%;
+            margin: 1px;
+            /* || Colour options */
+            &.red {
+                background-color: red;
+            }
 
-        &.green {
-            background-color: green;
+            &.green {
+                background-color: green;
+            }
         }
     }
 }

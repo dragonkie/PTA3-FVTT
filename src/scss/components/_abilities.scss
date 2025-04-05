@@ -1,7 +1,7 @@
 @use '../module' as *;
 
 /* || Abilities component*/
-.pta-abilities {
+.pta-stats {
     flex: 1;
     flex-wrap: nowrap;
     display: flex;
@@ -12,7 +12,7 @@
         flex: 1;
     }
 
-    .pta-ability-wrap {
+    .pta-stat-wrap {
         flex-wrap: none;
         display: flex;
         flex: 0;

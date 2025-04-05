@@ -20,12 +20,32 @@ function registerHelpers() {
     Handlebars.registerHelper('toLowerCase', (str) => str.toLowerCase());
     Handlebars.registerHelper('toTitleCase', (str) => str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()));
     Handlebars.registerHelper('isGM', () => game.user.isGM);
-    Handlebars.registerHelper('getField', (schema, str) => {
-        let path = '';
-        if (Array.isArray(str)) for (const a of str) path = path.concat(a);
-        else path = str;
-        return schema.getField(path)
+    /* -------------------------------------------- */
+    /*  FIELD HELPERS                               */
+    /* -------------------------------------------- */
+    Handlebars.registerHelper('getField', (schema, path) => schema.getField(path));
+    Handlebars.registerHelper('toFieldGroup', (schema, path, options) => {
+        let field = schema.getField(path);
+        const { classes, label, hint, rootId, stacked, units, widget, ...inputConfig } = options.hash;
+        const groupConfig = {
+            label, hint, rootId, stacked, widget, localize: true, units,
+            classes: typeof classes === "string" ? classes.split(" ") : []
+        };
+        console.log(path, inputConfig);
+        const group = field.toFormGroup(groupConfig, inputConfig);
+        return new Handlebars.SafeString(group.outerHTML);
     });
+    Handlebars.registerHelper('toFieldInput', (schema, path, options) => {
+        let field = schema.getField(path);
+        const { classes, label, hint, rootId, stacked, units, widget, ...inputConfig } = options.hash;
+        const groupConfig = {
+            label, hint, rootId, stacked, widget, localize: true, units,
+            classes: typeof classes === "string" ? classes.split(" ") : []
+        };
+        console.log(path, inputConfig);
+        const group = field.toInput(inputConfig);
+        return new Handlebars.SafeString(group.outerHTML);
+    })
     Handlebars.registerHelper('objectIsEmpty', (obj) => Object.keys(obj).length <= 0);
     Handlebars.registerHelper('listItem', (item) => {
         let html = `

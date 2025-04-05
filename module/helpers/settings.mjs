@@ -18,7 +18,7 @@ export default function registerSystemSettings() {
             default: false,// what does this setting start as
             onChange: () => { }
         },
-        abilityEv: {// Pokemon spawn in with a random assignment of a few extra stat points equal to this setting
+        statEv: {// Pokemon spawn in with a random assignment of a few extra stat points equal to this setting
             name: "PTA.Settings.AbilityEv.label",
             hint: "PTA.Settings.AbilityEv.hint",
             scope: "world",
@@ -45,6 +45,22 @@ export default function registerSystemSettings() {
             default: true,
             onChange: () => { }
         },
+        playerImport: {
+            name: "PTA.Settings.PlayerImport.label",
+            hint: "PTA.Settings.PlayerImport.hint",
+            scope: "world",
+            config: true,
+            type: Boolean,
+            default: false,
+        },
+        healthMult: {
+            name: "PTA.Settings.HealthMult.label",
+            hint: "PTA.Settings.HealthMult.hint",
+            scope: "world",
+            config: true,
+            type: Number,
+            default: 6,
+        },
         pokesim: {// Automation is always true with this rule, brings the tabletop closer to the actual pokemon games
             name: "PTA.Settings.Pokesim.label",
             hint: "PTA.Settings.Pokesim.hint",
@@ -53,14 +69,30 @@ export default function registerSystemSettings() {
             type: Boolean,
             default: false,
         },
-        simMinEvasion: {
-            name: "PTA.Settings.simMinEvasion.label",
-            hint: "PTA.Settings.simMinEvasion.hint",
+        simMinAccuracy: {
+            name: "PTA.Settings.SimMinEvasion.label",
+            hint: "PTA.Settings.SimMinEvasion.hint",
             scope: "world",
             config: true,
             type: Number,
             default: 33,
-        }
+        },
+        simMaxAccuracy: {
+            name: "PTA.Settings.SimMaxEvasion.label",
+            hint: "PTA.Settings.SimMaxEvasion.hint",
+            scope: "world",
+            config: true,
+            type: Number,
+            default: 95,
+        },
+        palworld: {
+            name: "PTA.Settings.Palworld.label",
+            hint: "PTA.Settings.Palworld.hint",
+            scope: "world",
+            config: true,
+            type: Boolean,
+            default: false,
+        },
     }
 
     for (const [key, value] of Object.entries(options)) {

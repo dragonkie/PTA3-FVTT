@@ -13,7 +13,6 @@ globalThis.pta = {
 import PtaActor from './documents/actor.mjs';
 import PtaItem from './documents/item.mjs';
 // Import sheet classes.
-import { ptaItemSheet } from './sheets/item-sheet.mjs';
 import applications from "./applications/_module.mjs";
 // Import helper/utility classes and constants.
 import PtaUtils from './helpers/utils.mjs'
@@ -48,7 +47,7 @@ Hooks.once('init', function () {
      * @type {String}
      */
     CONFIG.Combat.initiative = {
-        formula: '1d20 + @abilities.dex.mod + (1d100 / 10)',
+        formula: '@speed',
         decimals: 2,
     };
 

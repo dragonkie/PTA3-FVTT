@@ -16,12 +16,12 @@ export default class CharacterData extends ActorData {
     const _getSkillField = () => {
       let _field = {};
       // loop through list of skills
-      for (const [skill, ability] of Object.entries(CONFIG.PTA.skillAbilities)) {
-        // grab the ability that matches this skill
-        for (const [key, value] of Object.entries(CONFIG.PTA.abilities)) {
-          if (ability === value) _field[skill] = new SchemaField({
+      for (const [skill, stat] of Object.entries(CONFIG.PTA.skillAbilities)) {
+        // grab the stats that matches this skill
+        for (const [key, value] of Object.entries(CONFIG.PTA.stats)) {
+          if (stat === value) _field[skill] = new SchemaField({
             talent: new NumberField({ ...requiredInteger, max: 2, min: 0, initial: 0 }),
-            ability: new StringField({ required: true, nullable: false, initial: key }),
+            stat: new StringField({ required: true, nullable: false, initial: key }),
             value: new NumberField({ ...requiredInteger, initial: 0 })
           })
         }
@@ -45,21 +45,20 @@ export default class CharacterData extends ActorData {
     super.prepareDerivedData();
     for (const key in this.skills) {
       let skill = this.skills[key]
-      let ability = this.abilities[skill.ability];
-      skill.total = skill.value + ability.mod + Math.floor(skill.talent * 2.5);
+      let stat = this.stats[skill.stat];
+      skill.total = skill.value + stat.mod + Math.floor(skill.talent * 2.5);
     }
   }
 
   getRollData() {
     const data = {};
 
-    // Copy the ability scores to the top level, so that rolls can use
+    // Copy the stat scores to the top level, so that rolls can use
     // formulas like `@str.mod + 4`.
-    if (this.abilities) {
-      for (let [k, v] of Object.entries(this.abilities)) {
-        data[k] = foundry.utils.deepClone(v);
-      }
+    for (let [k, v] of Object.entries(this.stats)) {
+      data[k] = foundry.utils.deepClone(v);
     }
+    
 
     return data
   }

@@ -13,7 +13,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             createEffect: this._onCreateEffect,
             disableEffect: this._onDisableEffect
         }
-    };
+    }
 
     static PARTS = {
 
@@ -45,12 +45,12 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         context.editable = this.isEditable && (this._mode === this.constructor.SHEET_MODES.EDIT);
         context.userSettings = game.user.getFlag('pta3', 'userSettings');
 
-        context.abilities = {};
-        for (const [key, value] of Object.entries(this.document.system.abilities)) {
-            context.abilities[key] = value;
-            context.abilities[key].label = {
-                long: pta.utils.localize(CONFIG.PTA.abilities[key]),
-                abbr: pta.utils.localize(CONFIG.PTA.abilitiesAbbr[key])
+        context.stats = {};
+        for (const [key, value] of Object.entries(this.document.system.stats)) {
+            context.stats[key] = value;
+            context.stats[key].label = {
+                long: pta.utils.localize(CONFIG.PTA.stats[key]),
+                abbr: pta.utils.localize(CONFIG.PTA.statsAbbr[key])
             }
         }
 

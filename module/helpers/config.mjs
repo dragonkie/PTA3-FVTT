@@ -66,11 +66,41 @@ PTA.loadPokedex = async (force = false) => {
   }
 }
 
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*                           GENERIC Words                            */
+/*                                                                    */
+/* ------------------------------------------------------------------ */
+
+PTA.generic = {
+  gender: 'PTA.Generic.Gender',
+  nature: 'PTA.Generic.Nature',
+  size: 'PTA.Generic.Size',
+  species: 'PTA.Generic.Species',
+  type: 'PTA.Generic.Type.long',
+  types: 'PTA.Generic.Type.plural',
+  weight: 'PTA.Generic.Weight',
+  shiny: 'PTA.Generic.Shiny',
+  import: 'PTA.Generic.Import',
+  data: 'PTA.Generic.Data',
+  pokemon: 'PTA.Generic.Pokemon',
+  sync: 'PTA.Generic.Sync.long',
+  primary: 'PTA.Generic.Primary',
+  secondary: 'PTA.Generic.Secondary',
+  none: 'PTA.Generic.None'
+}
+
+/* ------------------------------------------------------------------ */
+/*                                                                    */
+/*                           ACTOR ABILITIES                          */
+/*                                                                    */
+/* ------------------------------------------------------------------ */
+
 /**
  * The set of Ability Scores used within the system.
  * @type {Object}
  */
-PTA.abilities = {
+PTA.stats = {
   atk: 'PTA.Ability.Atk.long',
   def: 'PTA.Ability.Def.long',
   satk: 'PTA.Ability.SAtk.long',
@@ -78,9 +108,9 @@ PTA.abilities = {
   spd: 'PTA.Ability.Spd.long',
 };
 
-PTA.abilitiesAbbr = {};
-for (const [key, value] of Object.entries(PTA.abilities)) {
-  PTA.abilitiesAbbr[key] = value.replace("long", "abbr");
+PTA.statsAbbr = {};
+for (const [key, value] of Object.entries(PTA.stats)) {
+  PTA.statsAbbr[key] = value.replace("long", "abbr");
 }
 
 PTA.contestAbilities = {
@@ -102,23 +132,23 @@ for (const [key, value] of Object.entries(PTA.contestAbilities)) {
 /*                                                                    */
 /* ------------------------------------------------------------------ */
 PTA.skillAbilities = {
-  acrobatics: PTA.abilities.spd,
-  athletics: PTA.abilities.atk,
-  bluff: PTA.abilities.sdef,
-  concentration: PTA.abilities.def,
-  constitution: PTA.abilities.def,
-  diplomacy: PTA.abilities.sdef,
-  engineering: PTA.abilities.satk,
-  handling: PTA.abilities.sdef,
-  history: PTA.abilities.satk,
-  insight: PTA.abilities.sdef,
-  investigation: PTA.abilities.satk,
-  medicine: PTA.abilities.satk,
-  nature: PTA.abilities.satk,
-  perception: PTA.abilities.sdef,
-  perform: PTA.abilities.sdef,
-  stealth: PTA.abilities.spd,
-  subterfuge: PTA.abilities.spd,
+  acrobatics: PTA.stats.spd,
+  athletics: PTA.stats.atk,
+  bluff: PTA.stats.sdef,
+  concentration: PTA.stats.def,
+  constitution: PTA.stats.def,
+  diplomacy: PTA.stats.sdef,
+  engineering: PTA.stats.satk,
+  handling: PTA.stats.sdef,
+  history: PTA.stats.satk,
+  insight: PTA.stats.sdef,
+  investigation: PTA.stats.satk,
+  medicine: PTA.stats.satk,
+  nature: PTA.stats.satk,
+  perception: PTA.stats.sdef,
+  perform: PTA.stats.sdef,
+  stealth: PTA.stats.spd,
+  subterfuge: PTA.stats.spd,
 }
 
 PTA.skills = {};
@@ -128,39 +158,39 @@ for (const [key, value] of Object.entries(PTA.skillAbilities)) {
   PTA.skillsAbbr[key] = `PTA.Skill.${utils.toTitleCase(key)}.abbr`
 }
 
-PTA.skillAttack = { athletics: PTA.abilities.atk, };
+PTA.skillAttack = { athletics: PTA.stats.atk, };
 PTA.skillDefence = {
-  concentration: PTA.abilities.def,
-  constitution: PTA.abilities.def,
+  concentration: PTA.stats.def,
+  constitution: PTA.stats.def,
 };
 
 PTA.skillSpecialAttack = {
-  engineering: PTA.abilities.satk,
-  history: PTA.abilities.satk,
-  investigation: PTA.abilities.satk,
-  medicine: PTA.abilities.satk,
-  nature: PTA.abilities.satk,
+  engineering: PTA.stats.satk,
+  history: PTA.stats.satk,
+  investigation: PTA.stats.satk,
+  medicine: PTA.stats.satk,
+  nature: PTA.stats.satk,
 };
 
 PTA.skillSpecialDefence = {
-  bluff: PTA.abilities.sdef,
-  diplomacy: PTA.abilities.sdef,
-  handling: PTA.abilities.sdef,
-  insight: PTA.abilities.sdef,
-  perception: PTA.abilities.sdef,
-  perform: PTA.abilities.sdef,
+  bluff: PTA.stats.sdef,
+  diplomacy: PTA.stats.sdef,
+  handling: PTA.stats.sdef,
+  insight: PTA.stats.sdef,
+  perception: PTA.stats.sdef,
+  perform: PTA.stats.sdef,
 };
 
 PTA.skillSpeed = {
-  acrobatics: PTA.abilities.spd,
-  stealth: PTA.abilities.spd,
-  subterfuge: PTA.abilities.spd,
+  acrobatics: PTA.stats.spd,
+  stealth: PTA.stats.spd,
+  subterfuge: PTA.stats.spd,
 };
 
 PTA.genders = {
   male: 'PTA.Gender.Male',
   female: 'PTA.Gender.Female',
-  none: 'PTA.Gender.None'
+  none: PTA.generic.none
 }
 
 /* ------------------------------------------------------------------ */
@@ -369,11 +399,11 @@ PTA.natureIncreaseSpeed = {
 }
 
 PTA.natureIncreases = {};
-for (const a in PTA.natureIncreaseAttack) PTA.natureIncreases[a] = PTA.abilities.atk;
-for (const a in PTA.natureIncreaseDefence) PTA.natureIncreases[a] = PTA.abilities.def;
-for (const a in PTA.natureIncreaseSpAttack) PTA.natureIncreases[a] = PTA.abilities.satk;
-for (const a in PTA.natureIncreaseSpDefence) PTA.natureIncreases[a] = PTA.abilities.sdef;
-for (const a in PTA.natureIncreaseSpeed) PTA.natureIncreases[a] = PTA.abilities.spd;
+for (const a in PTA.natureIncreaseAttack) PTA.natureIncreases[a] = PTA.stats.atk;
+for (const a in PTA.natureIncreaseDefence) PTA.natureIncreases[a] = PTA.stats.def;
+for (const a in PTA.natureIncreaseSpAttack) PTA.natureIncreases[a] = PTA.stats.satk;
+for (const a in PTA.natureIncreaseSpDefence) PTA.natureIncreases[a] = PTA.stats.sdef;
+for (const a in PTA.natureIncreaseSpeed) PTA.natureIncreases[a] = PTA.stats.spd;
 
 PTA.natureDecreaseAttack = {
   bold: 'PTA.Nature.Bold',
@@ -411,11 +441,11 @@ PTA.natureDecreaseSpeed = {
 };
 
 PTA.natureDecreases = {};
-for (const a in PTA.natureDecreaseAttack) PTA.natureDecreases[a] = PTA.abilities.atk;
-for (const a in PTA.natureDecreaseDefence) PTA.natureDecreases[a] = PTA.abilities.def;
-for (const a in PTA.natureDecreaseSpAttack) PTA.natureDecreases[a] = PTA.abilities.satk;
-for (const a in PTA.natureDecreaseSpDefence) PTA.natureDecreases[a] = PTA.abilities.sdef;
-for (const a in PTA.natureDecreaseSpeed) PTA.natureDecreases[a] = PTA.abilities.spd;
+for (const a in PTA.natureDecreaseAttack) PTA.natureDecreases[a] = PTA.stats.atk;
+for (const a in PTA.natureDecreaseDefence) PTA.natureDecreases[a] = PTA.stats.def;
+for (const a in PTA.natureDecreaseSpAttack) PTA.natureDecreases[a] = PTA.stats.satk;
+for (const a in PTA.natureDecreaseSpDefence) PTA.natureDecreases[a] = PTA.stats.sdef;
+for (const a in PTA.natureDecreaseSpeed) PTA.natureDecreases[a] = PTA.stats.spd;
 
 PTA.naturesNoNeutral = {
   ...PTA.natureIncreaseAttack,

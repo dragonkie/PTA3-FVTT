@@ -20,6 +20,7 @@ export default function PtaSheetMixin(Base) {
                 createEffect: this._onCreateEffect,
                 toggleDescription: this._onToggleDescription,
                 copyToClipboard: this._onCopyToClipboard,
+                collapse: this._onCollapse
             }
         };
 
@@ -130,6 +131,11 @@ export default function PtaSheetMixin(Base) {
             this.render(true);
         }
 
+        static _onCollapse(event, target) {
+            let ele = target.closest('.collapsible');
+            ele.classList.toggle('collapsed')
+        }
+
         /* -------------------------------------------------------------------------------------- */
         /*                                                                                        */
         /*                                   RENDERING                                            */
@@ -228,7 +234,7 @@ export default function PtaSheetMixin(Base) {
         /*                                   CONTEXT MENU                                         */
         /*                                                                                        */
         /* -------------------------------------------------------------------------------------- */
-        
+
         _setupContextMenu() {
             /*
             new newedo.application.NewedoContextMenu(this.element, "[data-item-uuid]", [], {
