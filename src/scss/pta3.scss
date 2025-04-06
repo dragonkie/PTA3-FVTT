@@ -15,6 +15,9 @@
 @use 'components/progressBar';
 @use 'components/abilities';
 
+/* Sheet specific styles */
+@use 'sheets/actor';
+
 /* Styles limited to pta3 sheets */
 .pta {
 

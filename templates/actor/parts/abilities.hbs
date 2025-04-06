@@ -1,38 +1,63 @@
+{{!-- 
+====================================================
+Input Requirements
+====================================================
+stats - object to be used as a list of stats to render
+skills - list of skills to render in
+--}}
+
+{{!-- The pokeball style display for showing a stat 
+stat - object with the data to render
+stat.value - the scores total
+stat.mod - stat modifier = floor(stat.value/2)
+key - the access key for the stat
+--}}
+{{#*inline 'stat-pokeball'}}
+  <div class="pta-score-wrap flexcol flex-group-center">
+    <div class="pta-stat-label text-center text-nowrap">{{stat.label.long}}</div>
+    <div class="pta-score flexcol pta-m">
+      {{#if ../isEditMode}}
+        <input class="flex1" type="number" name="system.stats.{{key}}.value" value="{{stat.value}}">
+      {{else}}
+        <input class="flex1" type="number" disabled value="{{stat.total}}">
+      {{/if}}
+      <div class="flex1">{{numberFormat stat.mod sign=true decimals=0}}</div>
+    </div>
+  </div>
+{{/inline}}
+
+{{!-- List of skills associated with this stat
+statkey - the object key associated with the stat
+skills - the skill list to reference from
+--}}
+{{#*inline 'stat-skills'}}
+  <div class="pta-skills-wrap">
+    {{#each skills as | skill key |}}
+      {{#if (eq ../statkey skill.stat)}}
+        <div class="pta-skill pta-s" data-pta-skill="{{key}}">
+          <a class="pta-talent" data-action="trainTalent">
+            <i class="fa-{{#if (eq skill.talent 0)}}regular{{else}}solid{{/if}} fa-circle{{#if (eq skill.talent 1)}}-half-stroke{{/if}}"></i>
+          </a>
+          <a class="pta-skill-label">
+            {{numberFormat skill.total sign=true}} {{skill.label.long}}
+          </a>
+        </div>
+      {{/if}}
+    {{/each}}
+  </div>
+{{/inline}}
+
+{{!-- Actual abilities and skills list --}}
 <div class="pta-stats">
   {{#each stats as | stat key |}}
-    <div class="pta-stat-wrap" data-pta-stat="{{key}}">
+    <div class="pta-stat-wrap pta-xs" data-pta-stat="{{key}}">
 
       {{!-- stat score pokeball --}}
-      <div class="pta-score-wrap flexrow">
-        <div class="pta-stat-label">{{stat.label.abbr}}</div>
-        <div class="pta-score flexcol pta-m">
-          {{#if ../isEditMode}}
-            <input class="flex1" type="number" name="system.stats.{{key}}.value" value="{{stat.value}}">
-          {{else}}
-            <input class="flex1" type="number" disabled value="{{stat.total}}">
-          {{/if}}
-          <div class="flex1">{{numberFormat stat.mod sign=true decimals=0}}</div>
-        </div>
-      </div>
+      {{> 'stat-pokeball' stat=stat key=key}}
 
       {{!-- Skills list --}}
-      {{#if (eq ../document.type 'character')}}
-        <div class="pta-skills-wrap">
-          {{#with key as | statKey |}}
-            {{#each ../../skills as | skill key |}}
-              {{#if (eq ../this skill.stat)}}
-                <div class="pta-skill pta-s" data-pta-skill="{{key}}">
-                  <a class="pta-talent" data-action="trainTalent">
-                    <i class="fa-{{#if (eq skill.talent 0)}}regular{{else}}solid{{/if}} fa-circle{{#if (eq skill.talent 1)}}-half-stroke{{/if}}"></i>
-                  </a>
-                  <a class="pta-skill-label">
-                    {{numberFormat skill.total sign=true}} {{skill.label.long}}
-                  </a>
-                </div>
-              {{/if}}
-            {{/each}}
-          {{/with}}
-        </div>
+      {{#if (ne ../document.type 'pokemon')}}
+        {{> 'stat-skills' statkey=key skills=../skills}}
       {{/if}}
 
     </div>

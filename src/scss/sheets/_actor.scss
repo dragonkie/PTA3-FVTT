@@ -1,3 +1,10 @@
-.sheet.pokemon {
-    
+.pta.sheet.actor {
+    header.sheet-header {
+        img {
+            min-width: 128px;
+            min-height: 128px;
+            object-fit: cover;
+            object-position: 50% 0%;
+        }
+    }
 }

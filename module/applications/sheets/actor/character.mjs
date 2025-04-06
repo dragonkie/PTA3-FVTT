@@ -4,11 +4,36 @@ import PtaActorSheet, { PtaTrainerMixin } from "../actor.mjs";
 export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
     static DEFAULT_OPTIONS = {
         classes: ["character"],
+        window: {
+            controls: [{
+                icon: 'fas fa-user-circle',
+                label: 'TOKEN.TitlePrototype',
+                action: 'configurePrototypeToken',
+                ownership: 3
+            }, {
+                icon: 'fas fa-image',
+                label: 'SIDEBAR.CharArt',
+                action: 'showPortraitArtwork',
+                ownership: 3
+            }, {
+                icon: 'fas fa-image',
+                label: 'SIDEBAR.TokenArt',
+                action: 'showTokenArtwork',
+                ownership: 3
+            }, {
+                icon: 'fas fa-link',
+                label: '*Link Pokemon*',
+                action: 'pokemonLink',
+                ownership: 3
+            }]
+        },
         actions: {
             trainTalent: this._onTrainTalent,
             pokemonSheet: this._onPokemonSheet,
-            pokemonActivate: this._onActivatePokemon,
-            pokemonRemove: this._onRemovePokemon
+            pokemonUnbox: this._onUnboxPokemon,
+            pokemonRemove: this._onRemovePokemon,
+            pokemonBox: this._onBoxPokemon,
+            pokemonLink: this._onLinkPokemon,
         }
     }
 
@@ -32,11 +57,9 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         primary: "features"
     }
 
-    /* -------------------------------------------------------------------------------------- */
-    /*                                                                                        */
-    /*                                   DATA PREPERATION                                     */
-    /*                                                                                        */
-    /* -------------------------------------------------------------------------------------- */
+    //=======================================================================================
+    // Data preperation
+    //=======================================================================================
 
     /** @override */
     async _prepareContext() {
@@ -63,11 +86,9 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         return context;
     }
 
-    /* -------------------------------------------------------------------------------------- */
-    /*                                                                                        */
-    /*                               DRAG AND DROP ACTIONS                                    */
-    /*                                                                                        */
-    /* -------------------------------------------------------------------------------------- */
+    //=======================================================================================
+    // Drag and Drop
+    //=======================================================================================
 
     async _onDropActor(event, actor) {
         try {
@@ -90,11 +111,9 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         }
     }
 
-    /* -------------------------------------------------------------------------------------- */
-    /*                                                                                        */
-    /*                                   SHEET ACTIONS                                        */
-    /*                                                                                        */
-    /* -------------------------------------------------------------------------------------- */
+    //=======================================================================================
+    // Sheet Actions
+    //=======================================================================================
     static async _onTrainTalent(event, target) {
         const key = target.closest('[data-pta-skill]')?.dataset.ptaSkill;
         if (!key) return;
@@ -110,7 +129,27 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         await this.render(false);
     }
 
-    static async _onActivatePokemon(event, target) {
+    static async _onUnboxPokemon(event, target) {
+        const uuid = target.closest('[data-pokemon-uuid]')?.dataset?.pokemonUuid;
+        if (!uuid) return void console.error('Couldnt find pokemon uuid');
+
+        let c = 0;
+        for (const pokemon of this.document.system.pokemon) if (pokemon.active) c += 1;
+        let limit = game.settings.get(game.system.id, 'partyLimit');
+        // sees if htis puts us over the party limit, a party limit of 0 or less
+        if (c >= limit && limit > 0) return void pta.utils.warn('PTA.Warn.ExceedsPartyLimit');
+
+        let list = [];
+        for (const p of this.document.system.pokemon) {
+            if (p.uuid == uuid) p.active = !p.active;
+            list.push(p);
+        }
+
+        await this.document.update({ system: { pokemon: list } });
+        await this.render(false);
+    }
+
+    static async _onBoxPokemon(event, target) {
         const uuid = target.closest('[data-pokemon-uuid]')?.dataset?.pokemonUuid;
         if (!uuid) return void console.error('Couldnt find pokemon uuid');
 
@@ -163,5 +202,18 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
 
         await pokemon.sheet.render(true);
         pokemon.apps[this.id] = this;
+    }
+
+    static async _onLinkPokemon(event, target) {
+        pta.utils.info('PTA.Info.LinkingPokemonTokens')
+        for (const entry of this.document.system.pokemon) {
+            let uuid = entry.uuid;
+            let pokemon = await fromUuid(uuid);
+            if (!pokemon.isOwner) {
+                pta.utils.warn(pta.utils.localize('PTA.Warn.UnownedPokemon') + ' ' + pokemon.name);
+                continue;
+            }
+            await pokemon.update({ prototypeToken: { actorLink: true } });
+        }
     }
 }

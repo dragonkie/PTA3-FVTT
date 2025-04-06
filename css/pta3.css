@@ -22,6 +22,11 @@
   --pta-c-hp-red: red;
   --pta-c-hp-yellow: yellow;
   --pta-c-hp-green: green;
+  --pta-c-stat-atk: rgb(255, 120, 120);
+  --pta-c-stat-def: rgb(255, 255, 143);
+  --pta-c-stat-satk: rgb(131, 255, 255);
+  --pta-c-stat-sdef: rgb(129, 255, 129);
+  --pta-c-stat-spd: rgb(196, 107, 255);
 }
 
 :root {
@@ -311,15 +316,15 @@
   text-align: center;
 }
 
-.gap-s {
+.flex-gap-s {
   gap: 8px;
 }
 
-.gap-m {
+.flex-gap-m {
   gap: 12px;
 }
 
-.gap-l {
+.flex-gap-l {
   gap: 16px;
 }
 
@@ -405,6 +410,14 @@
 }
 .collapsible .collapsible-content > .wrapper {
   overflow: hidden;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-nowrap {
+  text-wrap: nowrap;
 }
 
 .resource-label {
@@ -700,6 +713,22 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   flex-wrap: nowrap;
   display: flex;
   flex-direction: column;
+  --stat-border-c: white;
+}
+.pta-stats [data-pta-stat=atk] {
+  --stat-border-c: var(--pta-c-stat-atk) !important;
+}
+.pta-stats [data-pta-stat=def] {
+  --stat-border-c: var(--pta-c-stat-def) !important;
+}
+.pta-stats [data-pta-stat=satk] {
+  --stat-border-c: var(--pta-c-stat-satk) !important;
+}
+.pta-stats [data-pta-stat=sdef] {
+  --stat-border-c: var(--pta-c-stat-sdef) !important;
+}
+.pta-stats [data-pta-stat=spd] {
+  --stat-border-c: var(--pta-c-stat-spd) !important;
 }
 .pta-stats > * {
   margin-bottom: calc(var(--pta-scale-px));
@@ -711,6 +740,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   flex: 0;
   flex-direction: row;
   align-items: center;
+  padding: var(--pta-scale-px);
 }
 .pta-stats .pta-stat-wrap .pta-score-wrap {
   flex: 0;
@@ -720,12 +750,12 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  flex: 0 0 64px;
-  height: 64px;
-  width: 64px;
+  flex: 0 0 72px;
+  height: 72px;
+  width: 72px;
   overflow: hidden;
   text-align: center;
-  border: 2px solid rgb(255, 255, 255);
+  border: 2px solid var(--stat-border-c);
 }
 .pta-stats .pta-stat-wrap .pta-score > * {
   display: flex;
@@ -741,6 +771,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 .pta-stats .pta-stat-wrap .pta-skills-wrap {
   text-align: left;
   flex: 1;
+  margin-left: var(--pta-scale-px);
 }
 .pta-stats .pta-stat-wrap .pta-skills-wrap .pta-skill {
   font-size: calc(var(--pta-scale-em) + 0.1em);
@@ -759,6 +790,14 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 .pta-stats .pta-stat-wrap .pta-skills-wrap .pta-mod {
   text-align: center;
   flex: 0 0 2em;
+}
+
+/* Sheet specific styles */
+.pta.sheet.actor header.sheet-header img {
+  min-width: 128px;
+  min-height: 128px;
+  object-fit: cover;
+  object-position: 50% 0%;
 }
 
 /* Styles limited to pta3 sheets */

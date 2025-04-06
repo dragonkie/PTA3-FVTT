@@ -15,13 +15,16 @@
                                 </a>
                             </div>
                             <div class="details">
-                                <div class="nickname pta-font-l">{{pokemon.name}}</div>
+                                <div class="flexrow">
+                                    <div class="nickname pta-font-l">{{pokemon.name}}</div>
+                                    <button class="flex0" style="padding: 2px;" type="button" data-action="pokemonBox" title="PTA.TitleHint.Box"><i style="margin: 0;" class="fas fa-box-archive"></i></button>
+                                </div>
                                 <div class="health">
                                     <div class="progress-bar round pta-xs">
                                         <label>HP</label>
                                         <div class="wrapper">
-                                            <div class="bar {{#if (lt (divide pokemon.data.hp.value pokemon.data.hp.max) 0.33)}}red{{else}}green{{/if}}" 
-                                            style="width: {{multiply 100 (divide pokemon.data.hp.value pokemon.data.hp.max)}}%"></div>
+                                            <div class="bar {{#if (lt (divide pokemon.data.hp.value pokemon.data.hp.max) 0.33)}}red{{else}}green{{/if}}" style="width: {{multiply 100 (divide pokemon.data.hp.value pokemon.data.hp.max)}}%">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -62,10 +65,10 @@
                                 <div>{{pokemon.name}}</div>
                             </div>
                             <div class="item-controls">
-                                <a class="item-control" data-action="pokemonActivate">
-                                    <i class="fas fa-up"></i>
+                                <a class="item-control" data-action="pokemonUnbox" title="PTA.TitleHint.Unbox">
+                                    <i class="fas fa-box-open"></i>
                                 </a>
-                                <a class="item-control" data-action="pokemonRemove">
+                                <a class="item-control" data-action="pokemonRemove" title="PTA.TitleHint.Delete">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>

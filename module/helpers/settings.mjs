@@ -9,6 +9,15 @@ export default function registerSystemSettings() {
             default: false,// what does this setting start as
             onChange: () => { }
         },
+        partyLimit: {
+            name: "PTA.Settings.PartyLimit.label", // settings displayed name
+            hint: "PTA.Settings.PartyLimit.hint",// settings displayed description / instructions
+            scope: "world",// where the setting is stored, for everyone or for just a user
+            config: true, // does this setting appear in the settings menu
+            type: Number, // what type of data is this setting
+            default: 6,// what does this setting start as
+            onChange: () => { }
+        },
         neutralNatures: {
             name: "PTA.Settings.NeutralNatures.label",
             hint: "PTA.Settings.NeutralNatures.hint",// settings displayed description / instructions

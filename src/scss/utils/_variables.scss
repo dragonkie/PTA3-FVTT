@@ -13,8 +13,13 @@ $margin-m: 18px;
 $margin-l: 24px;
 $margin-xl: 30px;
 
-$pokemon-types: 
-    'normal',
+$pokemon-stats: 'atk',
+    'def',
+    'satk',
+    'sdef',
+    'spd';
+
+$pokemon-types: 'normal',
     'fire',
     'water',
     'electric',

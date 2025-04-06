@@ -8,7 +8,7 @@ export default class PtaPokemonSheet extends PtaActorSheet {
         window: {
             controls: [{
                 icon: 'fas fa-user-circle',
-                label: 'TitlePrototype',
+                label: 'TOKEN.TitlePrototype',
                 action: 'configurePrototypeToken',
                 ownership: 3
             }, {

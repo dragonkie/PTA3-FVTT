@@ -48,8 +48,10 @@ $c-type-fairy: #D685AD;
     --pta-c-hp-red: red;
     --pta-c-hp-yellow: yellow;
     --pta-c-hp-green: green;
-}
 
-[colour-scheme] {
-    
+    --pta-c-stat-atk: rgb(255, 120, 120);
+    --pta-c-stat-def: rgb(255, 255, 143);
+    --pta-c-stat-satk: rgb(131, 255, 255);
+    --pta-c-stat-sdef: rgb(129, 255, 129);
+    --pta-c-stat-spd: rgb(196, 107, 255);
 }
