@@ -8,6 +8,7 @@ import PokemonData from "./actor/pokemon.mjs";
 import ItemData from "./item.mjs";
 import ConsumableData from "./item/consumable.mjs";
 import FeatureData from "./item/feature.mjs";
+import MoveData from "./item/move.mjs";
 import PokeballData from "./item/pokeball.mjs";
 
 export const ActorModels = {
@@ -32,5 +33,6 @@ export const ItemModels = {
 export const ItemConfig = {
     consumable: ConsumableData,
     pokeball: PokeballData,
-    feature: FeatureData
+    feature: FeatureData,
+    move: MoveData
 }

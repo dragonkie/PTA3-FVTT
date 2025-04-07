@@ -6,6 +6,7 @@ import PtaPokemonSheet from "./sheets/actor/pokemon.mjs";
 import PtaNpcSheet from "./sheets/actor/npc.mjs";
 import PtaPokeballSheet from "./sheets/item/pokeball.mjs";
 import PtaConsumableSheet from "./sheets/item/consumable.mjs";
+import PtaMoveSheet from "./sheets/item/move.mjs";
 
 
 
@@ -66,7 +67,7 @@ export default {
                         types: ['subclass']
                     }
                 }, {
-                    application: null,
+                    application: PtaMoveSheet,
                     options: {
                         label: 'TYPES.Item.move',
                         types: ['move']

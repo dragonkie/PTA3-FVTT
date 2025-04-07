@@ -1,0 +1,15 @@
+<div>
+    {{toFieldGroup schema 'type' value=system.type}}
+    {{toFieldGroup schema 'class' value=system.class label='damage class'}}
+    {{toFieldGroup schema 'accuracy' value=system.accuracy label='accuracy'}}
+
+    {{#if (not (ptaSetting 'pokesim'))}}
+        {{toFieldGroup schema 'damage.formula' value=system.damage.formula label='damage formula'}}
+    {{else}}
+        {{toFieldGroup schema 'damage.pokesim.dice' value=system.damage.pokesim.dice label='damage d6s'}}
+    {{/if}}
+
+    {{toFieldGroup schema 'range' value=system.range label='attack range'}}
+    Effects
+    {{toFieldGroup schema 'drain' value=system.drain label='drain'}}
+</div>

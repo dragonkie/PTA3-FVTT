@@ -113,7 +113,10 @@
       "Type": { "long": "Type", "plural": "Types" },
       "Weight": "Weight",
       "Shiny": "Shiny",
-      "Sync": { "long": "Synchronize", "abbr": "sync" }
+      "Sync": { "long": "Synchronize", "abbr": "sync" },
+      "Special": "Special",
+      "Physical": "Physical",
+      "Effect": "Effect"
     },
     "Nature": {
       "Adamant": "Adamant",

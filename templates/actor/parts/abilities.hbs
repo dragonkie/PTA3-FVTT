@@ -51,15 +51,12 @@ skills - the skill list to reference from
 <div class="pta-stats">
   {{#each stats as | stat key |}}
     <div class="pta-stat-wrap pta-xs" data-pta-stat="{{key}}">
-
       {{!-- stat score pokeball --}}
       {{> 'stat-pokeball' stat=stat key=key}}
-
       {{!-- Skills list --}}
       {{#if (ne ../document.type 'pokemon')}}
         {{> 'stat-skills' statkey=key skills=../skills}}
       {{/if}}
-
     </div>
   {{/each}}
 </div>

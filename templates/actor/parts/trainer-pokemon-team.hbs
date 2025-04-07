@@ -1,0 +1,35 @@
+{{!-- Active pokemon team --}}
+<div class="flexcol" style="flex: 1;">
+    <span class="items-header flexrow">
+        <span class="item-name">Pokemon Team</span>
+    </span>
+    <ol class="pta-pokemon-team">
+        {{#each pokemon as | pokemon key |}}
+            {{#if pokemon.active}}
+                <li class="pta-pokemon" data-pokemon-uuid="{{pokemon.uuid}}">
+                    <div class="portrait">
+                        <a data-action="pokemonSheet">
+                            <img src="{{pokemon.img}}">
+                        </a>
+                    </div>
+                    <div class="details">
+                        <div class="flexrow">
+                            <div class="nickname pta-font-l">{{pokemon.name}}</div>
+                            <button class="flex0" style="padding: 2px;" type="button" data-action="pokemonBox" title="PTA.TitleHint.Box"><i style="margin: 0;" class="fas fa-box-archive"></i></button>
+                        </div>
+                        <div class="health">
+                            <div class="progress-bar round pta-xs">
+                                <label>HP</label>
+                                <div class="wrapper">
+                                    <div class="bar {{#if (lt (divide pokemon.data.hp.value pokemon.data.hp.max) 0.33)}}red{{else}}green{{/if}}" style="width: {{multiply 100 (divide pokemon.data.hp.value pokemon.data.hp.max)}}%">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-weight: bold;">{{pokemon.data.hp.value}}/{{pokemon.data.hp.max}}</div>
+                    </div>
+                </li>
+            {{/if}}
+        {{/each}}
+    </ol>
+</div>

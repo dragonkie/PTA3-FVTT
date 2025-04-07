@@ -68,7 +68,7 @@ PTA.loadPokedex = async (force = false) => {
 
 /* ------------------------------------------------------------------ */
 /*                                                                    */
-/*                           GENERIC Words                            */
+/*                              GENERIC                               */
 /*                                                                    */
 /* ------------------------------------------------------------------ */
 
@@ -88,6 +88,36 @@ PTA.generic = {
   primary: 'PTA.Generic.Primary',
   secondary: 'PTA.Generic.Secondary',
   none: 'PTA.Generic.None'
+}
+
+PTA.dice = {
+  d2: 'd2',
+  d4: 'd4',
+  d6: 'd6',
+  d8: 'd8',
+  d10: 'd10',
+  d12: 'd12',
+  d20: 'd20',
+  d100: 'd100',
+}
+
+PTA.aoeTypes = {
+  beam: 'PTA.Generic.Beam', // straight line attack
+  cone: 'PTA.Generic.Cone', // aoe cone attack
+  burst: 'PTA.Generic.Burst', // aoe centered on self
+  blast: 'PTA.Generic.Blast', // aoe centered on target
+  wave: 'PTA.Generic.Wave',// same as beam
+  none: 'PTA.Generic.None'
+}
+
+//======================================================================
+// Pokemon moves
+//======================================================================
+
+PTA.moveClass = {
+  special: 'PTA.Generic.Special',
+  physical: 'PTA.Generic.Physical',
+  effect: 'PTA.Generic.Effect'
 }
 
 /* ------------------------------------------------------------------ */

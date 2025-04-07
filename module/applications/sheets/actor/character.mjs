@@ -42,7 +42,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         // Tab bodies
         features: { template: "systems/pta3/templates/actor/character/features.hbs" },
         inventory: { template: "systems/pta3/templates/actor/character/inventory.hbs" },
-        pokebox: { template: "systems/pta3/templates/actor/parts/pokemon-box.hbs" },
+        pokebox: { template: "systems/pta3/templates/actor/character/pokemon.hbs" },
         // components
         abilities: { template: "systems/pta3/templates/actor/parts/abilities.hbs" }
     }
