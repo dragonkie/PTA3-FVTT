@@ -34,6 +34,8 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
             pokemonRemove: this._onRemovePokemon,
             pokemonBox: this._onBoxPokemon,
             pokemonLink: this._onLinkPokemon,
+            selectElement: this._onSelectElement,
+            pcLayout: this._onChangePcLayout,
         }
     }
 
@@ -90,6 +92,11 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
     // Drag and Drop
     //=======================================================================================
 
+    /**
+     * 
+     * @param {Event} event 
+     * @param {Element} target 
+     */
     async _onDropActor(event, actor) {
         try {
             if (actor.type != 'pokemon' && !game.settings.get(game.system.id, 'palworld')) throw new Error("That's not a Pokémon!");
@@ -114,6 +121,12 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
     //=======================================================================================
     // Sheet Actions
     //=======================================================================================
+
+    /**
+     * 
+     * @param {Event} event 
+     * @param {Element} target 
+     */
     static async _onTrainTalent(event, target) {
         const key = target.closest('[data-pta-skill]')?.dataset.ptaSkill;
         if (!key) return;
@@ -129,6 +142,11 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         await this.render(false);
     }
 
+    /**
+     * 
+     * @param {Event} event 
+     * @param {Element} target 
+     */
     static async _onUnboxPokemon(event, target) {
         const uuid = target.closest('[data-pokemon-uuid]')?.dataset?.pokemonUuid;
         if (!uuid) return void console.error('Couldnt find pokemon uuid');
@@ -149,6 +167,11 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         await this.render(false);
     }
 
+    /**
+     * 
+     * @param {Event} event 
+     * @param {Element} target 
+     */
     static async _onBoxPokemon(event, target) {
         const uuid = target.closest('[data-pokemon-uuid]')?.dataset?.pokemonUuid;
         if (!uuid) return void console.error('Couldnt find pokemon uuid');
@@ -163,6 +186,11 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         await this.render(false);
     }
 
+    /**
+     * 
+     * @param {Event} event 
+     * @param {Element} target 
+     */
     static async _onRemovePokemon(event, target) {
         const uuid = target.closest('[data-pokemon-uuid]')?.dataset?.pokemonUuid;
         if (!uuid) return void console.error('Couldnt find pokemon uuid');
@@ -193,6 +221,11 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         }
     }
 
+    /**
+     * 
+     * @param {Event} event 
+     * @param {Element} target 
+     */
     static async _onPokemonSheet(event, target) {
         const uuid = target.closest('[data-pokemon-uuid]')?.dataset?.pokemonUuid;
         if (!uuid) return void console.error('Couldnt find pokemon uuid');
@@ -204,6 +237,11 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         pokemon.apps[this.id] = this;
     }
 
+    /**
+     * 
+     * @param {Event} event 
+     * @param {Element} target 
+     */
     static async _onLinkPokemon(event, target) {
         pta.utils.info('PTA.Info.LinkingPokemonTokens')
         for (const entry of this.document.system.pokemon) {
@@ -215,5 +253,27 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
             }
             await pokemon.update({ prototypeToken: { actorLink: true } });
         }
+    }
+
+    /**
+     * 
+     * @param {Event} event 
+     * @param {Element} target 
+     */
+    static async _onSelectElement(event, target) {
+        target.classList.toggle('selected');
+    }
+
+    /**
+     * 
+     * @param {Event} event 
+     * @param {Element} target 
+     */
+    static async _onChangePcLayout(event, target) {
+        let l = target.dataset.layout;
+        let s = game.user.getFlag(game.system.id, 'settings');
+        s.pcLayout = l;
+        await game.user.setFlag(game.system.id, 'settings', s);
+        this.render(false);
     }
 }

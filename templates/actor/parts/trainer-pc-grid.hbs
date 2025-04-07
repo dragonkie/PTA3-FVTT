@@ -1,0 +1,26 @@
+<div class="pta-pc-layout-grid pta-s">
+    {{#each pokemon as |pokemon key|}}
+        {{#if (not pokemon.active)}}
+            <div class="pta-grid-item" data-pokemon-uuid="{{pokemon.uuid}}" data-action="selectElement">
+                <span style="display: inline-block;">
+                    <div class="wrapper" style="background-image: url({{pokemon.img}});">
+                        <label>{{pokemon.name}}</label>
+                    </div>
+                </span>
+                <span class="controls">
+                    <div class="flexcol flex-gap-s">
+                        <a class="item-control" data-action="pokemonSheet" title="PTA.TitleHint.edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="item-control" data-action="pokemonUnbox" title="PTA.TitleHint.Unbox">
+                            <i class="fas fa-box-open"></i>
+                        </a>
+                        <a class="item-control" data-action="pokemonRemove" title="PTA.TitleHint.Delete">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </span>
+            </div>
+        {{/if}}
+    {{/each}}
+</div>

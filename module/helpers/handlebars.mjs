@@ -1,3 +1,5 @@
+import { PTA } from "./config.mjs";
+
 function registerTemplates() {
     const path = `systems/pta3/templates`;
     const partials = [
@@ -24,7 +26,14 @@ function registerTemplates() {
 
 function registerHelpers() {
     const helpers = [
+        //=================================================================================================
+        //  Strings and Text                              
+        //=================================================================================================
         { tag: 'toLowerCase', fn: (str) => str.toLowerCase() },
+        { tag: 'toTitleCase', fn: (str) => str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()) },
+        //=================================================================================================
+        //  Math                              
+        //=================================================================================================
         { tag: 'addition', fn: (a, b) => a + b },
         { tag: 'ceil', fn: (a) => Math.ceil(a) },
         { tag: 'divide', fn: (a, b) => a / b },
@@ -35,13 +44,15 @@ function registerHelpers() {
         { tag: 'percent', fn: (a, b) => a / b * 100 },
         { tag: 'round', fn: (a) => Math.ceil(a) },
         { tag: 'subtraction', fn: (a, b) => a - b },
-        { tag: 'toTitleCase', fn: (str) => str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()) },
+        //=================================================================================================
+        //  Settings
+        //=================================================================================================
         { tag: 'isGM', fn: () => game.user.isGM },
         { tag: 'gameSetting', fn: (scope, id) => game.settings.get(scope, id) },
         { tag: 'ptaSetting', fn: (id) => game.settings.get(game.system.id, id) },
-        /* -------------------------------------------- */
-        /*  FIELD HELPERS                               */
-        /* -------------------------------------------- */
+        //=================================================================================================
+        //  Data Fields                              
+        //=================================================================================================
         { tag: 'getField', fn: (schema, path) => schema.getField(path) },
         {
             tag: 'toFieldGroup',
@@ -69,6 +80,9 @@ function registerHelpers() {
                 return new Handlebars.SafeString(group.outerHTML);
             }
         },
+        //=================================================================================================
+        // Data Validation
+        //=================================================================================================
         { tag: 'objectIsEmpty', fn: (obj) => Object.keys(obj).length <= 0 },
         {
             tag: 'listItem',
@@ -77,6 +91,28 @@ function registerHelpers() {
                 return new Handlebars.SafeString(html);
             }
         },
+        //=================================================================================================
+        // Elements
+        //=================================================================================================
+        {
+            tag: 'pokemonTypeSelector',
+            fn: () => {
+                const field = new foundry.data.fields.StringField({
+                    label: PTA.generic.type,
+                    name: "",
+                    choices: () => {
+                        let opt = {};
+                        for (const [k, v] of Object.entries(PTA.pokemonTypes)) opt[k] = pta.utils.localize(v);
+                        return opt;
+                    }
+                });
+                //if (group) return new Handlebars.SafeString(field.toFormGroup());
+                return new Handlebars.SafeString(field.toInput().outerHTML);
+            }
+        },
+        //=================================================================================================
+        // Iterators
+        //=================================================================================================
         {
             tag: 'repeat',
             fn: (context, options) => {

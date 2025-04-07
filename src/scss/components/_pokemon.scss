@@ -88,3 +88,50 @@ ol.pta-pokemon-team {
         }
     }
 }
+
+.pta-pc-layout-grid {
+    display: flex;
+    flex: 0 1;
+    gap: var(--pta-scale-px);
+    flex-wrap: wrap;
+
+    .pta-grid-item {
+        height: calc(var(--pta-scale-px) * 10);
+        flex: 0 0 calc(var(--pta-scale-px) * 10);
+        border: 1px solid white;
+        transition: flex 0.2s ease-in-out;
+
+        overflow: hidden;
+        white-space: nowrap;
+
+        .wrapper {
+            min-width: calc(var(--pta-scale-px) * 10);
+            min-height: calc(var(--pta-scale-px) * 10);
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        >.controls {
+            display: inline-block;
+        }
+
+        label {
+            opacity: 0;
+            transition: opacity 0.3s;
+            text-align: center;
+            background-color: grey;
+        }
+
+        &.selected {
+            flex: 0 0 calc(var(--pta-scale-px) * 10 * 1.5);
+        }
+
+        :hover {
+            cursor: pointer;
+
+            label {
+                opacity: 1;
+            }
+        }
+    }
+}

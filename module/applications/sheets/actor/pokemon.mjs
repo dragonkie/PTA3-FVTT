@@ -73,7 +73,13 @@ export default class PtaPokemonSheet extends PtaActorSheet {
     }
 
     static async _onSyncData() {
-        let pokemon = await pta.utils.importPokemonData({ species: true, forms: true, name: this.document.name });
+        // get the pokemons name / species, check against our downlaoded pokedex
+        let search = this.document.system.species;
+
+        if (!pta.config.Pokedex.Pokemon.includes(search)) search = this.document.name;
+        if (!pta.config.Pokedex.Pokemon.includes(search)) return void pta.utils.error('PTA.Error.SyncFailedUnknownPokemon');
+
+        let pokemon = await pta.utils.importPokemonData({ species: true, forms: true, name: search });
         console.log('pokemon', pokemon)
         console.log(this.document.system);
 
