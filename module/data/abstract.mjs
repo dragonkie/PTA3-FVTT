@@ -39,4 +39,8 @@ export default class DataModel extends foundry.abstract.TypeDataModel {
     return data;
   }
 
+  getRollData() {
+    //grabs the roll data based on what type of document this is, item or actor
+    return { ...this };
+  }
 }

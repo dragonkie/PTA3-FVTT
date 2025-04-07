@@ -1,3 +1,21 @@
+{{#*inline 'pokemon-move'}}
+    <li class="item flexrow" data-item-uuid="{{item.uuid}}" draggable="true">
+        <div class="item-name">
+            <div class="item-image">
+                <a data-action="itemUse">
+                    <img src="{{item.img}}" title="{{item.name}}">
+                </a>
+            </div>
+            <div>{{item.name}}</div>
+        </div>
+        <div class="item-controls">
+            <a class="item-control" data-action="itemEdit" title="Update undefined">
+                <i class="fas fa-edit"></i>
+            </a>
+        </div>
+    </li>
+{{/inline}}
+
 <div class="flexrow align-left">
     <div class="flex0">
         <div data-application-part="abilities"></div>
@@ -7,9 +25,9 @@
             <span class="item-name">Moves</span>
             <span>Controls</span>
         </span>
-        <ol class="pta-move-list">
+        <ol class="pta-move-list items-list">
             {{#each items as | item key |}}
-                {{> 'pta.list-item' item=item isEditMode=../isEditMode isPlayMode=../isPlayMode}}
+                {{> 'pokemon-move' item=item}}
             {{/each}}
         </ol>
     </div>

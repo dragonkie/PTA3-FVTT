@@ -5,13 +5,24 @@
     - Grid
 --}}
 <div class="flexcol" style="flex: 2;">
+    {{!-- Box header --}}
+    <div class="items-header flexrow">
+        <div class="item-name">Pokemon Box</div>
+        <div>Controls</div>
+        <div class="flexrow flex-group-right flex-gap-s" style="text-align: right;">
+            <a class="flex0" data-action="pcLayout" data-layout="card"><i class="fas fa-address-card"></i></a>
+            <a class="flex0" data-action="pcLayout" data-layout="list"><i class="fas fa-list"></i></a>
+            <a class="flex0" data-action="pcLayout" data-layout="grid"><i class="fas fa-grid-2"></i></a>
+        </div>
+    </div>
+
     {{!-- Search Bar --}}
     <div class="collapsible collapsed">
         <div class="flexrow" data-action="collapse">
             <a><i class="fas fa-caret-down"></i></a>
             <label><b>Search</b> <i class="fas fa-magnifying-glass"></i></label>
         </div>
-        <div class="pta-trainer-box-search collapsible-content">
+        <div class="pta-trainer-pc-search collapsible-content">
             <div class="wrapper">
                 <div class="flexcol flex-gap-xs">
                     <input type="text" placeholder="name search here">
@@ -21,23 +32,12 @@
                         {{pokemonTypeSelector}}
                     </div>
                     <div class="flexrow">
-                        <div>Shiny<input type="checkbox"></div>
-                        <div>Test filter <input type="checkbox"></div>
+                        <div>Shiny <input type="checkbox"></div>
+                        <div>Male <input type="checkbox"></div>
+                        <div>Female <input type="checkbox"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-
-    {{!-- Box header --}}
-    <div class="items-header flexrow">
-        <div class="item-name">Pokemon Box</div>
-        <div>Controls</div>
-        <div class="flexrow flex-group-right flex-gap-s" style="text-align: right;">
-            <a class="flex0" data-action="pcLayout" data-layout="card"><i class="fas fa-address-card"></i></a>
-            <a class="flex0" data-action="pcLayout" data-layout="list"><i class="fas fa-list"></i></a>
-            <a class="flex0" data-action="pcLayout" data-layout="grid"><i class="fas fa-grid-2"></i></a>
         </div>
     </div>
 

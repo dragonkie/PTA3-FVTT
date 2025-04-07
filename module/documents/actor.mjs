@@ -39,7 +39,8 @@ export default class PtaActor extends Actor {
    * but have slightly different data preparation needs.
    */
   getRollData() {
-    return { ...super.getRollData(), ...this.system.getRollData?.() ?? null };
+    let data = this.system.getRollData?.() ?? null;
+    return data;
   }
 
   /**

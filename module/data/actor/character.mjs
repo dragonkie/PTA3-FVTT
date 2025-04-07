@@ -1,3 +1,4 @@
+import { PTA } from "../../helpers/config.mjs";
 import ActorData from "../actor.mjs";
 
 const {
@@ -51,12 +52,15 @@ export default class CharacterData extends ActorData {
   }
 
   getRollData() {
-    const data = {};
+    const data = super.getRollData();
 
     // Copy the stat scores to the top level, so that rolls can use
-    // formulas like `@str.mod + 4`.
+    // formulas like `@str + 4`.
+    // abbreviations repersent modifiers
+    // full length repersents total score
     for (let [k, v] of Object.entries(this.stats)) {
-      data[k] = foundry.utils.deepClone(v);
+      data[k] = v.mod;
+      data[PTA.statKeyLong[k]] = v.total;
     }
 
     return data;

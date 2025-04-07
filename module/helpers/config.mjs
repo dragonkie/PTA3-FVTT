@@ -120,6 +120,18 @@ PTA.moveClass = {
   effect: 'PTA.Generic.Effect'
 }
 
+//======================================================================
+// Chat messages
+//======================================================================
+
+PTA.chat = {
+  attack: {
+    miss: 'PTA.Chat.Attack.Miss',
+    hit: 'PTA.Chat.Attack.Hit',
+    crit: 'PTA.Chat.Attack.Crit'
+  }
+}
+
 /* ------------------------------------------------------------------ */
 /*                                                                    */
 /*                           ACTOR ABILITIES                          */
@@ -136,6 +148,22 @@ PTA.stats = {
   satk: 'PTA.Ability.SAtk.long',
   sdef: 'PTA.Ability.SDef.long',
   spd: 'PTA.Ability.Spd.long',
+};
+
+PTA.statKeyLong = {
+  atk: 'attack',
+  def: 'defence',
+  satk: 'sattack',
+  sdef: 'sdefence',
+  spd: 'speed',
+};
+
+PTA.statKeyAbbr = {
+  attack: 'atk',
+  defence: 'def',
+  sattack: 'satk',
+  sdefence: 'sdef',
+  speed: 'spd',
 };
 
 PTA.statsAbbr = {};
@@ -230,100 +258,30 @@ PTA.genders = {
 /* ------------------------------------------------------------------ */
 
 PTA.pokemonTypes = {
-  normal: 'PTA.Type.Normal',
-  fire: 'PTA.Type.Fire',
-  water: 'PTA.Type.Water',
-  electric: 'PTA.Type.Electric',
-  grass: 'PTA.Type.Grass',
-  ice: 'PTA.Type.Ice',
-  fighting: 'PTA.Type.Fighting',
-  poison: 'PTA.Type.Poison',
-  ground: 'PTA.Type.Ground',
-  flying: 'PTA.Type.Flying',
-  psychic: 'PTA.Type.Psychic',
   bug: 'PTA.Type.Bug',
-  rock: 'PTA.Type.Rock',
-  ghost: 'PTA.Type.Ghost',
-  dragon: 'PTA.Type.Dragon',
   dark: 'PTA.Type.Dark',
+  dragon: 'PTA.Type.Dragon',
+  electric: 'PTA.Type.Electric',
+  fairy: 'PTA.Type.Fairy',
+  fighting: 'PTA.Type.Fighting',
+  fire: 'PTA.Type.Fire',
+  flying: 'PTA.Type.Flying',
+  ghost: 'PTA.Type.Ghost',
+  grass: 'PTA.Type.Grass',
+  ground: 'PTA.Type.Ground',
+  ice: 'PTA.Type.Ice',
+  normal: 'PTA.Type.Normal',
+  poison: 'PTA.Type.Poison',
+  psychic: 'PTA.Type.Psychic',
+  rock: 'PTA.Type.Rock',
   steel: 'PTA.Type.Steel',
-  fairy: 'PTA.Type.Fairy'
+  water: 'PTA.Type.Water',
 };
 
 PTA.typeEffectiveness = {
-  normal: {
-    double: ['fighting'],
-    half: [],
-    immune: ['ghost']
-  },
-  fire: {
-    double: ['water', 'rock', 'ground'],
-    half: ['fire', 'grass', 'ice', 'bug', 'steel', 'fairy'],
-    immune: []
-  },
-  water: {
-    double: ['electric', 'grass'],
-    half: ['fire', 'water', 'ice', 'steel'],
-    immune: []
-  },
-  electric: {
-    double: ['ground'],
-    half: ['electric', 'flying', 'steel'],
-    immune: []
-  },
-  grass: {
-    double: ['fire', 'ice', 'poison', 'flying', 'bug'],
-    half: ['water', 'electric', 'grass', 'ground'],
-    immune: []
-  },
-  ice: {
-    double: ['fire', 'fighting', 'rock', 'steel'],
-    half: ['ice'],
-    immune: []
-  },
-  fighting: {
-    double: ['flying', 'psychic', 'fairy'],
-    half: ['bug', 'rock', 'dark'],
-    immune: []
-  },
-  poison: {
-    double: ['ground', 'psychic'],
-    half: ['grass', 'fighting', 'poison', 'bug', 'fairy'],
-    immune: []
-  },
-  ground: {
-    double: ['water', 'grass', 'ice'],
-    half: ['poison', 'rock'],
-    immune: ['electric']
-  },
-  flying: {
-    double: ['electric', 'ice', 'rock'],
-    half: ['grass', 'fighting', 'bug'],
-    immune: ['ground']
-  },
-  psychic: {
-    double: ['bug', 'ghost', 'dark'],
-    half: ['fighting', 'psychic'],
-    immune: []
-  },
   bug: {
     double: ['fire', 'flying', 'rock'],
     half: ['grass', 'fighting', 'ground'],
-    immune: []
-  },
-  rock: {
-    double: ['water', 'grass', 'fighting', 'ground', 'steel'],
-    half: ['normal', 'fire', 'poison', 'flying'],
-    immune: []
-  },
-  ghost: {
-    double: ['ghost', 'dark'],
-    half: ['poison', 'bug'],
-    immune: ['normal', 'fighting']
-  },
-  dragon: {
-    double: ['ice', 'dragon', 'fairy'],
-    half: ['fire', 'water', 'electric', 'grass'],
     immune: []
   },
   dark: {
@@ -331,16 +289,86 @@ PTA.typeEffectiveness = {
     half: ['ghost', 'dark'],
     immune: ['psychic']
   },
-  steel: {
-    double: ['fire', 'fighting', 'ground'],
-    half: ['normal', 'grass', 'ice', 'flying', 'psychic', 'bug', 'rock', 'dragon', 'steel', 'fairy'],
-    immune: ['poison']
+  dragon: {
+    double: ['ice', 'dragon', 'fairy'],
+    half: ['fire', 'water', 'electric', 'grass'],
+    immune: []
+  },
+  electric: {
+    double: ['ground'],
+    half: ['electric', 'flying', 'steel'],
+    immune: []
   },
   fairy: {
     double: ['poison', 'steel'],
     half: ['fighting', 'bug', 'dark'],
     immune: ['dragon']
-  }
+  },
+  fighting: {
+    double: ['flying', 'psychic', 'fairy'],
+    half: ['bug', 'rock', 'dark'],
+    immune: []
+  },
+  fire: {
+    double: ['water', 'rock', 'ground'],
+    half: ['fire', 'grass', 'ice', 'bug', 'steel', 'fairy'],
+    immune: []
+  },
+  flying: {
+    double: ['electric', 'ice', 'rock'],
+    half: ['grass', 'fighting', 'bug'],
+    immune: ['ground']
+  },
+  ghost: {
+    double: ['ghost', 'dark'],
+    half: ['poison', 'bug'],
+    immune: ['normal', 'fighting']
+  },
+  grass: {
+    double: ['fire', 'ice', 'poison', 'flying', 'bug'],
+    half: ['water', 'electric', 'grass', 'ground'],
+    immune: []
+  },
+  ground: {
+    double: ['water', 'grass', 'ice'],
+    half: ['poison', 'rock'],
+    immune: ['electric']
+  },
+  ice: {
+    double: ['fire', 'fighting', 'rock', 'steel'],
+    half: ['ice'],
+    immune: []
+  },
+  normal: {
+    double: ['fighting'],
+    half: [],
+    immune: ['ghost']
+  },
+  poison: {
+    double: ['ground', 'psychic'],
+    half: ['grass', 'fighting', 'poison', 'bug', 'fairy'],
+    immune: []
+  },
+  psychic: {
+    double: ['bug', 'ghost', 'dark'],
+    half: ['fighting', 'psychic'],
+    immune: []
+  },
+  rock: {
+    double: ['water', 'grass', 'fighting', 'ground', 'steel'],
+    half: ['normal', 'fire', 'poison', 'flying'],
+    immune: []
+  },
+  steel: {
+    double: ['fire', 'fighting', 'ground'],
+    half: ['normal', 'grass', 'ice', 'flying', 'psychic', 'bug', 'rock', 'dragon', 'steel', 'fairy'],
+    immune: ['poison']
+  },
+  water: {
+    double: ['electric', 'grass'],
+    half: ['fire', 'water', 'ice', 'steel'],
+    immune: []
+  },
 };
 /* ------------------------------------------------------------------ */
 /*                                                                    */

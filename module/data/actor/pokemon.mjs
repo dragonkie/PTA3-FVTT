@@ -92,6 +92,10 @@ export default class PokemonData extends ActorData {
     return schema
   }
 
+  getTypes() {
+    return [this.types.primary, this.types.secondary];
+  }
+
   async _preCreate(data, options, user) {
     const allowed = await super._preCreate(data, options, user);
     if (allowed === false) return false;

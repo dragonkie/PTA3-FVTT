@@ -2,7 +2,7 @@
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
-export default class ptaItem extends Item {
+export default class PtaItem extends Item {
   /**
    * Augment the basic Item data model with additional dynamic data.
    */
@@ -18,7 +18,7 @@ export default class ptaItem extends Item {
    */
   getRollData() {
     // Starts off by populating the roll data with a shallow copy of `this.system`
-    const rollData = { ...this.system };
+    const rollData = this.system.getRollData?.() ?? null;
 
     // Quit early if there's no parent actor
     if (!this.actor) return rollData;

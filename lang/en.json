@@ -80,6 +80,21 @@
       "Local": "Local",
       "Online": "Online"
     },
+    "Chat": {
+      "Attack": {
+        "Miss": "{user} used {move}, but it missed...",
+        "Hit": "{user} used {move}, a direct hit!",
+        "Crit": "{user} used {move}, it's a critical hit!",
+        "Dodge": "{user} used {move}, but {target} dodged it!"
+      },
+      "Damage": {
+        "Immune": "{user} hit {target} with {move}, but they're immune...",
+        "Quarter": "{user} hit {target} with {move}, it was barely effective...",
+        "Half": "{user} hit {target} with {move}, it's not very effective...",
+        "Double": "{user} hit {target} with {move}, it's very effective!",
+        "Quad": "{user} hit {target} with {move}, it's super effective!"
+      }
+    },
     "Dialog": {
       "FileLocation": "File Location"
     },

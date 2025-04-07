@@ -191,19 +191,27 @@ export default class utils {
         if (!Array.isArray(attacker)) attacker = [attacker];
         if (!Array.isArray(defender)) defender = [defender];
 
-        let data = {
+        console.log(attacker);
+        console.log(defender);
+
+        const data = {
             value: 0,
             percent: 1,
             immune: false,
         }
 
+        // loop attack types
         for (const a of attacker) {
-            if (typeof a != 'string' || a == '') continue;
+            // skip invalid attacker types
+            if (!Object.keys(PTA.pokemonTypes).includes(a)) continue;
+            // loop through defender types
             for (const d of defender) {
-                if (typeof d != 'string' || d == '') continue;
-                if (pta.config.typeEffectiveness[d].double.includes(a)) { data.value += 1; data.percent *= 2 }
-                if (pta.config.typeEffectiveness[d].half.includes(a)) { data.value -= 1; data.percent /= 2 }
-                if (pta.config.typeEffectiveness[d].immune.includes(a)) data.immune = true;
+                // skip invalid defender types
+                if (!Object.keys(PTA.pokemonTypes).includes(d)) continue;
+                // get the effectiveness value
+                if (PTA.typeEffectiveness[d].double.includes(a)) { data.value += 1; data.percent *= 2 }
+                if (PTA.typeEffectiveness[d].half.includes(a)) { data.value -= 1; data.percent /= 2 }
+                if (PTA.typeEffectiveness[d].immune.includes(a)) data.immune = true;
             }
         }
         return data;
@@ -288,12 +296,12 @@ export default class utils {
 
     static getTargets() {
         const targets = [];
-        for (const token of game.user.targets.entries()) {
-            let doc = token[0].document;
+        for (const token of game.user.targets) {
+            let doc = token.document;
             targets.push({
-                token: token[0],
-                doc: doc,
-                sys: doc.actor.system
+                token: token,
+                actor: token.actor,
+                document: token.document
             })
         }
         if (targets.length <= 0) return null;

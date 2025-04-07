@@ -38,6 +38,14 @@ export default class ItemData extends DataModel {
     return this.parent.actor;
   }
 
+  getRollData() {
+    let actor = this.actor;
+    if (actor) {
+      return { actorData: actor.getRollData(), ...super.getRollData(), actor: actor };
+    }
+    return super.getRollData();
+  }
+
   /**
    * 
    * @param {*} event 
@@ -45,12 +53,5 @@ export default class ItemData extends DataModel {
    */
   async use(event, action) {
     console.warn('No uses defined for this object!');
-  }
-
-  getRollData() {
-    if (!this.actor) return null;
-    else {
-      return this.actor.getRollData();
-    }
   }
 }
