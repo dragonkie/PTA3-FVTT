@@ -28,15 +28,11 @@ export default class DataModel extends foundry.abstract.TypeDataModel {
   }
 
   prepareBaseData() {
-    const data = super.prepareBaseData();
-    console.log('baseData', data);
-    return data;
+    return {};
   }
 
   prepareDerivedData() {
-    const data = super.prepareDerivedData();
-    console.log('derivedData', data);
-    return data;
+    return {};
   }
 
   getRollData() {

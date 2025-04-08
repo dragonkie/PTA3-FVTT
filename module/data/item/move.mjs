@@ -97,8 +97,14 @@ export default class MoveData extends ItemData {
             if (!targets) return void pta.utils.warn('PTA.Warn.EnforceTargeting');
             // loop through targets to attack
             for (const target of targets) {
-                let r_accuracy = new Roll('1d100', rolldata);
+                let target_stat = {};
+                // get the defending stats
+                if (this.class == 'physical') target_stat = target.actor.system.stats.def;
+                if (this.class == 'special') target_stat = target.actor.system.stats.sdef;
+                if (this.class == 'effect') target_stat = target.actor.system.stats.spd;
 
+                // make the accuracy roll
+                const r_accuracy = new Roll('1d100', rolldata);
                 let accuracy_tn = this.accuracy * (pta.utils.AccuracyStage(attacker));
                 await r_accuracy.evaluate();
                 let critical = false;
@@ -112,7 +118,8 @@ export default class MoveData extends ItemData {
 
                 // prepare message data
                 const atk_msg_data = {};
-                const message_config = { user: attacker.name, move: this.parent.name, target: "NULL" }
+                const message_config = { user: attacker.name, move: this.parent.name, target: target.token.name }
+
                 // the user missed due to an evasion buff or accuracy debuff
                 if (r_accuracy.total <= this.accuracy && r_accuracy.total > accuracy_tn) {
                     atk_msg_data.flavor = pta.utils.format('PTA.Chat.Attack.Dodge', message_config);
@@ -120,16 +127,43 @@ export default class MoveData extends ItemData {
                 } else if (missed) atk_msg_data.flavor = pta.utils.format(PTA.chat.attack.miss, message_config)
                 else atk_msg_data.flavor = pta.utils.format(critical ? PTA.chat.attack.crit : PTA.chat.attack.hit, message_config)
 
+                // send the attack chat card
                 const msg_attack = await r_accuracy.toMessage(atk_msg_data);
                 if (missed) continue;
-                // roll damage
 
+                // if we scored a hit, roll for damage
                 let effectiveness = { value: 0, percent: 1, immune: false };
                 if (target.actor.type == 'pokemon') effectiveness = pta.utils.typeEffectiveness(this.type, target.actor.system.getTypes());
-                console.log(target.actor.type);
-                console.log(target.actor.system.getTypes());
-                console.log(this.type);
-                console.log(effectiveness);
+                let damage_scale = rolldata.stat.total / target_stat.total;
+                let stab = attacker.system.getTypes().includes(this.type) ? 1.5 : 1;
+                let crit = critical ? 1.5 : 1;
+
+                let formula = `${this.damage.pokesim.dice}d6*${damage_scale}*${effectiveness.percent}*${stab}*${crit}`;
+
+                // configure the damage chat card
+                const dmg_msg_data = {};
+                switch (effectiveness.value) {
+                    case -2:
+                        dmg_msg_data.flavor = pta.utils.format(PTA.chat.damage.quarter, message_config);
+                        break;
+                    case -1:
+                        dmg_msg_data.flavor = pta.utils.format(PTA.chat.damage.half, message_config);
+                        break;
+                    case 0:
+                        dmg_msg_data.flavor = pta.utils.format(PTA.chat.damage.normal, message_config);
+                        break;
+                    case 1:
+                        dmg_msg_data.flavor = pta.utils.format(PTA.chat.damage.double, message_config);
+                        break;
+                    case 2:
+                        dmg_msg_data.flavor = pta.utils.format(PTA.chat.damage.quadruple, message_config);
+                        break;
+                }
+
+                const r_damage = new Roll(formula, rolldata);
+                await r_damage.evaluate();
+
+                let msg_damage = await r_damage.toMessage(dmg_msg_data, message_config);
             }
         } else {
             let r_accuracy = new Roll('1d20 + @stat.mod', rolldata);

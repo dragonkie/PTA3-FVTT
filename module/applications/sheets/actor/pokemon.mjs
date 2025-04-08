@@ -64,9 +64,9 @@ export default class PtaPokemonSheet extends PtaActorSheet {
         primary: "features"
     }
 
-    //=============================================================
+    //============================================================================================================
     // Sheet Actions
-    //=============================================================
+    //============================================================================================================
     static async _onImportData() {
         let pokemon = await pta.utils.importPokemonData({ all: true });
         console.log('pokemon', pokemon)
@@ -75,16 +75,15 @@ export default class PtaPokemonSheet extends PtaActorSheet {
     static async _onSyncData() {
         // get the pokemons name / species, check against our downlaoded pokedex
         let search = this.document.system.species;
+        let set_species = false;
 
-        if (!pta.config.Pokedex.Pokemon.includes(search)) search = this.document.name;
-        if (!pta.config.Pokedex.Pokemon.includes(search)) return void pta.utils.error('PTA.Error.SyncFailedUnknownPokemon');
+        if (!pta.config.Pokedex.Pokemon.includes(search.toLowerCase().replace(' ', '-'))) {
+            search = this.document.name;
+            set_species = true;
+            if (!pta.config.Pokedex.Pokemon.includes(search.toLowerCase().replace(' ', '-'))) return void pta.utils.error('PTA.Error.SyncFailedUnknownPokemon');
+        }
 
         let pokemon = await pta.utils.importPokemonData({ species: true, forms: true, name: search });
-        console.log('pokemon', pokemon)
-        console.log(this.document.system);
-
-        console.log(pokemon.stats.find((e) => { return e.stat.name == 'hp' }))
-        console.log(pokemon.stats[0])
 
         let update_data = {
             hp: { max: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'hp' }).base_stat / 10) * game.settings.get(game.system.id, 'healthMult') },
@@ -101,15 +100,20 @@ export default class PtaPokemonSheet extends PtaActorSheet {
             }
         };
 
+        if (set_species) update_data.species = pokemon.species.name;
+
+        console.log(pokemon);
+        console.log(update_data);
+
         update_data.hp.value = Math.min(this.document.system.hp.value, update_data.hp.max);
 
         await this.document.update({ system: update_data })
         this.render(false);
     }
 
-    //=============================================================
+    //============================================================================================================
     // Sheet rendering
-    //=============================================================
+    //============================================================================================================
     async render(options = {}) {
         // register trainers sheet application as a dependency to be re rendered
         if (this.document.system.trainer != '') {

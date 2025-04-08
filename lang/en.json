@@ -91,8 +91,9 @@
         "Immune": "{user} hit {target} with {move}, but they're immune...",
         "Quarter": "{user} hit {target} with {move}, it was barely effective...",
         "Half": "{user} hit {target} with {move}, it's not very effective...",
+        "Normal": "{user} hit {target} with {move}.",
         "Double": "{user} hit {target} with {move}, it's very effective!",
-        "Quad": "{user} hit {target} with {move}, it's super effective!"
+        "Quadruple": "{user} hit {target} with {move}, it's super effective!"
       }
     },
     "Dialog": {

@@ -23,16 +23,13 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
     }
 
     static get PARTS() {
-        console.error('Application cannot be created without any parts declared');
         return {}
     };
 
     async _prepareContext(options) { return {} };
-    /******************************************************************************************/
-    /*                                                                                        */
-    /*                                  ACTIONS                                               */
-    /*                                                                                        */
-    /******************************************************************************************/
+    //==========================================================================================
+    // Sheet actions
+    //==========================================================================================
     async _onClickAction() {
 
     }
@@ -46,11 +43,9 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
         else if (ele.value) navigator.clipboard.writeText(ele.value);
     }
 
-    /******************************************************************************************/
-    /*                                                                                        */
-    /*                                  RENDERING                                             */
-    /*                                                                                        */
-    /******************************************************************************************/
+    //==========================================================================================
+    // Rendering
+    //==========================================================================================
     async _preRender(context, options) {
         console.log('_preRender');
         return super._preRender(context, options);
@@ -72,7 +67,7 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
 
 
     _configureRenderOptions(options) {
-        _console.log('_configureRenderOptions');
+        console.log('_configureRenderOptions');
         super._configureRenderOptions(options);
     }
 
@@ -86,11 +81,9 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
         const frame = super._renderFrame(options);
         return frame;
     }
-    /******************************************************************************************/
-    /*                                                                                        */
-    /*                                  CLOSING_APPLICATION                                   */
-    /*                                                                                        */
-    /******************************************************************************************/
+    //==========================================================================================
+    // Closing application
+    //==========================================================================================
     async _preClose(options) {
         return super._preClose(options);
     }
@@ -99,12 +92,9 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
     _onClose(options) {
         super._onClose(options);
     }
-
-    /******************************************************************************************/
-    /*                                                                                        */
-    /*                                   DRAG N DROP                                          */
-    /*                                                                                        */
-    /******************************************************************************************/
+    //==========================================================================================
+    // Drag & Drop
+    //==========================================================================================
     _setupDragAndDrop() {
         const dd = new DragDrop({
             dragSelector: "[data-item-uuid]",

@@ -126,9 +126,18 @@ PTA.moveClass = {
 
 PTA.chat = {
   attack: {
-    miss: 'PTA.Chat.Attack.Miss',
+    crit: 'PTA.Chat.Attack.Crit',
+    dodge: 'PTA.Chat.Attack.Dodge',
     hit: 'PTA.Chat.Attack.Hit',
-    crit: 'PTA.Chat.Attack.Crit'
+    miss: 'PTA.Chat.Attack.Miss',
+  },
+  damage: {
+    immune: 'PTA.Chat.Damage.Immune',
+    quarter: 'PTA.Chat.Damage.Quarter',
+    half: 'PTA.Chat.Damage.Half',
+    normal: 'PTA.Chat.Damage.Normal',
+    double: 'PTA.Chat.Damage.Double',
+    quadruple: 'PTA.Chat.Damage.Quadruple',
   }
 }
 
