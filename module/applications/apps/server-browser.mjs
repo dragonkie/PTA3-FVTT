@@ -1,7 +1,7 @@
 import pokeapi from "../../helpers/pokeapi.mjs";
 import PtaApplication from "../app.mjs";
 
-export default class AppServerBrowser extends PtaApplication {
+export default class ServerBrowser extends PtaApplication {
     static DEFAULT_OPTIONS = {
         classes: ['browser'],
         window: {

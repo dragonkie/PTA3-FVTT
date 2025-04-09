@@ -8,6 +8,9 @@ import PtaPokeballSheet from "./sheets/item/pokeball.mjs";
 import PtaConsumableSheet from "./sheets/item/consumable.mjs";
 import PtaMoveSheet from "./sheets/item/move.mjs";
 
+import PokemonImporter from "./apps/pokemon-importer.mjs";
+import ServerBrowser from "./apps/server-browser.mjs";
+
 
 
 export default {
@@ -88,5 +91,9 @@ export default {
             ]
 
         }
+    },
+    apps: {
+        PokemonImporter,
+        ServerBrowser
     }
 }

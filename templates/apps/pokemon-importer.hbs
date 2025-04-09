@@ -1,0 +1,27 @@
+<div class="importer pokemon-importer flexcol flex-gap-m" style="height: 100%;">
+    {{!-- Has the search options and controls --}}
+    <header class="search-options" style="flex: 0 0; width: 100%">
+        <input class="search-input" type="text" placeholder="name or id #" list="datalist-{{id}}">
+        <div>
+            <button data-action="search" type="button">
+                <b>Search <i class="fas fa-magnifying-glass"></i> </b>
+            </button>
+        </div>
+    </header>
+
+    {{!-- Given search results --}}
+    <div style="flex: 1; overflow-y: auto; overflow-x: hidden">
+        <div class="search-results flexrow flex-gap-s scrollable" style="flex-wrap: wrap;">
+        </div>
+    </div>
+
+    {{!-- has the confirm import, as well as list of pokemon to import --}}
+    <div class="selection-list" style="flex: 0 0;">
+        <b>Selections</b>
+        <div class="flexrow flexwrap flex-gap-s wrapper"></div>
+    </div>
+    <footer style="flex: 0 0">
+        <button type="button" data-action="submit">Submit</button>
+    </footer>
+    <datalist class="search-options" id="datalist-{{id}}"></datalist>
+</div>

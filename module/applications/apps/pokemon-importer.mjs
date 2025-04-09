@@ -1,40 +1,40 @@
+import { PTA } from "../../helpers/config.mjs";
 import pokeapi from "../../helpers/pokeapi.mjs";
+import utils from "../../helpers/utils.mjs";
 import PtaApplication from "../app.mjs";
 
-export default class AppServerBrowser extends PtaApplication {
+export default class PokemonImporter extends PtaApplication {
     static DEFAULT_OPTIONS = {
-        classes: ['browser'],
+        classes: ['importer'],
         window: {
-            title: "PTA.App.ServerBrowser",
-            icon: "fa-solid fa-wifi",
+            title: "PTA.App.PokemonImporter",
+            icon: "fa-solid fa-download",
             minimizable: false,
             resizeable: false,
         },
         position: {
             width: 600,
-            height: 600
+            height: 800
         },
         actions: {
             search: this._onSearch,
             select: this._onSelect,
-            submit: this._onSubmit
+            submit: this._onSubmit,
+            remove: this._onRemove,
         }
     }
+
+    /** 
+     * @type {Object[]} 
+     */
+    pokemon_index = [];
+
+    pokemon_selections = [];
 
     static get PARTS() {
         let p = {};
-        p.main = { template: 'systems/pta3/templates/apps/server-browser.hbs' }
+        p.main = { template: 'systems/pta3/templates/apps/pokemon-importer.hbs' }
         return p;
-    }
-
-    constructor(options = {}) {
-        super(options);
-
-        if (!options.uuid || !options.path) throw new Error('Server resource browse needs a target destination');
-        this.target = {
-            uuid: options.uuid,
-            path: options.path
-        }
     }
 
     async _prepareContext() {
@@ -44,60 +44,97 @@ export default class AppServerBrowser extends PtaApplication {
     }
 
     static async _onSearch(event, target) {
+        utils.info('PTA.Info.LoadingPleaseWait');
         const content = this.element.querySelector('section.window-content');
-        const searchType = content.querySelector('select[name=query-type]');
-        const searchKey = content.querySelector(`option[value=${searchType.value}]`);
         const searchInput = content.querySelector('.search-input');
+        const query = searchInput.value.toLowerCase().replace(' ', '-')
 
-        // Get the pokemon if its possible
-        let data = await pokeapi.request(`${pokeapi.url}${searchKey.dataset.api}/${searchInput.value}`);
-        if (!data) return;
-        console.log('Search data', data)
+        const search_list = [];
+        // compile a list of valid pokemon
+        for (const i of PTA.Pokedex.Pokemon) {
+            if (i.startsWith(query)) search_list.push(i);
+        }
 
-        // create the grid of sprites to choose from
-        const gallery = content.querySelector('.sprite-gallery');
-        while (gallery.lastChild) gallery.removeChild(gallery.lastChild);
+        const wrapper = this.element.querySelector('.search-results');
+        while (wrapper.lastChild) wrapper.removeChild(wrapper.lastChild);
 
-        // gather the list of img sources
-        const sprites = [];
-        const groups = [data.sprites];
-        for (const g of groups) {
-            if (!g) continue;
-            for (const [key, value] of Object.entries(g)) {
-                if (typeof value === 'object') groups.push(value);
-                else if (typeof value === 'string') sprites.push(value)
+        const pokemon_list = [];
+        for (const name of search_list) {
+            if (this.pokemon_index.find((i) => { i.name == name }) !== undefined) {
+                const _p = this.pokemon_index.find((i) => { i.name == name });
+                pokemon_list.push(_p);
+            } else {
+                const _p = await pokeapi.pokemon(name);
+                pokemon_list.push(_p);
+                this.pokemon_index.push(_p);
             }
         }
 
-        for (const s of sprites) {
-            const w = document.createElement('div');
-            w.classList.add('sprite-wrapper');
-            w.setAttribute("data-action", "select");
-            const e = document.createElement('img');
-            e.classList.add("sprite");
-            e.src = s;
-            e.styles = "object-fit: contain;"
-            w.appendChild(e);
-            gallery.appendChild(w);
+        for (const p of pokemon_list) {
+            // add the pokemon to the element search results
+            let ele = document.createElement('DIV');
+            ele.setAttribute('data-action', 'select');
+            ele.setAttribute('data-pokemon', p.name);
+            ele.setAttribute('style', 'flex: 0; border: 1px solid white;')
+            ele.innerHTML = `
+                <div style="text-align: center;">${p.name}</div>
+                <img src=${p.sprites.front_default} style="min-width: 100px; min-height: 100px; border: 0;">
+            `
+            wrapper.appendChild(ele);
         }
+
+        return void utils.info('PTA.Info.FinishedLoading');;
     }
 
     static async _onSelect(event, target) {
-        const content = this.element.querySelector('section.window-content');
-        const img = target.querySelector('.sprite');
-        const url = img.src;
-        const submit = content.querySelector('[name=image-url]');
-        submit.value = url;
+        // get the relevant data ready to use
+        const selection_list = this.element.querySelector('.selection-list .wrapper');
+        const pokemon_name = target.closest('[data-pokemon]').dataset.pokemon;
+
+        // add the pokemon to our list of selections
+        if (this.pokemon_selections.find((p) => p.name == pokemon_name)) return; // cancel if its already in lsit
+        const pokemon = this.pokemon_index.find((p) => p.name == pokemon_name);// get the pokemons data
+        if (!pokemon) return void utils.error(`This shouldn't be possible...`);// validate we got a result
+        this.pokemon_selections.push(pokemon);// add result to selections
+
+        // add an element to the selection list so theu can be tracked / removed
+        let ele = document.createElement('DIV');
+        ele.setAttribute('data-pokemon', pokemon.name);
+        ele.setAttribute('style', 'flex: 0');
+        selection_list.appendChild(ele);
+        ele.innerHTML = `
+            <a class="content-link" data-action="remove">${pokemon.name} <i class="fas fa-trash"></i></a>
+        `;
+    }
+
+    static async _onRemove(event, target) {
+        let element = target.closest('[data-pokemon]');
+        let pokemon_name = element.dataset.pokemon;
+        let index = this.pokemon_selections.findIndex((i) => i.name == pokemon_name);
+        this.pokemon_selections.splice(index, 1);
+        element.remove();
     }
 
     static async _onSubmit(event, target) {
-        const content = this.element.querySelector('section.window-content');
-        const url = content.querySelector('input[name=image-url]').value;
-        console.log(this.target);
-        const doc = await fromUuid(this.target.uuid);
-        if (!doc || !url) return void console.error('Missing data to submit image', { url: url, doc: doc, uuid: this.uuid });
-
-        doc.update({ [this.target.path]: url });
+        const create_data = [];
+        for (const pokemon of this.pokemon_selections) {
+            let data = utils.parsePokemonData(pokemon);
+            if (!data) continue;
+            data.hp.value = data.hp.max;
+            create_data.push({
+                name: pokemon.name,
+                type: 'pokemon',
+                system: data,
+                img: pokemon.sprites.other["official-artwork"].front_default,
+                prototypeToken: {
+                    texture: {
+                        src: pokemon.sprites.other["official-artwork"].front_default
+                    }
+                }
+            })
+        }
+        Actor.create(create_data);
+        this.pokemon_selections = [];
         this.close();
     }
 
@@ -111,7 +148,6 @@ export default class AppServerBrowser extends PtaApplication {
         const searchList = content.querySelector('datalist');
         console.log(searchList)
         const searchInput = content.querySelector('.search-input');
-        const searchSubmit = content.querySelector('button[data-action=search]');
         const searchType = content.querySelector('select[name=query-type]');
 
         // add the auto complete search results
@@ -123,7 +159,7 @@ export default class AppServerBrowser extends PtaApplication {
             if (query.length < 1) return void console.error('search query to small');
 
             // select the right data array to search in
-            const sArray = pta.utils.duplicate(pta.config.Pokedex[searchType.value]).sort();
+            const sArray = utils.duplicate(pta.config.Pokedex.Pokemon).sort();
             if (!sArray) return void console.error('didnt find an array');
 
             // prepare the search indexing

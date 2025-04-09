@@ -59,7 +59,7 @@ export default class utils {
                     const app = await new PtaDialog({
                         window: { title: "PTA.Dialog.PokemonImporter" },
                         content: `
-                        <input type="text" class="pokemon-name" placeholder="${pta.utils.localize(PTA.generic.pokemon)}">
+                        <input type="text" class="pokemon-name" placeholder="${this.localize(PTA.generic.pokemon)}">
                         <div class="form-group">
                             <label>Moves</label>
                             <div class="form-fields">
@@ -117,6 +117,33 @@ export default class utils {
         } catch (err) {
             console.error(err)
             return null;
+        }
+    }
+
+    /**
+     * converts given pokemon data into useable vtt data
+     */
+    static parsePokemonData(pokemon) {
+        try {
+            const data = {
+                hp: { max: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'hp' }).base_stat / 10) * game.settings.get(game.system.id, 'healthMult') },
+                stats: {
+                    atk: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'attack' }).base_stat / 10) },
+                    def: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'defense' }).base_stat / 10) },
+                    spd: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'speed' }).base_stat / 10) },
+                    satk: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'special-attack' }).base_stat / 10) },
+                    sdef: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'special-defense' }).base_stat / 10) },
+                },
+                types: {
+                    primary: pokemon.types[0].type.name,
+                    secondary: pokemon.types[1] ? pokemon.types[1].type.name : 'none'
+                },
+                species: pokemon.species.name
+            };
+
+            return data;
+        } catch (err) {
+            return void console.error('recieved invalid pokemon data to parse')
         }
     }
 

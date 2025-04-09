@@ -19,12 +19,12 @@ PTA.Pokedex = {
   Ailments: [],
   Species: [],
   Items: [],
-  count: 0
 }
 
 // Call in main init hook, needs ot be called after PTA is registered, or it slows down the init
 // enough to prevent it from being loaded at all
 PTA.loadPokedex = async (force = false) => {
+  console.log("LOADING POKEDEX PLEASE WAIT")
   //if the pokedex was previously registered, check if its been expired
   const expiry = localStorage.getItem('pta.pokedexExpiry');
   const today = await new Date();
@@ -57,13 +57,18 @@ PTA.loadPokedex = async (force = false) => {
     for (const i of _apiAilments.results) PTA.Pokedex.Ailments.push(i.name);
     for (const i of _apiSpecies.results) PTA.Pokedex.Species.push(i.name);
     for (const i of _apiItems.results) PTA.Pokedex.Items.push(i.name);
-    PTA.Pokedex.count = _apiSpecies.count;
+
+    //============================================================
+    // Save the data to the browser cache for safe keeping
+    //============================================================
 
     localStorage.setItem('pta.pokedex', JSON.stringify(PTA.Pokedex));
     localStorage.setItem('pta.pokedexExpiry', today.toISOString());
   } else {
     PTA.Pokedex = JSON.parse(localStorage.getItem('pta.pokedex'));
   }
+
+  console.log("POKEDEX LOADED")
 }
 
 /* ------------------------------------------------------------------ */

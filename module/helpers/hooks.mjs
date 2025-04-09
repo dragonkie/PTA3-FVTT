@@ -1,3 +1,4 @@
+import PokemonImporter from "../applications/apps/pokemon-importer.mjs";
 import utils from "./utils.mjs";
 
 /**
@@ -28,7 +29,7 @@ import utils from "./utils.mjs";
  */
 
 export default function registerHooks() {
-    Hooks.once('renderItemDirectory', async (directory, element, data) => {
+    Hooks.on('renderItemDirectory', async (directory, element, data) => {
         /**@type {Element} */
         let ele = element[0].querySelector('.directory-footer.action-buttons');
 
@@ -37,7 +38,8 @@ export default function registerHooks() {
         ele.appendChild(button);
     })
 
-    Hooks.once('renderActorDirectory', async (directory, element, data) => {
+    const pokemon_importer = new PokemonImporter();
+    Hooks.on('renderActorDirectory', async (directory, element, data) => {
         /**@type {Element} */
         let ele = element[0].querySelector('.directory-footer.action-buttons');
 
@@ -46,7 +48,8 @@ export default function registerHooks() {
         ele.appendChild(button);
 
         button.addEventListener('click', async () => {
-            console.log('open actor import application')
+            console.log('open actor import application');
+            pokemon_importer.render(true);
         })
     })
 }

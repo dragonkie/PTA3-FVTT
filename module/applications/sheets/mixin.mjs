@@ -1,4 +1,4 @@
-import AppServerBrowser from "../apps/server-browser.mjs";
+import ServerBrowser from "../apps/server-browser.mjs";
 import PtaDialog from "../dialog.mjs";
 
 export default function PtaSheetMixin(Base) {
@@ -115,7 +115,7 @@ export default function PtaSheetMixin(Base) {
                 });
                 fp.browse();
             } else if (selection === 'online') {
-                const app = new AppServerBrowser({ uuid: this.document.uuid, path: 'img' }).render(true);
+                const app = new ServerBrowser({ uuid: this.document.uuid, path: 'img' }).render(true);
             }
         }
 

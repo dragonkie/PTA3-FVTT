@@ -1,5 +1,6 @@
 import { PTA } from "../../../helpers/config.mjs";
 import pokeapi from "../../../helpers/pokeapi.mjs";
+import utils from "../../../helpers/utils.mjs";
 import PtaDialog from "../../dialog.mjs";
 import PtaActorSheet from "../actor.mjs";
 
@@ -68,7 +69,7 @@ export default class PtaPokemonSheet extends PtaActorSheet {
     // Sheet Actions
     //============================================================================================================
     static async _onImportData() {
-        let pokemon = await pta.utils.importPokemonData({ all: true });
+        let pokemon = await utils.importPokemonData({ all: true });
         console.log('pokemon', pokemon)
     }
 
@@ -80,27 +81,14 @@ export default class PtaPokemonSheet extends PtaActorSheet {
         if (!pta.config.Pokedex.Pokemon.includes(search.toLowerCase().replace(' ', '-'))) {
             search = this.document.name;
             set_species = true;
-            if (!pta.config.Pokedex.Pokemon.includes(search.toLowerCase().replace(' ', '-'))) return void pta.utils.error('PTA.Error.SyncFailedUnknownPokemon');
+            if (!pta.config.Pokedex.Pokemon.includes(search.toLowerCase().replace(' ', '-'))) return void utils.error('PTA.Error.SyncFailedUnknownPokemon');
         }
 
-        let pokemon = await pta.utils.importPokemonData({ species: true, forms: true, name: search });
+        // obtain and parse the pokemon data
+        let pokemon = await utils.importPokemonData({ species: true, forms: true, name: search });
+        let update_data = utils.parsePokemonData(pokemon);
 
-        let update_data = {
-            hp: { max: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'hp' }).base_stat / 10) * game.settings.get(game.system.id, 'healthMult') },
-            stats: {
-                atk: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'attack' }).base_stat / 10) },
-                def: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'defense' }).base_stat / 10) },
-                spd: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'speed' }).base_stat / 10) },
-                satk: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'special-attack' }).base_stat / 10) },
-                sdef: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'special-defense' }).base_stat / 10) },
-            },
-            types: {
-                primary: pokemon.types[0].type.name,
-                secondary: pokemon.types[1] ? pokemon.types[1].type.name : 'none'
-            }
-        };
-
-        if (set_species) update_data.species = pokemon.species.name;
+        if (!set_species) delete update_data.species;
 
         console.log(pokemon);
         console.log(update_data);

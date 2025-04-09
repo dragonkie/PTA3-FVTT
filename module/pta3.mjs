@@ -36,6 +36,7 @@ Hooks.once('init', function () {
     // Add utility classes to the global game object so that they're more easily
     // accessible in global contexts.
     pta.data = models;
+    pta.application = applications
 
     PTA.loadPokedex();
     pta.config = PTA;

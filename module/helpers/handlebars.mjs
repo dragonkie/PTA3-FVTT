@@ -96,13 +96,14 @@ function registerHelpers() {
         //=================================================================================================
         {
             tag: 'pokemonTypeSelector',
-            fn: () => {
+            fn: (none = false) => {
                 const field = new foundry.data.fields.StringField({
                     label: PTA.generic.type,
                     name: "",
                     choices: () => {
                         let opt = {};
                         for (const [k, v] of Object.entries(PTA.pokemonTypes)) opt[k] = pta.utils.localize(v);
+                        if (none) opt.none = pta.utils.localize(PTA.generic.none);
                         return opt;
                     }
                 });
