@@ -1,16 +1,16 @@
 export default class pokeapi {
     static url = 'https://pokeapi.co/api/v2/';
-    static async berry(name = '', options={}) { return await this.request(this.url + 'berry/' + name) };
-    static async egg(name = '', options={}) { return await this.request(this.url + 'egg-group/' + name) };
-    static async evolution(name = '', options={}) { return await this.request(this.url + 'evolution-chain/' + name) };
-    static async item(name = '', options={}) { return await this.request(this.url + 'item/' + name) };
-    static async move(name = '', options={}) { return await this.request(this.url + 'move/' + name) };
-    static async pokemon(name = '', options={}) { return await this.request(this.url + 'pokemon/' + name) };
-    static async species(name = '', options={}) { return await this.request(this.url + 'pokemon-species/' + name) };
-    static async type(name = '', options={}) { return await this.request(this.url + 'type/' + name) };
-    static async ailment(name = '', options={}) { return await this.request(this.url + 'move-ailment/' + name) };
+    static async berry(name = '', options = {}) { return await this.request(this.url + 'berry/' + name) };
+    static async egg(name = '', options = {}) { return await this.request(this.url + 'egg-group/' + name) };
+    static async evolution(name = '', options = {}) { return await this.request(this.url + 'evolution-chain/' + name) };
+    static async item(name = '', options = {}) { return await this.request(this.url + 'item/' + name) };
+    static async move(name = '', options = {}) { return await this.request(this.url + 'move/' + name) };
+    static async pokemon(name = '', options = {}) { return await this.request(this.url + 'pokemon/' + name) };
+    static async species(name = '', options = {}) { return await this.request(this.url + 'pokemon-species/' + name) };
+    static async type(name = '', options = {}) { return await this.request(this.url + 'type/' + name) };
+    static async ailment(name = '', options = {}) { return await this.request(this.url + 'move-ailment/' + name) };
 
-    static async request(url, options={}) {
+    static async request(url, options = {}) {
         try {
             let request = await fetch(url, options);
             if (!request.ok) throw new Error(`pokeAPI request failed: ${request.status}`);
@@ -264,5 +264,29 @@ export default class pokeapi {
         }
 
         return stats;
+    }
+
+    //================================================================================================================
+    // Helpers for retrieving sprites by index without calling api
+    //================================================================================================================
+    static Sprite = {
+        Official(index) {
+            return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index}.png`
+        },
+        OfficialShiny(index) {
+            return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${index}.png`
+        },
+        Default(index) {
+            return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index}.png`
+        },
+        DefaultShiny(index) {
+            return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${index}.png`
+        },
+        DefaultBack(index) {
+            return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${index}.png`
+        },
+        DefaultBackShiny(index) {
+            return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/${index}.png`
+        }
     }
 }

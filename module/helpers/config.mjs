@@ -18,7 +18,7 @@ PTA.Pokedex = {
   Berries: [],
   Ailments: [],
   Species: [],
-  Items: [],
+  Items: []
 }
 
 // Call in main init hook, needs ot be called after PTA is registered, or it slows down the init
@@ -49,7 +49,7 @@ PTA.loadPokedex = async (force = false) => {
     const _apiSpecies = await pokeapi.species('?limit=100000', { cache: 'reload' });
     const _apiItems = await pokeapi.item('?limit=100000', { cache: 'reload' });
 
-    for (const i of _apiNames.results) PTA.Pokedex.Pokemon.push(i.name);
+    for (const i of _apiNames.results) PTA.Pokedex.Pokemon.push({ name: i.name, id: i.url.replace(/.$/g, '').match(/\d+$/)[0] });
     for (const i of _apiEggs.results) PTA.Pokedex.Eggs.push(i.name);
     for (const i of _apiMoves.results) PTA.Pokedex.Moves.push(i.name);
     for (const i of _apiTypes.results) PTA.Pokedex.Types.push(i.name);
@@ -68,8 +68,20 @@ PTA.loadPokedex = async (force = false) => {
     PTA.Pokedex = JSON.parse(localStorage.getItem('pta.pokedex'));
   }
 
+  //===================================================================================
+  // Add in pokedex functions MUST BE DONE AFTER LOADING TO AVOID OVERWRITE
+  //===================================================================================
+  PTA.Pokedex.getPokemon = (name) => {
+    for (const p of PTA.Pokedex.Pokemon) {
+      if (p.name == name || p.id == name) return p;
+    }
+    return undefined;
+  }
+
   console.log("POKEDEX LOADED")
 }
+
+
 
 /* ------------------------------------------------------------------ */
 /*                                                                    */

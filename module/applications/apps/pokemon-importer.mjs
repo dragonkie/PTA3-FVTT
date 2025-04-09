@@ -51,26 +51,13 @@ export default class PokemonImporter extends PtaApplication {
 
         const search_list = [];
         // compile a list of valid pokemon
-        for (const i of PTA.Pokedex.Pokemon) {
-            if (i.startsWith(query)) search_list.push(i);
-        }
+        for (const i of PTA.Pokedex.Pokemon) if (i.name.startsWith(query)) search_list.push(i);
 
         const wrapper = this.element.querySelector('.search-results');
         while (wrapper.lastChild) wrapper.removeChild(wrapper.lastChild);
 
-        const pokemon_list = [];
-        for (const name of search_list) {
-            if (this.pokemon_index.find((i) => { i.name == name }) !== undefined) {
-                const _p = this.pokemon_index.find((i) => { i.name == name });
-                pokemon_list.push(_p);
-            } else {
-                const _p = await pokeapi.pokemon(name);
-                pokemon_list.push(_p);
-                this.pokemon_index.push(_p);
-            }
-        }
-
-        for (const p of pokemon_list) {
+        // goes through and comppiles a list of the pokemon available
+        for (const p of search_list) {
             // add the pokemon to the element search results
             let ele = document.createElement('DIV');
             ele.setAttribute('data-action', 'select');
@@ -78,7 +65,7 @@ export default class PokemonImporter extends PtaApplication {
             ele.setAttribute('style', 'flex: 0; border: 1px solid white;')
             ele.innerHTML = `
                 <div style="text-align: center;">${p.name}</div>
-                <img src=${p.sprites.front_default} style="min-width: 100px; min-height: 100px; border: 0;">
+                <img src=${pokeapi.Sprite.Official(p.id)} style="min-width: 100px; min-height: 100px; border: 0;">
             `
             wrapper.appendChild(ele);
         }
@@ -93,8 +80,8 @@ export default class PokemonImporter extends PtaApplication {
 
         // add the pokemon to our list of selections
         if (this.pokemon_selections.find((p) => p.name == pokemon_name)) return; // cancel if its already in lsit
-        const pokemon = this.pokemon_index.find((p) => p.name == pokemon_name);// get the pokemons data
-        if (!pokemon) return void utils.error(`This shouldn't be possible...`);// validate we got a result
+        const pokemon = PTA.Pokedex.getPokemon(pokemon_name);
+        if (!pokemon) return void utils.error(`PTA.Error.PokemonNotFound`);// validate we got a result
         this.pokemon_selections.push(pokemon);// add result to selections
 
         // add an element to the selection list so theu can be tracked / removed
@@ -117,25 +104,27 @@ export default class PokemonImporter extends PtaApplication {
 
     static async _onSubmit(event, target) {
         const create_data = [];
+        utils.info('PTA.Info.SubmittingPleaseWait');
+        this.close();
         for (const pokemon of this.pokemon_selections) {
-            let data = utils.parsePokemonData(pokemon);
+            let data = utils.parsePokemonData(await pokeapi.pokemon(pokemon.name));
             if (!data) continue;
             data.hp.value = data.hp.max;
             create_data.push({
                 name: pokemon.name,
                 type: 'pokemon',
                 system: data,
-                img: pokemon.sprites.other["official-artwork"].front_default,
+                img: pokeapi.Sprite.Official(pokemon.id),
                 prototypeToken: {
                     texture: {
-                        src: pokemon.sprites.other["official-artwork"].front_default
+                        src: pokeapi.Sprite.Official(pokemon.id)
                     }
                 }
             })
         }
         Actor.create(create_data);
+        utils.info('PTA.Info.ImportComplete');
         this.pokemon_selections = [];
-        this.close();
     }
 
     _onRender(context, options) {
@@ -159,7 +148,7 @@ export default class PokemonImporter extends PtaApplication {
             if (query.length < 1) return void console.error('search query to small');
 
             // select the right data array to search in
-            const sArray = utils.duplicate(pta.config.Pokedex.Pokemon).sort();
+            const sArray = utils.duplicate(PTA.Pokedex.Pokemon).sort((a, b) => a.name - b.name);
             if (!sArray) return void console.error('didnt find an array');
 
             // prepare the search indexing

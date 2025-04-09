@@ -75,13 +75,15 @@ export default class PtaPokemonSheet extends PtaActorSheet {
 
     static async _onSyncData() {
         // get the pokemons name / species, check against our downlaoded pokedex
-        let search = this.document.system.species;
+        let search = this.document.system.species.toLowerCase().replace(' ', '-');
         let set_species = false;
 
-        if (!pta.config.Pokedex.Pokemon.includes(search.toLowerCase().replace(' ', '-'))) {
-            search = this.document.name;
+        // check for pokemon by it's lsited species first
+        if (!PTA.Pokedex.getPokemon(search)) {
+            search = this.document.name.toLowerCase().replace(' ', '-');
             set_species = true;
-            if (!pta.config.Pokedex.Pokemon.includes(search.toLowerCase().replace(' ', '-'))) return void utils.error('PTA.Error.SyncFailedUnknownPokemon');
+            // if we cant find one, then we check it by name
+            if (!PTA.Pokedex.getPokemon(search)) return void utils.error('PTA.Error.SyncFailedUnknownPokemon');
         }
 
         // obtain and parse the pokemon data
