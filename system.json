@@ -41,7 +41,7 @@
     "packFolders": [ ],
     "socket": true,
     "manifest": "https://raw.githubusercontent.com/dragonkie/PTA3-FVTT/refs/heads/main/system.json",
-    "download": "https://github.com/dragonkie/PTA3-FVTT/releases/download/latest/pta3.zip",
+    "download": "https://github.com/dragonkie/PTA3-FVTT/releases/latest/download/pta3.zip",
     "background": "systems/pta3/assets/anvil-impact.png",
     "grid": {
         "distance": 5,
