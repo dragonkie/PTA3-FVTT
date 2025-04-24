@@ -38,7 +38,7 @@ skills - the skill list to reference from
           <a class="pta-talent" data-action="trainTalent">
             <i class="fa-{{#if (eq skill.talent 0)}}regular{{else}}solid{{/if}} fa-circle{{#if (eq skill.talent 1)}}-half-stroke{{/if}}"></i>
           </a>
-          <a class="pta-skill-label">
+          <a class="pta-skill-label" data-action="roll" data-roll="1d20+{{skill.total}}" data-roll-msg="{{skill.label.long}}">
             {{numberFormat skill.total sign=true}} {{skill.label.long}}
           </a>
         </div>

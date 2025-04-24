@@ -272,7 +272,8 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
     static async _onChangePcLayout(event, target) {
         let l = target.dataset.layout;
         let s = game.user.getFlag(game.system.id, 'settings');
-        s.pcLayout = l;
+        if (!s) s = { pcLayout: l }
+        else s.pcLayout = l;
         await game.user.setFlag(game.system.id, 'settings', s);
         this.render(false);
     }

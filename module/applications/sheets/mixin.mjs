@@ -79,6 +79,10 @@ export default function PtaSheetMixin(Base) {
             }, {});
         }
 
+        getRollData() {
+            return this.document.getRollData();
+        }
+
         /* -------------------------------------------------------------------------------------- */
         /*                                                                                        */
         /*                                   SHEET ACTIONS                                        */
