@@ -125,8 +125,6 @@ export default class PokeballData extends ItemData {
             rolls: [hitRoll, captureRoll]
         }
 
-        console.log(captureRoll);
-
         const msg = await ChatMessage.create(messageData);
         await this.parent.update({ system: { quantity: this.quantity - 1 } });
     }

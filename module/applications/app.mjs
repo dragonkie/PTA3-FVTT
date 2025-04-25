@@ -35,7 +35,6 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
     }
 
     static _onCopyToClipboard(event, target) {
-        console.log('Copying to clipboard')
         const ele = target.closest('[data-copy]');
 
         if (!ele) return;
@@ -47,37 +46,31 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
     // Rendering
     //==========================================================================================
     async _preRender(context, options) {
-        console.log('_preRender');
         return super._preRender(context, options);
     }
 
     /** @inheritdoc */
     _onFirstRender(context, options) {
-        console.log('_onFirstRender');
         let r = super._onFirstRender(context, options);
         return r;
     }
 
     /** @inheritdoc */
     _onRender(context, options) {
-        console.log('_onRender');
         super._onRender(context, options);
         this._setupDragAndDrop();
     }
 
 
     _configureRenderOptions(options) {
-        console.log('_configureRenderOptions');
         super._configureRenderOptions(options);
     }
 
     async _renderHTML(context, options) {
-        console.log('_renderHTML');
         return super._renderHTML(context, options);
     }
 
     async _renderFrame(options) {
-        console.log('_renderFrame');
         const frame = super._renderFrame(options);
         return frame;
     }

@@ -30,7 +30,6 @@ export default class pokeapi {
 
     // converts API data into VTT usable json data
     static async _pokemonToVtt(poke) {
-        console.log('Converting to VTT json...');
         const { data, species, evolution } = poke
         const pokemon = {
             name: data.name,
@@ -83,7 +82,6 @@ export default class pokeapi {
                 if (chain.evolves_to[i]) parseChain(chain.evolves_to[i]);
             }
         }
-        console.log('Parsing evoloution chain...');
         parseChain(evolution.chain);
 
         // Add pokemons level up available moves
@@ -95,7 +93,6 @@ export default class pokeapi {
                 for (const f of pokemon.moves) if (f.name == i.move.name) skip = true;
                 if (skip) continue;
                 let data = await pokeapi.request(i.move.url);
-                console.log(`Adding [${data.name}]: `, data);
                 let _d = {
                     name: i.move.name,
                     level: d.level_learned_at,

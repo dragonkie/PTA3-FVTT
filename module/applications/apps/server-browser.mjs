@@ -52,7 +52,6 @@ export default class ServerBrowser extends PtaApplication {
         // Get the pokemon if its possible
         let data = await pokeapi.request(`${pokeapi.url}${searchKey.dataset.api}/${searchInput.value}`);
         if (!data) return;
-        console.log('Search data', data)
 
         // create the grid of sprites to choose from
         const gallery = content.querySelector('.sprite-gallery');
@@ -93,7 +92,6 @@ export default class ServerBrowser extends PtaApplication {
     static async _onSubmit(event, target) {
         const content = this.element.querySelector('section.window-content');
         const url = content.querySelector('input[name=image-url]').value;
-        console.log(this.target);
         const doc = await fromUuid(this.target.uuid);
         if (!doc || !url) return void console.error('Missing data to submit image', { url: url, doc: doc, uuid: this.uuid });
 
@@ -109,7 +107,6 @@ export default class ServerBrowser extends PtaApplication {
         if (!content) return;
 
         const searchList = content.querySelector('datalist');
-        console.log(searchList)
         const searchInput = content.querySelector('.search-input');
         const searchSubmit = content.querySelector('button[data-action=search]');
         const searchType = content.querySelector('select[name=query-type]');

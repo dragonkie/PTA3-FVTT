@@ -226,7 +226,6 @@ export default class ConsumableData extends ItemData {
             _uDoc.system.quantity = _uDoc.system.quantity;
 
             try {
-                console.log(target_actor)
                 // verify that the pokemon isn't fainted, or that this item is a revive in that case
                 if (target_actor.system.fainted && !this.effects.revive) throw new Error("This item can't be used on a fainted Pokémon!");
 
@@ -247,7 +246,6 @@ export default class ConsumableData extends ItemData {
         for (const p of this.actor.system.pokemon) if (p.active) opts[p.uuid] = p.name;
 
         if (Object.keys(opts).length < 1) return null;
-        console.log(opts)
         let selector = new foundry.data.fields.StringField({
             required: true,
             nullable: false,

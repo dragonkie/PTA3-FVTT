@@ -135,7 +135,6 @@ export default class PokemonImporter extends PtaApplication {
         if (!content) return;
 
         const searchList = content.querySelector('datalist');
-        console.log(searchList)
         const searchInput = content.querySelector('.search-input');
         const searchType = content.querySelector('select[name=query-type]');
 

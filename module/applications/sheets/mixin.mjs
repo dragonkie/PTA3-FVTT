@@ -14,17 +14,23 @@ export default function PtaSheetMixin(Base) {
                 closeOnSubmit: false,
             },
             actions: {// Default actions must be static functions
-                editImage: this._onEditImage,
-                toggleSheet: this._onToggleSheet,
-                toggleMode: this._onToggleMode,
-                toggleOpacity: this._ontoggleOpacity,
-                toggleEffect: this._onToggleEffect,
-                editEffect: this._onEditEffect,
-                deleteEffect: this._onDeleteEffect,
-                createEffect: this._onCreateEffect,
-                toggleDescription: this._onToggleDescription,
+                // generic controls
+                delete: this._onDelete,
+                edit: this._onEdit,
+                toggle: this._onToggle,
+
+                collapse: this._onCollapse,
                 copyToClipboard: this._onCopyToClipboard,
-                collapse: this._onCollapse
+                editImage: this._onEditImage,
+                // effect controls
+                effectCreate: this._onCreateEffect,
+                effectToggle: this._onToggleEffect,
+
+                toggleDescription: this._onToggleDescription,
+                toggleEffect: this._onToggleEffect,
+                toggleMode: this._onToggleMode,
+                toggleOpacity: this._onToggleOpacity,
+                toggleSheet: this._onToggleSheet,
             }
         };
 
@@ -90,11 +96,40 @@ export default function PtaSheetMixin(Base) {
             return this.document.getRollData();
         }
 
-        /* -------------------------------------------------------------------------------------- */
-        /*                                                                                        */
-        /*                                   SHEET ACTIONS                                        */
-        /*                                                                                        */
-        /* -------------------------------------------------------------------------------------- */
+        //============================================================================================
+        // Sheet Actions
+        //============================================================================================
+
+        /**
+         * Generic delete event, destroying the nearest prompting the deletion for the neareset valid UUID
+         * @param {Event} event 
+         * @param {HTMLElement} target 
+         */
+        static async _onDelete(event, target) {
+            let uuid = target.closest('[data-uuid]')?.dataset.uuid;
+            let doc = await fromUuid(uuid);
+            if (!doc) return void console.error('Couldnt find UUID to delete from', uuid);
+
+            let confirmed = true;
+            if (!event.shiftKey) confirmed = await PtaDialog.confirm();
+            if (!confirmed) return;
+            else doc.delete();
+        }
+
+        /**
+         * Generic delete event, destroying the nearest prompting the deletion for the neareset valid UUID
+         * @param {Event} event 
+         * @param {HTMLElement} target 
+         */
+        static async _onEdit(event, target) {
+            let uuid = target.closest('[data-uuid]')?.dataset.uuid;
+            let doc = await fromUuid(uuid);
+            if (!doc) return void console.error('Couldnt find UUID to delete from', uuid);
+            let sheet = doc.sheet;
+            if (!sheet) return void console.error('Given uuid doesnt have a sheet');
+            sheet.render(true);
+        }
+
         static async _onEditImage(event, target) {
             if (!this.isEditable) return;
 
@@ -131,7 +166,6 @@ export default function PtaSheetMixin(Base) {
         }
 
         static _onCopyToClipboard(event, target) {
-            console.log('Copying to clipboard')
             const ele = target.closest('[data-copy]');
 
             if (!ele) return;
@@ -153,11 +187,27 @@ export default function PtaSheetMixin(Base) {
             ele.classList.toggle('collapsed')
         }
 
-        /* -------------------------------------------------------------------------------------- */
-        /*                                                                                        */
-        /*                                   RENDERING                                            */
-        /*                                                                                        */
-        /* -------------------------------------------------------------------------------------- */
+        static async _onCreateEffect(event, target) {
+            let effect = await ActiveEffect.create({
+                name: 'New Effect',
+                type: 'base',
+                img: 'icons/svg/aura.svg'
+            }, { parent: this.document });
+
+            effect.sheet.render(true);
+        }
+
+        static async _onToggleEffect(event, target) {
+            const uuid = target.closest('[data-uuid]').dataset.uuid;
+            const doc = await fromUuid(uuid);
+            await doc.update({ disabled: !doc.disabled });
+            this.render(false);
+
+        }
+
+        //============================================================================================
+        // Rendering
+        //============================================================================================
         _onFirstRender(context, options) {
             let r = super._onFirstRender(context, options);
             this._setupContextMenu();
@@ -176,7 +226,7 @@ export default function PtaSheetMixin(Base) {
             // Insert additional buttons into the window header
             // In this scenario we want to add a lock button
             if (this.isEditable && !this.document.getFlag("core", "sheetLock")) {
-                const label = game.i18n.localize("NEWEDO.Generic.LockToggle");
+                const label = game.i18n.localize("PTA.Generic.LockToggle");
                 const icon = this.isEditMode ? 'fa-lock-open' : 'fa-lock';
                 const sheetConfig = `<button type="button" class="header-control fa-solid ${icon}" data-action="toggleMode" data-tooltip="${label}" aria-label="${label}"></button>`;
                 this.window.close.insertAdjacentHTML("beforebegin", sheetConfig);
@@ -185,11 +235,9 @@ export default function PtaSheetMixin(Base) {
             return frame;
         }
 
-        /* -------------------------------------------------------------------------------------- */
-        /*                                                                                        */
-        /*                                   DRAG N DROP                                          */
-        /*                                                                                        */
-        /* -------------------------------------------------------------------------------------- */
+        //============================================================================================
+        // Drag n Drop
+        //============================================================================================
         _setupDragAndDrop() {
             const dd = new DragDrop({
                 dragSelector: "[data-item-uuid]",
@@ -246,30 +294,15 @@ export default function PtaSheetMixin(Base) {
         async _onDropItem(event, item) { }
         async _onSortItem(item, target) { }
 
-        /* -------------------------------------------------------------------------------------- */
-        /*                                                                                        */
-        /*                                   CONTEXT MENU                                         */
-        /*                                                                                        */
-        /* -------------------------------------------------------------------------------------- */
+        //============================================================================================
+        // Context Menu
+        //============================================================================================
 
         _setupContextMenu() {
-            /*
-            new newedo.application.NewedoContextMenu(this.element, "[data-item-uuid]", [], {
-                onOpen: element => {
-                    const item = fromUuidSync(element.dataset.itemUuid);
-                    if (!item) return;
-                    if (item.documentName === "ActiveEffect") ui.context.menuItems = this._getEffectContextOptions(item);
-                    else if (item.documentName === "Item") ui.context.menuItems = this._getItemContextOptions(item);
-                }
-            });
-            */
+
         }
 
         _preapreSubmitData(event, form, formData) {
-            console.log('event', event)
-            console.log('form', form)
-            console.log('formData', formData)
-
             return super._preapreSubmitData(event, form, formData);
         }
     }

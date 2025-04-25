@@ -29,7 +29,6 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         },
         actions: {
             trainTalent: this._onTrainTalent,
-            pokemonSheet: this._onPokemonSheet,
             pokemonUnbox: this._onUnboxPokemon,
             pokemonRemove: this._onRemovePokemon,
             pokemonBox: this._onBoxPokemon,
@@ -178,7 +177,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
      * @param {Element} target 
      */
     static async _onBoxPokemon(event, target) {
-        const uuid = target.closest('[data-pokemon-uuid]')?.dataset?.pokemonUuid;
+        const uuid = target.closest('[data-pokemon-uuid]')?.dataset.pokemonUuid;
         if (!uuid) return void console.error('Couldnt find pokemon uuid');
 
         let list = [];
@@ -231,22 +230,6 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
      * @param {Event} event 
      * @param {Element} target 
      */
-    static async _onPokemonSheet(event, target) {
-        const uuid = target.closest('[data-pokemon-uuid]')?.dataset?.pokemonUuid;
-        if (!uuid) return void console.error('Couldnt find pokemon uuid');
-
-        const pokemon = await fromUuid(uuid);
-        if (!pokemon) return void console.error("Couldn't find pokemon");
-
-        await pokemon.sheet.render(true);
-        pokemon.apps[this.id] = this;
-    }
-
-    /**
-     * 
-     * @param {Event} event 
-     * @param {Element} target 
-     */
     static async _onLinkPokemon(event, target) {
         pta.utils.info('PTA.Info.LinkingPokemonTokens')
         for (const entry of this.document.system.pokemon) {
@@ -258,6 +241,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
             }
             await pokemon.update({ prototypeToken: { actorLink: true } });
         }
+        pta.utils.info('PTA.Info.Complete');
     }
 
     /**

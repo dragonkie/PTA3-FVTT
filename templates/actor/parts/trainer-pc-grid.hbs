@@ -1,7 +1,7 @@
 <div class="pta-pc-layout-grid pta-s">
     {{#each pokemon as |pokemon key|}}
         {{#if (not pokemon.active)}}
-            <div class="pta-grid-item flex-align-start" data-pokemon-uuid="{{pokemon.uuid}}" data-action="selectElement">
+            <div class="pta-grid-item flex-align-start" data-pokemon-uuid="{{pokemon.uuid}}" data-uuid="{{pokemon.uuid}}" data-action="selectElement">
                 <span style="display: inline-block;">
                     <div class="wrapper" style="background-image: url({{pokemon.img}});">
 
@@ -9,7 +9,7 @@
                 </span>
                 <span class="controls">
                     <div class="flexcol flex-gap-s flex-align-center">
-                        <a class="item-control" data-action="pokemonSheet" title="PTA.TitleHint.edit">
+                        <a class="item-control" data-action="edit" title="PTA.TitleHint.edit">
                             <i class="fas fa-edit"></i>
                         </a>
                         <a class="item-control" data-action="pokemonUnbox" title="PTA.TitleHint.Unbox">

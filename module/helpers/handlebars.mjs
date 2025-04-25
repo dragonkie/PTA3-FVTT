@@ -156,8 +156,8 @@ function registerHelpers() {
 }
 
 export default function registerPtaHandlebars() {
-    console.log('registering templates');
+    console.log('registering handlebars templates');
     registerTemplates();
-    console.log('registering helpers');
+    console.log('registering handlebars helpers');
     registerHelpers();
 }

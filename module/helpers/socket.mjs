@@ -15,8 +15,7 @@ export default class PtaSocketManager {
         // Create the scoket event handler
         game.socket.on(this.identifier, async (event) => {
             //if we arent the target of the emit, ignroe it
-            if (event.reciever && event.reciever !== game.user.id) return void console.log('Ignoring event, not for us');
-            console.log('recieved event emit', event);
+            if (event.reciever && event.reciever !== game.user.id) return;
 
             // if there is a registered listener for this event, call it
             if (this.listeners.has(event.type)) {
@@ -120,9 +119,7 @@ export default class PtaSocketManager {
         // Otherwise, register this events promise
         // this promsie will be fullfilled once the reciever accepts it
         return new Promise((resolve, reject) => {
-            console.log('registered callback');
             this.callbacks.set(event.id, response => {
-                console.log('Callback resolved', response)
                 if (typeof cb === 'function') {
                     resolve(cb(response));
                 } else resolve(response);

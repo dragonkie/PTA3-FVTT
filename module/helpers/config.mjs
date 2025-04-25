@@ -24,7 +24,6 @@ PTA.Pokedex = {
 // Call in main init hook, needs ot be called after PTA is registered, or it slows down the init
 // enough to prevent it from being loaded at all
 PTA.loadPokedex = async (force = false) => {
-  console.log("LOADING POKEDEX PLEASE WAIT")
   //if the pokedex was previously registered, check if its been expired
   const expiry = localStorage.getItem('pta.pokedexExpiry');
   const today = await new Date();
@@ -32,10 +31,7 @@ PTA.loadPokedex = async (force = false) => {
   if (expiry) {
     const thirtyDays = 1000 * 60 * 60 * 24 * 30;
     const expiryDate = await new Date(expiry);
-    if (today - expiryDate > thirtyDays) {
-      console.log('pokedex is expired, refreshing');
-      expired = true;
-    }
+    if (today - expiryDate > thirtyDays) expired = true;
   }
 
   // retrieve the pokedex data
@@ -77,8 +73,6 @@ PTA.loadPokedex = async (force = false) => {
     }
     return undefined;
   }
-
-  console.log("POKEDEX LOADED")
 }
 
 

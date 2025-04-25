@@ -118,22 +118,13 @@ export default class PokemonData extends ActorData {
 
   // Changes made to the sheet here are temporary and do not persist
   prepareDerivedData() {
+    super.prepareDerivedData();
+
     // add bonus stat changes from nature
     for (const [key, value] of Object.entries(PTA.stats)) {
       // if the bonuses match, that means the key var is the stat we want to bump
-      if (PTA.natureIncreases[this.nature] === value) this.stats[key].total += 1;
-      if (PTA.natureDecreases[this.nature] === value) this.stats[key].total -= 1;
+      if (PTA.natureIncreases[this.nature] == value) this.stats[key].total += 1;
+      if (PTA.natureDecreases[this.nature] == value) this.stats[key].total -= 1;
     }
-
-    // Calls the stat mod check, needs to happen after all other calculations are done
-    super.prepareDerivedData();
-
-
-  }
-
-  async _getApiReference() {
-    let data = await pokeapi.pokemon(this.parent.name);
-    if (!data) return void console.log('Failed to update');
-    else console.log('data', data);
   }
 }

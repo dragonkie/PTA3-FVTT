@@ -48,7 +48,6 @@ export default function registerHooks() {
         ele.appendChild(button);
 
         button.addEventListener('click', async () => {
-            console.log('open actor import application');
             pokemon_importer.render(true);
         })
     })

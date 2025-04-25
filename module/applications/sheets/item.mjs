@@ -6,7 +6,6 @@ export default class PtaItemSheet extends PtaSheetMixin(foundry.applications.she
         position: { height: 400, width: 500 },
         actions: {
             roll: this._onRoll,
-            createEffect: this._onCreateEffect,
             disableEffect: this._onDisableEffect
         }
     };

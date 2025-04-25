@@ -5,13 +5,11 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         classes: ["actor"],
         position: { height: 800, width: 700 },
         actions: {
-            itemUse: this._onUseItem,
-            itemEdit: this._onEditItem,
             itemDelete: this._onDeleteItem,
+            itemEdit: this._onEditItem,
             itemQuantity: this._onChangeItemQuantity,
+            itemUse: this._onUseItem,
             roll: this._onRoll,
-            createEffect: this._onCreateEffect,
-            disableEffect: this._onDisableEffect
         }
     }
 
@@ -42,7 +40,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             return a.sort - b.sort;
         });
         context.itemTypes = this.document.itemTypes;
-        context.editable = this.  isEditable && (this._mode === this.constructor.SHEET_MODES.EDIT);
+        context.editable = this.isEditable && (this._mode === this.constructor.SHEET_MODES.EDIT);
         context.userSettings = game.user.getFlag('pta3', 'settings');
 
         context.stats = {};
@@ -88,7 +86,6 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
     static async _onEditItem(event, target) {
         const uuid = target.closest(".item[data-item-uuid]").dataset.itemUuid;
         const item = await fromUuid(uuid);
-        console.log('opening sheet')
         if (!item.sheet.rendered) item.sheet.render(true);
         else item.sheet.bringToFront();
     };
@@ -104,7 +101,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
 
     static async _onDeleteItem(event, target) {
         const uuid = target.closest(".item[data-item-uuid]")?.dataset.itemUuid;
-        if (!uuid) return console.log('couldnt find item id');
+        if (!uuid) return;
         const item = await fromUuid(uuid);
         const confirm = await foundry.applications.api.DialogV2.confirm({
             content: `${pta.utils.localize('PTA.confirm.deleteItem')}: ${item.name}`,
@@ -146,21 +143,6 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             speaker: ChatMessage.getSpeaker({ actor: this.document })
         }
         let msg = await roll.toMessage(msg_data);
-    }
-
-    static async _onCreateEffect(event, target) {
-        let effect = await ActiveEffect.create({
-            name: 'New Effect',
-            type: 'base'
-        }, { parent: this.document });
-
-        effect.sheet.render(true);
-    }
-
-    static async _onDisableEffect(event, target) {
-        const _id = target.closest('.item[data-item-uuid]').dataset.itemUuid;
-        const item = await fromUuid(_id);
-        item.update({ disabled: !item.disabled });
     }
 
     /* -------------------------------------------------------------------------------------- */
@@ -205,13 +187,13 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
     }
 
     async _onSortItem(item, target) {
-        if (item.documentName !== "Item") return void console.log('isnt an item');
+        if (item.documentName !== "Item") return;
 
         const self = target.closest("[data-tab]")?.querySelector(`[data-item-uuid="${item.uuid}"]`);
-        if (!self || !target.closest("[data-item-uuid]")) return void console.log('Didnt find myself');
+        if (!self || !target.closest("[data-item-uuid]")) return;
 
         let sibling = target.closest("[data-item-uuid]") ?? null;
-        if (sibling?.dataset.itemUuid === item.uuid) return void console.log('Didnt find sibling');
+        if (sibling?.dataset.itemUuid === item.uuid) return;
         if (sibling) sibling = await fromUuid(sibling.dataset.itemUuid);
 
         let siblings = target.closest("[data-tab]").querySelectorAll("[data-item-uuid]");
@@ -221,7 +203,6 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         let updates = SortingHelpers.performIntegerSort(item, { target: sibling, siblings: siblings, sortKey: "sort" });
         updates = updates.map(({ target, update }) => ({ _id: target.id, sort: update.sort }));
         this.document.updateEmbeddedDocuments("Item", updates);
-        console.log('item sorted', updates, siblings)
     }
 }
 

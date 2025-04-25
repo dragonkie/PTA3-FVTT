@@ -1,4 +1,4 @@
-<li class="item flexrow" data-item-uuid="{{item.uuid}}">
+<li class="item flexrow" data-item-uuid="{{item.uuid}}" data-uuid="{{item.uuid}}">
     <div class="item-name">
         <div class="item-image">
             <a data-action="itemUse">
@@ -17,12 +17,12 @@
         </button>
     </div>
     <div class="item-controls">
-        <a class="item-control" data-action="itemEdit" title="{{localize 'DOCUMENT.Update' type=Item}}">
+        <a class="item-control" data-action="edit" title="{{localize 'DOCUMENT.Update' type=Item}}">
             <i class="fas fa-edit"></i>
         </a>
 
         {{#if isEditMode}}
-            <a class="item-control" data-action="itemDelete" title="{{localize 'DOCUMENT.Delete' type=Item}}">
+            <a class="item-control" data-action="delete" title="{{localize 'DOCUMENT.Delete' type=Item}}">
                 <i class="fas fa-trash"></i>
             </a>
         {{/if}}

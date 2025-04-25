@@ -1,3 +1,5 @@
+import { PTA } from "../helpers/config.mjs";
+
 const {
   ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField, HTMLField
 } = foundry.data.fields;
@@ -28,6 +30,7 @@ export default class DataModel extends foundry.abstract.TypeDataModel {
     return this.parent.name;
   }
 
+  /**@override*/
   prepareBaseData() {
     return {};
   }
@@ -39,5 +42,28 @@ export default class DataModel extends foundry.abstract.TypeDataModel {
   getRollData() {
     //grabs the roll data based on what type of document this is, item or actor
     return { ...this };
+  }
+
+  static BonusField() {
+    return new SchemaField({
+      source: new StringField({ initial: 'none', required: true, nullable: false }),
+      value: new NumberField({ initial: 0, required: true, nullable: false }),
+      type: new StringField({
+        initial: 'add',
+        required: true,
+        nullable: false,
+        blank: false,
+        label: PTA.generic.type,
+        options: () => {
+          let options = {
+            add: "Add",
+            subtract: "Subtract",
+            multiply: "Multiply",
+            divide: "Divide",
+          };
+          return options
+        }
+      })
+    })
   }
 }

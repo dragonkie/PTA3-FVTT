@@ -90,8 +90,6 @@ export default class utils {
                         }],
                         submit: () => { resolve(app.element.querySelector('.pokemon-name')?.value); app.close(); }
                     }).render(true);
-
-                    console.log(app)
                 })
             }
 
@@ -217,9 +215,6 @@ export default class utils {
         if (!attacker || !defender) return null;
         if (!Array.isArray(attacker)) attacker = [attacker];
         if (!Array.isArray(defender)) defender = [defender];
-
-        console.log(attacker);
-        console.log(defender);
 
         const data = {
             value: 0,

@@ -6,9 +6,9 @@
     <ol class="pta-pokemon-team">
         {{#each pokemon as | pokemon key |}}
             {{#if pokemon.active}}
-                <li class="pta-pokemon" data-pokemon-uuid="{{pokemon.uuid}}">
+                <li class="pta-pokemon" data-pokemon-uuid="{{pokemon.uuid}}" data-uuid="{{pokemon.uuid}}">
                     <div class="portrait">
-                        <a data-action="pokemonSheet">
+                        <a data-action="edit">
                             <img src="{{pokemon.img}}">
                         </a>
                     </div>
