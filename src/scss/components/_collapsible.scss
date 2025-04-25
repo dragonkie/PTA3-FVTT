@@ -1,0 +1,33 @@
+/*
+|| Collapsible items
+
+.collapsible - Repersents a container with collapsible elements inside of it
+.collapsible-content - a container to be shrunk down when the container is collapsed
+.wrapper - the actual content being shrunk down
+*/
+
+.collapsible {
+    .fa-caret-down {
+      transition: all 0.3s ease-in-out;
+    }
+  
+    &.collapsed {
+      .fa-caret-down {
+        transform: rotate(-90deg);
+      }
+  
+      .collapsible-content {
+        grid-template-rows: 0fr;
+      }
+    }
+  
+    .collapsible-content {
+      display: grid;
+      grid-template-rows: 1fr;
+      transition: all 0.3s ease-in-out;
+  
+      >.wrapper {
+        overflow: hidden;
+      }
+    }
+  }

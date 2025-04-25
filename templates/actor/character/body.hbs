@@ -6,16 +6,16 @@
         <img class="flex0" title="{{document.type}} " data-action="editImage" width="100" height="100" src="{{document.img}}">
         <div>
           <h1 class="pta-font-l"><input type="text" value="{{document.name}}" name="name"></h1>
-          <div class="flexrow flex-gap-s">
-            <div>
-              <input type="text">
-              <input type="text">
-              <input type="text">
+          <div class="flexcol flex-gap-s">
+            <div class="progress-bar">
+              <label>Health</label>
+              <div class="wrapper">
+                <div class="bar {{#if (lt (divide system.hp.value system.hp.max) 0.33)}}red{{else}}green{{/if}}" style="width: {{multiply 100 (divide system.hp.value system.hp.max)}}%;"></div>
+              </div>
             </div>
-            <div>
-              <input type="text">
-              <input type="text">
-              <input type="text">
+            <div class="flexrow pta-s">
+              {{toFieldInput schema 'hp.value' value=system.hp.value}}/
+              {{toFieldInput schema 'hp.max' value=system.hp.max}}
             </div>
           </div>
         </div>

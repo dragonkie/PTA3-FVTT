@@ -49,6 +49,7 @@ export default function PtaSheetMixin(Base) {
             context.schema = this.document.system.schema;
             context.isEditMode = this.isEditMode;
             context.isPlayMode = this.isPlayMode;
+            context.isEditable = this.isEditable;
 
             context.flags = { ...this.document.flags, ...game.user.flags.pta3 }
 
@@ -57,6 +58,12 @@ export default function PtaSheetMixin(Base) {
                 field: this.document.system.schema.getField('gmNotes'),
                 value: this.document.system.gmNotes,
                 enriched: await TextEditor.enrichHTML(this.document.system.gmNotes, enrichmentOptions)
+            }
+
+            context.description = {
+                field: this.document.system.schema.getField('description'),
+                value: this.document.system.description,
+                enriched: await TextEditor.enrichHTML(this.document.system.description, enrichmentOptions)
             }
 
             return context;

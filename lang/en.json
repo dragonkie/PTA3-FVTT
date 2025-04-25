@@ -102,6 +102,7 @@
     "Effect": {
       "Inactive": "Inactive Effects",
       "Passive": "Passive Effects",
+      "Disabled": "Disabled Effects",
       "Source": "Source",
       "Temporary": "Temporary Effects",
       "Toggle": "Toggle Effect"

@@ -74,7 +74,6 @@ export default class PtaActor extends Actor {
     } else if (this.system.hp.value > 0) {
       this.toggleStatusEffect('fainted', { active: false });
     }
-    console.log('Super _onUpdate', super._onUpdate)
     return super._onUpdate(changed, options, userId);
   }
 }

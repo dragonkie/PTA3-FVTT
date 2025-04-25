@@ -70,7 +70,6 @@ export default class PtaPokemonSheet extends PtaActorSheet {
     //============================================================================================================
     static async _onImportData() {
         let pokemon = await utils.importPokemonData({ all: true });
-        console.log('pokemon', pokemon)
     }
 
     static async _onSyncData() {
@@ -91,9 +90,6 @@ export default class PtaPokemonSheet extends PtaActorSheet {
         let update_data = utils.parsePokemonData(pokemon);
 
         if (!set_species) delete update_data.species;
-
-        console.log(pokemon);
-        console.log(update_data);
 
         update_data.hp.value = Math.min(this.document.system.hp.value, update_data.hp.max);
 

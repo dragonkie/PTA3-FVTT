@@ -111,7 +111,7 @@ export default class PokemonImporter extends PtaApplication {
             if (!data) continue;
             data.hp.value = data.hp.max;
             create_data.push({
-                name: pokemon.name,
+                name: utils.toTitleCase(pokemon.name),
                 type: 'pokemon',
                 system: data,
                 img: pokeapi.Sprite.Official(pokemon.id),

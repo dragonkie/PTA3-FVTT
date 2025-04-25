@@ -1,4 +1,5 @@
 import { PTA } from "../../helpers/config.mjs";
+import utils from "../../helpers/utils.mjs";
 import ActorData from "../actor.mjs";
 
 const {
@@ -37,7 +38,21 @@ export default class CharacterData extends ActorData {
       uuid: new StringField({ initial: '', required: true, nullable: false }),
       name: new StringField({ initial: '', required: true, nullable: false }),
       active: new BooleanField({ initial: false, required: true, nullable: false })
-    }), { initial: [] })
+    }), { initial: [] });
+
+    schema.class_1 = new SchemaField({ label: new StringField({ initial: '' }) });
+    schema.class_2 = new SchemaField({ label: new StringField({ initial: '' }) });
+    schema.class_3 = new SchemaField({ label: new StringField({ initial: '' }) });
+    schema.class_4 = new SchemaField({ label: new StringField({ initial: '' }) });
+
+    schema.details = new SchemaField({
+      age: new StringField({ label: PTA.generic.age, initial: '' }),
+      gender: new StringField({ label: PTA.generic.gender, initial: '' }),
+      height: new StringField({ label: PTA.generic.height, initial: '' }),
+      weight: new StringField({ label: PTA.generic.weight, initial: '' }),
+      hair: new StringField({ label: PTA.generic.hair, initial: '' }),
+      eyes: new StringField({ label: PTA.generic.eyes, initial: '' })
+    })
 
     return schema;
   }
@@ -49,6 +64,12 @@ export default class CharacterData extends ActorData {
       let stat = this.stats[skill.stat];
       skill.total = skill.value + stat.mod + Math.floor(skill.talent * 2.5);
     }
+
+    this.level = this.class_1.level = utils.HonourLevel(this.honours);
+
+    this.class_2.level = this.class_1.level >= 3 ? this.class_1.level - 2 : 0;
+    this.class_3.level = this.class_1.level >= 7 ? this.class_1.level - 6 : 0;
+    this.class_4.level = this.class_1.level >= 11 ? this.class_1.level - 10 : 0;
   }
 
   getRollData() {

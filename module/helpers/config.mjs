@@ -104,7 +104,12 @@ PTA.generic = {
   sync: 'PTA.Generic.Sync.long',
   primary: 'PTA.Generic.Primary',
   secondary: 'PTA.Generic.Secondary',
-  none: 'PTA.Generic.None'
+  none: 'PTA.Generic.None',
+  age: 'PTA.Generic.Age',
+  height: 'PTA.Generic.Height',
+  hair: 'PTA.Generic.Hair',
+  eyes: 'PTA.Generic.Eyes',
+  description: 'PTA.Generic.Description',
 }
 
 PTA.dice = {

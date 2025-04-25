@@ -92,7 +92,9 @@ export default class MoveData extends ItemData {
         const rolldata = this.getRollData();
         if (!rolldata) return void pta.utils.error('PTA.Error.RolldataMissing');
 
-        // make the attack / accuracy roll
+        //=====================================================================================================
+        // POKESIM 
+        //=====================================================================================================
         if (game.settings.get(game.system.id, 'pokesim')) {
             if (!targets) return void pta.utils.warn('PTA.Warn.EnforceTargeting');
             // loop through targets to attack
@@ -130,8 +132,9 @@ export default class MoveData extends ItemData {
                 // send the attack chat card
                 const msg_attack = await r_accuracy.toMessage(atk_msg_data);
                 if (missed) continue;
-
-                // if we scored a hit, roll for damage
+                //============================================================================
+                // Damage Roll
+                //============================================================================
                 let effectiveness = { value: 0, percent: 1, immune: false };
                 if (target.actor.type == 'pokemon') effectiveness = pta.utils.typeEffectiveness(this.type, target.actor.system.getTypes());
                 let damage_scale = rolldata.stat.total / target_stat.total;
@@ -165,9 +168,14 @@ export default class MoveData extends ItemData {
 
                 let msg_damage = await r_damage.toMessage(dmg_msg_data, message_config);
             }
-        } else {
+        }
+        //=====================================================================================================
+        // REGULAR 
+        //=====================================================================================================
+        else {
             let r_accuracy = new Roll('1d20 + @stat.mod', rolldata);
             await r_accuracy.evaluate();
+            let msg_accuracy = r_accuracy.toMessage();
         }
     }
 }

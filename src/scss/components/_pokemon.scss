@@ -100,8 +100,12 @@ ol.pta-pokemon-team {
         flex: 0 0 calc(var(--pta-scale-px) * 10);
         border: 1px solid white;
         transition: flex 0.2s ease-in-out;
+        display: flex;
+        flex-direction: row;
 
+        align-items: flex-start;
         overflow: hidden;
+        flex-wrap: nowrap;
         white-space: nowrap;
 
         .wrapper {
@@ -112,7 +116,12 @@ ol.pta-pokemon-team {
         }
 
         >.controls {
-            display: inline-block;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            .item-control {
+                flex: 1;
+            }
         }
 
         label {
@@ -123,7 +132,7 @@ ol.pta-pokemon-team {
         }
 
         &.selected {
-            flex: 0 0 calc(var(--pta-scale-px) * 10 * 1.5);
+            flex: 0 0 calc(var(--pta-scale-px) * 13);
         }
 
         :hover {

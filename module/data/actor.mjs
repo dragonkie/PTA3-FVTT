@@ -1,3 +1,4 @@
+import utils from "../helpers/utils.mjs";
 import DataModel from "./abstract.mjs";
 
 export default class ActorData extends DataModel {
@@ -17,23 +18,30 @@ export default class ActorData extends DataModel {
     schema.stats = new fields.SchemaField(Object.keys(CONFIG.PTA.stats).reduce((obj, stat) => {
       obj[stat] = new fields.SchemaField({
         value: new fields.NumberField({ ...requiredInteger, initial: 3, min: 0 }),
+        bonus: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+        boost: new fields.NumberField({ ...requiredInteger, initial: 0 }),
       });
       return obj;
     }, {}));
 
-    schema.biography = new fields.HTMLField({ required: true, blank: true }); // equivalent to passing ({initial: ""}) for StringFields
+    schema.bonuses = new fields.SchemaField({
+
+    })
 
     return schema;
   }
 
   prepareBaseData() {
     super.prepareBaseData();
-    for (const key in this.stats) this.stats[key].total = this.stats[key].value;
+    //for (const key in this.stats) 
   }
 
   prepareDerivedData() {
     super.prepareDerivedData();
-    for (const key in this.stats) this.stats[key].mod = Math.floor(this.stats[key].total / 2);
+    for (const key in this.stats) {
+      this.stats[key].total = (this.stats[key].value + this.stats[key].bonus) * utils.AbilityStage(this.stats[key].boost);
+      this.stats[key].mod = Math.floor(this.stats[key].total / 2);
+    }
   }
 
   get isFainted() { return this.hp.value <= 0 };

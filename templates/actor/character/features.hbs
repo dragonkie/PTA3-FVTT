@@ -1,7 +1,37 @@
 {{!--  data-application-parts="features"  --}}
 <div class="pta-tab">
-    <div class="flexrow">
+    <div class="flexrow flex-align-start">
         <div data-application-part="abilities"></div>
+        <div>
+            <div class="pta-level flexcol flex-gap-m">
+                <div class="flexrow">
+                    <div style="font-size: 1.5rem;"><b>Level: {{system.level}}</b></div>
+                    {{toFieldGroup schema 'honours' value=system.honours label='Honours'}}
+                </div>
+                <div class="flexrow flex-gap-s">
+                    <input type="text" name="system.class_1.label" value="{{system.class_1.label}}" placeholder="First Class">
+                    <input type="number" disabled value="{{system.class_1.level}}">
+                </div>
+                {{#if (gte system.level 3)}}
+                    <div class="flexrow flex-gap-s">
+                        <input type="text" name="system.class_2.label" value="{{system.class_2.label}}" placeholder="Second Class">
+                        <input type="number" disabled value="{{system.class_2.level}}">
+                    </div>
+                {{/if}}
+                {{#if (gte system.level 7)}}
+                    <div class="flexrow flex-gap-s">
+                        <input type="text" name="system.class_3.label" value="{{system.class_3.label}}" placeholder="Third Class">
+                        <input type="number" disabled value="{{system.class_3.level}}">
+                    </div>
+                {{/if}}
+                {{#if (gte system.level 11)}}
+                    <div class="flexrow flex-gap-s">
+                        <input type="text" name="system.class_4.label" value="{{system.class_4.label}}" placeholder="Fourth Class">
+                        <input type="number" disabled value="{{system.class_4.level}}">
+                    </div>
+                {{/if}}
+            </div>
+        </div>
         <div></div>
     </div>
 </div>

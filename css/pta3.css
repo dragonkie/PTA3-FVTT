@@ -123,6 +123,13 @@
   cursor: pointer;
 }
 
+[data-action] {
+  cursor: pointer;
+}
+[data-action] * {
+  cursor: inherit;
+}
+
 .grid,
 .grid-2col {
   display: grid;
@@ -271,65 +278,53 @@
   grid-column-end: span 12;
 }
 
-.flex-group-center,
-.flex-group-left,
-.flex-group-right {
+.pta .flex-group-center,
+.pta .flex-group-start,
+.pta .flex-group-end {
   justify-content: center;
   align-items: center;
   text-align: center;
 }
-
-.flex-group-left {
+.pta .flex-group-start {
   justify-content: flex-start;
   text-align: left;
 }
-
-.flex-group-right {
+.pta .flex-group-end {
   justify-content: flex-end;
   text-align: right;
 }
-
-.flexshrink {
+.pta .flexshrink {
   flex: 0;
 }
-
-.flex-between {
+.pta .flex-between {
   justify-content: space-between;
 }
-
-.flexlarge {
+.pta .flexlarge {
   flex: 2;
 }
-
-.align-left {
-  justify-content: flex-start;
+.pta .flex-align-start {
+  align-items: flex-start;
   text-align: left;
 }
-
-.align-right {
-  justify-content: flex-end;
+.pta .flex-align-end {
+  align-items: flex-end;
   text-align: right;
 }
-
-.align-center {
-  justify-content: center;
+.pta .flex-align-center {
+  align-items: center;
   text-align: center;
 }
-
-.flex-gap-xs {
+.pta .flex-gap-s {
   gap: 4px;
 }
-
-.flex-gap-s {
+.pta .flex-gap-m {
   gap: 8px;
 }
-
-.flex-gap-m {
+.pta .flex-gap-l {
   gap: 12px;
 }
-
-.flex-gap-l {
-  gap: 16px;
+.pta .flex-overflow {
+  flex-wrap: wrap;
 }
 
 /* Components */
@@ -389,38 +384,6 @@
 }
 .description a {
   flex: 0;
-}
-
-/*
-|| Collapsible items
-
-.collapsible - Repersents a container with collapsible elements inside of it
-.collapsible-content - a container to be shrunk down when the container is collapsed
-.wrapper - the actual content being shrunk down
-*/
-[data-action] {
-  cursor: pointer;
-}
-[data-action] * {
-  cursor: inherit;
-}
-
-.collapsible .fa-caret-down {
-  transition: all 0.3s ease-in-out;
-}
-.collapsible.collapsed .fa-caret-down {
-  transform: rotate(-90deg);
-}
-.collapsible.collapsed .collapsible-content {
-  grid-template-rows: 0fr;
-}
-.collapsible .collapsible-content {
-  display: grid;
-  grid-template-rows: 1fr;
-  transition: all 0.3s ease-in-out;
-}
-.collapsible .collapsible-content > .wrapper {
-  overflow: hidden;
 }
 
 .text-center {
@@ -693,7 +656,11 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   flex: 0 0 calc(var(--pta-scale-px) * 10);
   border: 1px solid white;
   transition: flex 0.2s ease-in-out;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   overflow: hidden;
+  flex-wrap: nowrap;
   white-space: nowrap;
 }
 .pta-pc-layout-grid .pta-grid-item .wrapper {
@@ -703,7 +670,12 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   background-repeat: no-repeat;
 }
 .pta-pc-layout-grid .pta-grid-item > .controls {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.pta-pc-layout-grid .pta-grid-item > .controls .item-control {
+  flex: 1;
 }
 .pta-pc-layout-grid .pta-grid-item label {
   opacity: 0;
@@ -712,7 +684,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   background-color: grey;
 }
 .pta-pc-layout-grid .pta-grid-item.selected {
-  flex: 0 0 calc(var(--pta-scale-px) * 10 * 1.5);
+  flex: 0 0 calc(var(--pta-scale-px) * 13);
 }
 .pta-pc-layout-grid .pta-grid-item :hover {
   cursor: pointer;
@@ -840,6 +812,31 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 .pta-stats .pta-stat-wrap .pta-skills-wrap .pta-mod {
   text-align: center;
   flex: 0 0 2em;
+}
+
+/*
+|| Collapsible items
+
+.collapsible - Repersents a container with collapsible elements inside of it
+.collapsible-content - a container to be shrunk down when the container is collapsed
+.wrapper - the actual content being shrunk down
+*/
+.collapsible .fa-caret-down {
+  transition: all 0.3s ease-in-out;
+}
+.collapsible.collapsed .fa-caret-down {
+  transform: rotate(-90deg);
+}
+.collapsible.collapsed .collapsible-content {
+  grid-template-rows: 0fr;
+}
+.collapsible .collapsible-content {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: all 0.3s ease-in-out;
+}
+.collapsible .collapsible-content > .wrapper {
+  overflow: hidden;
 }
 
 /* Sheet specific styles */

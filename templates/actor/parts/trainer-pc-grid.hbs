@@ -1,14 +1,14 @@
 <div class="pta-pc-layout-grid pta-s">
     {{#each pokemon as |pokemon key|}}
         {{#if (not pokemon.active)}}
-            <div class="pta-grid-item" data-pokemon-uuid="{{pokemon.uuid}}" data-action="selectElement">
+            <div class="pta-grid-item flex-align-start" data-pokemon-uuid="{{pokemon.uuid}}" data-action="selectElement">
                 <span style="display: inline-block;">
                     <div class="wrapper" style="background-image: url({{pokemon.img}});">
-                        <label>{{pokemon.name}}</label>
+
                     </div>
                 </span>
                 <span class="controls">
-                    <div class="flexcol flex-gap-s">
+                    <div class="flexcol flex-gap-s flex-align-center">
                         <a class="item-control" data-action="pokemonSheet" title="PTA.TitleHint.edit">
                             <i class="fas fa-edit"></i>
                         </a>

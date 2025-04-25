@@ -45,6 +45,8 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         features: { template: "systems/pta3/templates/actor/character/features.hbs" },
         inventory: { template: "systems/pta3/templates/actor/character/inventory.hbs" },
         pokebox: { template: "systems/pta3/templates/actor/character/pokemon.hbs" },
+        effects: { template: "systems/pta3/templates/actor/parts/actor-effects.hbs" },
+        details: { template: "systems/pta3/templates/actor/character/details.hbs" },
         // components
         abilities: { template: "systems/pta3/templates/actor/parts/abilities.hbs" }
     }
@@ -53,6 +55,8 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         features: { id: "features", group: "primary", label: "PTA.Tab.Features" },
         inventory: { id: "inventory", group: "primary", label: "PTA.Tab.Inventory" },
         pokebox: { id: "pokebox", group: "primary", label: "PTA.Tab.Pokemon" },
+        effects: { id: "effects", group: "primary", label: "PTA.Tab.Effects" },
+        details: { id: "details", group: "primary", label: "PTA.Tab.Details" },
     }
 
     tabGroups = {
@@ -79,6 +83,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         context.pokemon = [];
         for (const pkmn of this.document.system.pokemon) {
             const poke = await fromUuid(pkmn.uuid);
+            if (!pkmn) continue;
             let _p = { ...pkmn };
             _p.img = poke.img;
             _p.data = poke.getRollData();

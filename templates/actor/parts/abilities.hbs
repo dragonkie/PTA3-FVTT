@@ -16,7 +16,7 @@ key - the access key for the stat
   <div class="pta-score-wrap flexcol flex-group-center">
     <div class="pta-stat-label text-center text-nowrap">{{stat.label.long}}</div>
     <div class="pta-score flexcol pta-m">
-      {{#if ../isEditMode}}
+      {{#if @root.isEditMode}}
         <input class="flex1" type="number" name="system.stats.{{key}}.value" value="{{stat.value}}">
       {{else}}
         <input class="flex1" type="number" disabled value="{{stat.total}}">

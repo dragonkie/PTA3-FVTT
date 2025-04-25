@@ -27,13 +27,17 @@ function registerTemplates() {
 function registerHelpers() {
     const helpers = [
         //=================================================================================================
-        //  Strings and Text                              
+        //  Data Management
         //=================================================================================================
+        { tag: 'JSON', fn: (str) => JSON.parse(str) },
+        //=======================================================================
+        //  Strings and Text
+        //=======================================================================
         { tag: 'toLowerCase', fn: (str) => str.toLowerCase() },
         { tag: 'toTitleCase', fn: (str) => str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()) },
-        //=================================================================================================
+        //=======================================================================
         //  Math                              
-        //=================================================================================================
+        //=======================================================================
         { tag: 'addition', fn: (a, b) => a + b },
         { tag: 'ceil', fn: (a) => Math.ceil(a) },
         { tag: 'divide', fn: (a, b) => a / b },
@@ -109,6 +113,32 @@ function registerHelpers() {
                 });
                 //if (group) return new Handlebars.SafeString(field.toFormGroup());
                 return new Handlebars.SafeString(field.toInput().outerHTML);
+            }
+        },
+        {// wraps a set of elements in a collapsible wrapper
+            tag: 'collapsible',
+            fn: (options) => {
+                let config = {
+                    label: "MISSING_LABEL",
+                    collapsed: false,
+                    cssClass: ''
+                }
+
+                Object.assign(config, options.hash);
+
+                return new Handlebars.SafeString(`
+                    <div class="collapsible ${config.collapsed ? 'collapsed' : ''} ${config.cssClass}">
+                        <div class="flexrow" data-action="collapse">
+                            <a style="flex: 0;"><i class="fas fa-caret-down"></i></a>
+                            <label>${config.label}</label>
+                        </div>
+                        <div class="collapsible-content">
+                            <div class="wrapper">
+                                ${options.fn(this)}
+                            </div>
+                        </div>
+                    </div>`
+                );
             }
         },
         //=================================================================================================

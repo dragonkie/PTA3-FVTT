@@ -42,16 +42,18 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             return a.sort - b.sort;
         });
         context.itemTypes = this.document.itemTypes;
-        context.editable = this.isEditable && (this._mode === this.constructor.SHEET_MODES.EDIT);
-        context.userSettings = game.user.getFlag('pta3', 'userSettings');
+        context.editable = this.  isEditable && (this._mode === this.constructor.SHEET_MODES.EDIT);
+        context.userSettings = game.user.getFlag('pta3', 'settings');
 
         context.stats = {};
         for (const [key, value] of Object.entries(this.document.system.stats)) {
-            context.stats[key] = value;
+            context.stats[key] = { ...value };
             context.stats[key].label = {
                 long: pta.utils.localize(CONFIG.PTA.stats[key]),
                 abbr: pta.utils.localize(CONFIG.PTA.statsAbbr[key])
             }
+            context.stats[key].field_path = `system.stats.${key}`;
+            context.stats[key].field = this.document.system.schema.getField(`stats.${key}`);
         }
 
         context.effects = {
@@ -67,6 +69,12 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
                 label: "PTA.Effect.Disabled",
                 effects: []
             }
+        }
+
+        for (const effect of this.document.effects.contents) {
+            if (effect.disabled) context.effects.disabled.effects.push(effect);
+            else if (effect.duration.type == 'none') context.effects.passive.effects.push(effect);
+            else context.effects.temporary.effects.push(effect);
         }
 
         return context;

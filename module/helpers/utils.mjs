@@ -147,7 +147,7 @@ export default class utils {
         }
     }
 
-    static honourLevel(num) {
+    static HonourLevel(num) {
         num += 1;
         let level = 1;
         let cost = 1;
