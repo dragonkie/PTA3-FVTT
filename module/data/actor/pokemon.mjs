@@ -72,7 +72,6 @@ export default class PokemonData extends ActorData {
 
     })
 
-    let gender = ['male', 'female'];
     schema.gender = new StringField({ ...isRequired, initial: 'male', label: PTA.generic.gender });
 
     // list of things the pokemon can do

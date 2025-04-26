@@ -126,6 +126,7 @@
       "Pokemon": "Pokémon",
       "Size": "Size",
       "Species": "Species",
+      "Status": "Status",
       "Trainer": "Trainer",
       "Type": { "long": "Type", "plural": "Types" },
       "Weight": "Weight",

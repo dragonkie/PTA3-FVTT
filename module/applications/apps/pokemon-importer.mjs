@@ -24,11 +24,6 @@ export default class PokemonImporter extends PtaApplication {
         }
     }
 
-    /** 
-     * @type {Object[]} 
-     */
-    pokemon_index = [];
-
     pokemon_selections = [];
 
     static get PARTS() {
@@ -136,7 +131,6 @@ export default class PokemonImporter extends PtaApplication {
 
         const searchList = content.querySelector('datalist');
         const searchInput = content.querySelector('.search-input');
-        const searchType = content.querySelector('select[name=query-type]');
 
         // add the auto complete search results
         searchInput.addEventListener('input', (event) => {
@@ -144,7 +138,7 @@ export default class PokemonImporter extends PtaApplication {
             const matches = [];
 
             // if theres less than 2 characters, dont bother searching
-            if (query.length < 1) return void console.error('search query to small');
+            if (query.length < 1) return;
 
             // select the right data array to search in
             const sArray = utils.duplicate(PTA.Pokedex.Pokemon).sort((a, b) => a.name - b.name);
@@ -164,7 +158,7 @@ export default class PokemonImporter extends PtaApplication {
                 if (dist <= 0.5) final = true; // if the jump distance makes it to less than one, we try one more time then quit
                 dist = Math.round(dist);
                 index = Math.min(Math.max(Math.round(index), 0), sArray.length - 1); // constrain the index to the array
-                let dir = query.localeCompare(sArray[index].substring(0, query.length))
+                let dir = query.localeCompare(sArray[index].name.substring(0, query.length))
                 if (dir > 0) {// positive means search is farther ahead
                     index += dist;
                 } else if (dir < 0) { // negative Means the search query is before
@@ -180,14 +174,14 @@ export default class PokemonImporter extends PtaApplication {
                             index = 0;
                             offset = 0;
                             backtracking = false;
-                        } else if (query.localeCompare(sArray[index - offset].substring(0, query.length)) != 0) {
+                        } else if (query.localeCompare(sArray[index - offset].name.substring(0, query.length)) != 0) {
                             offset -= 1;
                             backtracking = false;
                         }
 
                         if (!backtracking) {
                             for (let i = 0; i < 5; i++) {
-                                if (query.localeCompare(sArray[index - offset + i].substring(0, query.length) == 0)) matches.push(sArray[index - offset + i]);
+                                if (query.localeCompare(sArray[index - offset + i].name.substring(0, query.length) == 0)) matches.push(sArray[index - offset + i]);
                             }
                         } else offset += 1;
                     }
@@ -201,7 +195,7 @@ export default class PokemonImporter extends PtaApplication {
 
             for (const m of matches) {
                 const e = document.createElement('option');
-                e.value = m;
+                e.value = m.name;
                 searchList.appendChild(e);
             }
         });

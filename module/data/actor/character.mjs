@@ -75,15 +75,6 @@ export default class CharacterData extends ActorData {
   getRollData() {
     const data = super.getRollData();
 
-    // Copy the stat scores to the top level, so that rolls can use
-    // formulas like `@str + 4`.
-    // abbreviations repersent modifiers
-    // full length repersents total score
-    for (let [k, v] of Object.entries(this.stats)) {
-      data[k] = v.mod;
-      data[PTA.statKeyLong[k]] = v.total;
-    }
-
     return data;
   }
 

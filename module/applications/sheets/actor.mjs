@@ -3,7 +3,7 @@ import PtaSheetMixin from "./mixin.mjs";
 export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sheets.ActorSheetV2) {
     static DEFAULT_OPTIONS = {
         classes: ["actor"],
-        position: { height: 800, width: 700 },
+        position: { height: 800, width: 700, left: 120, top: 60 },
         actions: {
             itemDelete: this._onDeleteItem,
             itemEdit: this._onEditItem,

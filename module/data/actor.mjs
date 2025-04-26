@@ -1,5 +1,6 @@
 import utils from "../helpers/utils.mjs";
 import DataModel from "./abstract.mjs";
+import { PTA } from "../helpers/config.mjs";
 
 export default class ActorData extends DataModel {
 
@@ -42,6 +43,17 @@ export default class ActorData extends DataModel {
       this.stats[key].total = (this.stats[key].value + this.stats[key].bonus) * utils.AbilityStage(this.stats[key].boost);
       this.stats[key].mod = Math.floor(this.stats[key].total / 2);
     }
+  }
+
+  getRollData() {
+    const data = super.getRollData();
+
+    for (let [k, v] of Object.entries(this.stats)) {
+      data[k] = v.mod;
+      data[PTA.statKeyLong[k]] = v.total;
+    }
+
+    return data;
   }
 
   get isFainted() { return this.hp.value <= 0 };

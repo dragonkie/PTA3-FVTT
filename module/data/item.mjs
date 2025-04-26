@@ -41,7 +41,7 @@ export default class ItemData extends DataModel {
   getRollData() {
     let actor = this.actor;
     if (actor) {
-      return { actorData: actor.getRollData(), ...super.getRollData(), actor: actor };
+      return { ...actor.getRollData(), ...super.getRollData(), actor: actor };
     }
     return super.getRollData();
   }

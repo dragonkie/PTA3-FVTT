@@ -133,7 +133,7 @@ PTA.aoeTypes = {
 PTA.moveClass = {
   special: 'PTA.Generic.Special',
   physical: 'PTA.Generic.Physical',
-  effect: 'PTA.Generic.Effect'
+  status: 'PTA.Generic.Status'
 }
 
 //======================================================================
