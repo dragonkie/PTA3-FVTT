@@ -98,11 +98,22 @@ export default class PokemonImporter extends PtaApplication {
     }
 
     static async _onSubmit(event, target) {
+        function getFlavorText(entries) {
+            for (const entry of entries) {
+                if (entry.language.name == game.i18n.lang) return entry.flavor_text
+            }
+            return '';
+        }
+
         const create_data = [];
         utils.info('PTA.Info.SubmittingPleaseWait');
         this.close();
         for (const pokemon of this.pokemon_selections) {
-            let data = utils.parsePokemonData(await pokeapi.pokemon(pokemon.name));
+            const api_pokemon = await pokeapi.pokemon(pokemon.name);
+            const api_speices = await pokeapi.species(api_pokemon.species.name);
+            const data = utils.parsePokemonData(api_pokemon);
+            data.description = getFlavorText(api_speices.flavor_text_entries);
+
             if (!data) continue;
             data.hp.value = data.hp.max;
             create_data.push({

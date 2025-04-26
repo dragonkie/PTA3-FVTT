@@ -118,6 +118,10 @@ export default class utils {
         }
     }
 
+    static parsePokemonSpecies() {
+
+    }
+
     /**
      * converts given pokemon data into useable vtt data
      */
@@ -136,16 +140,23 @@ export default class utils {
                     primary: pokemon.types[0].type.name,
                     secondary: pokemon.types[1] ? pokemon.types[1].type.name : 'none'
                 },
-                species: pokemon.species.name
+                species: pokemon.species.name,
             };
 
             return data;
         } catch (err) {
-            return void console.error('recieved invalid pokemon data to parse')
+            return void console.error('recieved invalid pokemon data to parse', err)
         }
     }
 
     static parseMoveData(move) {
+        function getFlavorText(entries) {
+            for (const entry of entries) {
+                if (entry.language.name == game.i18n.lang) return entry.flavor_text
+            }
+            return '';
+        }
+
         try {
             const data = {
                 class: move.damage_class.name,
@@ -164,12 +175,13 @@ export default class utils {
                 multi_hit: {
                     max: move.meta.max_hits || 0,
                     min: move.meta.min_hits || 0
-                }
+                },
+                description: getFlavorText(move.flavor_text_entries)
             };
 
             return data;
         } catch (err) {
-            return void console.error('recieved invalid move data to parse')
+            return void console.error('recieved invalid move data to parse', err)
         }
     }
 

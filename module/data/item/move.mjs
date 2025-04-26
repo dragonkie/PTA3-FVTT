@@ -135,19 +135,22 @@ export default class MoveData extends ItemData {
                 else if (r_accuracy.total <= 5 + this.critical_chance) critical = true; // critical hit
 
                 // prepare message data
-                const atk_msg_data = {};
+                const message_data = {};
                 const message_config = { user: attacker.name, move: this.parent.name, target: target.token.name }
 
                 // the user missed due to an evasion buff or accuracy debuff
+                message_data.content = `<p><b>Accuracy</b></p>`
                 if (r_accuracy.total <= this.accuracy && r_accuracy.total > accuracy_tn) {
-                    atk_msg_data.flavor = pta.utils.format('PTA.Chat.Attack.Dodge', message_config);
+                    message_data.content += pta.utils.format('PTA.Chat.Attack.Dodge', message_config);
                     dodged = true;
-                } else if (missed) atk_msg_data.flavor = pta.utils.format(PTA.chat.attack.miss, message_config)
-                else atk_msg_data.flavor = pta.utils.format(critical ? PTA.chat.attack.crit : PTA.chat.attack.hit, message_config)
-
+                } else if (missed) message_data.content += pta.utils.format(PTA.chat.attack.miss, message_config)
+                else message_data.content += pta.utils.format(critical ? PTA.chat.attack.crit : PTA.chat.attack.hit, message_config)
+                message_data.content += await r_accuracy.render();
                 // send the attack chat card
-                const msg_attack = await r_accuracy.toMessage(atk_msg_data);
-                if (missed) continue;
+                if (missed) {
+                    await r_accuracy.toMessage(message_data);
+                    continue;
+                }
                 //============================================================================
                 // Damage Roll
                 //============================================================================
@@ -157,32 +160,41 @@ export default class MoveData extends ItemData {
                 let stab = attacker.system.getTypes().includes(this.type) ? 1.5 : 1;
                 let crit = critical ? 1.5 : 1;
 
-                let formula = `(${this.damage.formula})*${damage_scale}*${effectiveness.percent}*${stab}*${crit}`;
+                let formula = `round((${this.damage.formula})*${damage_scale}*${effectiveness.percent}*${stab}*${crit})`;
 
+                message_data.content += `<p><b>Damage</b></p>`
                 // configure the damage chat card
-                const dmg_msg_data = {};
                 switch (effectiveness.value) {
                     case -2:
-                        dmg_msg_data.flavor = pta.utils.format(PTA.chat.damage.quarter, message_config);
+                        message_data.content += pta.utils.format(PTA.chat.damage.quarter, message_config);
                         break;
                     case -1:
-                        dmg_msg_data.flavor = pta.utils.format(PTA.chat.damage.half, message_config);
+                        message_data.content += pta.utils.format(PTA.chat.damage.half, message_config);
                         break;
                     case 0:
-                        dmg_msg_data.flavor = pta.utils.format(PTA.chat.damage.normal, message_config);
+                        message_data.content += pta.utils.format(PTA.chat.damage.normal, message_config);
                         break;
                     case 1:
-                        dmg_msg_data.flavor = pta.utils.format(PTA.chat.damage.double, message_config);
+                        message_data.content += pta.utils.format(PTA.chat.damage.double, message_config);
                         break;
                     case 2:
-                        dmg_msg_data.flavor = pta.utils.format(PTA.chat.damage.quadruple, message_config);
+                        message_data.content += pta.utils.format(PTA.chat.damage.quadruple, message_config);
                         break;
                 }
-                console.log(rolldata);
+
                 const r_damage = new Roll(formula, rolldata);
                 await r_damage.evaluate();
 
-                let msg_damage = await r_damage.toMessage(dmg_msg_data, message_config);
+                message_data.content += await r_damage.render();
+                message_data.content += await TextEditor.enrichHTML(this.description);
+                if (this.actor.type == 'pokemon' && this.actor.system.trainer != '') {
+                    // validate that theres a real trainer attached to this pokemon
+                    let trainer = await fromUuid(this.actor.system.trainer);
+                    if (!trainer) message_data.speaker = ChatMessage.getSpeaker({ actor: this.actor })
+                    else message_data.speaker = ChatMessage.getSpeaker({ actor: trainer })
+                }
+
+                let msg_damage = await r_damage.toMessage(message_data, message_config);
             }
         }
         //=====================================================================================================
