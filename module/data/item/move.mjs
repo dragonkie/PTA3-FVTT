@@ -1,5 +1,6 @@
 import ItemData from "../item.mjs";
 import { PTA } from "../../helpers/config.mjs";
+import utils from "../../helpers/utils.mjs";
 
 const {
     ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField
@@ -100,19 +101,21 @@ export default class MoveData extends ItemData {
     }
 
     async use(event, options) {
+        if (this.uses.max > 0 && this.uses.value <= 0) return void utils.warn('PTA.Warn.NoUses');
+
         // gather relevant data
         const attacker = this.actor;
-        if (!attacker) return void pta.utils.warn('PTA.Warn.NoUser');
+        if (!attacker) return void utils.warn('PTA.Warn.NoUser');
 
-        const targets = pta.utils.getTargets();
+        const targets = utils.getTargets();
         const rolldata = this.getRollData();
-        if (!rolldata) return void pta.utils.error('PTA.Error.RolldataMissing');
+        if (!rolldata) return void utils.error('PTA.Error.RolldataMissing');
 
         //=====================================================================================================
         // POKESIM 
         //=====================================================================================================
         if (game.settings.get(game.system.id, 'pokesim')) {
-            if (!targets) return void pta.utils.warn('PTA.Warn.EnforceTargeting');
+            if (!targets) return void utils.warn('PTA.Warn.EnforceTargeting');
             // loop through targets to attack
             for (const target of targets) {
                 let target_stat = {};
@@ -123,7 +126,7 @@ export default class MoveData extends ItemData {
 
                 // make the accuracy roll
                 const r_accuracy = new Roll('1d100', rolldata);
-                let accuracy_tn = this.accuracy * (pta.utils.AccuracyStage(attacker));
+                let accuracy_tn = this.accuracy * (utils.AccuracyStage(attacker));
                 await r_accuracy.evaluate();
                 let critical = false;
                 let missed = false;
@@ -141,10 +144,10 @@ export default class MoveData extends ItemData {
                 // the user missed due to an evasion buff or accuracy debuff
                 message_data.content = `<p><b>Accuracy</b></p>`
                 if (r_accuracy.total <= this.accuracy && r_accuracy.total > accuracy_tn) {
-                    message_data.content += pta.utils.format('PTA.Chat.Attack.Dodge', message_config);
+                    message_data.content += utils.format('PTA.Chat.Attack.Dodge', message_config);
                     dodged = true;
-                } else if (missed) message_data.content += pta.utils.format(PTA.chat.attack.miss, message_config)
-                else message_data.content += pta.utils.format(critical ? PTA.chat.attack.crit : PTA.chat.attack.hit, message_config)
+                } else if (missed) message_data.content += utils.format(PTA.chat.attack.miss, message_config)
+                else message_data.content += utils.format(critical ? PTA.chat.attack.crit : PTA.chat.attack.hit, message_config)
                 message_data.content += await r_accuracy.render();
                 // send the attack chat card
                 if (missed) {
@@ -155,7 +158,7 @@ export default class MoveData extends ItemData {
                 // Damage Roll
                 //============================================================================
                 let effectiveness = { value: 0, percent: 1, immune: false };
-                if (target.actor.type == 'pokemon') effectiveness = pta.utils.typeEffectiveness(this.type, target.actor.system.getTypes());
+                if (target.actor.type == 'pokemon') effectiveness = utils.typeEffectiveness(this.type, target.actor.system.getTypes());
                 let damage_scale = rolldata.stat.total / target_stat.total;
                 let stab = attacker.system.getTypes().includes(this.type) ? 1.5 : 1;
                 let crit = critical ? 1.5 : 1;
@@ -166,19 +169,19 @@ export default class MoveData extends ItemData {
                 // configure the damage chat card
                 switch (effectiveness.value) {
                     case -2:
-                        message_data.content += pta.utils.format(PTA.chat.damage.quarter, message_config);
+                        message_data.content += utils.format(PTA.chat.damage.quarter, message_config);
                         break;
                     case -1:
-                        message_data.content += pta.utils.format(PTA.chat.damage.half, message_config);
+                        message_data.content += utils.format(PTA.chat.damage.half, message_config);
                         break;
                     case 0:
-                        message_data.content += pta.utils.format(PTA.chat.damage.normal, message_config);
+                        message_data.content += utils.format(PTA.chat.damage.normal, message_config);
                         break;
                     case 1:
-                        message_data.content += pta.utils.format(PTA.chat.damage.double, message_config);
+                        message_data.content += utils.format(PTA.chat.damage.double, message_config);
                         break;
                     case 2:
-                        message_data.content += pta.utils.format(PTA.chat.damage.quadruple, message_config);
+                        message_data.content += utils.format(PTA.chat.damage.quadruple, message_config);
                         break;
                 }
 
@@ -205,5 +208,7 @@ export default class MoveData extends ItemData {
             await r_accuracy.evaluate();
             let msg_accuracy = r_accuracy.toMessage();
         }
+
+        if (this.uses.max > 0) this.parent.update({ 'system.uses.value': this.uses.value - 1 });
     }
 }
