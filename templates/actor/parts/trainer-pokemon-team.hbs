@@ -5,7 +5,7 @@
     </span>
     <ol class="pta-pokemon-team">
         {{#each pokemon as | pokemon key |}}
-            {{#if pokemon.active}}
+            {{#if (and pokemon.active (not pokemon.missing))}}
                 <li class="pta-pokemon" data-pokemon-uuid="{{pokemon.uuid}}" data-uuid="{{pokemon.uuid}}">
                     <div class="portrait">
                         <a data-action="edit">

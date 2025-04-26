@@ -82,11 +82,17 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         context.pokemon = [];
         for (const pkmn of this.document.system.pokemon) {
             const poke = await fromUuid(pkmn.uuid);
-            if (!pkmn) continue;
-            let _p = { ...pkmn };
-            _p.img = poke.img;
-            _p.data = poke.getRollData();
-            context.pokemon.push(_p);
+            if (!poke) {
+                context.pokemon.push({ ...pkmn, missing: true })
+                continue;
+            } else {
+                context.pokemon.push({
+                    ...pkmn,
+                    img: poke.img,
+                    data: poke.getRollData(),
+                    missing: false,
+                });
+            }
         }
 
         return context;
