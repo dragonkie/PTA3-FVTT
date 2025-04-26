@@ -145,6 +145,34 @@ export default class utils {
         }
     }
 
+    static parseMoveData(move) {
+        try {
+            const data = {
+                class: move.damage_class.name,
+                type: move.type.name,
+                priority: move.priority,
+                damage: {
+                    formula: `${Math.floor(move.power / 20)}d6${move.power / 20 % 1 > 0 ? `+ ${move.power / 20 % 1 * 4}` : ''}`
+                },
+                accuracy: move.accuracy || 100,
+                ailment: {
+                    chance: move.meta.ailment_chance || 0,
+                    type: move.meta.ailment.name || 'none'
+                },
+                drain: move.meta.drain || 0,
+                critical_chance: move.meta.crit_rate || 0,
+                multi_hit: {
+                    max: move.meta.max_hits || 0,
+                    min: move.meta.min_hits || 0
+                }
+            };
+
+            return data;
+        } catch (err) {
+            return void console.error('recieved invalid move data to parse')
+        }
+    }
+
     static HonourLevel(num) {
         num += 1;
         let level = 1;

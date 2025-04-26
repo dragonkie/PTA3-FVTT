@@ -38,6 +38,9 @@ export default class MoveData extends ItemData {
 
         schema.range = new NumberField({ initial: 5 })
 
+        // additional crit chance
+        schema.critical_chance = new NumberField({ initial: 0, ...isRequired, min: 0, max: 100 });
+
         // how many times can this move be used, set max to 0 for unlimited uses
         schema.uses = new SchemaField({
             value: new NumberField({ initial: 0 }),
@@ -58,6 +61,19 @@ export default class MoveData extends ItemData {
                 choices: { ...PTA.aoeTypes }
             })
         })
+
+        schema.ailment = new SchemaField({
+            type: new StringField({ initial: '' }),
+            chance: new NumberField({ initial: 0 })
+        })
+
+        // if max or min hits is set to 0, the move isnt treated as a multi hit
+        schema.multi_hit = new SchemaField({
+            max: new NumberField({ initial: 0 }),
+            min: new NumberField({ initial: 0 })
+        })
+
+        schema.priority = new NumberField({ initial: 0, ...isRequired });
 
         return schema;
     }
@@ -116,7 +132,7 @@ export default class MoveData extends ItemData {
                 // validate what happened with the attack
                 if (r_accuracy.total >= 96) missed = true; // crit miss
                 else if (r_accuracy.total > accuracy_tn) missed = true; // regular miss
-                else if (r_accuracy.total <= 5) critical = true; // critical hit
+                else if (r_accuracy.total <= 5 + this.critical_chance) critical = true; // critical hit
 
                 // prepare message data
                 const atk_msg_data = {};
@@ -141,7 +157,7 @@ export default class MoveData extends ItemData {
                 let stab = attacker.system.getTypes().includes(this.type) ? 1.5 : 1;
                 let crit = critical ? 1.5 : 1;
 
-                let formula = `${this.damage.pokesim.dice}d6*${damage_scale}*${effectiveness.percent}*${stab}*${crit}`;
+                let formula = `(${this.damage.formula})*${damage_scale}*${effectiveness.percent}*${stab}*${crit}`;
 
                 // configure the damage chat card
                 const dmg_msg_data = {};
@@ -162,7 +178,7 @@ export default class MoveData extends ItemData {
                         dmg_msg_data.flavor = pta.utils.format(PTA.chat.damage.quadruple, message_config);
                         break;
                 }
-
+                console.log(rolldata);
                 const r_damage = new Roll(formula, rolldata);
                 await r_damage.evaluate();
 
