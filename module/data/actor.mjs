@@ -29,6 +29,25 @@ export default class ActorData extends DataModel {
 
     })
 
+    // manually set a pokemons resistance to a certain element
+    schema.resistance_override = new fields.ArrayField(
+      new fields.SchemaField({
+        value: new fields.StringField({
+          initial: 'none', blank: false, required: true, nullable: false, choices: () => {
+            let options = { none: PTA.generic.none, ...PTA.typeEffectivenessValues };
+            for (const key of Object.keys(options)) options[key] = utils.localize(options[key]);
+            return options;
+          }
+        }),
+        type: new fields.StringField({
+          initial: 'normal', blank: false, required: true, nullable: false, choices: () => {
+            let options = { ...PTA.pokemonTypes };
+            for (const key of Object.keys(options)) options[key] = utils.localize(options[key]);
+            return options;
+          }
+        }),
+      }), { initial: [], nullable: false });
+
     return schema;
   }
 

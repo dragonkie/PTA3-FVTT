@@ -9,7 +9,9 @@
                 </div>
                 <div>{{item.name}}</div>
             </div>
-            <div>Uses [{{item.system.uses.value}}/{{item.system.uses.max}}]</div>
+            {{#if (gt item.system.uses.max 0)}}
+                <div>Uses [{{item.system.uses.value}}/{{item.system.uses.max}}]</div>
+            {{/if}}
             <div class="item-controls">
                 {{log item}}
                 {{#if (not (eq item.system.uses.max item.system.uses.value))}}
@@ -33,6 +35,9 @@
         <div data-application-part="abilities"></div>
     </div>
     <div style="align-self: flex-start;">
+        <div>
+            <div><b>Resistance Overides <a data-action="editResistance"><i class="fas fa-cog"></i></a></b></div>
+        </div>
         <span class="items-header flexrow">
             <span class="item-name">Moves</span>
             <span>Controls</span>

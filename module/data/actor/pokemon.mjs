@@ -1,6 +1,7 @@
 import pokeapi from "../../helpers/pokeapi.mjs";
 import ActorData from "../actor.mjs";
 import { PTA } from "../../helpers/config.mjs";
+import utils from "../../helpers/utils.mjs";
 
 const {
   ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField, ObjectField
@@ -17,7 +18,7 @@ export default class PokemonData extends ActorData {
     schema.trainer = new StringField({ ...isRequired, initial: '', blank: true });
 
     const TypeChoices = {};
-    for (const a in PTA.pokemonTypes) TypeChoices[a] = pta.utils.localize(PTA.pokemonTypes[a]);
+    for (const a in PTA.pokemonTypes) TypeChoices[a] = utils.localize(PTA.pokemonTypes[a]);
 
     schema.types = new SchemaField({
       primary: new StringField({ ...isRequired, initial: 'normal', label: PTA.generic.primary, choices: { ...TypeChoices } }),
@@ -25,7 +26,7 @@ export default class PokemonData extends ActorData {
     }, { label: PTA.generic.types })
 
     schema.nature = new StringField({
-      initial: pta.utils.randomNature(),
+      initial: utils.randomNature(),
       ...isRequired,
       blank: false,
       label: PTA.generic.nature,
@@ -35,7 +36,7 @@ export default class PokemonData extends ActorData {
           data = { ...PTA.natures };
         } else data = { ...PTA.naturesNoNeutral }
 
-        for (const a in data) data[a] = pta.utils.localize(data[a]);
+        for (const a in data) data[a] = utils.localize(data[a]);
         return data;
       }
     });
@@ -49,7 +50,7 @@ export default class PokemonData extends ActorData {
       label: PTA.generic.size,
       choices: () => {
         let data = { ...PTA.pokemonSizes };
-        for (const a in data) data[a] = pta.utils.localize(data[a]);
+        for (const a in data) data[a] = utils.localize(data[a]);
         return data;
       }
     })
@@ -61,7 +62,7 @@ export default class PokemonData extends ActorData {
       label: PTA.generic.weight,
       choices: () => {
         let data = { ...PTA.pokemonWeights };
-        for (const a in data) data[a] = pta.utils.localize(data[a]);
+        for (const a in data) data[a] = utils.localize(data[a]);
         return data;
       }
     })
@@ -85,6 +86,8 @@ export default class PokemonData extends ActorData {
 
     })
 
+    
+
     // Holds the base API ref that this pokemon is generated from
     schema.api_ref = new ObjectField({ initial: {} });
 
@@ -102,7 +105,7 @@ export default class PokemonData extends ActorData {
     // we can update data models directly using _preUpdate and _onUpdate though
     this.parent.updateSource({
       system: {
-        nature: pta.utils.randomNature(),
+        nature: utils.randomNature(),
         gender: (Math.floor(Math.random() * 2) > 0) ? "Male" : "Female",
         shiny: (Math.floor(Math.random() * game.settings.get('pta3', 'shinyRate')) <= 1) ? true : false
       }

@@ -166,7 +166,34 @@ export default class MoveData extends ItemData {
                 // Damage Roll
                 //============================================================================
                 let effectiveness = { value: 0, percent: 1, immune: false };
-                if (target.actor.type == 'pokemon') effectiveness = utils.typeEffectiveness(this.type, target.actor.system.getTypes());
+                if (target.actor.type == 'pokemon') {
+                    let overriden = false
+                    console.log(target.actor)
+                    for (const override of target.actor.system.resistance_override) {
+                        if (override.type == this.type) {
+                            console.log('overide targets')
+                            overriden = true;
+                            switch (override.value) {
+                                case 'immune':
+                                    effectiveness = { value: 0, percent: 0, immune: true }
+                                    break;
+                                case 'double':
+                                    effectiveness = { value: 1, percent: 2, immune: false }
+                                    break;
+                                case 'quadruple':
+                                    effectiveness = { value: 2, percent: 4, immune: false }
+                                    break;
+                                case 'half':
+                                    effectiveness = { value: -1, percent: 0.5, immune: false }
+                                    break;
+                                case 'quarter':
+                                    effectiveness = { value: -2, percent: 0.25, immune: false }
+                                    break;
+                            }
+                        }
+                    }
+                    if (!overriden) effectiveness = utils.typeEffectiveness(this.type, target.actor.system.getTypes());
+                }
                 let damage_scale = rolldata.stat.total / target_stat.total;
                 let stab = attacker.system.getTypes().includes(this.type) ? 1.5 : 1;
                 let crit = critical ? 1.5 : 1;
@@ -175,7 +202,10 @@ export default class MoveData extends ItemData {
 
                 message_data.content += `<p><b>Damage</b></p>`
                 // configure the damage chat card
-                switch (effectiveness.value) {
+                if (effectiveness.immune) {
+                    message_data.content += utils.format(PTA.chat.damage.immune, message_config);
+                }
+                else switch (effectiveness.value) {
                     case -2:
                         message_data.content += utils.format(PTA.chat.damage.quarter, message_config);
                         break;

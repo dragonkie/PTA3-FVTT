@@ -306,6 +306,24 @@ PTA.pokemonTypes = {
   water: 'PTA.Type.Water',
 };
 
+PTA.typeEffectivenessLabels = {
+  immune: 'PTA.Generic.Immune',
+  quarter: 'PTA.Generic.Quarter',
+  half: 'PTA.Generic.Half',
+  normal: 'PTA.Generic.Normal',
+  double: 'PTA.Generic.Double',
+  quadruple: 'PTA.Generic.Quadruple',
+}
+
+PTA.typeEffectivenessValues = {
+  immune: 'PTA.Chat.Damage.Immune',
+  quarter: 'PTA.Chat.Damage.Quarter',
+  half: 'PTA.Chat.Damage.Half',
+  normal: 'PTA.Chat.Damage.Normal',
+  double: 'PTA.Chat.Damage.Double',
+  quadruple: 'PTA.Chat.Damage.Quadruple',
+}
+
 PTA.typeEffectiveness = {
   bug: {
     double: ['fire', 'flying', 'rock'],

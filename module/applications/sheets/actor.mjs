@@ -1,3 +1,6 @@
+import { PTA } from "../../helpers/config.mjs";
+import utils from "../../helpers/utils.mjs";
+import PtaDialog from "../dialog.mjs";
 import PtaSheetMixin from "./mixin.mjs";
 
 export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sheets.ActorSheetV2) {
@@ -9,6 +12,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             itemEdit: this._onEditItem,
             itemQuantity: this._onChangeItemQuantity,
             itemUse: this._onUseItem,
+            editResistance: this._onEditResistance,
             roll: this._onRoll,
         }
     }
@@ -143,6 +147,63 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             speaker: ChatMessage.getSpeaker({ actor: this.document })
         }
         let msg = await roll.toMessage(msg_data);
+    }
+
+    static async _onEditResistance(event, target) {
+        let content = ``;
+        let resists = this.document.system.resistance_override;
+
+        for (const type of Object.keys(PTA.pokemonTypes)) {
+            console.log
+            let label = utils.localize(PTA.pokemonTypes[type]);
+            let value = 'none';
+            for (const resist of resists) if (resist.type == type) value = resist.value;
+
+            let ele = new foundry.data.fields.StringField({
+                name: type,
+                label: label,
+                initial: value,
+                required: true,
+                blank: false,
+                choices: () => {
+                    let options = { none: PTA.generic.none, ...PTA.typeEffectivenessLabels };
+                    for (const key of Object.keys(options)) options[key] = utils.localize(options[key]);
+                    return options;
+                }
+            }).toFormGroup();
+
+            ele.setAttribute('data-type', type);
+
+            content += ele.outerHTML;
+        }
+
+        let app = await new PtaDialog({
+            window: { title: 'RESIST CONFIG' },
+            content: content,
+            classes: ['pta'],
+            buttons: [{
+                action: 'cancel',
+                label: 'Cancel'
+            }, {
+                action: 'confirm',
+                label: 'Confirm'
+            }],
+            submit: result => {
+                if (result != 'confirm') return;
+                const list = [];
+                let inputs = app.element.querySelectorAll('[data-type]');
+
+                for (const input of inputs) {
+                    let t = input.dataset.type;
+                    let v = input.querySelector('select').value;
+                    if (v == 'none') continue;
+                    list.push({ type: t, value: v });
+                }
+
+                this.document.update({ system: { resistance_override: list } });
+                console.log(this.document.system.resistance_override)
+            }
+        }).render(true);
     }
 
     /* -------------------------------------------------------------------------------------- */
