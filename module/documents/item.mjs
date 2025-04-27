@@ -90,7 +90,7 @@ export default class PtaItem extends Item {
     }
   }
 
-  async use() {
-    return this.system.use();
+  async use(event, target, action) {
+    return this.system.use(event, target, action);
   }
 }

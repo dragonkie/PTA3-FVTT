@@ -100,7 +100,15 @@ export default class MoveData extends ItemData {
         return data;
     }
 
-    async use(event, options) {
+    async use(event, target, action) {
+        console.log(action);
+        console.trace();
+        if (action == 'reload') return this._onUseReload(event, target);
+        if (action == 'attack') return this._onUseAttack(event, target);
+        return this._onUseAttack(event, target);
+    }
+
+    async _onUseAttack(event, target) {
         if (this.uses.max > 0 && this.uses.value <= 0) return void utils.warn('PTA.Warn.NoUses');
 
         // gather relevant data
@@ -206,9 +214,35 @@ export default class MoveData extends ItemData {
         else {
             let r_accuracy = new Roll('1d20 + @stat.mod', rolldata);
             await r_accuracy.evaluate();
-            let msg_accuracy = r_accuracy.toMessage();
+            let r_damage = new Roll(this.damage.formula);
+            await r_damage.evaluate();
+
+            const message_data = {
+                content: '',
+                speaker: null
+            }
+
+            if (this.actor.type == 'pokemon' && this.actor.system.trainer != '') {
+                // validate that theres a real trainer attached to this pokemon
+                let trainer = await fromUuid(this.actor.system.trainer);
+                if (!trainer) message_data.speaker = ChatMessage.getSpeaker({ actor: this.actor })
+                else message_data.speaker = ChatMessage.getSpeaker({ actor: trainer })
+            }
+
+            message_data.content += `<p><b>${utils.localize(PTA.generic.accuracy)}</b></p>`
+            message_data.content += await r_accuracy.render();
+            message_data.content += `<p><b>${utils.localize(PTA.generic.damage)}</b></p>`
+            message_data.content += await r_damage.render();
+
+            let message = r_accuracy.toMessage(message_data);
         }
 
         if (this.uses.max > 0) this.parent.update({ 'system.uses.value': this.uses.value - 1 });
+    }
+
+    async _onUseReload(event, target) {
+        if (this.uses.max > 0 && this.uses.value < this.uses.max) {
+            this.parent.update({ system: { uses: { value: this.uses.max } } });
+        }
     }
 }
