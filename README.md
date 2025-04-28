@@ -1,4 +1,4 @@
-# pta System
+# Pokemon Tabletop Adventures VTT System
 ![Foundry v12](https://img.shields.io/badge/foundry-v12-green)
 An adaptation of the Pokémon Tabletop Adventures ruleset as a system for use with FoundryVTT!
 This software is not directly affiliated with, or endorsed by, Foundry Gaming LLC.
