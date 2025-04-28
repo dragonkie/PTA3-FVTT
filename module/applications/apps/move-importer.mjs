@@ -1,3 +1,4 @@
+import PtaActor from "../../documents/actor.mjs";
 import { PTA } from "../../helpers/config.mjs";
 import pokeapi from "../../helpers/pokeapi.mjs";
 import utils from "../../helpers/utils.mjs";
@@ -36,6 +37,16 @@ export default class MoveImporter extends PtaApplication {
         let context = super._prepareContext();
         context.id = this.id;
         return context;
+    }
+
+    actor = undefined;
+
+    async linkActor(actor) {
+        if (typeof actor == 'string') actor = await fromUuid(actor);
+        if (!actor || !actor instanceof PtaActor) return false
+
+        this.actor = actor;
+        return true;
     }
 
     static async _onSearch(event, target) {
@@ -107,7 +118,14 @@ export default class MoveImporter extends PtaApplication {
                 system: data,
             })
         }
-        Item.create(create_data);
+
+        // if this importer instance was linked to an actor, moves are imported as theirs
+        let create_config = {};
+        if (this.actor) {
+            create_config.parent = this.actor;
+        }
+
+        Item.create(create_data, create_config);
         utils.info('PTA.Info.ImportComplete');
         this.move_selections = [];
     }
@@ -119,9 +137,16 @@ export default class MoveImporter extends PtaApplication {
         const content = this.element.querySelector('section.window-content');
         if (!content) return;
 
+        const searchData = content.querySelector('form.search-data');
         const searchList = content.querySelector('datalist');
         const searchInput = content.querySelector('.search-input');
-        const searchType = content.querySelector('select[name=query-type]');
+
+        searchData.addEventListener('submit', (event) => {
+            if (event.preventDefault) event.preventDefault();
+            console.log(this.options.actions.submit);
+            this.options.actions.search.call(this, event, searchInput);
+            return false;
+        })
 
         // add the auto complete search results
         searchInput.addEventListener('input', (event) => {

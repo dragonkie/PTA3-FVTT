@@ -2,44 +2,42 @@ import utils from "../helpers/utils.mjs";
 import DataModel from "./abstract.mjs";
 import { PTA } from "../helpers/config.mjs";
 
+const { SchemaField, NumberField, BooleanField, StringField, ArrayField, DataField, ObjectField, HTMLField } = foundry.data.fields;
+
 export default class ActorData extends DataModel {
 
   static defineSchema() {
-    const fields = foundry.data.fields;
+
     const requiredInteger = { required: true, nullable: false, integer: true };
     const schema = super.defineSchema();
 
-    schema.hp = new fields.SchemaField({
-      value: new fields.NumberField({ ...requiredInteger, initial: 20, min: 0 }),
-      max: new fields.NumberField({ ...requiredInteger, initial: 20, min: 0 }),
-      min: new fields.NumberField({ ...requiredInteger, initial: 0, min: 0, max: 0 }),
+    schema.hp = new SchemaField({
+      value: new NumberField({ ...requiredInteger, initial: 20, min: 0 }),
+      max: new NumberField({ ...requiredInteger, initial: 20, min: 0 }),
+      min: new NumberField({ ...requiredInteger, initial: 0, min: 0, max: 0 }),
     })
 
     // Iterate over stats names and create a new SchemaField for each.
-    schema.stats = new fields.SchemaField(Object.keys(CONFIG.PTA.stats).reduce((obj, stat) => {
-      obj[stat] = new fields.SchemaField({
-        value: new fields.NumberField({ ...requiredInteger, initial: 3, min: 0 }),
-        bonus: new fields.NumberField({ ...requiredInteger, initial: 0 }),
-        boost: new fields.NumberField({ ...requiredInteger, initial: 0 }),
+    schema.stats = new SchemaField(Object.keys(CONFIG.PTA.stats).reduce((obj, stat) => {
+      obj[stat] = new SchemaField({
+        value: new NumberField({ ...requiredInteger, initial: 3, min: 0 }),
+        bonus: new NumberField({ ...requiredInteger, initial: 0 }),
+        boost: new NumberField({ ...requiredInteger, initial: 0 }),
       });
       return obj;
     }, {}));
 
-    schema.bonuses = new fields.SchemaField({
-
-    })
-
     // manually set a pokemons resistance to a certain element
-    schema.resistance_override = new fields.ArrayField(
-      new fields.SchemaField({
-        value: new fields.StringField({
+    schema.resistance_override = new ArrayField(
+      new SchemaField({
+        value: new StringField({
           initial: 'none', blank: false, required: true, nullable: false, choices: () => {
             let options = { none: PTA.generic.none, ...PTA.typeEffectivenessValues };
             for (const key of Object.keys(options)) options[key] = utils.localize(options[key]);
             return options;
           }
         }),
-        type: new fields.StringField({
+        type: new StringField({
           initial: 'normal', blank: false, required: true, nullable: false, choices: () => {
             let options = { ...PTA.pokemonTypes };
             for (const key of Object.keys(options)) options[key] = utils.localize(options[key]);
@@ -47,6 +45,13 @@ export default class ActorData extends DataModel {
           }
         }),
       }), { initial: [], nullable: false });
+
+    //====================================================================================
+    // Bonus fields
+    //====================================================================================
+    schema.bonuses = new SchemaField({
+      attack: new NumberField({ initial: 0, required: true, nullable: false }),
+    })
 
     return schema;
   }

@@ -1,5 +1,6 @@
 import { PTA } from "../../helpers/config.mjs";
 import utils from "../../helpers/utils.mjs";
+import MoveImporter from "../apps/move-importer.mjs";
 import PtaDialog from "../dialog.mjs";
 import PtaSheetMixin from "./mixin.mjs";
 
@@ -14,6 +15,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             itemUse: this._onUseItem,
             editResistance: this._onEditResistance,
             roll: this._onRoll,
+            importMoves: this._onImportMoves,
         }
     }
 
@@ -204,6 +206,14 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
                 console.log(this.document.system.resistance_override)
             }
         }).render(true);
+    }
+
+    /**@type {MoveImporter|null} */
+    move_importer = null;
+    static async _onImportMoves(event, target) {
+        if (!this.move_importer) this.move_importer = new MoveImporter();
+        await this.move_importer.linkActor(this.document);
+        await this.move_importer.render(true);
     }
 
     /* -------------------------------------------------------------------------------------- */

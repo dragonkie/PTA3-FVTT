@@ -140,8 +140,16 @@ export default class PokemonImporter extends PtaApplication {
         const content = this.element.querySelector('section.window-content');
         if (!content) return;
 
+        const searchData = content.querySelector('form.search-data')
         const searchList = content.querySelector('datalist');
         const searchInput = content.querySelector('.search-input');
+
+        searchData.addEventListener('submit', (event) => {
+            if (event.preventDefault) event.preventDefault();
+            console.log(this.options.actions.submit);
+            this.options.actions.search.call(this, event, searchInput);
+            return false;
+        })
 
         // add the auto complete search results
         searchInput.addEventListener('input', (event) => {
