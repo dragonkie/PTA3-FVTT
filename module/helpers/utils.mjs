@@ -359,7 +359,6 @@ export default class utils {
     static getTargets() {
         const targets = [];
         for (const target of game.user.targets) {
-            let token = target.document;
             targets.push({
                 target: target,
                 actor: target.actor,

@@ -208,13 +208,20 @@ export default function PtaSheetMixin(Base) {
         //============================================================================================
         // Rendering
         //============================================================================================
+        async render(options, _options) {
+            console.trace('render');
+            return super.render(options, _options);
+        }
+
         _onFirstRender(context, options) {
+            console.trace('_onFirstRender');
             let r = super._onFirstRender(context, options);
             this._setupContextMenu();
             return r;
         }
 
         _onRender(context, options) {
+            console.trace('_onRender');
             let r = super._onRender(context, options);
             if (!this.isEditable) this.element.querySelectorAll("input, select, textarea, multi-select").forEach(n => { n.disabled = true; });
             this._setupDragAndDrop();
@@ -222,6 +229,7 @@ export default function PtaSheetMixin(Base) {
         }
 
         async _renderFrame(options) {
+            console.trace('_renderFrame');
             const frame = super._renderFrame(options);
             // Insert additional buttons into the window header
             // In this scenario we want to add a lock button
