@@ -33,7 +33,7 @@ export default function registerHooks() {
     const move_importer = new MoveImporter();
     Hooks.on('renderItemDirectory', async (directory, element, data) => {
         /**@type {Element} */
-        let ele = element[0].querySelector('.directory-footer.action-buttons');
+        let ele = element.querySelector('.directory-footer.action-buttons');
 
         let button = document.createElement('BUTTON');
         button.innerHTML = utils.localize(`PTA.Button.ImportItem`);
@@ -47,7 +47,7 @@ export default function registerHooks() {
     const pokemon_importer = new PokemonImporter();
     Hooks.on('renderActorDirectory', async (directory, element, data) => {
         /**@type {Element} */
-        let ele = element[0].querySelector('.directory-footer.action-buttons');
+        let ele = element.querySelector('.directory-footer.action-buttons');
 
         let button = document.createElement('BUTTON');
         button.innerHTML = utils.localize(`PTA.Button.ImportPokemon`);

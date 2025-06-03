@@ -63,13 +63,13 @@ export default function PtaSheetMixin(Base) {
             context.gmNotes = {
                 field: this.document.system.schema.getField('gmNotes'),
                 value: this.document.system.gmNotes,
-                enriched: await TextEditor.enrichHTML(this.document.system.gmNotes, enrichmentOptions)
+                enriched: await foundry.applications.ux.TextEditor.enrichHTML(this.document.system.gmNotes, enrichmentOptions)
             }
 
             context.description = {
                 field: this.document.system.schema.getField('description'),
                 value: this.document.system.description,
-                enriched: await TextEditor.enrichHTML(this.document.system.description, enrichmentOptions)
+                enriched: await foundry.applications.ux.TextEditor.enrichHTML(this.document.system.description, enrichmentOptions)
             }
 
             return context;
@@ -192,9 +192,7 @@ export default function PtaSheetMixin(Base) {
                 name: 'New Effect',
                 type: 'base',
                 img: 'icons/svg/aura.svg'
-            }, { parent: this.document });
-
-            effect.sheet.render(true);
+            }, { parent: this.document, renderSheet: true });
         }
 
         static async _onToggleEffect(event, target) {
@@ -209,19 +207,16 @@ export default function PtaSheetMixin(Base) {
         // Rendering
         //============================================================================================
         async render(options, _options) {
-            console.trace('render');
             return super.render(options, _options);
         }
 
         _onFirstRender(context, options) {
-            console.trace('_onFirstRender');
             let r = super._onFirstRender(context, options);
             this._setupContextMenu();
             return r;
         }
 
         _onRender(context, options) {
-            console.trace('_onRender');
             let r = super._onRender(context, options);
             if (!this.isEditable) this.element.querySelectorAll("input, select, textarea, multi-select").forEach(n => { n.disabled = true; });
             this._setupDragAndDrop();
@@ -229,7 +224,6 @@ export default function PtaSheetMixin(Base) {
         }
 
         async _renderFrame(options) {
-            console.trace('_renderFrame');
             const frame = super._renderFrame(options);
             // Insert additional buttons into the window header
             // In this scenario we want to add a lock button
@@ -247,7 +241,7 @@ export default function PtaSheetMixin(Base) {
         // Drag n Drop
         //============================================================================================
         _setupDragAndDrop() {
-            const dd = new DragDrop({
+            const dd = new foundry.applications.ux.DragDrop({
                 dragSelector: "[data-item-uuid]",
                 dropSelector: ".application",
                 permissions: {
@@ -281,7 +275,7 @@ export default function PtaSheetMixin(Base) {
         async _onDrop(event) {
             event.preventDefault();
             const target = event.target;
-            const { type, uuid } = TextEditor.getDragEventData(event);
+            const { type, uuid } = foundry.applications.ux.TextEditor.getDragEventData(event);
             if (!this.isEditable) return;
             const item = await fromUuid(uuid);
 

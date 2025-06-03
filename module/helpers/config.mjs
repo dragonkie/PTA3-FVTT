@@ -440,7 +440,6 @@ for (const a in PTA.ailments) {
 }
 
 PTA.statuses = {
-  dead: 'PTA.Ailment.Dead.long',
   fainted: 'PTA.Ailment.Fainted.long',
   ...PTA.ailments
 }

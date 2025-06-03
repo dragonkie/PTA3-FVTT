@@ -65,17 +65,17 @@ Hooks.once('init', function () {
     CONFIG.Item.dataModels = models.ItemConfig;
 
     // Register sheet application classes
-    Actors.unregisterSheet('core', ActorSheet);
-    Items.unregisterSheet('core', ItemSheet);
+    foundry.documents.collections.Actors.unregisterSheet('core', foundry.appv1.sheets.ActorSheet);
+    foundry.documents.collections.Items.unregisterSheet('core', foundry.appv1.sheets.ItemSheet);
 
     for (const sheet of applications.sheets.actor.config) {
         if (!sheet.application) continue;
-        Actors.registerSheet('pta3', sheet.application, sheet.options);
+        foundry.documents.collections.Actors.registerSheet('pta3', sheet.application, sheet.options);
     }
 
     for (const sheet of applications.sheets.item.config) {
         if (!sheet.application) continue;
-        Items.registerSheet('pta3', sheet.application, sheet.options);
+        foundry.documents.collections.Items.registerSheet('pta3', sheet.application, sheet.options);
     }
 
     /* -------------------------------------------- */

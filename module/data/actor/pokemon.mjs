@@ -86,7 +86,7 @@ export default class PokemonData extends ActorData {
 
     })
 
-    
+
 
     // Holds the base API ref that this pokemon is generated from
     schema.api_ref = new ObjectField({ initial: {} });
@@ -120,13 +120,13 @@ export default class PokemonData extends ActorData {
 
   // Changes made to the sheet here are temporary and do not persist
   prepareDerivedData() {
-    super.prepareDerivedData();
-
-    // add bonus stat changes from nature
+    // add bonus stat changes from nature, apply this before the super so the MOD is calculated properly
     for (const [key, value] of Object.entries(PTA.stats)) {
       // if the bonuses match, that means the key var is the stat we want to bump
       if (PTA.natureIncreases[this.nature] == value) this.stats[key].total += 1;
       if (PTA.natureDecreases[this.nature] == value) this.stats[key].total -= 1;
     }
+
+    super.prepareDerivedData();
   }
 }

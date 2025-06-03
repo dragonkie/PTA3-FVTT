@@ -21,7 +21,7 @@ function registerTemplates() {
         paths[`pta.${p.split("/").pop().replace(".hbs", "")}`] = p;
     }
 
-    return loadTemplates(paths);
+    return foundry.applications.handlebars.loadTemplates(paths);
 };
 
 function registerHelpers() {

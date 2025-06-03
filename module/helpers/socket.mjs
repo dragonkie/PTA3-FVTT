@@ -5,11 +5,7 @@ export default class PtaSocketManager {
 
         // resoloution callbacks
         this.callbacks = new Map();
-
-        // list of event handlers
         this.listeners = new Map();
-
-        // recieved events awaiting resoloution
         this.requests = new Map();
 
         // Create the scoket event handler

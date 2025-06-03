@@ -9,7 +9,7 @@ export default function registerSystemSettings() {
             default: false,// what does this setting start as
             onChange: () => { }
         },
-        partyLimit: {
+        partyLimit: {// how many pokemon can be equipped by a trainer
             name: "PTA.Settings.PartyLimit.label", // settings displayed name
             hint: "PTA.Settings.PartyLimit.hint",// settings displayed description / instructions
             scope: "world",// where the setting is stored, for everyone or for just a user
@@ -18,7 +18,7 @@ export default function registerSystemSettings() {
             default: 6,// what does this setting start as
             onChange: () => { }
         },
-        neutralNatures: {
+        neutralNatures: {// are neutral natures selectable and allowed?
             name: "PTA.Settings.NeutralNatures.label",
             hint: "PTA.Settings.NeutralNatures.hint",// settings displayed description / instructions
             scope: "world",// where the setting is stored, for everyone or for just a user
@@ -36,7 +36,16 @@ export default function registerSystemSettings() {
             default: 0,
             onChange: () => { }
         },
-        shinyRate: {
+        baseAc: {// additional flat value for regular play added to defence to offset higher hit chances, doesnt effect sim mode
+            name: "PTA.Settings.BaseAc.label",
+            hint: "PTA.Settings.BaseAc.hint",
+            scope: "world",
+            config: true,
+            type: Number,
+            default: 0,
+            onChange: () => { }
+        },
+        shinyRate: {// newly made pokemon can spawn as shiny, this affects that chance
             name: "PTA.Settings.ShinyRate.label",
             hint: "PTA.Settings.ShinyRate.hint",
             scope: "world",
@@ -45,7 +54,7 @@ export default function registerSystemSettings() {
             default: 4096,
             onChange: () => { }
         },
-        automation: {
+        automation: {// should automation features be enabled, such as automatic damage application
             name: "PTA.Settings.Automation.label",
             hint: "PTA.Settings.Automation.hint",
             scope: "world",
@@ -54,7 +63,7 @@ export default function registerSystemSettings() {
             default: true,
             onChange: () => { }
         },
-        playerImport: {
+        playerImport: {// are non-GM players allowed to use importers?
             name: "PTA.Settings.PlayerImport.label",
             hint: "PTA.Settings.PlayerImport.hint",
             scope: "world",
@@ -62,7 +71,7 @@ export default function registerSystemSettings() {
             type: Boolean,
             default: false,
         },
-        healthMult: {
+        healthMult: {// multiplier to a pokemons health when imported to set its base value
             name: "PTA.Settings.HealthMult.label",
             hint: "PTA.Settings.HealthMult.hint",
             scope: "world",
@@ -78,7 +87,7 @@ export default function registerSystemSettings() {
             type: Boolean,
             default: false,
         },
-        simMinAccuracy: {
+        simMinAccuracy: {//the lowest chance for a hit you can go
             name: "PTA.Settings.SimMinEvasion.label",
             hint: "PTA.Settings.SimMinEvasion.hint",
             scope: "world",
@@ -86,15 +95,15 @@ export default function registerSystemSettings() {
             type: Number,
             default: 33,
         },
-        simMaxAccuracy: {
+        simMaxAccuracy: {// the highest you can boost accuracy to
             name: "PTA.Settings.SimMaxEvasion.label",
             hint: "PTA.Settings.SimMaxEvasion.hint",
             scope: "world",
             config: true,
             type: Number,
-            default: 95,
+            default: 96,
         },
-        palworld: {
+        palworld: {// You know what this does, and if you dont...
             name: "PTA.Settings.Palworld.label",
             hint: "PTA.Settings.Palworld.hint",
             scope: "world",

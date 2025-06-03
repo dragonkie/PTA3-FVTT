@@ -20,8 +20,8 @@
     ],
     "version": "0.2.8",
     "compatibility": {
-        "minimum": "12",
-        "verified": "12.331"
+        "minimum": "13.344",
+        "verified": "13.344"
     },
     "esmodules": [
         "module/pta3.mjs"

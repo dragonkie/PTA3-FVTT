@@ -223,7 +223,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
     /* -------------------------------------------------------------------------------------- */
 
     async _onDropActiveEffect(event, effect) {
-        const { type, uuid } = TextEditor.getDragEventData(event);
+        const { type, uuid } = foundry.applications.ux.TextEditor.getDragEventData(event);
         if (!Object.keys(this.document.constructor.metadata.embedded).includes(type)) return;
 
         const effectData = effect.toObject();
@@ -244,7 +244,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
     }
 
     async _onDropItem(event, item) {
-        const { type, uuid } = TextEditor.getDragEventData(event);
+        const { type, uuid } = foundry.applications.ux.TextEditor.getDragEventData(event);
         if (!Object.keys(this.document.constructor.metadata.embedded).includes(type)) return;
         const itemData = item.toObject();
         const modification = {

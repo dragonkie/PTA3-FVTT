@@ -3,10 +3,14 @@
     {{toFieldGroup schema 'class' value=system.class label='damage class'}}
     {{toFieldGroup schema 'accuracy' value=system.accuracy label='accuracy'}}
     {{toFieldGroup schema 'damage.formula' value=system.damage.formula label='Damage Formula'}}
+    {{toFieldGroup schema 'range' value=system.range label='attack range'}}
+    {{toFieldGroup schema 'critical_chance' value=system.critical_chance label='Critical Bonus'}}
+    <b>Move Uses</b>
     {{toFieldGroup schema 'uses.value' value=system.uses.value label='Remaining uses'}}
     {{toFieldGroup schema 'uses.max' value=system.uses.max label='Max uses'}}
-
-    {{toFieldGroup schema 'range' value=system.range label='attack range'}}
-    Effects
+    <b>Multi Hit</b>
+    {{toFieldGroup schema 'multi_hit.min' value=system.multi_hit.min label='Min Hits'}}
+    {{toFieldGroup schema 'multi_hit.max' value=system.multi_hit.max label='Max hits'}}
+    <b>Effects</b>
     {{toFieldGroup schema 'drain' value=system.drain label='drain'}}
 </div>

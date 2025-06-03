@@ -101,8 +101,6 @@ export default class MoveData extends ItemData {
     }
 
     async use(event, target, action) {
-        console.log(action);
-        console.trace();
         if (action == 'reload') return this._onUseReload(event, target);
         if (action == 'attack') return this._onUseAttack(event, target);
         return this._onUseAttack(event, target);
@@ -123,6 +121,7 @@ export default class MoveData extends ItemData {
         // POKESIM 
         //=====================================================================================================
         if (game.settings.get(game.system.id, 'pokesim')) {
+            // Targeting in simulation mode is ALWAYS enforced
             if (!targets) return void utils.warn('PTA.Warn.EnforceTargeting');
             // loop through targets to attack
             for (const target of targets) {
@@ -132,7 +131,9 @@ export default class MoveData extends ItemData {
                 if (this.class == 'special') target_stat = target.actor.system.stats.sdef;
                 if (this.class == 'effect') target_stat = target.actor.system.stats.spd;
 
-                // make the accuracy roll
+                //============================================================================
+                // Accuracy Roll
+                //============================================================================
                 const r_accuracy = new Roll('1d100', rolldata);
                 let accuracy_tn = this.accuracy * (utils.AccuracyStage(attacker));
                 await r_accuracy.evaluate();
@@ -140,14 +141,13 @@ export default class MoveData extends ItemData {
                 let missed = false;
                 let dodged = false;
 
-                // validate what happened with the attack
-                if (r_accuracy.total >= 96) missed = true; // crit miss
-                else if (r_accuracy.total > accuracy_tn) missed = true; // regular miss
-                else if (r_accuracy.total <= 5 + this.critical_chance) critical = true; // critical hit
+                if (r_accuracy.total >= (game.settings.get(game.system.id, 'simMaxAccuracy') || 96)) missed = true; // crit miss
+                else if (r_accuracy.total > Math.max(accuracy_tn, game.settings.get(game.system.id, 'simMinAccuracy') || 33)) missed = true; // regular miss
+                else if (r_accuracy.total <= utils.CriticalStage(this.critical_chance)) critical = true; // critical hit
 
                 // prepare message data
                 const message_data = {};
-                const message_config = { user: attacker.name, move: this.parent.name, target: target.token.name }
+                const message_config = { ...rolldata, user: attacker.name, move: this.parent.name, target: target.token.name };
 
                 // the user missed due to an evasion buff or accuracy debuff
                 message_data.content = `<p><b>Accuracy</b></p>`
@@ -194,17 +194,16 @@ export default class MoveData extends ItemData {
                     }
                     if (!overriden) effectiveness = utils.typeEffectiveness(this.type, target.actor.system.getTypes());
                 }
-                let damage_scale = rolldata.stat.total / target_stat.total;
-                let stab = attacker.system.getTypes().includes(this.type) ? 1.5 : 1;
-                let crit = critical ? 1.5 : 1;
-
-                let formula = `round((${this.damage.formula})*${damage_scale}*${effectiveness.percent}*${stab}*${crit})`;
+                let damage_scale = ` * ${Math.round(rolldata.stat.total / target_stat.total * 100) / 100}[stats]`;
+                let stab = attacker.system.getTypes().includes(this.type) ? ` * 1.5[stab]` : '';
+                let crit = critical ? ` * 1.5[crit]` : ``;
+                let burn = attacker.statuses.has('burn') && this.class == 'physical' ? ' * 0.5[burn]' : ''
+                let formula = `round((${this.damage.formula})[base]${burn}${damage_scale}*${effectiveness.percent}[type]${stab}${crit})`;
+                console.log(formula)
 
                 message_data.content += `<p><b>Damage</b></p>`
                 // configure the damage chat card
-                if (effectiveness.immune) {
-                    message_data.content += utils.format(PTA.chat.damage.immune, message_config);
-                }
+                if (effectiveness.immune) message_data.content += utils.format(PTA.chat.damage.immune, message_config);
                 else switch (effectiveness.value) {
                     case -2:
                         message_data.content += utils.format(PTA.chat.damage.quarter, message_config);
@@ -227,7 +226,7 @@ export default class MoveData extends ItemData {
                 await r_damage.evaluate();
 
                 message_data.content += await r_damage.render();
-                message_data.content += await TextEditor.enrichHTML(this.description);
+                message_data.content += await foundry.applications.ux.TextEditor.enrichHTML(this.description);
                 if (this.actor.type == 'pokemon' && this.actor.system.trainer != '') {
                     // validate that theres a real trainer attached to this pokemon
                     let trainer = await fromUuid(this.actor.system.trainer);
@@ -242,29 +241,136 @@ export default class MoveData extends ItemData {
         // REGULAR 
         //=====================================================================================================
         else {
-            let r_accuracy = new Roll('1d20 + @stat.mod', rolldata);
-            await r_accuracy.evaluate();
-            let r_damage = new Roll(this.damage.formula);
-            await r_damage.evaluate();
+            //============================================================================
+            // Targeting data
+            //============================================================================
+            if (!targets) {
 
-            const message_data = {
-                content: '',
-                speaker: null
+            } else for (const target of targets) {
+                //========================================================================
+                // Data prep
+                //========================================================================
+                let damage_formula = this.damage.formula;
+
+                let target_stat = {};
+                if (this.class == 'physical') target_stat = target.actor.system.stats.def;
+                if (this.class == 'special') target_stat = target.actor.system.stats.sdef;
+                if (this.class == 'effect') target_stat = target.actor.system.stats.spd;
+
+                const message_config = { ...rolldata, user: attacker.name, move: this.parent.name, target: target.token.name };
+                const message_data = { content: '', speaker: null }
+
+                if (this.actor.type == 'pokemon' && this.actor.system.trainer != '') {
+                    // validate that theres a real trainer attached to this pokemon
+                    let trainer = await fromUuid(this.actor.system.trainer);
+                    if (!trainer) message_data.speaker = ChatMessage.getSpeaker({ actor: this.actor })
+                    else message_data.speaker = ChatMessage.getSpeaker({ actor: trainer })
+                }
+
+                //========================================================================
+                // Accuracy Roll
+                //========================================================================
+                let r_accuracy = new Roll('1d20 + @stat.mod + @accuracy', rolldata);
+                await r_accuracy.evaluate();
+
+                let missed = false;
+                let critical = false;
+
+                if (r_accuracy.dice.find(a => a.faces == 20).results[0].result >= 20 - this.critical_chance) critical = true;
+                else if (r_accuracy.total < game.settings.get(game.system.id, 'baseAc') + target_stat.total) missed = true;
+
+                // attack roll content
+                message_data.content += `<p><b>${utils.localize(PTA.generic.accuracy)}</b></p>`
+                if (missed) message_data.content += utils.format(PTA.chat.attack.miss, message_config);
+                else if (critical) message_data.content += utils.format(PTA.chat.attack.crit, message_config);
+                else message_data.content += utils.format(PTA.chat.attack.hit, message_config);
+                message_data.content += await r_accuracy.render();
+
+                //========================================================================
+                // Damage Roll
+                //========================================================================
+                // Add stab damage bonus
+                for (const key of Object.keys(attacker.system.types)) {
+                    if (attacker.system.types[key] == this.type) {
+                        damage_formula += '+4';
+                        break;
+                    }
+                }
+
+                let r_damage = new Roll(damage_formula, rolldata);
+
+                // get the move effectiveness values
+                let effectiveness = { value: 0, percent: 1, immune: false };;
+                if (!missed) {
+                    if (target.actor.type == 'pokemon') {
+                        let overriden = false
+                        console.log(rolldata)
+                        console.log(message_config)
+                        for (const override of target.actor.system.resistance_override) {
+                            if (override.type == this.type) {
+                                console.log('overide targets')
+                                overriden = true;
+                                switch (override.value) {
+                                    case 'immune':
+                                        effectiveness = { value: 0, percent: 0, immune: true }
+                                        break;
+                                    case 'double':
+                                        effectiveness = { value: 1, percent: 2, immune: false }
+                                        break;
+                                    case 'quadruple':
+                                        effectiveness = { value: 2, percent: 4, immune: false }
+                                        break;
+                                    case 'half':
+                                        effectiveness = { value: -1, percent: 0.5, immune: false }
+                                        break;
+                                    case 'quarter':
+                                        effectiveness = { value: -2, percent: 0.25, immune: false }
+                                        break;
+                                }
+                            }
+                        }
+                        if (!overriden) effectiveness = utils.typeEffectiveness(this.type, target.actor.system.getTypes());
+                    }
+
+                    // add or remove dice from the formula to match effectiveness, then resert formula to match new terms
+                    r_damage.dice[0].number = Math.max(r_damage.dice[0].number + effectiveness.value, 0);
+                    r_damage.resetFormula();
+
+                    // critical hits maximize dice
+                    await r_damage.evaluate({ maximize: critical });
+
+                    message_data.content += `<p><b>${utils.localize(PTA.generic.damage)}</b></p>`
+
+                    if (effectiveness.immune) message_data.content += utils.format(PTA.chat.damage.immune, message_config);
+                    else switch (effectiveness.value) {
+                        case -2:
+                            message_data.content += utils.format(PTA.chat.damage.quarter, message_config);
+                            break;
+                        case -1:
+                            message_data.content += utils.format(PTA.chat.damage.half, message_config);
+                            break;
+                        case 0:
+                            message_data.content += utils.format(PTA.chat.damage.normal, message_config);
+                            break;
+                        case 1:
+                            message_data.content += utils.format(PTA.chat.damage.double, message_config);
+                            break;
+                        case 2:
+                            message_data.content += utils.format(PTA.chat.damage.quadruple, message_config);
+                            break;
+                    }
+
+                    message_data.content += await r_damage.render();
+                }
+
+                //========================================================================
+                // Chat Message
+                //========================================================================
+
+                let message = await r_accuracy.toMessage(message_data, message_config);
             }
 
-            if (this.actor.type == 'pokemon' && this.actor.system.trainer != '') {
-                // validate that theres a real trainer attached to this pokemon
-                let trainer = await fromUuid(this.actor.system.trainer);
-                if (!trainer) message_data.speaker = ChatMessage.getSpeaker({ actor: this.actor })
-                else message_data.speaker = ChatMessage.getSpeaker({ actor: trainer })
-            }
 
-            message_data.content += `<p><b>${utils.localize(PTA.generic.accuracy)}</b></p>`
-            message_data.content += await r_accuracy.render();
-            message_data.content += `<p><b>${utils.localize(PTA.generic.damage)}</b></p>`
-            message_data.content += await r_damage.render();
-
-            let message = r_accuracy.toMessage(message_data);
         }
 
         if (this.uses.max > 0) this.parent.update({ 'system.uses.value': this.uses.value - 1 });

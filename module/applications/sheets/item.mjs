@@ -33,7 +33,7 @@ export default class PtaItemSheet extends PtaSheetMixin(foundry.applications.she
         context.description = {
             field: this.document.system.schema.getField('description'),
             value: this.document.system.description,
-            enriched: await TextEditor.enrichHTML(this.document.system.description, enrichmentOptions)
+            enriched: await foundry.applications.ux.TextEditor.enrichHTML(this.document.system.description, enrichmentOptions)
         }
 
         return context;

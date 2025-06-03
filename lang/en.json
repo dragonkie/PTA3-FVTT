@@ -117,8 +117,10 @@
       "Sweet": "Sweet"
     },
     "Generic": {
+      "Accuracy": "Accuracy",
       "All": "All",
       "Data": "Data",
+      "Damage": "Damage",
       "Gender": "Gender",
       "Import": "Import",
       "Nature": "Nature",
