@@ -66,7 +66,7 @@ export default class PtaPokemonSheet extends PtaActorSheet {
     }
 
     //============================================================================================================
-    // Sheet Actions
+    //> Sheet Actions
     //============================================================================================================
     static async _onImportData() {
         let pokemon = await utils.importPokemonData({ all: true });
@@ -98,7 +98,7 @@ export default class PtaPokemonSheet extends PtaActorSheet {
     }
 
     //============================================================================================================
-    // Sheet rendering
+    //> Sheet rendering
     //============================================================================================================
     async render(options = {}) {
         // register trainers sheet application as a dependency to be re rendered

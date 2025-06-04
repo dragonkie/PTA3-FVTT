@@ -31,11 +31,9 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         primary: "traits"
     };
 
-    /* -------------------------------------------------------------------------------------- */
-    /*                                                                                        */
-    /*                                   DATA PREPERATION                                     */
-    /*                                                                                        */
-    /* -------------------------------------------------------------------------------------- */
+    //====================================================================================================
+    //> Data prep
+    //====================================================================================================
 
     /** @override */
     async _prepareContext() {
@@ -84,11 +82,9 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         return context;
     }
 
-    /* -------------------------------------------------------------------------------------- */
-    /*                                                                                        */
-    /*                                   SHEET ACTIONS                                        */
-    /*                                                                                        */
-    /* -------------------------------------------------------------------------------------- */
+    //====================================================================================================
+    //> Actions
+    //====================================================================================================
     static async _onEditItem(event, target) {
         const uuid = target.closest(".item[data-item-uuid]").dataset.itemUuid;
         const item = await fromUuid(uuid);
@@ -152,11 +148,10 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
     }
 
     static async _onEditResistance(event, target) {
-        let content = ``;
+        let content = `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">`;
         let resists = this.document.system.resistance_override;
 
         for (const type of Object.keys(PTA.pokemonTypes)) {
-            console.log
             let label = utils.localize(PTA.pokemonTypes[type]);
             let value = 'none';
             for (const resist of resists) if (resist.type == type) value = resist.value;
@@ -178,9 +173,11 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
 
             content += ele.outerHTML;
         }
+        content += '</div>';
 
         let app = await new PtaDialog({
             window: { title: 'RESIST CONFIG' },
+            id: `Actor.${this.document.id}.resist-config`,
             content: content,
             classes: ['pta'],
             buttons: [{
@@ -203,7 +200,6 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
                 }
 
                 this.document.update({ system: { resistance_override: list } });
-                console.log(this.document.system.resistance_override)
             }
         }).render(true);
     }
@@ -216,11 +212,9 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         await this.move_importer.render(true);
     }
 
-    /* -------------------------------------------------------------------------------------- */
-    /*                                                                                        */
-    /*                                   DRAG N DROP                                          */
-    /*                                                                                        */
-    /* -------------------------------------------------------------------------------------- */
+    //====================================================================================================
+    //> Drag & Drop
+    //====================================================================================================
 
     async _onDropActiveEffect(event, effect) {
         const { type, uuid } = foundry.applications.ux.TextEditor.getDragEventData(event);
@@ -278,9 +272,34 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
 }
 
 
-// Special mixin for making pokemon trainer options available, rather than declaring and extending a whole new seperate class
+//===================================================================================================
+//> Trainer mixin
+//===================================================================================================
 export function PtaTrainerMixin(BaseApplication) {
     return class TrainerSheet extends BaseApplication {
+        _onRender(context, options) {
+            let r = super._onRender(context, options);
+            if (!this.isEditable) return;
 
+            // Set up pokebox search bar functionality
+            const pokebox = this.element.querySelector('.pta-pokebox-entries');
+            const searchElement = this.element.querySelector('.pta-trainer-pc-search');
+            const inputs = this.element.querySelectorAll('[data-query]');
+
+            const cb = async () => {
+                for (const input of inputs) {
+                    if (input.dataset.query == 'name') {
+                        for (const ele of pokebox.querySelectorAll('[data-pokemon-uuid]')) {
+                            const pokemon = await fromUuid(ele.dataset.pokemonUuid);
+                            if (pokemon.name.toLowerCase().includes(input.value.toLowerCase())) ele.classList.remove('obliterated');
+                            else ele.classList.add('obliterated');
+                        }
+                    }
+                }
+            }
+
+            for (const input of inputs) input.addEventListener('input', cb);
+            return r;
+        }
     }
 }

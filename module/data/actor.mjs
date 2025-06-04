@@ -47,7 +47,7 @@ export default class ActorData extends DataModel {
       }), { initial: [], nullable: false });
 
     //====================================================================================
-    // Bonus fields
+    //> Bonus fields
     //====================================================================================
     schema.bonuses = new SchemaField({
       attack: new NumberField({ initial: 0, required: true, nullable: false }),

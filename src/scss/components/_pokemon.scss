@@ -98,7 +98,8 @@ ol.pta-pokemon-team {
     .pta-grid-item {
         height: calc(var(--pta-scale-px) * 10);
         flex: 0 0 calc(var(--pta-scale-px) * 10);
-        border: 1px solid white;
+        border: 1px solid rgb(174, 174, 174);
+        border-radius: 5px;
         transition: flex 0.2s ease-in-out;
         display: flex;
         flex-direction: row;
@@ -107,6 +108,16 @@ ol.pta-pokemon-team {
         overflow: hidden;
         flex-wrap: nowrap;
         white-space: nowrap;
+
+        transition: all 0.2s;
+
+        background-color: rgba(255, 255, 255, 0);
+
+        &:hover {
+            border-color: white;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
 
         .wrapper {
             min-width: calc(var(--pta-scale-px) * 10);
@@ -119,6 +130,7 @@ ol.pta-pokemon-team {
             display: flex;
             flex-direction: column;
             height: 100%;
+
             .item-control {
                 flex: 1;
             }
@@ -142,5 +154,20 @@ ol.pta-pokemon-team {
                 opacity: 1;
             }
         }
+    }
+}
+
+.pta-grid-item {
+    border: 1px solid rgb(174, 174, 174);
+    border-radius: 5px;
+    transition: flex 0.2s ease-in-out;
+    
+    transition: all 0.2s;
+    background-color: rgba(255, 255, 255, 0);
+
+    &:hover {
+        border-color: white;
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.15);
     }
 }

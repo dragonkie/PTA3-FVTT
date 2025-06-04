@@ -1,4 +1,5 @@
 .rollable {
+
   &:hover,
   &:focus {
     color: #000;
@@ -12,5 +13,20 @@
 
   * {
     cursor: inherit;
+  }
+}
+
+.nodisplay {
+  display: none;
+
+  * {
+    display: none;
+  }
+}
+
+.obliterated {
+  display: none !important;
+  * {
+    display: none !important;
   }
 }

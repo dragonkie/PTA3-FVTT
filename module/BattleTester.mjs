@@ -935,6 +935,4 @@ export async function BattleSimulation(pokemonOne, pokemonTwo, moveOne, moveTwo,
     if (summary.teamRed.wins > summary.teamBlue.wins) summary.winner = _red.name;
     if (summary.teamRed.wins < summary.teamBlue.wins) summary.winner = _blue.name;
     if (summary.teamRed.wins == summary.teamBlue.wins) summary.winner = 'DRAW!';
-
-    console.log('Summary: ', summary);
 }

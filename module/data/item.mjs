@@ -23,11 +23,11 @@ export default class ItemData extends DataModel {
     return schema;
   }
   //============================================================
-  //Custom item schema mixins
+  //> Custom item schema mixins
   //============================================================
 
   //============================================================
-  //General item fucntions
+  //> General item fucntions
   //============================================================
 
   /**

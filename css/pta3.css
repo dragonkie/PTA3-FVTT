@@ -130,6 +130,20 @@
   cursor: inherit;
 }
 
+.nodisplay {
+  display: none;
+}
+.nodisplay * {
+  display: none;
+}
+
+.obliterated {
+  display: none !important;
+}
+.obliterated * {
+  display: none !important;
+}
+
 .grid,
 .grid-2col {
   display: grid;
@@ -654,7 +668,8 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 .pta-pc-layout-grid .pta-grid-item {
   height: calc(var(--pta-scale-px) * 10);
   flex: 0 0 calc(var(--pta-scale-px) * 10);
-  border: 1px solid white;
+  border: 1px solid rgb(174, 174, 174);
+  border-radius: 5px;
   transition: flex 0.2s ease-in-out;
   display: flex;
   flex-direction: row;
@@ -662,6 +677,13 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   overflow: hidden;
   flex-wrap: nowrap;
   white-space: nowrap;
+  transition: all 0.2s;
+  background-color: rgba(255, 255, 255, 0);
+}
+.pta-pc-layout-grid .pta-grid-item:hover {
+  border-color: white;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 .pta-pc-layout-grid .pta-grid-item .wrapper {
   min-width: calc(var(--pta-scale-px) * 10);
@@ -691,6 +713,19 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 }
 .pta-pc-layout-grid .pta-grid-item :hover label {
   opacity: 1;
+}
+
+.pta-grid-item {
+  border: 1px solid rgb(174, 174, 174);
+  border-radius: 5px;
+  transition: flex 0.2s ease-in-out;
+  transition: all 0.2s;
+  background-color: rgba(255, 255, 255, 0);
+}
+.pta-grid-item:hover {
+  border-color: white;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .progress-bar {
@@ -893,3 +928,5 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   border: none;
   image-rendering: pixelated;
 }
+
+/*# sourceMappingURL=pta3.css.map */

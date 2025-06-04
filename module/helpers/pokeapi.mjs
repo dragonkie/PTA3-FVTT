@@ -264,7 +264,7 @@ export default class pokeapi {
     }
 
     //================================================================================================================
-    // Helpers for retrieving sprites by index without calling api
+    //> Helpers for retrieving sprites by index without calling api
     //================================================================================================================
     static Sprite = {
         Official(index) {

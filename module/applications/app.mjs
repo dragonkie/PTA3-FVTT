@@ -28,7 +28,7 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
 
     async _prepareContext(options) { return {} };
     //==========================================================================================
-    // Sheet actions
+    //> Sheet actions
     //==========================================================================================
     async _onClickAction() {
 
@@ -43,7 +43,7 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
     }
 
     //==========================================================================================
-    // Rendering
+    //> Rendering
     //==========================================================================================
     async _preRender(context, options) {
         return super._preRender(context, options);
@@ -75,7 +75,7 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
         return frame;
     }
     //==========================================================================================
-    // Closing application
+    //> Closing application
     //==========================================================================================
     async _preClose(options) {
         return super._preClose(options);
@@ -86,7 +86,7 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
         super._onClose(options);
     }
     //==========================================================================================
-    // Drag & Drop
+    //> Drag & Drop
     //==========================================================================================
     _setupDragAndDrop() {
         const dd = new foundry.applications.ux.DragDrop({
@@ -123,7 +123,9 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
     async _onDrop(event) {
         event.preventDefault();
         const target = event.target;
-        const { type, uuid } = foundry.applications.ux.TextEditor.getDragEventData(event);
+        const EventData = foundry.applications.ux.TextEditor.getDragEventData(event);
+        const { type, uuid } = EventData
+        console.log(EventData);
         if (!this.isEditable) return;
         const item = await fromUuid(uuid);
 

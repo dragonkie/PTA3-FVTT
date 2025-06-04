@@ -97,7 +97,7 @@ export default function PtaSheetMixin(Base) {
         }
 
         //============================================================================================
-        // Sheet Actions
+        //> Sheet Actions
         //============================================================================================
 
         /**
@@ -204,7 +204,7 @@ export default function PtaSheetMixin(Base) {
         }
 
         //============================================================================================
-        // Rendering
+        //> Rendering
         //============================================================================================
         async render(options, _options) {
             return super.render(options, _options);
@@ -238,7 +238,7 @@ export default function PtaSheetMixin(Base) {
         }
 
         //============================================================================================
-        // Drag n Drop
+        //> Drag n Drop
         //============================================================================================
         _setupDragAndDrop() {
             const dd = new foundry.applications.ux.DragDrop({
@@ -275,7 +275,9 @@ export default function PtaSheetMixin(Base) {
         async _onDrop(event) {
             event.preventDefault();
             const target = event.target;
-            const { type, uuid } = foundry.applications.ux.TextEditor.getDragEventData(event);
+            const EventData = foundry.applications.ux.TextEditor.getDragEventData(event);
+            const { type, uuid } = EventData
+
             if (!this.isEditable) return;
             const item = await fromUuid(uuid);
 
@@ -286,6 +288,7 @@ export default function PtaSheetMixin(Base) {
                 case "ActiveEffect": return this._onDropActiveEffect(event, item);
                 case "Item": return this._onDropItem(event, item);
                 case "Actor": return this._onDropActor(event, item);
+                case "Folder": return this._onDropFolder(event, item);
                 default: return;
             }
         }
@@ -293,11 +296,12 @@ export default function PtaSheetMixin(Base) {
         // To be overriden by subclasses to handle specific drops
         async _onDropActiveEffect(event, effect) { }
         async _onDropActor(event, actor) { }
+        async _onDropFolder(item, target) { }
         async _onDropItem(event, item) { }
         async _onSortItem(item, target) { }
 
         //============================================================================================
-        // Context Menu
+        //> Context Menu
         //============================================================================================
 
         _setupContextMenu() {

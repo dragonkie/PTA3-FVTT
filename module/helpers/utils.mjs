@@ -11,7 +11,7 @@ import { PTA } from "./config.mjs";
 
 export default class utils {
     //============================================================
-    // Notifications
+    //> Notifications
     //============================================================
 
     static info(message, options) {
@@ -25,13 +25,34 @@ export default class utils {
     }
 
     //============================================================
-    // Localization
+    //> Localization
     //============================================================
     static localize(str) { return game.i18n.localize(str); }
     static format(str, data) { return game.i18n.format(str, data); }
 
     //============================================================
-    // Pokemon functions
+    //> Data manipulation
+    //============================================================
+
+    /**
+     * Lightweight system for duplicating non complex data structurs
+     * @param {JSON} data 
+     * @returns {Object}
+     */
+    static duplicate(data) {
+        return JSON.parse(JSON.stringify(data));
+    }
+
+    /**
+     * Heavy duty data cloning capable of matching functions, classes, and proxies
+     * @param {*} data 
+     */
+    static clone(data) {
+
+    }
+
+    //============================================================
+    //> Pokemon functions
     //============================================================
 
     /**
@@ -347,7 +368,7 @@ export default class utils {
     }
 
     //============================================================
-    // Math animation helpers
+    //> Math animation helpers
     //============================================================
     static lerp(x, y, t) {
         return x * (1 - t) + y * t;
@@ -382,7 +403,7 @@ export default class utils {
     }
 
     //============================================================
-    // Combat
+    //> Combat
     //============================================================
 
     static getTargets() {

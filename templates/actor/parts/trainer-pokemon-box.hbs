@@ -4,7 +4,7 @@
     - Detailed
     - Grid
 --}}
-<div class="flexcol" style="flex: 2;">
+<div class="flexcol pta-pokebox" style="flex: 2; height: 100%">
     {{!-- Box header --}}
     <div class="items-header flexrow">
         <div class="item-name">Pokemon Box</div>
@@ -17,24 +17,24 @@
     </div>
 
     {{!-- Search Bar --}}
-    <div class="collapsible collapsed">
+    <div class="collapsible collapsed pta-pokebox-search">
         <div class="flexrow" data-action="collapse">
             <a><i class="fas fa-caret-down"></i></a>
             <label><b>Search</b> <i class="fas fa-magnifying-glass"></i></label>
         </div>
-        <div class="pta-trainer-pc-search collapsible-content">
+        <div class="pta-trainer-pc-search collapsible-content flex-gap-s">
             <div class="wrapper">
-                <div class="flexcol flex-gap-xs">
-                    <input type="text" placeholder="name search here">
-                    <div class="flexrow flex-gap-s">
+                <div class="flexcol flex-gap-s">
+                    <input data-query="name" type="text" placeholder="name search here">
+                    <div class="flexrow flex-gap-m">
                         <div class="flexshrink">Types</div>
                         {{pokemonTypeSelector}}
                         {{pokemonTypeSelector}}
                     </div>
-                    <div class="flexrow">
-                        <div>Shiny <input type="checkbox"></div>
-                        <div>Male <input type="checkbox"></div>
-                        <div>Female <input type="checkbox"></div>
+                    <div class="flexrow flex-gap-m">
+                        <div>Shiny <input data-query="shiny" type="checkbox"></div>
+                        <div>Male <input data-query="male" type="checkbox"></div>
+                        <div>Female <input data-query="female" type="checkbox"></div>
                     </div>
                 </div>
             </div>
@@ -42,11 +42,13 @@
     </div>
 
     {{!-- List of pokemon in the trainers box --}}
-    {{#if (eq flags.settings.pcLayout 'grid')}}
-        {{> 'pta.trainer-pc-grid'}}
-    {{else if (eq flags.settings.pcLayout 'card')}}
-        {{> 'pta.trainer-pc-cards'}}
-    {{else}}
-        {{> 'pta.trainer-pc-list'}}
-    {{/if}}
+    <div class="pta-pokebox-entries">
+        {{#if (eq flags.settings.pcLayout 'grid')}}
+            {{> 'pta.trainer-pc-grid'}}
+        {{else if (eq flags.settings.pcLayout 'card')}}
+            {{> 'pta.trainer-pc-cards'}}
+        {{else}}
+            {{> 'pta.trainer-pc-list'}}
+        {{/if}}
+    </div>
 </div>

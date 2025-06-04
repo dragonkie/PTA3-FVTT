@@ -55,7 +55,7 @@ PTA.loadPokedex = async (force = false) => {
     for (const i of _apiItems.results) PTA.Pokedex.Items.push(i.name);
 
     //============================================================
-    // Save the data to the browser cache for safe keeping
+    //> Save the data to the browser cache for safe keeping
     //============================================================
 
     localStorage.setItem('pta.pokedex', JSON.stringify(PTA.Pokedex));
@@ -65,7 +65,7 @@ PTA.loadPokedex = async (force = false) => {
   }
 
   //===================================================================================
-  // Add in pokedex functions MUST BE DONE AFTER LOADING TO AVOID OVERWRITE
+  //> Add in pokedex functions MUST BE DONE AFTER LOADING TO AVOID OVERWRITE
   //===================================================================================
   PTA.Pokedex.getPokemon = (name) => {
     for (const p of PTA.Pokedex.Pokemon) {
@@ -130,7 +130,7 @@ PTA.aoeTypes = {
 }
 
 //======================================================================
-// Pokemon moves
+//> Pokemon moves
 //======================================================================
 
 PTA.moveClass = {
@@ -140,7 +140,7 @@ PTA.moveClass = {
 }
 
 //======================================================================
-// Chat messages
+//> Chat messages
 //======================================================================
 
 PTA.chat = {

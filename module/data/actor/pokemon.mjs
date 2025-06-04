@@ -67,26 +67,18 @@ export default class PokemonData extends ActorData {
       }
     })
 
-
     // some pokemon split evoloutions based on different factors
     schema.evoloution = new SchemaField({
 
     })
-
     schema.gender = new StringField({ ...isRequired, initial: 'male', label: PTA.generic.gender });
-
-    // list of things the pokemon can do
     schema.skills = new SchemaField({
 
     })
-
     schema.shiny = new BooleanField({ ...isRequired, initial: false, label: PTA.generic.shiny });
-
     schema.contest = new SchemaField({
 
     })
-
-
 
     // Holds the base API ref that this pokemon is generated from
     schema.api_ref = new ObjectField({ initial: {} });

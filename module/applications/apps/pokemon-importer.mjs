@@ -57,9 +57,11 @@ export default class PokemonImporter extends PtaApplication {
             let ele = document.createElement('DIV');
             ele.setAttribute('data-action', 'select');
             ele.setAttribute('data-pokemon', p.name);
-            ele.setAttribute('style', 'flex: 0; border: 1px solid white;')
+            ele.setAttribute('style', 'min-width: 100px; min-height: 100px;');
+            ele.classList.add('pta-grid-item')
+            ele.classList.add('flexcol')
             ele.innerHTML = `
-                <div style="text-align: center;">${p.name}</div>
+                <div style="text-align: center; text-overflow: ellipsis; text-wrap: nowrap; width: 100%; overflow: hidden;">${p.name}</div>
                 <img src=${pokeapi.Sprite.Official(p.id)} style="min-width: 100px; min-height: 100px; border: 0;">
             `
             wrapper.appendChild(ele);
@@ -146,7 +148,6 @@ export default class PokemonImporter extends PtaApplication {
 
         searchData.addEventListener('submit', (event) => {
             if (event.preventDefault) event.preventDefault();
-            console.log(this.options.actions.submit);
             this.options.actions.search.call(this, event, searchInput);
             return false;
         })

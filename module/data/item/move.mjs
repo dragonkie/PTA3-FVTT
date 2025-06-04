@@ -100,12 +100,18 @@ export default class MoveData extends ItemData {
         return data;
     }
 
+    //=====================================================================================================
+    //> Actions 
+    //=====================================================================================================
     async use(event, target, action) {
         if (action == 'reload') return this._onUseReload(event, target);
         if (action == 'attack') return this._onUseAttack(event, target);
         return this._onUseAttack(event, target);
     }
 
+    //=====================================================================================================
+    //>- Attack 
+    //=====================================================================================================
     async _onUseAttack(event, target) {
         if (this.uses.max > 0 && this.uses.value <= 0) return void utils.warn('PTA.Warn.NoUses');
 
@@ -118,7 +124,7 @@ export default class MoveData extends ItemData {
         if (!rolldata) return void utils.error('PTA.Error.RolldataMissing');
 
         //=====================================================================================================
-        // POKESIM 
+        //>-- POKESIM 
         //=====================================================================================================
         if (game.settings.get(game.system.id, 'pokesim')) {
             // Targeting in simulation mode is ALWAYS enforced
@@ -132,7 +138,7 @@ export default class MoveData extends ItemData {
                 if (this.class == 'effect') target_stat = target.actor.system.stats.spd;
 
                 //============================================================================
-                // Accuracy Roll
+                //>--- Accuracy Roll
                 //============================================================================
                 const r_accuracy = new Roll('1d100', rolldata);
                 let accuracy_tn = this.accuracy * (utils.AccuracyStage(attacker));
@@ -163,15 +169,13 @@ export default class MoveData extends ItemData {
                     continue;
                 }
                 //============================================================================
-                // Damage Roll
+                //>--- Damage Roll
                 //============================================================================
                 let effectiveness = { value: 0, percent: 1, immune: false };
                 if (target.actor.type == 'pokemon') {
                     let overriden = false
-                    console.log(target.actor)
                     for (const override of target.actor.system.resistance_override) {
                         if (override.type == this.type) {
-                            console.log('overide targets')
                             overriden = true;
                             switch (override.value) {
                                 case 'immune':
@@ -199,7 +203,6 @@ export default class MoveData extends ItemData {
                 let crit = critical ? ` * 1.5[crit]` : ``;
                 let burn = attacker.statuses.has('burn') && this.class == 'physical' ? ' * 0.5[burn]' : ''
                 let formula = `round((${this.damage.formula})[base]${burn}${damage_scale}*${effectiveness.percent}[type]${stab}${crit})`;
-                console.log(formula)
 
                 message_data.content += `<p><b>Damage</b></p>`
                 // configure the damage chat card
@@ -238,17 +241,17 @@ export default class MoveData extends ItemData {
             }
         }
         //=====================================================================================================
-        // REGULAR 
+        //>-- REGULAR 
         //=====================================================================================================
         else {
             //============================================================================
-            // Targeting data
+            //>--- Targeting data
             //============================================================================
             if (!targets) {
 
             } else for (const target of targets) {
                 //========================================================================
-                // Data prep
+                //>--- Data prep
                 //========================================================================
                 let damage_formula = this.damage.formula;
 
@@ -268,7 +271,7 @@ export default class MoveData extends ItemData {
                 }
 
                 //========================================================================
-                // Accuracy Roll
+                //>--- Accuracy Roll
                 //========================================================================
                 let r_accuracy = new Roll('1d20 + @stat.mod + @accuracy', rolldata);
                 await r_accuracy.evaluate();
@@ -287,7 +290,7 @@ export default class MoveData extends ItemData {
                 message_data.content += await r_accuracy.render();
 
                 //========================================================================
-                // Damage Roll
+                //>--- Damage Roll
                 //========================================================================
                 // Add stab damage bonus
                 for (const key of Object.keys(attacker.system.types)) {
@@ -304,11 +307,8 @@ export default class MoveData extends ItemData {
                 if (!missed) {
                     if (target.actor.type == 'pokemon') {
                         let overriden = false
-                        console.log(rolldata)
-                        console.log(message_config)
                         for (const override of target.actor.system.resistance_override) {
                             if (override.type == this.type) {
-                                console.log('overide targets')
                                 overriden = true;
                                 switch (override.value) {
                                     case 'immune':
@@ -364,7 +364,7 @@ export default class MoveData extends ItemData {
                 }
 
                 //========================================================================
-                // Chat Message
+                //>--- Chat Message
                 //========================================================================
 
                 let message = await r_accuracy.toMessage(message_data, message_config);

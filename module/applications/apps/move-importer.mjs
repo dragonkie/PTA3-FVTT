@@ -143,7 +143,6 @@ export default class MoveImporter extends PtaApplication {
 
         searchData.addEventListener('submit', (event) => {
             if (event.preventDefault) event.preventDefault();
-            console.log(this.options.actions.submit);
             this.options.actions.search.call(this, event, searchInput);
             return false;
         })

@@ -1,3 +1,4 @@
+import utils from "../../../helpers/utils.mjs";
 import PtaDialog from "../../dialog.mjs";
 import PtaActorSheet, { PtaTrainerMixin } from "../actor.mjs";
 
@@ -29,7 +30,6 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         },
         actions: {
             trainTalent: this._onTrainTalent,
-            pokemonUnbox: this._onUnboxPokemon,
             pokemonRemove: this._onRemovePokemon,
             pokemonBox: this._onBoxPokemon,
             pokemonLink: this._onLinkPokemon,
@@ -63,7 +63,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
     }
 
     //=======================================================================================
-    // Data preperation
+    //> Data preperation
     //=======================================================================================
 
     /** @override */
@@ -101,8 +101,56 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
     }
 
     //=======================================================================================
-    // Drag and Drop
+    //> Drag and Drop
     //=======================================================================================
+    _setupDragAndDrop() {
+        super._setupDragAndDrop();
+
+        const dd = new foundry.applications.ux.DragDrop({
+            dragSelector: "[data-pokemon-uuid]",
+            dropSelector: "#fuck",
+            permissions: {
+                dragstart: this._canDragStart.bind(this),
+                drop: this._canDragDrop.bind(this)
+            },
+            callbacks: {
+                dragstart: this._onDragPokemon.bind(this),
+                drop: this._onSummonPokemon.bind(this)
+            }
+        });
+        dd.bind(this.element);
+    }
+
+    /**
+     * @param {DragEvent} event 
+     */
+    async _onDragPokemon(event) {
+        // Prepare pokemon data for transfer
+        const uuid = event.target.closest('[data-pokemon-uuid]').dataset.pokemonUuid;
+        const pokemon = await fromUuid(uuid);
+        const data = pokemon.toDragData();
+        event.dataTransfer.setData("text/plain", JSON.stringify(data));
+
+        // Create snapshot image for drag and drop event
+        const container = document.createElement('DIV');
+        const s = 80
+        container.style.minWidth = `${s}px`;
+        container.style.minHeight = `${s}px`;
+        container.style.left = '100%';
+        container.style.position = 'fixed';
+        const source = 'url(' + pokemon.img + ')';
+        container.style.backgroundImage = source
+        container.style.backgroundSize = `${s}px ${s}px`;
+
+        await document.body.appendChild(container);
+        await event.dataTransfer.setDragImage(container, s / 2, s / 2);
+        setTimeout(() => { container.remove(); }, 10)
+    }
+
+    async _onSummonPokemon(event) {
+        console.log('Dropping pokemon');
+        console.log(event);
+    }
 
     /**
      * 
@@ -112,11 +160,45 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
     async _onDropActor(event, actor) {
         try {
             if (actor.type != 'pokemon' && !game.settings.get(game.system.id, 'palworld')) throw new Error("That's not a Pokémon!");
-            if (this.document.type == 'pokemon') throw new Error("Pokemon can be added to a Trainer sheet!");
+            if (this.document.type == 'pokemon') throw new Error("Pokemon can only be added to a Trainer sheet!");
             let mons = this.document.system.pokemon;
 
-            for (const p of mons) if (p.uuid == actor.uuid) throw new Error('Actor already owns this pokémon!')
+            for (const p of mons) if (p.uuid == actor.uuid) {
+                let state = false;
+                if (event.target.closest('.pta-pokebox') === null) state = true;
 
+                if (p.active == state) {
+                    // Sorting pokemon
+                    const targetUuid = event.target.closest('[data-pokemon-uuid]').dataset.pokemonUuid;
+                    if (targetUuid == p.uuid) return;
+
+                    if (targetUuid) {
+                        const list = utils.duplicate(this.document.system.pokemon);
+                        const pClone = utils.duplicate(p);
+
+                        // remove the initial target
+                        for (let a = 0; a < list.length; a++) {
+                            if (list[a].uuid == p.uuid) {
+                                list.splice(a, 1);
+                                break;
+                            }
+                        }
+
+                        // add it back to the new lcoation
+                        for (let a = 0; a < list.length; a++) {
+                            if (list[a].uuid == targetUuid) {
+                                list.splice(a, 0, pClone);
+                                break;
+                            }
+                        }
+
+                        await this.document.update({ system: { pokemon: list } });
+                    }
+                } else this._boxPokemon(actor.uuid, state); // box the pokemon
+                return;
+            }
+
+            // Adding new pokemon
             mons.push({
                 uuid: actor.uuid,
                 name: actor.name
@@ -131,7 +213,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
     }
 
     //=======================================================================================
-    // Sheet Actions
+    //> Sheet Actions
     //=======================================================================================
 
     /**
@@ -159,41 +241,35 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
      * @param {Event} event 
      * @param {Element} target 
      */
-    static async _onUnboxPokemon(event, target) {
-        const uuid = target.closest('[data-pokemon-uuid]')?.dataset?.pokemonUuid;
+    static async _onBoxPokemon(event, target) {
+        const uuid = target.closest('[data-pokemon-uuid]')?.dataset.pokemonUuid;
         if (!uuid) return void console.error('Couldnt find pokemon uuid');
-
-        let c = 0;
-        for (const pokemon of this.document.system.pokemon) if (pokemon.active) c += 1;
-        let limit = game.settings.get(game.system.id, 'partyLimit');
-        // sees if htis puts us over the party limit, a party limit of 0 or less
-        if (c >= limit && limit > 0) return void pta.utils.warn('PTA.Warn.ExceedsPartyLimit');
-
-        let list = [];
-        for (const p of this.document.system.pokemon) {
-            if (p.uuid == uuid) p.active = !p.active;
-            list.push(p);
-        }
-
-        await this.document.update({ system: { pokemon: list } });
-        await this.render(false);
+        this._boxPokemon(uuid);
     }
 
     /**
      * 
-     * @param {Event} event 
-     * @param {Element} target 
+     * @param {*} uuid 
+     * @param {Boolean|Undefined} state - Force the pokemon to be in a specific state
+     * @returns 
      */
-    static async _onBoxPokemon(event, target) {
-        const uuid = target.closest('[data-pokemon-uuid]')?.dataset.pokemonUuid;
-        if (!uuid) return void console.error('Couldnt find pokemon uuid');
-
+    async _boxPokemon(uuid, state) {
+        if (!uuid) throw new Error('No UUID to box');
         let list = [];
-        for (const p of this.document.system.pokemon) {
-            if (p.uuid == uuid) p.active = !p.active;
+
+        // Find the target and toggle its state
+        for (const p of utils.duplicate(this.document.system.pokemon)) {
+            if (p.uuid == uuid) p.active = state === undefined ? !p.active : state;
             list.push(p);
         }
 
+        // Validate that activating / deactivating them wont violate any rules
+        let c = 0;
+        for (const pokemon of list) if (pokemon.active) c += 1;
+        let limit = game.settings.get(game.system.id, 'partyLimit');
+        if (c > limit && limit > 0) return void pta.utils.warn('PTA.Warn.ExceedsPartyLimit');
+
+        // Push the update
         await this.document.update({ system: { pokemon: list } });
         await this.render(false);
     }
