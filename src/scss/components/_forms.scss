@@ -70,3 +70,25 @@
 .text-nowrap {
   text-wrap: nowrap;
 }
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+  
+  >label,
+  span.label {
+    flex: 1;
+  }
+
+  .form-fields {
+    flex: 2;
+  }
+
+  &:hover {
+
+    >label,
+    span.label {
+      color: var(--color)
+    }
+  }
+}

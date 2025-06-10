@@ -408,6 +408,22 @@
   text-wrap: nowrap;
 }
 
+.form-group {
+  display: flex;
+  flex-direction: row;
+}
+.form-group > label,
+.form-group span.label {
+  flex: 1;
+}
+.form-group .form-fields {
+  flex: 2;
+}
+.form-group:hover > label,
+.form-group:hover span.label {
+  color: var(--color);
+}
+
 .resource-label {
   font-weight: bold;
 }

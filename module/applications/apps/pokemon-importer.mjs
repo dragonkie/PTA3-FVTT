@@ -39,7 +39,6 @@ export default class PokemonImporter extends PtaApplication {
     }
 
     static async _onSearch(event, target) {
-        utils.info('PTA.Info.LoadingPleaseWait');
         const content = this.element.querySelector('section.window-content');
         const searchInput = content.querySelector('.search-input');
         const query = searchInput.value.toLowerCase().replace(' ', '-')
@@ -57,17 +56,15 @@ export default class PokemonImporter extends PtaApplication {
             let ele = document.createElement('DIV');
             ele.setAttribute('data-action', 'select');
             ele.setAttribute('data-pokemon', p.name);
-            ele.setAttribute('style', 'min-width: 100px; min-height: 100px;');
+            ele.setAttribute('style', 'min-width: 100px; min-height: 100px; flex: 0');
             ele.classList.add('pta-grid-item')
             ele.classList.add('flexcol')
             ele.innerHTML = `
                 <div style="text-align: center; text-overflow: ellipsis; text-wrap: nowrap; width: 100%; overflow: hidden;">${p.name}</div>
-                <img src=${pokeapi.Sprite.Official(p.id)} style="min-width: 100px; min-height: 100px; border: 0;">
+                <img src=${pokeapi.Sprite.Official(p.id)} style="min-width: 100px; min-height: 100px; max-width: 100px; max-height: 100px; border: 0;">
             `
             wrapper.appendChild(ele);
         }
-
-        return void utils.info('PTA.Info.FinishedLoading');;
     }
 
     static async _onSelect(event, target) {
@@ -108,7 +105,6 @@ export default class PokemonImporter extends PtaApplication {
         }
 
         const create_data = [];
-        utils.info('PTA.Info.SubmittingPleaseWait');
         this.close();
         for (const pokemon of this.pokemon_selections) {
             const api_pokemon = await pokeapi.pokemon(pokemon.name);
@@ -131,7 +127,6 @@ export default class PokemonImporter extends PtaApplication {
             })
         }
         Actor.create(create_data);
-        utils.info('PTA.Info.ImportComplete');
         this.pokemon_selections = [];
     }
 
