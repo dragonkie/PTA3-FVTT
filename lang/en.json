@@ -94,7 +94,8 @@
         "Normal": "{user} hit {target} with {move}.",
         "Double": "{user} hit {target} with {move}, it's very effective!",
         "Quadruple": "{user} hit {target} with {move}, it's super effective!"
-      }
+      },
+      "Lifesteal": "{user} drained {target} and is healed [[{drain}]] HP"
     },
     "Dialog": {
       "FileLocation": "File Location"

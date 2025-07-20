@@ -60,9 +60,7 @@ PTA.loadPokedex = async (force = false) => {
 
     localStorage.setItem('pta.pokedex', JSON.stringify(PTA.Pokedex));
     localStorage.setItem('pta.pokedexExpiry', today.toISOString());
-  } else {
-    PTA.Pokedex = JSON.parse(localStorage.getItem('pta.pokedex'));
-  }
+  } else PTA.Pokedex = JSON.parse(localStorage.getItem('pta.pokedex'));
 
   //===================================================================================
   //> Add in pokedex functions MUST BE DONE AFTER LOADING TO AVOID OVERWRITE
@@ -77,11 +75,9 @@ PTA.loadPokedex = async (force = false) => {
 
 
 
-/* ------------------------------------------------------------------ */
-/*                                                                    */
-/*                              GENERIC                               */
-/*                                                                    */
-/* ------------------------------------------------------------------ */
+//===================================================================================
+//> Generic
+//===================================================================================
 
 PTA.generic = {
   age: 'PTA.Generic.Age',
@@ -157,14 +153,13 @@ PTA.chat = {
     normal: 'PTA.Chat.Damage.Normal',
     double: 'PTA.Chat.Damage.Double',
     quadruple: 'PTA.Chat.Damage.Quadruple',
-  }
+  },
+  lifesteal: 'PTA.Chat.Lifesteal',
 }
 
-/* ------------------------------------------------------------------ */
-/*                                                                    */
-/*                           ACTOR ABILITIES                          */
-/*                                                                    */
-/* ------------------------------------------------------------------ */
+//===================================================================================
+//> Actor Abilities
+//===================================================================================
 
 /**
  * The set of Ability Scores used within the system.
@@ -212,11 +207,9 @@ for (const [key, value] of Object.entries(PTA.contestAbilities)) {
   PTA.contestAbilitiesAbbr[key] = value.replace("long", "abbr");
 }
 
-/* ------------------------------------------------------------------ */
-/*                                                                    */
-/*                           PLAYER SKILLS                            */
-/*                                                                    */
-/* ------------------------------------------------------------------ */
+//===================================================================================
+//> Player Skills
+//===================================================================================
 PTA.skillAbilities = {
   acrobatics: PTA.stats.spd,
   athletics: PTA.stats.atk,
@@ -279,11 +272,9 @@ PTA.genders = {
   none: PTA.generic.none
 }
 
-/* ------------------------------------------------------------------ */
-/*                                                                    */
-/*                          POKEMON TYPING                            */
-/*                                                                    */
-/* ------------------------------------------------------------------ */
+//===================================================================================
+//> Pokemon Types
+//===================================================================================
 
 PTA.pokemonTypes = {
   bug: 'PTA.Type.Bug',
@@ -416,11 +407,10 @@ PTA.typeEffectiveness = {
     immune: []
   },
 };
-/* ------------------------------------------------------------------ */
-/*                                                                    */
-/*                        STATUS AILMENTS                             */
-/*                                                                    */
-/* ------------------------------------------------------------------ */
+
+//===================================================================================
+//> Status Ailments
+//===================================================================================
 PTA.ailments = {
   burn: 'PTA.Ailment.Burn.long',
   confuse: 'PTA.Ailment.Confuse.long',
@@ -453,11 +443,9 @@ for (const [key, value] of Object.entries(PTA.statuses)) {
   })
 }
 
-/* ------------------------------------------------------------------ */
-/*                                                                    */
-/*                      POKEMON NATURES                               */
-/*                                                                    */
-/* ------------------------------------------------------------------ */
+//===================================================================================
+//> Pokemon Natures
+//===================================================================================
 PTA.natureNeutral = {
   bashful: 'PTA.Nature.Bashful',
   docile: 'PTA.Nature.Docile',

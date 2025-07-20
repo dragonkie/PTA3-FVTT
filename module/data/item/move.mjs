@@ -361,12 +361,20 @@ export default class MoveData extends ItemData {
                     }
 
                     message_data.content += await r_damage.render();
+
+                    // Lifesteal value
+                    if (this.drain > 0) {
+                        message_config.drain = Math.floor(r_damage.total * (this.drain / 100));
+                        message_data.content += `<p>${utils.format(PTA.chat.lifesteal, message_config)}</p>`;
+                    }
                 }
+
+
 
                 //========================================================================
                 //>--- Chat Message
                 //========================================================================
-
+                message_data.content = await foundry.applications.ux.TextEditor.enrichHTML(message_data.content);
                 let message = await r_accuracy.toMessage(message_data, message_config);
             }
 

@@ -171,9 +171,11 @@ export default class utils {
     }
 
     static parseMoveData(move) {
-        function getFlavorText(entries) {
+        function getFlavorText(entries, options = {}) {
+            if (!entries) return '';
             for (const entry of entries) {
-                if (entry.language.name == game.i18n.lang) return entry.flavor_text
+                if (entry.version_group.name == options.version) return entry.flavor_text;
+                if (entry.language.name == game.i18n.lang || entry.language.name == options.lang) return entry.flavor_text
             }
             return '';
         }
@@ -189,14 +191,14 @@ export default class utils {
                     },
                     accuracy: move.accuracy || 100,
                     ailment: {
-                        chance: move.meta.ailment_chance || 0,
-                        type: move.meta.ailment.name || 'none'
+                        chance: move.meta?.ailment_chance || 0,
+                        type: move.meta?.ailment.name || 'none'
                     },
-                    drain: move.meta.drain || 0,
-                    critical_chance: move.meta.crit_rate || 0,
+                    drain: move.meta?.drain || 0,
+                    critical_chance: move.meta?.crit_rate || 0,
                     multi_hit: {
-                        max: move.meta.max_hits || 0,
-                        min: move.meta.min_hits || 0
+                        max: move.meta?.max_hits || 0,
+                        min: move.meta?.min_hits || 0
                     },
                     description: getFlavorText(move.flavor_text_entries)
                 };
@@ -210,14 +212,14 @@ export default class utils {
                     },
                     accuracy: Math.min((move.accuracy - 100) / 5, 0) || 0,
                     ailment: {
-                        chance: move.meta.ailment_chance || 0,
-                        type: move.meta.ailment.name || 'none'
+                        chance: move.meta?.ailment_chance || 0,
+                        type: move.meta?.ailment.name || 'none'
                     },
-                    drain: move.meta.drain || 0,
-                    critical_chance: move.meta.crit_rate || 0,
+                    drain: move.meta?.drain || 0,
+                    critical_chance: move.meta?.crit_rate || 0,
                     multi_hit: {
-                        max: move.meta.max_hits || 0,
-                        min: move.meta.min_hits || 0
+                        max: move.meta?.max_hits || 0,
+                        min: move.meta?.min_hits || 0
                     },
                     description: getFlavorText(move.flavor_text_entries)
                 };
