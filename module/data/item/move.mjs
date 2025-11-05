@@ -11,6 +11,9 @@ export default class MoveData extends ItemData {
         const isRequired = { required: true, nullable: false };
         const schema = super.defineSchema();
 
+        // Remove unneccessary fields
+        delete schema.quantity;
+
         // is this a physical, special, or effect move
         // moves that deal damage are still classified as physical / effect, such as ember
         const MoveClasses = {};
@@ -101,8 +104,15 @@ export default class MoveData extends ItemData {
     //=====================================================================================================
     async use(event, target, action) {
         if (action == 'reload') return this._onUseReload(event, target);
-        if (action == 'attack') return this._onUseAttack(event, target);
         return this._onUseAttack(event, target);
+    }
+
+    async _onRollAttack() {
+
+    }
+
+    async _onRollDamage() {
+
     }
 
     //=====================================================================================================
@@ -120,11 +130,10 @@ export default class MoveData extends ItemData {
         if (!rolldata) return void utils.error('PTA.Error.RolldataMissing');
 
         //============================================================================
-        //>-- Targeting data
+        //>-- Roll attack for all targets
         //============================================================================
-        if (!targets) {
-
-        } else for (const target of targets) {
+        if (!targets) return void utils.warn('PTA.Warn.EnforceTargeting');
+        for (const target of targets) {
             //========================================================================
             //>--- Data prep
             //========================================================================
@@ -146,7 +155,7 @@ export default class MoveData extends ItemData {
             }
 
             //========================================================================
-            //>--- Accuracy Roll
+            //>--- Attack Roll
             //========================================================================
             let r_accuracy = new Roll('1d20 + @stat.mod + @accuracy', rolldata);
             await r_accuracy.evaluate();
@@ -155,7 +164,7 @@ export default class MoveData extends ItemData {
             let critical = false;
 
             if (r_accuracy.dice.find(a => a.faces == 20).results[0].result >= 20 - this.critical_chance) critical = true;
-            else if (r_accuracy.total < game.settings.get(game.system.id, 'baseAc') + target_stat.total) missed = true;
+            else if (r_accuracy.total < game.settings.get(game.system.id, 'baseAc') + target_stat.mod) missed = true;
 
             // attack roll content
             message_data.content += `<p><b>${utils.localize(PTA.generic.accuracy)}</b></p>`
@@ -175,7 +184,7 @@ export default class MoveData extends ItemData {
                 }
             }
 
-            let r_damage = new Roll(damage_formula, rolldata);
+            const r_damage = new Roll(damage_formula, rolldata);
 
             // get the move effectiveness values
             let effectiveness = { value: 0, percent: 1, immune: false };;
@@ -186,21 +195,11 @@ export default class MoveData extends ItemData {
                         if (override.type == this.type) {
                             overriden = true;
                             switch (override.value) {
-                                case 'immune':
-                                    effectiveness = { value: 0, percent: 0, immune: true }
-                                    break;
-                                case 'double':
-                                    effectiveness = { value: 1, percent: 2, immune: false }
-                                    break;
-                                case 'quadruple':
-                                    effectiveness = { value: 2, percent: 4, immune: false }
-                                    break;
-                                case 'half':
-                                    effectiveness = { value: -1, percent: 0.5, immune: false }
-                                    break;
-                                case 'quarter':
-                                    effectiveness = { value: -2, percent: 0.25, immune: false }
-                                    break;
+                                case 'immune': effectiveness = { value: 0, percent: 0, immune: true }; break;
+                                case 'double': effectiveness = { value: 1, percent: 2, immune: false }; break;
+                                case 'quadruple': effectiveness = { value: 2, percent: 4, immune: false }; break;
+                                case 'half': effectiveness = { value: -1, percent: 0.5, immune: false }; break;
+                                case 'quarter': effectiveness = { value: -2, percent: 0.25, immune: false }; break;
                             }
                         }
                     }
@@ -218,21 +217,11 @@ export default class MoveData extends ItemData {
 
                 if (effectiveness.immune) message_data.content += utils.format(PTA.chat.damage.immune, message_config);
                 else switch (effectiveness.value) {
-                    case -2:
-                        message_data.content += utils.format(PTA.chat.damage.quarter, message_config);
-                        break;
-                    case -1:
-                        message_data.content += utils.format(PTA.chat.damage.half, message_config);
-                        break;
-                    case 0:
-                        message_data.content += utils.format(PTA.chat.damage.normal, message_config);
-                        break;
-                    case 1:
-                        message_data.content += utils.format(PTA.chat.damage.double, message_config);
-                        break;
-                    case 2:
-                        message_data.content += utils.format(PTA.chat.damage.quadruple, message_config);
-                        break;
+                    case -2: message_data.content += utils.format(PTA.chat.damage.quarter, message_config); break;
+                    case -1: message_data.content += utils.format(PTA.chat.damage.half, message_config); break;
+                    case 0: message_data.content += utils.format(PTA.chat.damage.normal, message_config); break;
+                    case 1: message_data.content += utils.format(PTA.chat.damage.double, message_config); break;
+                    case 2: message_data.content += utils.format(PTA.chat.damage.quadruple, message_config); break;
                 }
 
                 message_data.content += await r_damage.render();
@@ -244,8 +233,6 @@ export default class MoveData extends ItemData {
                 }
             }
 
-
-
             //========================================================================
             //>--- Chat Message
             //========================================================================
@@ -253,9 +240,7 @@ export default class MoveData extends ItemData {
             let message = await r_accuracy.toMessage(message_data, message_config);
         }
 
-
-
-
+        // if we reach this point, attack was successful so we expend a use
         if (this.uses.max > 0) this.parent.update({ 'system.uses.value': this.uses.value - 1 });
     }
 
