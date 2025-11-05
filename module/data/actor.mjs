@@ -47,10 +47,33 @@ export default class ActorData extends DataModel {
       }), { initial: [], nullable: false });
 
     //====================================================================================
+    //> Skill fields
+    //====================================================================================
+    const _getSkillFields = () => {
+      let _field = {};
+      // loop through list of skills
+      for (const [skill, stat] of Object.entries(PTA.skillAbilities)) {
+        // grab the stats that matches this skill
+        for (const [key, value] of Object.entries(PTA.stats)) {
+          if (stat === value) _field[skill] = new SchemaField({
+            talent: new NumberField({ ...requiredInteger, max: 2, min: 0, initial: 0 }),
+            stat: new StringField({ required: true, nullable: false, initial: key }),
+            value: new NumberField({ ...requiredInteger, initial: 0 }),
+            bonus: new NumberField({ ...requiredInteger, initial: 0 })
+          })
+        }
+      }
+      return new SchemaField(_field);
+    }
+
+    schema.skills = _getSkillFields();
+
+    //====================================================================================
     //> Bonus fields
     //====================================================================================
     schema.bonuses = new SchemaField({
       attack: new NumberField({ initial: 0, required: true, nullable: false }),
+      hpMax: new NumberField({ initial: 0, ...requiredInteger })
     })
 
     return schema;
@@ -63,6 +86,22 @@ export default class ActorData extends DataModel {
 
   prepareDerivedData() {
     super.prepareDerivedData();
+
+    // calculate max hp
+    this.hp.total = this.hp.max + this.bonuses.hpMax;
+
+    // after status modifiers are applied, we can total up the final value of the stats
+    for (const key in this.stats) {
+      this.stats[key].total += (this.stats[key].value + this.stats[key].bonus) * utils.AbilityStage(this.stats[key].boost);
+      this.stats[key].mod = Math.floor(this.stats[key].total / 2);
+    }
+
+    // calculate skill totals
+    for (const key in this.skills) {
+      let skill = this.skills[key];
+      let stat = this.stats[skill.stat];
+      skill.total = skill.value + stat.mod + Math.floor(skill.talent * 2.5) + skill.bonus;
+    }
 
     // applys conditions relevant to token statuses
     for (const status of this.parent.statuses) {
@@ -81,11 +120,34 @@ export default class ActorData extends DataModel {
       }
     }
 
-    // after status modifiers are applied, we can total up the final value of the stats
-    for (const key in this.stats) {
-      this.stats[key].total += (this.stats[key].value + this.stats[key].bonus) * utils.AbilityStage(this.stats[key].boost);
-      this.stats[key].mod = Math.floor(this.stats[key].total / 2);
-    }
+    //====================================================================================
+    //> Prepare derived values from item based modifiers
+    //====================================================================================
+    
+    // sort items by their priority, then their importance
+    const itemsList = this.parent.items.contents.sort((a, b) => {
+      const _prioA = a.system.priority;
+      const _prioB = b.system.priority;
+      // if item isnt assigned a priority, it needs to be pushed to the end
+      if (_prioA == undefined || _prioB == undefined) {
+        if (_prioA != undefined && _prioB == undefined) return -1;
+        if (_prioB != undefined && _prioA == undefined) return 1;
+        return 0;
+      }
+
+      // if both items have the same priority derived a level of importance from its factors
+      if (_prioA == _prioB) {
+        const powerA = a.system.importance;
+        const powerB = b.system.importance;
+
+        return powerB - powerA;
+      }
+
+      // if they both have a priority, the higher number should go further ahead
+      return b.system.priority - a.system.priority;
+    });
+
+    for (const item of itemsList) item.prepareActorData(this);
   }
 
   getRollData() {
