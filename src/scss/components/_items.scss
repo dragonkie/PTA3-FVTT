@@ -62,8 +62,9 @@ ol.items-list {
   // Control Buttons
   .item-controls {
     display: flex;
-    flex: 0 0 100px;
+    flex: 0 1 100px;
     justify-content: flex-end;
+    margin: 0 0.3rem;
 
     a {
       font-size: 12px;
@@ -83,6 +84,8 @@ ol.items-list {
     }
 
     .item-name {
+      font-size: 1rem;
+
       .item-image {
         flex: 0 0 30px;
         height: 30px;
@@ -95,12 +98,15 @@ ol.items-list {
     .item-quantity {
       display: flex;
       flex-direction: row;
+      flex-wrap: nowrap;
       flex: 0;
 
       .item-count {
         text-align: center;
         min-width: 3em;
-        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       >* {
@@ -149,11 +155,6 @@ ol.items-list {
 
 // Example style for pta (can be removed if not needed).
 .item-formula {
-
   flex: 0 0 200px;
   padding: 0 8px;
 }
-
-//=========================================================================
-//> Item Link Tags
-//=========================================================================

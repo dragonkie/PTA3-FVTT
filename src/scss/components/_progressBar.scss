@@ -1,35 +1,70 @@
+$corner-radius: 4px;
+
 .progress-bar {
     width: 100%;
     background-color: black;
     box-sizing: border-box;
+    border-radius: 0 $corner-radius $corner-radius 0;
 
     display: flex;
     flex-direction: row;
     overflow: hidden;
 
+
     label {
+        align-content: center;
+        border-radius: $corner-radius 0 0 $corner-radius;
         background-color: gray;
-        height: 100%;
-        padding: 0 calc(var(--pta-scale-px) / 2);
+        padding: 0 0.5em;
         font-size: var(--pta-scale-em);
-        font-weight: bold;
     }
 
     >.wrapper {
+        display: grid;
         flex: 1;
 
+        >* {
+            grid-column-start: 1;
+            grid-row-start: 1;
+        }
+
         .bar {
+            grid-area: 0 0;
             min-height: 100%;
             width: 50%;
-            margin: 1px;
+            border-radius: 0 $corner-radius $corner-radius 0;
 
             /* || Colour options */
             &.red {
-                background-color: red;
+                background-color: rgb(255, 61, 61);
+            }
+
+            &.yellow {
+                background-color: rgb(255, 255, 117);
             }
 
             &.green {
-                background-color: green;
+                background-color: rgb(53, 168, 53);
+            }
+        }
+
+        input {
+            height: 100%;
+            margin: 0 0.5em;
+            border-radius: 5px;
+            text-align: center;
+            background: none;
+            border: none;
+            outline: none;
+            outline-offset: 0px;
+            transition: all 200ms ease;
+
+            &:focus {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
             }
         }
     }

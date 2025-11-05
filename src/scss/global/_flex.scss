@@ -2,7 +2,6 @@
 
   // Flexbox.
   .flex-group-center,
-  .flex-group-start,
   .flex-group-end {
     justify-content: center;
     align-items: center;
@@ -61,5 +60,13 @@
 
   .flex-overflow {
     flex-wrap: wrap;
+  }
+
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
+
+  .flex-nowrap {
+    flex-wrap: nowrap;
   }
 }

@@ -40,31 +40,31 @@
 }
 
 .pta-xs {
-  --pta-scale-px: 4px;
+  --pta-scale-px: 3px;
   --pta-scale-em: 0.6em;
   --pta-scale-rem: 0.6rem;
 }
 
 .pta-s {
-  --pta-scale-px: 8px;
+  --pta-scale-px: 4px;
   --pta-scale-em: 0.8em;
   --pta-scale-rem: 0.8rem;
 }
 
 .pta-m {
-  --pta-scale-px: 12px;
+  --pta-scale-px: 8px;
   --pta-scale-em: 1em;
   --pta-scale-rem: 1rem;
 }
 
 .pta-l {
-  --pta-scale-px: 16px;
+  --pta-scale-px: 12px;
   --pta-scale-em: 1.5em;
   --pta-scale-rem: 1.5rem;
 }
 
 .pta-xl {
-  --pta-scale-px: 20px;
+  --pta-scale-px: 18px;
   --pta-scale-em: 2em;
   --pta-scale-rem: 2rem;
 }
@@ -293,7 +293,6 @@
 }
 
 .pta .flex-group-center,
-.pta .flex-group-start,
 .pta .flex-group-end {
   justify-content: center;
   align-items: center;
@@ -340,6 +339,12 @@
 .pta .flex-overflow {
   flex-wrap: wrap;
 }
+.pta .flex-wrap {
+  flex-wrap: wrap;
+}
+.pta .flex-nowrap {
+  flex-wrap: nowrap;
+}
 
 /* Components */
 /* Import utilities */
@@ -355,6 +360,9 @@
   justify-content: flex-start;
   margin-bottom: 10px;
 }
+.sheet-header img {
+  flex: 0;
+}
 .sheet-header .profile-img {
   flex: 0 0 100px;
   height: 100px;
@@ -368,6 +376,7 @@
   padding: 0px;
   margin: 5px 0;
   border-bottom: 0;
+  display: flex;
 }
 .sheet-header h1.charname input {
   width: 100%;
@@ -377,6 +386,7 @@
 
 .sheet-tabs {
   flex: 0;
+  margin-bottom: 0.5rem;
 }
 
 .sheet-body,
@@ -404,13 +414,24 @@
   text-align: center;
 }
 
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
 .text-nowrap {
   text-wrap: nowrap;
+  word-break: keep-all;
+  word-wrap: break-word;
 }
 
 .form-group {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 .form-group > label,
 .form-group span.label {
@@ -422,6 +443,19 @@
 .form-group:hover > label,
 .form-group:hover span.label {
   color: var(--color);
+}
+.form-group.stacked {
+  flex-direction: column;
+}
+.form-group.stacked label {
+  flex: 0;
+}
+
+.pta-link-wrap {
+  border-radius: 4px;
+  border: var(--pta-border, 1px solid rgb(159, 132, 117));
+  background: var(--pta-link-bg, rgba(255, 255, 255, 0.1));
+  padding: 0.2rem 0.5rem;
 }
 
 .resource-label {
@@ -477,8 +511,9 @@ ol.items-list .item-name h4 {
 }
 ol.items-list .item-controls {
   display: flex;
-  flex: 0 0 100px;
+  flex: 0 1 100px;
   justify-content: flex-end;
+  margin: 0 0.3rem;
 }
 ol.items-list .item-controls a {
   font-size: 12px;
@@ -493,6 +528,9 @@ ol.items-list .item {
 ol.items-list .item:last-child {
   border-bottom: none;
 }
+ol.items-list .item .item-name {
+  font-size: 1rem;
+}
 ol.items-list .item .item-name .item-image {
   flex: 0 0 30px;
   height: 30px;
@@ -503,12 +541,15 @@ ol.items-list .item .item-name .item-image {
 ol.items-list .item .item-quantity {
   display: flex;
   flex-direction: row;
+  flex-wrap: nowrap;
   flex: 0;
 }
 ol.items-list .item .item-quantity .item-count {
   text-align: center;
   min-width: 3em;
-  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 ol.items-list .item .item-quantity > * {
   flex: 0;
@@ -614,8 +655,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 }
 
 .type-tag {
-  padding: var(--pta-scale-px);
-  border-radius: var(--pta-scale-px);
+  border-radius: 4px;
   border: 2px solid;
   width: fit-content;
   text-align: center;
@@ -678,12 +718,12 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 .pta-pc-layout-grid {
   display: flex;
   flex: 0 1;
-  gap: var(--pta-scale-px);
+  gap: var(--pta-scale-px, 4px);
   flex-wrap: wrap;
 }
 .pta-pc-layout-grid .pta-grid-item {
-  height: calc(var(--pta-scale-px) * 10);
-  flex: 0 0 calc(var(--pta-scale-px) * 10);
+  height: 75px;
+  flex: 0 0 75px;
   border: 1px solid rgb(174, 174, 174);
   border-radius: 5px;
   transition: flex 0.2s ease-in-out;
@@ -702,8 +742,8 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   background-color: rgba(255, 255, 255, 0.15);
 }
 .pta-pc-layout-grid .pta-grid-item .wrapper {
-  min-width: calc(var(--pta-scale-px) * 10);
-  min-height: calc(var(--pta-scale-px) * 10);
+  min-width: 75px;
+  min-height: 75px;
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -711,6 +751,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   display: flex;
   flex-direction: column;
   height: 100%;
+  justify-content: center;
 }
 .pta-pc-layout-grid .pta-grid-item > .controls .item-control {
   flex: 1;
@@ -722,7 +763,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   background-color: grey;
 }
 .pta-pc-layout-grid .pta-grid-item.selected {
-  flex: 0 0 calc(var(--pta-scale-px) * 13);
+  flex: 0 0 97.5px;
 }
 .pta-pc-layout-grid .pta-grid-item :hover {
   cursor: pointer;
@@ -731,48 +772,89 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   opacity: 1;
 }
 
-.pta-grid-item {
+.search-results .pta-grid-item {
+  min-height: 100px;
+  min-width: 100px;
+  flex: 0;
   border: 1px solid rgb(174, 174, 174);
   border-radius: 5px;
   transition: flex 0.2s ease-in-out;
   transition: all 0.2s;
   background-color: rgba(255, 255, 255, 0);
 }
-.pta-grid-item:hover {
+.search-results .pta-grid-item:hover {
   border-color: white;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.15);
+}
+
+.pta-selection-list {
+  white-space: nowrap;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.pta-selection-list .wrapper [data-pokemon] {
+  word-break: keep-all;
+  word-wrap: break-word;
+  flex: 0;
 }
 
 .progress-bar {
   width: 100%;
   background-color: black;
   box-sizing: border-box;
+  border-radius: 0 4px 4px 0;
   display: flex;
   flex-direction: row;
   overflow: hidden;
 }
 .progress-bar label {
+  align-content: center;
+  border-radius: 4px 0 0 4px;
   background-color: gray;
-  height: 100%;
-  padding: 0 calc(var(--pta-scale-px) / 2);
+  padding: 0 0.5em;
   font-size: var(--pta-scale-em);
-  font-weight: bold;
 }
 .progress-bar > .wrapper {
+  display: grid;
   flex: 1;
 }
+.progress-bar > .wrapper > * {
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
 .progress-bar > .wrapper .bar {
+  grid-area: 0 0;
   min-height: 100%;
   width: 50%;
-  margin: 1px;
+  border-radius: 0 4px 4px 0;
   /* || Colour options */
 }
 .progress-bar > .wrapper .bar.red {
-  background-color: red;
+  background-color: rgb(255, 61, 61);
+}
+.progress-bar > .wrapper .bar.yellow {
+  background-color: rgb(255, 255, 117);
 }
 .progress-bar > .wrapper .bar.green {
-  background-color: green;
+  background-color: rgb(53, 168, 53);
+}
+.progress-bar > .wrapper input {
+  height: 100%;
+  margin: 0 0.5em;
+  border-radius: 5px;
+  text-align: center;
+  background: none;
+  border: none;
+  outline: none;
+  outline-offset: 0px;
+  transition: all 200ms ease;
+}
+.progress-bar > .wrapper input:focus {
+  background: rgba(255, 255, 255, 0.1);
+}
+.progress-bar > .wrapper input:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .round {
@@ -808,12 +890,10 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   flex: 1;
 }
 .pta-stats .pta-stat-wrap {
-  flex-wrap: none;
   display: flex;
   flex: 0;
   flex-direction: row;
   align-items: center;
-  padding: var(--pta-scale-px);
 }
 .pta-stats .pta-stat-wrap .pta-score-wrap {
   flex: 0;
@@ -841,26 +921,50 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   border-right: none;
   border-top: none;
 }
-.pta-stats .pta-stat-wrap .pta-skills-wrap {
+
+.pta-skills-wrap {
   text-align: left;
   flex: 1;
   margin-left: var(--pta-scale-px);
 }
-.pta-stats .pta-stat-wrap .pta-skills-wrap .pta-skill {
+
+.pta-skill {
   font-size: calc(var(--pta-scale-em) + 0.1em);
   font-weight: 500;
   display: flex;
   flex-direction: row;
   text-wrap: nowrap;
 }
-.pta-stats .pta-stat-wrap .pta-skills-wrap .pta-skill > * {
+.pta-skill > * {
   flex: 1;
 }
-.pta-stats .pta-stat-wrap .pta-skills-wrap .pta-talent {
+.pta-skill[data-pta-stat=atk] {
+  --stat-border-c: var(--pta-c-stat-atk) !important;
+  border-bottom: 1px solid var(--stat-border-c);
+}
+.pta-skill[data-pta-stat=def] {
+  --stat-border-c: var(--pta-c-stat-def) !important;
+  border-bottom: 1px solid var(--stat-border-c);
+}
+.pta-skill[data-pta-stat=satk] {
+  --stat-border-c: var(--pta-c-stat-satk) !important;
+  border-bottom: 1px solid var(--stat-border-c);
+}
+.pta-skill[data-pta-stat=sdef] {
+  --stat-border-c: var(--pta-c-stat-sdef) !important;
+  border-bottom: 1px solid var(--stat-border-c);
+}
+.pta-skill[data-pta-stat=spd] {
+  --stat-border-c: var(--pta-c-stat-spd) !important;
+  border-bottom: 1px solid var(--stat-border-c);
+}
+
+.pta-talent {
   flex: 0;
   margin-right: calc(var(--pta-scale-em));
 }
-.pta-stats .pta-stat-wrap .pta-skills-wrap .pta-mod {
+
+.pta-mod {
   text-align: center;
   flex: 0 0 2em;
 }
@@ -891,11 +995,29 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 }
 
 /* Sheet specific styles */
-.pta.sheet.actor header.sheet-header img {
+.pta.sheet.actor .pta-sheet-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-light-5);
+}
+.pta.sheet.actor .pta-sheet-header img {
   min-width: 128px;
   min-height: 128px;
   object-fit: cover;
   object-position: 50% 0%;
+}
+.pta.sheet.actor .window-content {
+  min-height: 600px;
+}
+
+.pta-pokebox {
+  max-height: 500px;
+  overflow: hidden;
+}
+.pta-pokebox .pta-pokebox-entries {
+  box-sizing: border-box;
+  overflow: auto;
+  flex: 1;
 }
 
 /* Styles limited to pta3 sheets */

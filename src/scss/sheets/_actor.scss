@@ -1,10 +1,28 @@
 .pta.sheet.actor {
-    header.sheet-header {
+    .pta-sheet-header {
         img {
             min-width: 128px;
             min-height: 128px;
             object-fit: cover;
             object-position: 50% 0%;
         }
+
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--color-light-5);
+    }
+
+    .window-content {
+        min-height: 600px;
+    }
+}
+
+.pta-pokebox {
+    max-height: 500px;
+    overflow: hidden;
+    .pta-pokebox-entries {
+        box-sizing: border-box;
+        overflow: auto;
+        flex: 1;
     }
 }
