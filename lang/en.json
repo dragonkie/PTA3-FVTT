@@ -78,7 +78,9 @@
     "Button": {
       "Submit": "Submit",
       "Local": "Local",
-      "Online": "Online"
+      "Online": "Online",
+      "ImportMove": "Import Move",
+      "ImportPokemon": "Import Pokémon"
     },
     "Chat": {
       "Attack": {
@@ -98,7 +100,13 @@
       "Lifesteal": "{user} drained {target} and is healed [[{drain}]] HP"
     },
     "Dialog": {
-      "FileLocation": "File Location"
+      "FileLocation": "File Location",
+      "TransferRune": "Which pokemon would you like to transfer the rune to?"
+    },
+    "Title": {
+      "TransferRune": "Transfer Rune",
+      "ConfigResist": "Configure Resistances",
+      "UseCaptureSphere": "Use Capture Sphere"
     },
     "Effect": {
       "Inactive": "Inactive Effects",
@@ -106,7 +114,8 @@
       "Disabled": "Disabled Effects",
       "Source": "Source",
       "Temporary": "Temporary Effects",
-      "Toggle": "Toggle Effect"
+      "Toggle": "Toggle Effect",
+      "Duration": "Duration"
     },
     "Flavour": {
       "Bitter": "Bitter",
@@ -119,25 +128,47 @@
     },
     "Generic": {
       "Accuracy": "Accuracy",
+      "Age": "Age",
       "All": "All",
-      "Data": "Data",
+      "Capture": "Capture",
       "Damage": "Damage",
+      "Data": "Data",
+      "Effect": "Effect",
+      "Eyes": "Eyes",
       "Gender": "Gender",
+      "Hair": "Hair",
+      "Health": "Health",
+      "MaxHealth": "Max Health",
+      "Height": "Height",
       "Import": "Import",
       "Nature": "Nature",
       "None": "None",
+      "Origin": "Origin",
+      "Physical": "Physical",
       "Pokemon": "Pokémon",
+      "Rank": "Rank",
+      "Shiny": "Shiny",
       "Size": "Size",
+      "Special": "Special",
       "Species": "Species",
       "Status": "Status",
+      "Sync": {
+        "long": "Synchronize",
+        "abbr": "sync"
+      },
       "Trainer": "Trainer",
-      "Type": { "long": "Type", "plural": "Types" },
-      "Weight": "Weight",
-      "Shiny": "Shiny",
-      "Sync": { "long": "Synchronize", "abbr": "sync" },
-      "Special": "Special",
-      "Physical": "Physical",
-      "Effect": "Effect"
+      "Type": {
+        "long": "Type",
+        "plural": "Types"
+      },
+      "Weight": "Weight"
+    },
+    "Method": {
+      "Add": "Add",
+      "Subtract": "Subtract",
+      "Grow": "Grow",
+      "Shrink": "Shrink",
+      "Multiply": "Multiply"
     },
     "Nature": {
       "Adamant": "Adamant",
@@ -238,6 +269,10 @@
       "Perform": {
         "abbr": "",
         "long": "Perform"
+      },
+      "Programming": {
+        "abbr": "",
+        "long": "Programming"
       },
       "Stealth": {
         "abbr": "",
