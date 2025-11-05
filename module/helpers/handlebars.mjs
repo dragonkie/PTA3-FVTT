@@ -84,7 +84,8 @@ function registerHelpers() {
             // auto fills in the details to the input using the provided path from the system data
             // the system needs to define a schema path as well
             const field = system?.schema.getField(path);
-            if (!field) throw new Error("Couldn't find field path for system schema, was it included?");
+            if (!system.schema) throw new Error("Missing system schema to reference");
+            if (!field) throw new Error("Couldn't find field path for system schema, was it included?" + `${path}`);
 
             const { classes, label, hint, rootId, stacked, units, widget, ...inputConfig } = options.hash;
             const input = path.split(".");
@@ -102,7 +103,8 @@ function registerHelpers() {
             // auto fills in the details to the input using the provided path from the system data
             // the system needs to define a schema path as well
             const field = system?.schema.getField(path);
-            if (!field) throw new Error("Couldn't find field path for system schema, was it included?");
+            if (!system.schema) throw new Error("Missing system schema to reference");
+            if (!field) throw new Error("Couldn't find field path for system schema, was it included?" + `${path}`);
 
             const { classes, label, hint, rootId, stacked, units, widget, ...inputConfig } = options.hash;
             const groupConfig = {
