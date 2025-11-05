@@ -1,4 +1,8 @@
 import ItemData from "../item.mjs";
+import PtaDialog from "../../applications/dialog.mjs";
+import utils from "../../helpers/utils.mjs";
+import { PTA } from "../../helpers/config.mjs";
+
 const {
     ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField
 } = foundry.data.fields;
@@ -108,17 +112,56 @@ export default class PokeballData extends ItemData {
 
     async use(event, options) {
         if (!this.actor) return void pta.utils.warn("Can't throw a pokeball without a trainer!");
-        if (this.quantity <= 0) return void console.warn("You need to ahve one to use one");
-        let rollData = this.getRollData();
+        if (this.quantity <= 0) return void pta.utils.warn("PTA.Warn.MissingItem");
 
-        let hitRoll = new Roll(`1d20x + @spd.mod`, rollData, {});
+        const rollData = this.getRollData();
+
+        var acc = 0;
+        var chn = 0;
+        await new Promise(async (resolve, reject) => {
+            const template = await utils.renderTemplate(PTA.templates.dialog.rollCaptureSphere, { item: this.parent });
+            const app = new PtaDialog({
+                content: template,
+                classes: ['pta'],
+                window: {
+                    title: "PTA.Title.UseCaptureSphere"
+                },
+                buttons: [{
+                    label: "Confirm",
+                    action: "confirm",
+                    callback: () => {
+                        const ele = app.element;
+
+                        var a = ele.querySelector('input[name=accuracy]').value;
+                        var c = ele.querySelector('input[name=capture]').value;
+
+                        if (a != '') acc += Number(a);
+                        if (c != '') chn += Number(c);
+
+                        resolve(true);
+                    }
+                }, {
+                    label: "Cancel",
+                    action: "cancel",
+                    callback: () => reject()
+                }]
+            })
+            await app.render({ force: true });
+        })
+
+        const hitRoll = new Roll(`1d20x + @spd.mod${acc != 0 ? ` + ${acc}` : ``}`, rollData, {});
         await hitRoll.evaluate();
 
-        let captureRoll = new Roll(`1d100 + (${this.capture.base} + ${this.capture.conditional})`);
+        const captureRoll = new Roll(`1d100 + (${this.capture.base} + ${this.capture.conditional})${chn != 0 ? ` + ${chn}` : ``}`);
         await captureRoll.evaluate();
 
         let messageData = {
-            content: '',
+            content: `
+                <b>Accuracy</b>
+                ${await hitRoll.render()}
+                <b>Capture Roll</b>
+                ${await captureRoll.render()}
+            `,
             flavor: `${this.actor.name} threw a ${this.parent.name}!`,
             speaker: ChatMessage.getSpeaker({ actor: this.actor }),
             sound: 'systems/pta3/assets/sfx/pokeball-throw.mp3',
