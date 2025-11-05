@@ -3,7 +3,7 @@ import PtaSheetMixin from "./mixin.mjs";
 export default class PtaItemSheet extends PtaSheetMixin(foundry.applications.sheets.ItemSheetV2) {
     static DEFAULT_OPTIONS = {
         classes: ["item"],
-        position: { height: 400, width: 500 },
+        position: { height: 'auto', width: 550 },
         actions: {
             roll: this._onRoll,
             disableEffect: this._onDisableEffect
