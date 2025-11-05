@@ -14,37 +14,24 @@ export default class CharacterData extends ActorData {
 
     schema.honours = new NumberField({ ...requiredInteger, initial: 0, min: 0 });
 
-    // helper function for defining skills
-    const _getSkillField = () => {
-      let _field = {};
-      // loop through list of skills
-      for (const [skill, stat] of Object.entries(CONFIG.PTA.skillAbilities)) {
-        // grab the stats that matches this skill
-        for (const [key, value] of Object.entries(CONFIG.PTA.stats)) {
-          if (stat === value) _field[skill] = new SchemaField({
-            talent: new NumberField({ ...requiredInteger, max: 2, min: 0, initial: 0 }),
-            stat: new StringField({ required: true, nullable: false, initial: key }),
-            value: new NumberField({ ...requiredInteger, initial: 0 })
-          })
-        }
-      }
-      return new SchemaField(_field);
-    }
+    schema.origin = new StringField({ initial: "", label: PTA.generic.origin });
 
-    schema.skills = _getSkillField();
     schema.credits = new NumberField({ ...requiredInteger, initial: 0 });
 
+    // list of owned pokemon
     schema.pokemon = new ArrayField(new SchemaField({
       uuid: new StringField({ initial: '', required: true, nullable: false }),
       name: new StringField({ initial: '', required: true, nullable: false }),
       active: new BooleanField({ initial: false, required: true, nullable: false })
     }), { initial: [] });
 
+    // Character classes
     schema.class_1 = new SchemaField({ label: new StringField({ initial: '' }) });
     schema.class_2 = new SchemaField({ label: new StringField({ initial: '' }) });
     schema.class_3 = new SchemaField({ label: new StringField({ initial: '' }) });
     schema.class_4 = new SchemaField({ label: new StringField({ initial: '' }) });
 
+    // Character descriptions
     schema.details = new SchemaField({
       age: new StringField({ label: PTA.generic.age, initial: '' }),
       gender: new StringField({ label: PTA.generic.gender, initial: '' }),
@@ -57,8 +44,11 @@ export default class CharacterData extends ActorData {
     return schema;
   }
 
+  static type = 'character';
+
   prepareDerivedData() {
     super.prepareDerivedData();
+
     for (const key in this.skills) {
       let skill = this.skills[key]
       let stat = this.stats[skill.stat];
