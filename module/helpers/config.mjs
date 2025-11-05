@@ -627,7 +627,7 @@ function templatePath(path) { return `systems/pta3/templates/${path}` }
 PTA.templates = {
   path: templatePath(''),
   dialog: {
-    fileServerSelect: templatePath('dialog/file-server-select.hbs'),
+    fileServerSelect: templatePath('dialog/file-server-selector.hbs'),
     rollCaptureSphere: templatePath('dialog/roll-capture-sphere.hbs')
   },
   app: {
