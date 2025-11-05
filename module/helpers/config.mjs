@@ -1,11 +1,5 @@
 import pokeapi from "./pokeapi.mjs";
-import utils from "./utils.mjs";
 export const PTA = {};
-
-export function PtaLoadConfig() {
-  const PTA = {};
-  return config;
-}
 
 /**
  * Load config lists from pokeapi if possible, or default if unable
@@ -93,8 +87,10 @@ PTA.generic = {
   import: 'PTA.Generic.Import',
   nature: 'PTA.Generic.Nature',
   none: 'PTA.Generic.None',
+  origin: 'PTA.Generic.Origin',
   pokemon: 'PTA.Generic.Pokemon',
   primary: 'PTA.Generic.Primary',
+  rank: 'PTA.Generic.Rank',
   secondary: 'PTA.Generic.Secondary',
   shiny: 'PTA.Generic.Shiny',
   size: 'PTA.Generic.Size',
@@ -103,6 +99,7 @@ PTA.generic = {
   type: 'PTA.Generic.Type.long',
   types: 'PTA.Generic.Type.plural',
   weight: 'PTA.Generic.Weight',
+  method: 'PTA.Generic.Method',
 }
 
 PTA.dice = {
@@ -128,11 +125,21 @@ PTA.aoeTypes = {
 //======================================================================
 //> Pokemon moves
 //======================================================================
-
 PTA.moveClass = {
   special: 'PTA.Generic.Special',
   physical: 'PTA.Generic.Physical',
   status: 'PTA.Generic.Status'
+}
+
+//======================================================================
+//> Rune stat methods
+//======================================================================
+PTA.modifierMethods = {
+  add: 'PTA.Method.Add',
+  subtract: 'PTA.Method.Subtract',
+  grow: 'PTA.Method.Grow',
+  shrink: 'PTA.Method.Shrink',
+  multiply: 'PTA.Method.Multiply',
 }
 
 //======================================================================
@@ -226,6 +233,7 @@ PTA.skillAbilities = {
   nature: PTA.stats.satk,
   perception: PTA.stats.sdef,
   perform: PTA.stats.sdef,
+  programming: PTA.stats.satk,
   stealth: PTA.stats.spd,
   subterfuge: PTA.stats.spd,
 }
@@ -233,8 +241,8 @@ PTA.skillAbilities = {
 PTA.skills = {};
 PTA.skillsAbbr = {};
 for (const [key, value] of Object.entries(PTA.skillAbilities)) {
-  PTA.skills[key] = `PTA.Skill.${utils.toTitleCase(key)}.long`;
-  PTA.skillsAbbr[key] = `PTA.Skill.${utils.toTitleCase(key)}.abbr`
+  PTA.skills[key] = `PTA.Skill.${key.charAt(0).toUpperCase() + key.slice(1)}.long`;
+  PTA.skillsAbbr[key] = `PTA.Skill.${key.charAt(0).toUpperCase() + key.slice(1)}.abbr`
 }
 
 PTA.skillAttack = { athletics: PTA.stats.atk, };
@@ -248,6 +256,7 @@ PTA.skillSpecialAttack = {
   history: PTA.stats.satk,
   investigation: PTA.stats.satk,
   medicine: PTA.stats.satk,
+  programming: PTA.stats.satk,
   nature: PTA.stats.satk,
 };
 
@@ -405,7 +414,7 @@ PTA.typeEffectiveness = {
     double: ['electric', 'grass'],
     half: ['fire', 'water', 'ice', 'steel'],
     immune: []
-  },
+  }
 };
 
 //===================================================================================
@@ -421,7 +430,7 @@ PTA.ailments = {
   poison: 'PTA.Ailment.Poison.long',
   sleep: 'PTA.Ailment.Sleep.long',
   stun: 'PTA.Ailment.Stun.long',
-  toxic: 'PTA.Ailment.Toxic.long',
+  toxic: 'PTA.Ailment.Toxic.long'
 };
 
 PTA.ailmentsAbbr = {};
@@ -605,3 +614,28 @@ PTA.flavourPreferance = {
     disliked: ["Lonely", "Mild", "Hasty", "Gentle"]
   }
 };
+
+//====================================================================================================
+//> System template paths
+//  A list of paths as well as the context they should be rendered in
+//  Most are used as individuals to render out singular applications
+//====================================================================================================
+
+function templatePath(path) { return `systems/pta3/templates/${path}` }
+PTA.templates = {
+  path: templatePath(''),
+  dialog: {
+    fileServerSelect: templatePath('dialog/file-server-select.hbs'),
+    runeCombatFields: templatePath('dialog/rune-combat-fields.hbs'),
+    runeTransfer: templatePath('dialog/rune-transfer.hbs'),
+    rollCaptureSphere: templatePath('dialog/roll-capture-sphere.hbs')
+  },
+  app: {
+    importMoves: templatePath('apps/move-importer.hbs'),
+    importPokemon: templatePath('apps/pokemon-importer.hbs'),
+    remoteAssetBrowser: templatePath('apps/server-browser.hbs')
+  },
+  sheet: {
+    
+  }
+}
