@@ -201,9 +201,12 @@ export default class utils {
                 },
                 description: getFlavorText(move.flavor_text_entries)
             };
+
         } catch (err) {
-            return void console.error('recieved invalid move data to parse', err)
+            return void this.error('recieved invalid move data to parse', err)
         }
+
+        
     }
 
     static HonourLevel(num) {
@@ -228,6 +231,17 @@ export default class utils {
             /\w\S*/g,
             text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
         );
+    }
+
+    static fuzzyMatch(str, term, ratio) {
+        var string = str.toLowerCase();
+        var compare = term.toLowerCase();
+        var matches = 0;
+        if (string.indexOf(compare) > -1) return true;
+        for (var i = 0; i < compare.length; i++) {
+            string.indexOf(compare[i]) > -1 ? matches += 1 : matches -= 1;
+        }
+        return (matches / str.length >= ratio || term == "")
     }
 
     static randomNature(options = {}) {
@@ -384,7 +398,7 @@ export default class utils {
     //============================================================
     //> Combat
     //============================================================
-
+    
     static getTargets() {
         const targets = [];
         for (const target of game.user.targets) {
@@ -396,5 +410,12 @@ export default class utils {
         }
         if (targets.length <= 0) return null;
         return targets;
+    }
+    
+    //============================================================
+    //> Dom manipulation
+    //============================================================
+    static async renderTemplate(path, data) {
+        return foundry.applications.handlebars.renderTemplate(path, data);
     }
 }
