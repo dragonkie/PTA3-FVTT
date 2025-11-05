@@ -7,12 +7,14 @@ import PtaSheetMixin from "./mixin.mjs";
 export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sheets.ActorSheetV2) {
     static DEFAULT_OPTIONS = {
         classes: ["actor"],
-        position: { height: 800, width: 700, left: 120, top: 60 },
+        position: { height: 'auto', width: 600, left: 120, top: 60 },
         actions: {
             itemDelete: this._onDeleteItem,
             itemEdit: this._onEditItem,
             itemQuantity: this._onChangeItemQuantity,
             itemUse: this._onUseItem,
+            itemSort: this._onSortItemMethod,
+            use: this._onUseItem,
             editResistance: this._onEditResistance,
             roll: this._onRoll,
             importMoves: this._onImportMoves,
@@ -56,6 +58,18 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             }
             context.stats[key].field_path = `system.stats.${key}`;
             context.stats[key].field = this.document.system.schema.getField(`stats.${key}`);
+        }
+
+        context.skills = {};
+        for (const [key, value] of Object.entries(this.document.system.skills).sort((a, b) => {
+            let val = a[1].stat.localeCompare(b[1].stat);
+            return val;
+        })) {
+            context.skills[key] = value;
+            context.skills[key].label = {
+                long: pta.utils.localize(CONFIG.PTA.skills[key]),
+                abbr: pta.utils.localize(CONFIG.PTA.skillsAbbr[key])
+            }
         }
 
         context.effects = {
@@ -111,6 +125,45 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             modal: true
         });
         if (confirm) return item.delete();
+    }
+
+    static SORTING_METHODS = {
+        NAME: 1,
+        TYPE: 2,
+    }
+
+    static async _onSortItemMethod(event, target) {
+        var method = this.document.getFlag("world", "item-sorting");
+        if (method != 1) method = 1;
+        else method = 2;
+
+        var updates = [];
+
+        if (method == this.constructor.SORTING_METHODS.NAME) {
+            var sorted = this.document.items.contents.sort((a, b) => {
+                return a.name.localeCompare(b.name);
+            });
+
+            var c = 100;
+            sorted.forEach(item => {
+                updates.push({ _id: item.id, sort: c });
+                c += 100;
+            });
+
+        } else if (method == this.constructor.SORTING_METHODS.TYPE) {
+            var sorted = this.document.items.contents.sort((a, b) => {
+                return a.type.localeCompare(b.type);
+            });
+
+            var c = 100;
+            sorted.forEach(item => {
+                updates.push({ _id: item.id, sort: c });
+                c += 100;
+            });
+        }
+
+        this.document.setFlag("world", "item-sorting", method);
+        this.document.updateEmbeddedDocuments("Item", updates);
     }
 
     static async _onChangeItemQuantity(event, target) {
@@ -176,7 +229,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         content += '</div>';
 
         let app = await new PtaDialog({
-            window: { title: 'RESIST CONFIG' },
+            window: { title: 'PTA.Title.ConfigResist' },
             id: `Actor.${this.document.id}.resist-config`,
             content: content,
             classes: ['pta'],
@@ -265,12 +318,11 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         siblings = await Promise.all(Array.from(siblings).map(s => fromUuid(s.dataset.itemUuid)));
         siblings.findSplice(i => i === item);
 
-        let updates = SortingHelpers.performIntegerSort(item, { target: sibling, siblings: siblings, sortKey: "sort" });
+        let updates = foundry.utils.performIntegerSort(item, { target: sibling, siblings: siblings, sortKey: "sort" });
         updates = updates.map(({ target, update }) => ({ _id: target.id, sort: update.sort }));
         this.document.updateEmbeddedDocuments("Item", updates);
     }
 }
-
 
 //===================================================================================================
 //> Trainer mixin
@@ -287,13 +339,20 @@ export function PtaTrainerMixin(BaseApplication) {
             const inputs = this.element.querySelectorAll('[data-query]');
 
             const cb = async () => {
-                for (const input of inputs) {
-                    if (input.dataset.query == 'name') {
-                        for (const ele of pokebox.querySelectorAll('[data-pokemon-uuid]')) {
-                            const pokemon = await fromUuid(ele.dataset.pokemonUuid);
-                            if (pokemon.name.toLowerCase().includes(input.value.toLowerCase())) ele.classList.remove('obliterated');
-                            else ele.classList.add('obliterated');
+                for (const ele of pokebox.querySelectorAll('[data-pokemon-uuid]')) {
+                    ele.classList.remove('obliterated');
+                    const pokemon = await fromUuid(ele.dataset.pokemonUuid);
+
+                    for (const input of inputs) {
+                        if (input.dataset.query == 'name') {
+                            let query = input.value.toLowerCase();
+                            if (query == "") continue;
+                            if (!pokemon.name.toLowerCase().startsWith(query) && !pokemon.system.species.toLowerCase().startsWith(query)) ele.classList.add('obliterated');
                         }
+
+                        if (input.dataset.query == 'female' && input.checked && pokemon.system.gender.toLowerCase() != "female") ele.classList.add('obliterated');
+                        if (input.dataset.query == 'male' && input.checked && pokemon.system.gender.toLowerCase() != "male") ele.classList.add('obliterated');
+                        if (input.dataset.query == 'shiny' && !pokemon.system.shiny == input.checked) ele.classList.add('obliterated');
                     }
                 }
             }
