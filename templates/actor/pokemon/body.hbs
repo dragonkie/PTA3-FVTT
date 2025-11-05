@@ -1,21 +1,21 @@
 <div>
-    <header class="pta-id-card">
-        <input type="text" value="{{document.name}}" name="name">
+    <header class="pta-id-card pta-actor-sheet-header pta-sheet-header">
         <div class="flexrow flex-gap-m">
             <img class="flex0" data-action="editImage" width="100" height="100" src="{{document.img}}">
             <div class="flexcol flex-gap-m">
+                <input type="text" value="{{document.name}}" name="name">
                 <div class="flexrow">
                     <div class="flexrow flex-gap-s">
 
                         <div class="type-tag {{system.types.primary}} pta-s">
                             <div class="wrapper">
-                                {{toFieldInput schema 'types.primary' value=system.types.primary}}
+                                {{systemFieldInput system 'types.primary'}}
                             </div>
                         </div>
 
                         <div class="type-tag {{system.types.secondary}} pta-s">
                             <div class="wrapper">
-                                {{toFieldInput schema 'types.secondary' value=system.types.secondary}}
+                                {{systemFieldInput system 'types.secondary'}}
                             </div>
                         </div>
 
@@ -24,17 +24,22 @@
                 <div class="progress-bar">
                     <label>Health</label>
                     <div class="wrapper">
-                        <div class="bar {{#if (lt (divide system.hp.value system.hp.max) 0.33)}}red{{else}}green{{/if}}" style="width: {{multiply 100 (divide system.hp.value system.hp.max)}}%;"></div>
+                        <div class="bar {{#if (lt (divide system.hp.value system.hp.max) 0.33)}}red{{else}}green{{/if}}" style="width: {{multiply 100 (divide system.hp.value system.hp.total)}}%;">
+                        </div>
+                        <div class="flexrow pta-s">
+                            {{systemFieldInput system 'hp.value'}}/
+                            {{#if isEditMode}}
+                                {{systemFieldInput system 'hp.max'}}
+                            {{else}}
+                                <div class="text-center">{{system.hp.total}}</div>
+                            {{/if}}
+                        </div>
                     </div>
                 </div>
-                <div class="flexrow pta-s">
-                    {{toFieldInput schema 'hp.value' value=system.hp.value}}/
-                    {{toFieldInput schema 'hp.max' value=system.hp.max}}
-                </div>
+
             </div>
         </div>
     </header>
 
-    {{> "pta.tabs-nav"}}
     {{> "pta.tabs-content"}}
 </div>

@@ -26,37 +26,12 @@ key - the access key for the stat
   </div>
 {{/inline}}
 
-{{!-- List of skills associated with this stat
-statkey - the object key associated with the stat
-skills - the skill list to reference from
---}}
-{{#*inline 'stat-skills'}}
-  <div class="pta-skills-wrap">
-    {{#each skills as | skill key |}}
-      {{#if (eq ../statkey skill.stat)}}
-        <div class="pta-skill pta-s" data-pta-skill="{{key}}">
-          <a class="pta-talent" data-action="trainTalent">
-            <i class="fa-{{#if (eq skill.talent 0)}}regular{{else}}solid{{/if}} fa-circle{{#if (eq skill.talent 1)}}-half-stroke{{/if}}"></i>
-          </a>
-          <a class="pta-skill-label" data-action="roll" data-roll="1d20+{{skill.total}}" data-roll-msg="{{skill.label.long}}">
-            {{numberFormat skill.total sign=true}} {{skill.label.long}}
-          </a>
-        </div>
-      {{/if}}
-    {{/each}}
-  </div>
-{{/inline}}
-
 {{!-- Actual abilities and skills list --}}
 <div class="pta-stats">
   {{#each stats as | stat key |}}
     <div class="pta-stat-wrap pta-xs" data-pta-stat="{{key}}">
       {{!-- stat score pokeball --}}
       {{> 'stat-pokeball' stat=stat key=key}}
-      {{!-- Skills list --}}
-      {{#if (ne ../document.type 'pokemon')}}
-        {{> 'stat-skills' statkey=key skills=../skills}}
-      {{/if}}
     </div>
   {{/each}}
 </div>

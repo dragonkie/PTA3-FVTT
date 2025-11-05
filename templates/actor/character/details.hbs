@@ -1,26 +1,23 @@
-<div class="pta-tab pta-tab-content">
+<div class="pta-tab pta-tab-content flexcol flex-gap-m">
     <div class="flexrow flex-gap-m">
         <div class="flexcol flex-gap-m">
-            {{toFieldGroup schema 'details.age' value=system.details.age}}
-            {{toFieldGroup schema 'details.eyes' value=system.details.eyes}}
-            {{toFieldGroup schema 'details.hair' value=system.details.hair}}
+            {{systemFieldGroup system 'details.age'}}
+            {{systemFieldGroup system 'details.eyes'}}
+            {{systemFieldGroup system 'details.hair'}}
         </div>
         <div class="flexcol flex-gap-m">
-            {{toFieldGroup schema 'details.gender' value=system.details.gender}}
-            {{toFieldGroup schema 'details.height' value=system.details.height}}
-            {{toFieldGroup schema 'details.weight' value=system.details.weight}}
+            {{systemFieldGroup system 'details.gender'}}
+            {{systemFieldGroup system 'details.height'}}
+            {{systemFieldGroup system 'details.weight'}}
         </div>
     </div>
-    <div class="flexcol flex-gap-s">
-        {{#collapsible label='Description' collapsed=false cssClass='description'}}
-            {{formInput ../description.field value=../description.value enriched=../description.enriched name='system.description' toggled=true}}
+    {{#collapsible label='Description' collapsed=false cssClass='description'}}
+        {{formInput @root.description.field value=@root.description.value enriched=@root.description.enriched name='system.description' toggled=true}}
+    {{/collapsible}}
+
+    {{#if (isGM)}}
+        {{#collapsible label='GM Notes (Private)' collapsed=true cssClass='description'}}
+            {{formInput @root.gmNotes.field value=@root.gmNotes.value enriched=@root.gmNotes.enriched name='system.gmNotes' toggled=true}}
         {{/collapsible}}
-
-        {{#if (isGM)}}
-            {{#collapsible label='GM Notes (Private)' collapsed=true cssClass='description'}}
-                {{formInput ../gmNotes.field value=../gmNotes.value enriched=../gmNotes.enriched name='system.gmNotes' toggled=true}}
-            {{/collapsible}}
-        {{/if}}
-
-    </div>
+    {{/if}}
 </div>

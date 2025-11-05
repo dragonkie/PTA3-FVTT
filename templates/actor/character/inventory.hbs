@@ -1,9 +1,12 @@
 <div class="pta-tab">
-    <span class="items-header flexrow">
-        <span class="item-name">Inventory</span>
-        <span>Controls</span>
-    </span>
     <ol class="pta-inventory items-list">
+        <li class="items-header flexrow">
+            <span class="item-name">Inventory</span>
+            <span>Controls</span>
+            <div class="item-controls flex0">
+                <a data-action="itemSort" class="pta-control fa-solid fa-sort" title="PTA.Button.Sort"></a>
+            </div>
+        </li>
         {{#each items as | item key |}}
             {{> "pta.list-item" item=item isEditMode=../isEditMode isPlayMode=../isPlayMode}}
         {{/each}}

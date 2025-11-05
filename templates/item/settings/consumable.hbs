@@ -1,46 +1,11 @@
-<div>
-    <div class="form-group">
-        <label>Targets</label>
-        <div class="form-fields">
-            {{ formInput (getField schema 'target') value=system.target}}
-        </div>
-    </div>
-    <div class="form-group">
-        <label>Healing</label>
-        <div class="form-fields">
-            {{ formInput (getField schema 'effects.heal.value') value=system.effects.heal.value}}
-        </div>
-    </div>
-    <div class="form-group">
-        <label>Percentile Heal</label>
-        <div class="form-fields">
-            {{ formInput (getField schema 'effects.heal.percent') value=system.effects.heal.percent}}
-        </div>
-    </div>
-    <div class="form-group">
-        <label>Cures Ailment</label>
-        <div class="form-fields">
-            {{ formInput (getField schema 'effects.cure') value=system.effects.cure}}
-        </div>
-    </div>
+<div class="flexcol flex-gap-s">
+    {{systemFieldGroup system 'target'}}
+    {{systemFieldGroup system 'effects.heal.value' label='Healing flat'}}
+    {{systemFieldGroup system 'effects.heal.percent' label='Healing percent'}}
+    {{systemFieldGroup system 'effects.cure'}}
+    
     {{#unless (eq system.target 'trainer')}}
-        <div class="form-group">
-            <label>Can Revive</label>
-            <div class="form-fields">
-                {{ formInput (getField schema 'effects.revive') value=system.effects.revive}}
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Can be held</label>
-            <div class="form-fields">
-                {{ formInput (getField schema 'canHold') value=system.canHold}}
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Flavour</label>
-            <div class="form-fields">
-                {{ formInput (getField schema 'flavour') value=system.flavour}}
-            </div>
-        </div>
+        {{systemFieldGroup system 'effects.revive' label='Revive'}}
+        {{systemFieldGroup system 'flavour'}}
     {{/unless}}
 </div>

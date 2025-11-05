@@ -1,27 +1,50 @@
 <div class="pta-sheet-body flexcol">
-  <header class="sheet-header flex0">
-    <div class="pta-id-card">
-
-      <div class="flexrow">
-        <img class="flex0" title="{{document.type}} " data-action="editImage" width="100" height="100" src="{{document.img}}">
-        <div>
-          <h1 class="pta-font-l"><input type="text" value="{{document.name}}" name="name"></h1>
-          <div class="flexcol flex-gap-s">
-            <div class="progress-bar">
-              <label>Health</label>
-              <div class="wrapper">
-                <div class="bar {{#if (lt (divide system.hp.value system.hp.max) 0.33)}}red{{else}}green{{/if}}" style="width: {{multiply 100 (divide system.hp.value system.hp.max)}}%;"></div>
-              </div>
+    <div class="flexrow pta-id-card pta-actor-sheet-header pta-sheet-header sheet-header">
+        <img class="flex0" title="{{document.type}} " data-action="editImage" height="150" src="{{document.img}}">
+        {{!-- Header fields --}}
+        <div class="flexrow flex-align-start flex-gap-m">
+            {{!-- Header fields --}}
+            <div class="flexcol flex-gap-s">
+                <input class="pta-font-l" type="text" value="{{document.name}}" name="name">
+                {{systemFieldGroup system 'rank'}}
+                {{systemFieldGroup system 'origin'}}
+                <div class="progress-bar">
+                    <label>Health</label>
+                    <div class="wrapper">
+                        <div class="bar {{#if (lt (divide system.hp.value system.hp.total) 0.33)}}red{{else}}green{{/if}}" style="width: {{multiply 100 (divide system.hp.value system.hp.total)}}%;">
+                        </div>
+                        <div class="pta-s flexrow">
+                            {{systemFieldInput system 'hp.value'}}
+                            /
+                            {{#if isEditMode}}
+                                {{systemFieldInput system 'hp.max'}}
+                            {{else}}
+                                <div class="text-center">{{system.hp.total}}</div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="flexrow pta-s">
-              {{toFieldInput schema 'hp.value' value=system.hp.value}}/
-              {{toFieldInput schema 'hp.max' value=system.hp.max}}
+            {{!-- Character classes --}}
+            <div class="pta-level flexcol flex-gap-s flex-align-start">
+                <div class="flexrow flex-gap-s">
+                    <input class="flex0" style="min-width: 2rem;" type="number" disabled value="{{system.class_1.level}}">
+                    <input type="text" name="system.class_1.label" value="{{system.class_1.label}}" placeholder="First Class">
+                </div>
+                <div class="flexrow flex-gap-s">
+                    <input class="flex0" style="min-width: 2rem;" type="number" disabled value="{{system.class_2.level}}">
+                    <input type="text" name="system.class_2.label" value="{{system.class_2.label}}" placeholder="Second Class">
+                </div>
+                <div class="flexrow flex-gap-s">
+                    <input class="flex0" style="min-width: 2rem;" type="number" disabled value="{{system.class_3.level}}">
+                    <input type="text" name="system.class_3.label" value="{{system.class_3.label}}" placeholder="Third Class">
+                </div>
+                <div class="flexrow flex-gap-s">
+                    <input class="flex0" style="min-width: 2rem;" type="number" disabled value="{{system.class_4.level}}">
+                    <input type="text" name="system.class_4.label" value="{{system.class_4.label}}" placeholder="Fourth Class">
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </header>
-  {{> "pta.tabs-nav"}}
-  {{> "pta.tabs-content"}}
+    {{> "pta.tabs-content"}}
 </div>

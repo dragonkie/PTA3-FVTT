@@ -2,36 +2,29 @@
   <div class="flexcol flex-gap-m">
 
     <div class="stat-bonuses">
+      <div><b>Stat Bonuses</b></div>
       <div class="flexrow flex-gap-m flex-align-center">
-        <div><b>Stat Bonuses</b></div>
+
         {{#each stats as |stat key|}}
           <div class="ability-bonus flexcol">
             <div class="bonus-label">{{stat.label.long}}</div>
             {{toFieldInput stat.field 'bonus' value=stat.bonus}}
           </div>
         {{/each}}
-      </div>
-    </div>
 
-    {{#if (ptaSetting 'pokesim')}}
-      <div class="stat-boosts">
-        <div class="flexrow flex-gap-m flex-align-center">
-          <div><b>Stat Stages</b></div>
-          {{#each stats as |stat key|}}
-            <div class="ability-boost flexcol">
-              {{toFieldInput stat.field 'boost' value=stat.boost}}
-            </div>
-          {{/each}}
+        <div class="ability-bonus flexcol">
+          <div class="bonus-label">{{localize 'PTA.Generic.MaxHealth'}}</div>
+          {{systemFieldInput system 'bonuses.hpMax'}}
         </div>
       </div>
-    {{/if}}
+    </div>
 
     <ol class="items-list effects-list">
       {{#each effects as |section sid|}}
         <li class="items-header flexrow" data-effect-type="{{section.type}}" data-parent-id="{{@root.actor.id}}">
           <h3 class="item-name effect-name flexrow">{{localize section.label}}</h3>
           <div class="effect-source">{{localize "PTA.Effect.Source"}}</div>
-          <div class="effect-source">{{localize "EFFECT.TabDuration"}}</div>
+          <div class="effect-source">{{localize "PTA.Effect.Duration"}}</div>
           <div class="item-controls effect-controls flexrow">
             <a class="effect-control" data-action="effectCreate" title="{{localize 'DOCUMENT.Create' type=" Effect"}}">
               <i class="fas fa-plus"></i> {{localize "DOCUMENT.New" type="Effect"}}
@@ -40,7 +33,7 @@
         </li>
         <ol class="item-list">
           {{#each section.effects as |effect|}}
-            <li class="item effect flexrow" data-effect-id="{{effect.id}}" data-uuid="{{effect.uuid}}">
+            <li class="item effect flexrow text-center" data-effect-id="{{effect.id}}" data-uuid="{{effect.uuid}}">
               <div class="item-name effect-name flexrow">
                 <img class="item-image" src="{{effect.img}}" />
                 <h4>{{effect.name}}</h4>

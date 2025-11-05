@@ -1,14 +1,17 @@
-<div class="pta-tab">
+<div class="pta-tab flex-gap-m flexcol">
+    <div class="flexrow flex-gap-l">
+        <a data-action="editResistance" class="fas fa-cog flex0"></a><b> Resistance Overides</b>
+    </div>
     <div class="flexrow flex-gap-m">
-        <div>
-            {{toFieldGroup schema 'shiny' value=system.shiny}}
-            {{toFieldGroup schema 'size' value=system.size}}
-            {{toFieldGroup schema 'weight' value=system.weight}}
+        <div class="flexcol flex-gap-m">
+            {{systemFieldGroup system 'shiny'}}
+            {{systemFieldGroup system 'size'}}
+            {{systemFieldGroup system 'weight'}}
         </div>
-        <div>
-            {{toFieldGroup schema 'gender' value=system.gender}}
-            {{toFieldGroup schema 'nature' value=system.nature}}
-            {{toFieldGroup schema 'species' value=system.species}}
+        <div class="flexcol flex-gap-m">
+            {{systemFieldGroup system 'gender'}}
+            {{systemFieldGroup system 'nature'}}
+            {{systemFieldGroup system 'species'}}
         </div>
     </div>
     <div class="flexcol flex-gap-s">

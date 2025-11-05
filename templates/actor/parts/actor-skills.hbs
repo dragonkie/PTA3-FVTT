@@ -1,0 +1,14 @@
+{{!-- Skills grid --}}
+<div class="flex-gap-s" style="display: grid; grid-template-columns: 1fr 1fr;">
+    {{#each skills as | skill key |}}
+        <div class="pta-skill pta-s" data-pta-skill="{{key}}" data-pta-stat="{{skill.stat}}">
+            <a class="pta-talent" data-action="trainTalent">
+                <i class="fa-{{#if (eq skill.talent 0)}}regular{{else}}solid{{/if}} fa-circle{{#if (eq skill.talent 1)}}-half-stroke{{/if}}"></i>
+            </a>
+            <a class="pta-skill-label" data-action="roll" data-roll="1d20+{{skill.total}}" data-roll-msg="{{skill.label.long}}">
+                {{numberFormat skill.total sign=true}} {{skill.label.long}}
+            </a>
+            <input type="number" value="{{skill.bonus}}" name="system.skills.{{key}}.bonus" class="flex0" style="width: 2em; flex: 0; height: 1.5em;">
+        </div>
+    {{/each}}
+</div>

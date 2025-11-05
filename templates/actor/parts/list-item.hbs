@@ -1,30 +1,30 @@
 <li class="item flexrow" data-item-uuid="{{item.uuid}}" data-uuid="{{item.uuid}}">
-    <div class="item-name">
-        <div class="item-image">
-            <a data-action="itemUse">
-                <img src="{{item.img}}" title="{{item.name}}">
-            </a>
-        </div>
-        <div>{{item.name}}</div>
+  <div class="item-name">
+    <div class="item-image">
+      <a data-action="itemUse">
+        <img src="{{item.img}}" title="{{item.name}}" />
+      </a>
     </div>
-    <div class="item-quantity">
-        <button data-action="itemQuantity" data-value="-1">
-            <i class="fa-solid fa-minus"></i>
-        </button>
-        <div class="item-count">{{item.system.quantity}}x</div>
-        <button type="button" data-action="itemQuantity" data-value="1">
-            <i class="fa-solid fa-plus"></i>
-        </button>
-    </div>
-    <div class="item-controls">
-        <a class="item-control" data-action="edit" title="{{localize 'DOCUMENT.Update' type=Item}}">
-            <i class="fas fa-edit"></i>
-        </a>
+    <div>{{item.name}}</div>
+  </div>
+  <div class="item-quantity flexrow">
+    <a class="fa-solid fa-minus" data-action="itemQuantity" data-value="-1" title="remove"></a>
+    <div class="item-count">{{item.system.quantity}}x</div>
+    <a class="fa-solid fa-plus" data-action="itemQuantity" data-value="1" title="add"></a>
+  </div>
+  <div class="item-controls">
+    {{#if (eq item.type "rune")}}
+      {{#if item.system.equipped}}
+        <a class="item-control fa-solid fa-diamond" data-action="use" data-use="equip"></a>
+      {{else}}
+        <a class="item-control fa-regular fa-diamond" data-action="use" data-use="equip"></a>
+      {{/if}}
+      <a class="fas fa-arrow-right" data-action="use" data-use="give"></a>
+    {{/if}}
+    <a class="item-control fas fa-edit" data-action="edit" title="{{localize 'DOCUMENT.Update' type=Item}}"></a>
 
-        {{#if isEditMode}}
-            <a class="item-control" data-action="delete" title="{{localize 'DOCUMENT.Delete' type=Item}}">
-                <i class="fas fa-trash"></i>
-            </a>
-        {{/if}}
-    </div>
+    {{#if isEditMode}}
+      <a class="item-control fas fa-trash" data-action="delete" title="{{localize 'DOCUMENT.Delete' type=Item}}"></a>
+    {{/if}}
+  </div>
 </li>
