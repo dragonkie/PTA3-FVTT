@@ -6,12 +6,14 @@ function registerTemplates() {
         `shared/tabs-nav`,
         `shared/tabs-content`,
         // actor partials
+        `actor/parts/actor-skills`,
         `actor/parts/list-item`,
         `actor/parts/trainer-pc-cards`,
         `actor/parts/trainer-pc-grid`,
         `actor/parts/trainer-pc-list`,
         `actor/parts/trainer-pokemon-box`,
         `actor/parts/trainer-pokemon-team`,
+        `actor/parts/actor-ability-scores`,
     ];
 
     const paths = {};
@@ -25,134 +27,159 @@ function registerTemplates() {
 };
 
 function registerHelpers() {
-    const helpers = [
+    const helpers = {
         //=================================================================================================
         //>  Data Management
         //=================================================================================================
-        { tag: 'JSON', fn: (str) => JSON.parse(str) },
+        JSON: (str) => JSON.parse(str),
         //=======================================================================
         //>  Strings and Text
         //=======================================================================
-        { tag: 'toLowerCase', fn: (str) => str.toLowerCase() },
-        { tag: 'toTitleCase', fn: (str) => str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()) },
+        toLowerCase: (str) => str.toLowerCase(),
+        toTitleCase: (str) => str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()),
         //=======================================================================
         //>  Math                              
         //=======================================================================
-        { tag: 'addition', fn: (a, b) => a + b },
-        { tag: 'ceil', fn: (a) => Math.ceil(a) },
-        { tag: 'divide', fn: (a, b) => a / b },
-        { tag: 'floor', fn: (a) => Math.floor(a) },
-        { tag: 'max', fn: (...num) => Math.max(...num) },
-        { tag: 'min', fn: (...num) => Math.min(...num) },
-        { tag: 'multiply', fn: (a, b) => a * b },
-        { tag: 'percent', fn: (a, b) => a / b * 100 },
-        { tag: 'round', fn: (a) => Math.ceil(a) },
-        { tag: 'subtraction', fn: (a, b) => a - b },
+        addition: (a, b) => a + b,
+        ceil: (a) => Math.ceil(a),
+        divide: (a, b) => a / b,
+        floor: (a) => Math.floor(a),
+        max: (...num) => Math.max(...num),
+        min: (...num) => Math.min(...num),
+        multiply: (a, b) => a * b,
+        percent: (a, b) => a / b * 100,
+        round: (a) => Math.ceil(a),
+        subtraction: (a, b) => a - b,
         //=================================================================================================
         //>  Settings
         //=================================================================================================
-        { tag: 'isGM', fn: () => game.user.isGM },
-        { tag: 'gameSetting', fn: (scope, id) => game.settings.get(scope, id) },
-        { tag: 'ptaSetting', fn: (id) => game.settings.get(game.system.id, id) },
+        isGM: () => game.user.isGM,
+        gameSetting: (scope, id) => { return game.settings.get(scope, id) },
+        ptaSetting: (id) => { return game.settings.get(game.system.id, id) },
         //=================================================================================================
         //>  Data Fields                              
         //=================================================================================================
-        { tag: 'getField', fn: (schema, path) => schema.getField(path) },
-        {
-            tag: 'toFieldGroup',
-            fn: (schema, path, options) => {
-                let field = schema.getField(path);
-                const { classes, label, hint, rootId, stacked, units, widget, ...inputConfig } = options.hash;
-                const groupConfig = {
-                    label, hint, rootId, stacked, widget, localize: true, units,
-                    classes: typeof classes === "string" ? classes.split(" ") : []
-                }
-                const group = field.toFormGroup(groupConfig, inputConfig);
-                return new Handlebars.SafeString(group.outerHTML);
+        getField(schema, path) { return schema.getField(path) },
+        toFieldGroup(schema, path, options) {
+            let field = schema.getField(path);
+            const { classes, label, hint, rootId, stacked, units, widget, ...inputConfig } = options.hash;
+            const groupConfig = {
+                label, hint, rootId, stacked, widget, localize: true, units,
+                classes: typeof classes === "string" ? classes.split(" ") : []
             }
+            const group = field.toFormGroup(groupConfig, inputConfig);
+            return new Handlebars.SafeString(group.outerHTML);
         },
-        {
-            tag: 'toFieldInput',
-            fn: (schema, path, options) => {
-                let field = schema.getField(path);
-                const { classes, label, hint, rootId, stacked, units, widget, ...inputConfig } = options.hash;
-                const groupConfig = {
-                    label, hint, rootId, stacked, widget, localize: true, units,
-                    classes: typeof classes === "string" ? classes.split(" ") : []
-                }
-                const group = field.toInput(inputConfig);
-                return new Handlebars.SafeString(group.outerHTML);
+        toFieldInput(schema, path, options) {
+            let field = schema.getField(path);
+            const { classes, label, hint, rootId, stacked, units, widget, ...inputConfig } = options.hash;
+            const groupConfig = {
+                label, hint, rootId, stacked, widget, localize: true, units,
+                classes: typeof classes === "string" ? classes.split(" ") : []
             }
+            const group = field.toInput(inputConfig);
+            return new Handlebars.SafeString(group.outerHTML);
+        },
+        systemFieldInput(system, path, options) {
+            // auto fills in the details to the input using the provided path from the system data
+            // the system needs to define a schema path as well
+            const field = system?.schema.getField(path);
+            if (!field) throw new Error("Couldn't find field path for system schema, was it included?");
+
+            const { classes, label, hint, rootId, stacked, units, widget, ...inputConfig } = options.hash;
+            const input = path.split(".");
+            var value = system;
+            input.forEach(p => {
+                value = value[p];
+            });
+
+            inputConfig.value = value;
+
+            const group = field.toInput(inputConfig);
+            return new Handlebars.SafeString(group.outerHTML);
+        },
+        systemFieldGroup(system, path, options) {
+            // auto fills in the details to the input using the provided path from the system data
+            // the system needs to define a schema path as well
+            const field = system?.schema.getField(path);
+            if (!field) throw new Error("Couldn't find field path for system schema, was it included?");
+
+            const { classes, label, hint, rootId, stacked, units, widget, ...inputConfig } = options.hash;
+            const groupConfig = {
+                label, hint, rootId, stacked, widget, localize: true, units,
+                classes: typeof classes === "string" ? classes.split(" ") : []
+            };
+
+            const input = path.split(".");
+            var value = system;
+            input.forEach(p => {
+                value = value[p];
+            });
+
+            inputConfig.value = value;
+
+            const group = field.toFormGroup(groupConfig, inputConfig);
+            return new Handlebars.SafeString(group.outerHTML);
         },
         //=================================================================================================
         //> Data Validation
         //=================================================================================================
-        { tag: 'objectIsEmpty', fn: (obj) => Object.keys(obj).length <= 0 },
-        {
-            tag: 'listItem',
-            fn: (item) => {
-                let html = ``;
-                return new Handlebars.SafeString(html);
-            }
+        objectIsEmpty: (obj) => Object.keys(obj).length <= 0,
+        listItem: (item) => {
+            let html = ``;
+            return new Handlebars.SafeString(html);
         },
         //=================================================================================================
         //> Elements
         //=================================================================================================
-        {
-            tag: 'pokemonTypeSelector',
-            fn: (none = false) => {
-                const field = new foundry.data.fields.StringField({
-                    label: PTA.generic.type,
-                    name: "",
-                    choices: () => {
-                        let opt = {};
-                        for (const [k, v] of Object.entries(PTA.pokemonTypes)) opt[k] = pta.utils.localize(v);
-                        if (none) opt.none = pta.utils.localize(PTA.generic.none);
-                        return opt;
-                    }
-                });
-                //if (group) return new Handlebars.SafeString(field.toFormGroup());
-                return new Handlebars.SafeString(field.toInput().outerHTML);
-            }
-        },
-        {// wraps a set of elements in a collapsible wrapper
-            tag: 'collapsible',
-            fn: (options) => {
-                let config = {
-                    label: "MISSING_LABEL",
-                    collapsed: false,
-                    cssClass: ''
+        pokemonTypeSelector(none = false) {
+            const field = new foundry.data.fields.StringField({
+                label: PTA.generic.type,
+                name: "",
+                choices: () => {
+                    let opt = {};
+                    for (const [k, v] of Object.entries(PTA.pokemonTypes)) opt[k] = pta.utils.localize(v);
+                    if (none) opt.none = pta.utils.localize(PTA.generic.none);
+                    return opt;
                 }
-
-                Object.assign(config, options.hash);
-
-                return new Handlebars.SafeString(`
-                    <div class="collapsible ${config.collapsed ? 'collapsed' : ''} ${config.cssClass}">
-                        <div class="flexrow" data-action="collapse">
-                            <a style="flex: 0;"><i class="fas fa-caret-down"></i></a>
-                            <label>${config.label}</label>
-                        </div>
-                        <div class="collapsible-content">
-                            <div class="wrapper">
-                                ${options.fn(this)}
-                            </div>
-                        </div>
-                    </div>`
-                );
+            });
+            //if (group) return new Handlebars.SafeString(field.toFormGroup());
+            return new Handlebars.SafeString(field.toInput().outerHTML);
+        },
+        // wraps a set of elements in a collapsible wrapper
+        collapsible(options) {
+            let config = {
+                label: "MISSING_LABEL",
+                collapsed: false,
+                cssClass: ''
             }
+
+            Object.assign(config, options.hash);
+
+            return new Handlebars.SafeString(`
+                <div class="collapsible ${config.collapsed ? 'collapsed' : ''} ${config.cssClass}">
+                    <div class="flexrow" data-action="collapse">
+                        <a style="flex: 0;"><i class="fas fa-caret-down"></i></a>
+                        <label>${config.label}</label>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="wrapper">
+                            ${options.fn(this)}
+                        </div>
+                    </div>
+                </div>`
+            );
         },
         //=================================================================================================
         //> Iterators
         //=================================================================================================
-        {
-            tag: 'repeat',
-            fn: (context, options) => {
-                for (var i = 0, ret = ''; i < context; i++) ret = ret + options.fn(context[i]);
-                return ret;
-            }
+        repeat(context, options) {
+            for (var i = 0, ret = ''; i < context; i++) ret = ret + options.fn(context[i]);
+            return ret;
+
         }
-    ];
-    for (const h of helpers) Handlebars.registerHelper(h.tag, h.fn);
+    };
+    for (const [k, v] of Object.entries(helpers)) Handlebars.registerHelper(k, v);
 }
 
 export default function registerPtaHandlebars() {
