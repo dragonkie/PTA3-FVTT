@@ -11,10 +11,12 @@
 @use 'components/resource';
 @use 'components/items';
 @use 'components/effects';
+@use 'components/editor';
 @use 'components/pokemon';
 @use 'components/progressBar';
 @use 'components/abilities';
 @use 'components/collapsible';
+@use 'components/bookmarks';
 
 /* Sheet specific styles */
 @use 'sheets/actor';
@@ -26,6 +28,10 @@
     input[type=text] {
         font-family: "DM Sans", serif;
         font-size: var(--pta-scale-rem);
+    }
+
+    input[types=checkbox] {
+        background: none;
     }
 
     select {
@@ -45,17 +51,14 @@
 
     .pta-tab {
         height: 100%;
+        width: 100%;
+        min-height: 300px;
+        padding: 2px;
     }
 
-    .pta-tab[data-application-part=features] {
-        [data-application-part=abilities] {
-            flex: 0;
-        }
-    }
-
-    
-
-    /* || remote server browser */
+    //=====================================================================================================
+    //> Remote server browser
+    //=====================================================================================================
     .remote-image-browser {
         .sprite-gallery {
             display: grid;
