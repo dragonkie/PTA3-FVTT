@@ -1,3 +1,5 @@
+import { PTA } from "../../helpers/config.mjs";
+import utils from "../../helpers/utils.mjs";
 import ServerBrowser from "../apps/server-browser.mjs";
 import PtaDialog from "../dialog.mjs";
 
@@ -7,7 +9,7 @@ export default function PtaSheetMixin(Base) {
 
         static DEFAULT_OPTIONS = {
             classes: ['pta', 'sheet'],
-            window: { resizable: true },
+            window: { resizable: false },
             form: {
                 submitOnChange: true,
                 submitOnClose: true,
@@ -136,7 +138,7 @@ export default function PtaSheetMixin(Base) {
             const selection = await new Promise(async (resolve, reject) => {
                 const app = await new PtaDialog({
                     window: { title: "PTA.Dialog.FileLocation" },
-                    content: await renderTemplate('systems/pta3/templates/dialog/file-server-selector.hbs'),
+                    content: await utils.renderTemplate(PTA.templates.dialog.fileServerSelect),
                     buttons: [{
                         label: "Cancel",
                         action: "cancel",
@@ -152,7 +154,7 @@ export default function PtaSheetMixin(Base) {
 
             if (selection === 'local') {
                 const current = this.document.img;
-                const fp = new FilePicker({
+                const fp = new foundry.applications.apps.FilePicker.implementation({
                     type: "image",
                     current: current,
                     callback: path => this.document.update({ 'img': path }),
@@ -230,11 +232,51 @@ export default function PtaSheetMixin(Base) {
             if (this.isEditable && !this.document.getFlag("core", "sheetLock")) {
                 const label = game.i18n.localize("PTA.Generic.LockToggle");
                 const icon = this.isEditMode ? 'fa-lock-open' : 'fa-lock';
-                const sheetConfig = `<button type="button" class="header-control fa-solid ${icon}" data-action="toggleMode" data-tooltip="${label}" aria-label="${label}"></button>`;
+                const sheetConfig = `<button type="button" class="header-control icon fa-solid fa-lock" data-action="toggleMode" data-tooltip="${label}" aria-label="${label}"></button>`;
                 this.window.close.insertAdjacentHTML("beforebegin", sheetConfig);
             }
 
             return frame;
+        }
+
+        // returns an element for rendering the sheets tabs as bookmarks along the side of a sheet
+        async _renderBookmarks(options) {
+            // add the wrapper
+            const nav = document.createElement('nav');
+            nav.classList.add("pta-bookmark-nav");
+            nav.classList.add("tabs");
+
+            // add the bookmark icon tabs
+            for (const [key, tab] of Object.entries(this.constructor.TABS)) {
+                const bookmark = document.createElement('a');
+                const icon = document.createElement('i');
+
+                // configure the bookmark
+                bookmark.classList.add("pta-bookmark");
+                bookmark.classList.add("fa-solid");
+                bookmark.classList.add(tab.icon ? tab.icon : 'fa-circle');
+                bookmark.setAttribute('data-action', 'tab');
+                bookmark.setAttribute('data-group', tab.group);
+                bookmark.setAttribute('data-tab', tab.id);
+                bookmark.setAttribute('title', await utils.localize(tab.label));
+
+                // add the new bookmark to the nav
+                nav.appendChild(bookmark);
+
+                // if this is the active tab of it's group, select it
+                if (this.tabGroups[tab.group] == tab.id) bookmark.classList.add("selected");
+            }
+
+            // add the event listener to the nav for managing bookmark selection state
+            nav.addEventListener('click', event => {
+                if (!event.target.closest('.pta-bookmark')) return;
+                nav.querySelectorAll(".pta-bookmark").forEach(e => {
+                    e.classList.remove('selected');
+                });
+                event.target.closest('.pta-bookmark').classList.add('selected');
+            })
+
+            return nav;
         }
 
         //============================================================================================
@@ -274,11 +316,13 @@ export default function PtaSheetMixin(Base) {
 
         async _onDrop(event) {
             event.preventDefault();
+            if (!this.isEditable) return;
+
+            // Get event data
             const target = event.target;
             const EventData = foundry.applications.ux.TextEditor.getDragEventData(event);
             const { type, uuid } = EventData
 
-            if (!this.isEditable) return;
             const item = await fromUuid(uuid);
 
             // If dropped onto self, perform sorting.
@@ -303,7 +347,6 @@ export default function PtaSheetMixin(Base) {
         //============================================================================================
         //> Context Menu
         //============================================================================================
-
         _setupContextMenu() {
 
         }
