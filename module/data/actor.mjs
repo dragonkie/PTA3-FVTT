@@ -65,21 +65,19 @@ export default class ActorData extends DataModel {
     super.prepareDerivedData();
 
     // applys conditions relevant to token statuses
-    if (!game.settings.get(game.system.id, 'pokesim')) {
-      for (const status of this.parent.statuses) {
-        switch (status) {
-          case 'burn':
-            this.stats.atk.total -= 2;
-            break;
-          case 'paralyzed':
-            this.stats.spd.total -= 2;
-            break;
-          case 'poison':
-          case 'toxic':// deliberate fall through
-            this.stats.satk.total -= 2;
-            break;
-          default: break;
-        }
+    for (const status of this.parent.statuses) {
+      switch (status) {
+        case 'burn':
+          this.stats.atk.total -= 2;
+          break;
+        case 'paralyzed':
+          this.stats.spd.total -= 2;
+          break;
+        case 'poison':
+        case 'toxic':// deliberate fall through
+          this.stats.satk.total -= 2;
+          break;
+        default: break;
       }
     }
 
@@ -87,15 +85,6 @@ export default class ActorData extends DataModel {
     for (const key in this.stats) {
       this.stats[key].total += (this.stats[key].value + this.stats[key].bonus) * utils.AbilityStage(this.stats[key].boost);
       this.stats[key].mod = Math.floor(this.stats[key].total / 2);
-    }
-
-    if (game.settings.get(game.system.id, 'pokesim')) {
-      for (const status of this.parent.statuses) {
-        if (status == 'paralyzed') {
-          this.stats.spd.total = Math.floor(this.stats.spd.total * 0.5);
-          this.stats.spd.mod = Math.floor(this.stats.spd.total / 2);
-        }
-      }
     }
   }
 

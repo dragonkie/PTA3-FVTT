@@ -181,49 +181,26 @@ export default class utils {
         }
 
         try {
-            if (game.settings.get(game.system.id, 'pokesim')) {
-                return {
-                    class: move.damage_class.name,
-                    type: move.type.name,
-                    priority: move.priority,
-                    damage: {
-                        formula: `${Math.floor(move.power / 20)}d6${move.power / 20 % 1 > 0 ? ` + ${move.power / 20 % 1 * 4}` : ''}`
-                    },
-                    accuracy: move.accuracy || 100,
-                    ailment: {
-                        chance: move.meta?.ailment_chance || 0,
-                        type: move.meta?.ailment.name || 'none'
-                    },
-                    drain: move.meta?.drain || 0,
-                    critical_chance: move.meta?.crit_rate || 0,
-                    multi_hit: {
-                        max: move.meta?.max_hits || 0,
-                        min: move.meta?.min_hits || 0
-                    },
-                    description: getFlavorText(move.flavor_text_entries)
-                };
-            } else {
-                return {
-                    class: move.damage_class.name,
-                    type: move.type.name,
-                    priority: move.priority,
-                    damage: {
-                        formula: `${Math.floor(move.power / 20)}d6 + @stat.mod`
-                    },
-                    accuracy: Math.min((move.accuracy - 100) / 5, 0) || 0,
-                    ailment: {
-                        chance: move.meta?.ailment_chance || 0,
-                        type: move.meta?.ailment.name || 'none'
-                    },
-                    drain: move.meta?.drain || 0,
-                    critical_chance: move.meta?.crit_rate || 0,
-                    multi_hit: {
-                        max: move.meta?.max_hits || 0,
-                        min: move.meta?.min_hits || 0
-                    },
-                    description: getFlavorText(move.flavor_text_entries)
-                };
-            }
+            return {
+                class: move.damage_class.name,
+                type: move.type.name,
+                priority: move.priority,
+                damage: {
+                    formula: `${Math.floor(move.power / 20)}d6 + @stat.mod`
+                },
+                accuracy: Math.min((move.accuracy - 100) / 5, 0) || 0,
+                ailment: {
+                    chance: move.meta?.ailment_chance || 0,
+                    type: move.meta?.ailment.name || 'none'
+                },
+                drain: move.meta?.drain || 0,
+                critical_chance: move.meta?.crit_rate || 0,
+                multi_hit: {
+                    max: move.meta?.max_hits || 0,
+                    min: move.meta?.min_hits || 0
+                },
+                description: getFlavorText(move.flavor_text_entries)
+            };
         } catch (err) {
             return void console.error('recieved invalid move data to parse', err)
         }
