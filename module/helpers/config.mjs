@@ -132,7 +132,7 @@ PTA.moveClass = {
 }
 
 //======================================================================
-//> Rune stat methods
+//> Stat methods
 //======================================================================
 PTA.modifierMethods = {
   add: 'PTA.Method.Add',
@@ -626,8 +626,6 @@ PTA.templates = {
   path: templatePath(''),
   dialog: {
     fileServerSelect: templatePath('dialog/file-server-select.hbs'),
-    runeCombatFields: templatePath('dialog/rune-combat-fields.hbs'),
-    runeTransfer: templatePath('dialog/rune-transfer.hbs'),
     rollCaptureSphere: templatePath('dialog/roll-capture-sphere.hbs')
   },
   app: {
