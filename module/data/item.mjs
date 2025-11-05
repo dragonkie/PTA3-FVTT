@@ -1,4 +1,5 @@
 import DataModel from "./abstract.mjs";
+import ActorData from "./actor.mjs";
 
 const {
   ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField, HTMLField
@@ -52,5 +53,23 @@ export default class ItemData extends DataModel {
    */
   async use(event, action) {
     console.warn('No uses defined for this object!');
+  }
+
+  /**
+   * Takes a given actor data model and will attempt to modify its data
+   * This can included changes to stats, attack rolls, etc
+   * @param {ActorData} actorData - The data model to augment
+   */
+  prepareActorData(actorData) {
+    
+  }
+
+  /**
+   * Returns a value derived from whatever an item deems neccesary to break tiebreakers in priority
+   * used when applying modifiers through prepareActorData
+   * @returns {Number}
+   */
+  get importance() {
+    return 0;
   }
 }
