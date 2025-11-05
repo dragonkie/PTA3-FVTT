@@ -8,21 +8,6 @@ export default class PtaPokemonSheet extends PtaActorSheet {
     static DEFAULT_OPTIONS = {
         window: {
             controls: [{
-                icon: 'fas fa-user-circle',
-                label: 'TOKEN.TitlePrototype',
-                action: 'configurePrototypeToken',
-                ownership: 3
-            }, {
-                icon: 'fas fa-image',
-                label: 'SIDEBAR.CharArt',
-                action: 'showPortraitArtwork',
-                ownership: 3
-            }, {
-                icon: 'fas fa-image',
-                label: 'SIDEBAR.TokenArt',
-                action: 'showTokenArtwork',
-                ownership: 3
-            }, {
                 icon: 'fas fa-rotate',
                 label: PTA.generic.sync,
                 action: 'syncData',
@@ -44,21 +29,23 @@ export default class PtaPokemonSheet extends PtaActorSheet {
         const p = super.PARTS;
         // Load in the main body
         p.body = { template: 'systems/pta3/templates/actor/pokemon/body.hbs' };
+
         // Load in the template tabs
         p.features = { template: 'systems/pta3/templates/actor/pokemon/features.hbs' };
+        p.skills = { template: 'systems/pta3/templates/actor/pokemon/skills.hbs' };
         p.effects = { template: 'systems/pta3/templates/actor/parts/actor-effects.hbs' };
         p.pokedex = { template: 'systems/pta3/templates/actor/pokemon/pokedex.hbs' };
-        p.details = { template: 'systems/pta3/templates/actor/pokemon/details.hbs' }
-        // Populate the tabs with further parts
-        p.abilities = { template: 'systems/pta3/templates/actor/parts/abilities.hbs' };
+        p.details = { template: 'systems/pta3/templates/actor/pokemon/details.hbs' };
+        
         return p;
     }
 
     static TABS = {
-        features: { id: "features", group: "primary", label: "PTA.Tab.Features" },
-        effects: { id: "effects", group: "primary", label: "PTA.Tab.Effects" },
-        details: { id: "details", group: "primary", label: "PTA.Tab.Details" },
-        pokedex: { id: "pokedex", group: "primary", label: "PTA.Tab.Pokedex" },
+        features: { id: "features", group: "primary", label: "PTA.Tab.Features", icon: "fa-user" },
+        skills: { id: "skills", group: "primary", label: "PTA.Tab.Skills", icon: "fa-hand" },
+        effects: { id: "effects", group: "primary", label: "PTA.Tab.Effects", icon: "fa-sparkles" },
+        details: { id: "details", group: "primary", label: "PTA.Tab.Details", icon: "fa-book" },
+        pokedex: { id: "pokedex", group: "primary", label: "PTA.Tab.Pokedex", icon: "fa-circle-info" },
     }
 
     tabGroups = {
@@ -95,6 +82,15 @@ export default class PtaPokemonSheet extends PtaActorSheet {
 
         await this.document.update({ system: update_data })
         this.render(false);
+    }
+
+    async _renderFrame(options) {
+        const frame = await super._renderFrame(options);
+
+        frame.appendChild(await this._renderBookmarks(options));
+
+        // send back the final frame
+        return frame;
     }
 
     //============================================================================================================
