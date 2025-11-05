@@ -16,6 +16,12 @@ export default class PtaActor extends Actor {
   prepareBaseData() {
     // Data modifications in this step occur before processing embedded
     // documents or derived data.
+    super.prepareBaseData();
+  }
+
+  /** @override */
+  prepareEmbeddedDocuments() {
+    super.prepareEmbeddedDocuments();
   }
 
   /**
@@ -28,6 +34,7 @@ export default class PtaActor extends Actor {
   prepareDerivedData() {
     const actorData = this;
     const flags = actorData.flags.pta3 || {};
+    super.prepareDerivedData();
   }
 
   /**
