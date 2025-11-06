@@ -36,7 +36,19 @@
             "path": "lang/en.json"
         }
     ],
-    "packs": [ ],
+    "packs": [{
+      "label": "Tools",
+      "name": "macro-tools",
+      "path": "packs/macro",
+      "system": "",
+      "type": "Macro",
+      "ownership": {
+        "ASSISTANT": "OBSERVER",
+        "GAMEMASTER": "OWNER",
+        "PLAYER": "OBSERVER",
+        "TRUSTED": "OBSERVER"
+      }
+    }],
     "packFolders": [ ],
     "socket": true,
     "url": "https://github.com/dragonkie/PTA3-FVTT",
