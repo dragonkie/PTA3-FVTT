@@ -69,7 +69,7 @@ export default class PokemonImporter extends PtaApplication {
 
     static async _onSelect(event, target) {
         // get the relevant data ready to use
-        const selection_list = this.element.querySelector('.selection-list .wrapper');
+        const selection_list = this.element.querySelector('.pta-selection-list .wrapper');
         const pokemon_name = target.closest('[data-pokemon]').dataset.pokemon;
 
         // add the pokemon to our list of selections
