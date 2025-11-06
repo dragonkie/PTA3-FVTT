@@ -248,23 +248,24 @@ export default function PtaSheetMixin(Base) {
 
             // add the bookmark icon tabs
             for (const [key, tab] of Object.entries(this.constructor.TABS)) {
+                const wrap = document.createElement('div');
                 const bookmark = document.createElement('a');
-                const icon = document.createElement('i');
 
                 // configure the bookmark
-                bookmark.classList.add("pta-bookmark");
                 bookmark.classList.add("fa-solid");
                 bookmark.classList.add(tab.icon ? tab.icon : 'fa-circle');
-                bookmark.setAttribute('data-action', 'tab');
-                bookmark.setAttribute('data-group', tab.group);
-                bookmark.setAttribute('data-tab', tab.id);
-                bookmark.setAttribute('title', await utils.localize(tab.label));
+                wrap.classList.add("pta-bookmark");
+                wrap.setAttribute('data-action', 'tab');
+                wrap.setAttribute('data-group', tab.group);
+                wrap.setAttribute('data-tab', tab.id);
+                wrap.setAttribute('title', await utils.localize(tab.label));
 
                 // add the new bookmark to the nav
-                nav.appendChild(bookmark);
+                wrap.appendChild(bookmark)
+                nav.appendChild(wrap);
 
                 // if this is the active tab of it's group, select it
-                if (this.tabGroups[tab.group] == tab.id) bookmark.classList.add("selected");
+                if (this.tabGroups[tab.group] == tab.id) wrap.classList.add("selected");
             }
 
             // add the event listener to the nav for managing bookmark selection state

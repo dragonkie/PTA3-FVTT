@@ -1026,8 +1026,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   background-color: var(--background);
   text-align: center;
   align-content: center;
-  justify-content: center;
-  opacity: 50%;
+  opacity: 70%;
   backdrop-filter: blur(4px);
 }
 .pta-bookmark-nav .pta-bookmark:hover, .pta-bookmark-nav .pta-bookmark.selected {
@@ -1038,7 +1037,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 .pta-bookmark-nav .pta-bookmark.selected {
   text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
   color: var(--color-text-primary);
-  opacity: 90% !important;
+  opacity: 100% !important;
 }
 
 .pta.sheet {
@@ -1059,7 +1058,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   border-radius: inherit;
 }
 .pta.sheet:hover .pta-bookmark {
-  opacity: 90%;
+  opacity: 100%;
 }
 
 /* Sheet specific styles */

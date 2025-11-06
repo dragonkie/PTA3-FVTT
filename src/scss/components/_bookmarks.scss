@@ -25,9 +25,8 @@
 
         text-align: center;
         align-content: center;
-        justify-content: center;
 
-        opacity: 50%;
+        opacity: 70%;
 
         backdrop-filter: blur(4px);
 
@@ -41,7 +40,7 @@
         &.selected {
             text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
             color: var(--color-text-primary);
-            opacity: 90% !important;
+            opacity: 100% !important;
         }
     }
 }
@@ -79,7 +78,7 @@
     // if the user is activly hovering this sheet
     &:hover {
         .pta-bookmark {
-            opacity: 90%;
+            opacity: 100%;
         }
     }
 }
