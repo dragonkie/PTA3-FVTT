@@ -5,8 +5,8 @@
   "scripts": {
     "build": "sass src/scss/pta3.scss css/pta3.css --style=expanded --no-source-map",
     "watch": "sass src/scss/pta3.scss css/pta3.css --style=expanded --source-map --watch",
-    "prepack": "del \"../_packages/pta3.zip\"",
-    "pack": "\"E:/Software/7-Zip/7z.exe\" a -tzip ../_packages/pta3.zip -x!src/ -x!*.md -x!*.git* -x!*.lock"
+    "prepack": "rm -f '../_packages/pta3.zip'",
+    "pack": "zip -r '../_packages/pta3.zip' * -x 'src/*' '*.md' '*.git*' '*.lock' 'package*.json' '*.map' @"
   },
   "browserslist": [
     "last 3 versions"
