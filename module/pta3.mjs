@@ -1,11 +1,8 @@
-import * as BattleFeatures from './BattleTester.mjs'
-
 globalThis.pta = {
     id: 'pta3',
     paths: {
         template: 'systems/pta3/templates'
     },
-    battle: BattleFeatures,
     utils: Object.assign(PtaUtils, foundry.utils),
     pokeapi: pokeapi
 }

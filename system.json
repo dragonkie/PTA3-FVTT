@@ -18,10 +18,10 @@
             "thumbnail": "systems/pta3/assets/anvil-impact.png"
         }
     ],
-    "version": "0.3.3",
+    "version": "1.0.0",
     "compatibility": {
         "minimum": "13",
-        "verified": "13.345"
+        "verified": "13.350"
     },
     "esmodules": [
         "module/pta3.mjs"
