@@ -80,7 +80,7 @@ export default class MoveImporter extends PtaApplication {
 
     static async _onSelect(event, target) {
         // get the relevant data ready to use
-        const selection_list = this.element.querySelector('.selection-list .wrapper');
+        const selection_list = this.element.querySelector('.pta-selection-list .wrapper');
         const move_name = target.closest('[data-move]').dataset.move;
 
         if (this.move_selections.includes(move_name)) return;
