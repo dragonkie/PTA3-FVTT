@@ -149,7 +149,8 @@ export default class PokeballData extends ItemData {
             await app.render({ force: true });
         })
 
-        const hitRoll = new Roll(`1d20x + @spd.mod${acc != 0 ? ` + ${acc}` : ``}`, rollData, {});
+        const hitRoll = new Roll(`1d20x + @spd${acc != 0 ? ` + ${acc}` : ``}`, rollData);
+        console.log(rollData);
         await hitRoll.evaluate();
 
         const captureRoll = new Roll(`1d100 + (${this.capture.base} + ${this.capture.conditional})${chn != 0 ? ` + ${chn}` : ``}`);
