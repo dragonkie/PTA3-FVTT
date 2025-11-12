@@ -218,9 +218,18 @@ export default function PtaSheetMixin(Base) {
             return r;
         }
 
+        async _preRender(context, options) {
+            this._setFocusElement();
+            this._setCollapsedElements();
+            return super._preRender(context, options);
+        }
+
         _onRender(context, options) {
             let r = super._onRender(context, options);
             if (!this.isEditable) this.element.querySelectorAll("input, select, textarea, multi-select").forEach(n => { n.disabled = true; });
+
+            this._getFocusElement();
+            this._getCollapsedElements();
             this._setupDragAndDrop();
             return r;
         }
@@ -280,9 +289,99 @@ export default function PtaSheetMixin(Base) {
             return nav;
         }
 
-        //============================================================================================
+        //======================================================================================================
+        //> Sheet user focus control
+        //======================================================================================================
+        _lastFocusElement = null;
+        
+        _setFocusElement() {
+            if (this.rendered && this.element.contains(document.activeElement)) {
+                const ele = document.activeElement;
+                
+                var cList = '';
+                ele.classList.forEach(c => cList += `.${c}`);
+                
+                this._lastFocusElement = {
+                    name: ele.name || '',
+                    value: ele.value || '',
+                    class: cList,
+                    tag: ele.tagName.toLowerCase()
+                }
+            }
+        }
+        
+        _getFocusElement() {
+            if (this._lastFocusElement !== null) {
+                let selector = this._lastFocusElement.tag + this._lastFocusElement.class;
+                if (this._lastFocusElement.name) selector += `[name="${this._lastFocusElement.name}"]`;
+                
+                /** @type {HTMLElement|undefined}*/
+                const targetElement = this.element.querySelector(selector);
+                if (targetElement) {
+                    targetElement.focus();
+                    if (targetElement.tagName == 'INPUT') targetElement.select();
+                }
+            }
+        }
+
+        //======================================================================================================
+        //> Collapsible content persistence
+        //======================================================================================================
+        _collapsedElements = [];
+        _setCollapsedElements() {
+            if (this.rendered) {
+                this._collapsedElements = [];
+                /** @type {NodeList|null} */
+                const elements = this.element.querySelectorAll('.collapsible');
+                for (const element of elements) {
+                    let selector = ``;
+                    let ele = element;
+                    while (ele) {
+                        // Add parent selectors data
+                        let s = `${ele.nodeName}${ele.className != '' ? '.' : ''}${ele.className.replaceAll(' ', ".")}`; // classes
+                        for (let i = 0; i < ele.attributes.length; i++) {
+                            const a = ele.attributes[i];
+                            if (a.name == 'class' || a.name == 'style') s += `[${ele.attributes[i].name}]`;
+                            else s += `[${ele.attributes[i].name}="${ele.attributes[i].value}"]`;
+                        }
+                        selector = s + ' ' + selector;
+
+                        // Prevent hte check from leaving the scope of the sheet
+                        if (ele.classList.contains('window-content')) break;
+
+                        // Progress to the next parent
+                        ele = ele.parentElement;
+                    }
+
+                    this._collapsedElements.push({
+                        collapsed: element.classList.contains('collapsed'),
+                        selector: selector.replaceAll(/(.collapsed|.active)/gm, '')
+                    });
+                }
+                return this._collapsedElements;
+            }
+            return null;
+        }
+
+        _getCollapsedElements() {
+            if (this._collapsedElements.length > 0 && this.rendered) {
+                const list = [];
+                this._collapsedElements.forEach(({ selector, collapsed }) => {
+                    const ele = this.element.querySelector(selector);
+                    if (!ele) {
+                        console.error('Failed to get element with selector: ', { s: selector });
+                        return;
+                    }
+                    list.push({ ele: ele, sel: selector, collapsed: collapsed })
+                    if (collapsed) ele.classList.add('collapsed');
+                    else ele.classList.remove('collapsed');
+                })
+            }
+        }
+        
+        //======================================================================================================
         //> Drag n Drop
-        //============================================================================================
+        //======================================================================================================
         _setupDragAndDrop() {
             const dd = new foundry.applications.ux.DragDrop({
                 dragSelector: "[data-item-uuid]",
