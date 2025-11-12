@@ -14,6 +14,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             itemQuantity: this._onChangeItemQuantity,
             itemUse: this._onUseItem,
             itemSort: this._onSortItemMethod,
+            trainTalent: this._onTrainTalent,
             use: this._onUseItem,
             editResistance: this._onEditResistance,
             roll: this._onRoll,
@@ -175,6 +176,26 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         value += item.system.quantity;
 
         item.update({ system: { quantity: value } });
+    }
+
+    /**
+     * 
+     * @param {Event} event 
+     * @param {Element} target 
+     */
+    static async _onTrainTalent(event, target) {
+        const key = target.closest('[data-pta-skill]')?.dataset.ptaSkill;
+        if (!key) return;
+        const skill = this.document.system.skills[key];
+
+        if (event.shiftKey) skill.talent -= 1;
+        else skill.talent += 1;
+
+        if (skill.talent > 2) skill.talent = 0;
+        if (skill.talent < 0) skill.talent = 2;
+
+        await this.document.update({ [`system.skills.${key}`]: skill });
+        await this.render({ force: false, parts: ['features'] }); /**EDITING THIS RANDOM LINE HERE TO TRY AND OPTIMIZE THE LEVEL OF LAYERS BEING EDITED AND PREPARED TO MAKE THIGNS RENDER BETTER AND FASTER */
     }
 
     /**

@@ -76,26 +76,26 @@
       "ServerBrowser": "Remote Server Browser"
     },
     "Button": {
-      "ImportMove": "Import Move",
-      "ImportPokemon": "Import Pokémon",
+      "Submit": "Submit",
       "Local": "Local",
       "Online": "Online",
-      "Submit": "Submit"
+      "ImportMove": "Import Move",
+      "ImportPokemon": "Import Pokémon"
     },
     "Chat": {
       "Attack": {
-        "Crit": "{user} used {move}, it's a critical hit!",
-        "Dodge": "{user} used {move}, but {target} dodged it!",
+        "Miss": "{user} used {move}, but it missed...",
         "Hit": "{user} used {move}, a direct hit!",
-        "Miss": "{user} used {move}, but it missed..."
+        "Crit": "{user} used {move}, it's a critical hit!",
+        "Dodge": "{user} used {move}, but {target} dodged it!"
       },
       "Damage": {
-        "Double": "{user} hit {target} with {move}, it's very effective!",
-        "Half": "{user} hit {target} with {move}, it's not very effective...",
         "Immune": "{user} hit {target} with {move}, but they're immune...",
+        "Quarter": "{user} hit {target} with {move}, it was barely effective...",
+        "Half": "{user} hit {target} with {move}, it's not very effective...",
         "Normal": "{user} hit {target} with {move}.",
-        "Quadruple": "{user} hit {target} with {move}, it's super effective!",
-        "Quarter": "{user} hit {target} with {move}, it was barely effective..."
+        "Double": "{user} hit {target} with {move}, it's very effective!",
+        "Quadruple": "{user} hit {target} with {move}, it's super effective!"
       },
       "Lifesteal": "{user} drained {target} and is healed [[{drain}]] HP"
     },
@@ -103,14 +103,19 @@
       "FileLocation": "File Location",
       "TransferRune": "Which pokemon would you like to transfer the rune to?"
     },
+    "Title": {
+      "TransferRune": "Transfer Rune",
+      "ConfigResist": "Configure Resistances",
+      "UseCaptureSphere": "Use Capture Sphere"
+    },
     "Effect": {
-      "Disabled": "Disabled Effects",
-      "Duration": "Duration",
       "Inactive": "Inactive Effects",
       "Passive": "Passive Effects",
+      "Disabled": "Disabled Effects",
       "Source": "Source",
       "Temporary": "Temporary Effects",
-      "Toggle": "Toggle Effect"
+      "Toggle": "Toggle Effect",
+      "Duration": "Duration"
     },
     "Flavour": {
       "Bitter": "Bitter",
@@ -133,11 +138,9 @@
       "Gender": "Gender",
       "Hair": "Hair",
       "Health": "Health",
-      "Height": "Height",
-      "Honour": "Honour",
-      "Honours": "Honours",
-      "Import": "Import",
       "MaxHealth": "Max Health",
+      "Height": "Height",
+      "Import": "Import",
       "Nature": "Nature",
       "None": "None",
       "Origin": "Origin",
@@ -150,8 +153,8 @@
       "Species": "Species",
       "Status": "Status",
       "Sync": {
-        "abbr": "sync",
-        "long": "Synchronize"
+        "long": "Synchronize",
+        "abbr": "sync"
       },
       "Trainer": "Trainer",
       "Type": {
@@ -162,10 +165,10 @@
     },
     "Method": {
       "Add": "Add",
+      "Subtract": "Subtract",
       "Grow": "Grow",
-      "Multiply": "Multiply",
       "Shrink": "Shrink",
-      "Subtract": "Subtract"
+      "Multiply": "Multiply"
     },
     "Nature": {
       "Adamant": "Adamant",
@@ -201,7 +204,7 @@
     "Size": {
       "Gigantic": "Gigantic",
       "Huge": "Huge",
-      "Large": "Lage",
+      "Large": "Large",
       "Medium": "Medium",
       "Small": "Small",
       "Tiny": "Tiny"
@@ -290,30 +293,28 @@
       "Pokemon": "Pokemon",
       "Settings": "Settings"
     },
-    "Title": {
-      "ConfigResist": "Configure Resistances",
-      "TransferRune": "Transfer Rune",
-      "UseCaptureSphere": "Use Capture Sphere"
-    },
     "Type": {
-      "Bug": "Bug",
-      "Dark": "Dark",
-      "Dragon": "Dragon",
-      "Electric": "Electric",
-      "Fairy": "Fairy",
-      "Fighting": "Fighting",
-      "Fire": "Fire",
-      "Flying": "Flying",
-      "Ghost": "Ghost",
-      "Grass": "Grass",
-      "Ground": "Ground",
-      "Ice": "Ice",
       "Normal": "Normal",
+      "Fire": "Fire",
+      "Water": "Water",
+      "Electric": "Electric",
+      "Grass": "Grass",
+      "Ice": "Ice",
+      "Fighting": "Fighting",
       "Poison": "Poison",
+      "Ground": "Ground",
+      "Flying": "Flying",
       "Psychic": "Psychic",
+      "Bug": "Bug",
       "Rock": "Rock",
+      "Ghost": "Ghost",
+      "Dragon": "Dragon",
+      "Dark": "Dark",
       "Steel": "Steel",
-      "Water": "Water"
+      "Fairy": "Fairy",
+      "Light": "Light",
+      "Cyber": "Cyber",
+      "Nuclear": "Nuclear"
     },
     "Weight": {
       "Feather": "Feather Weight",

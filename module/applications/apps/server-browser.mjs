@@ -1,4 +1,5 @@
 import pokeapi from "../../helpers/pokeapi.mjs";
+import { PTA } from "../../helpers/config.mjs";
 import PtaApplication from "../app.mjs";
 
 export default class ServerBrowser extends PtaApplication {

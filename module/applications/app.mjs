@@ -125,7 +125,6 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
         const target = event.target;
         const EventData = foundry.applications.ux.TextEditor.getDragEventData(event);
         const { type, uuid } = EventData
-        console.log(EventData);
         if (!this.isEditable) return;
         const item = await fromUuid(uuid);
 

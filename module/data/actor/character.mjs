@@ -49,12 +49,6 @@ export default class CharacterData extends ActorData {
   prepareDerivedData() {
     super.prepareDerivedData();
 
-    for (const key in this.skills) {
-      let skill = this.skills[key]
-      let stat = this.stats[skill.stat];
-      skill.total = skill.value + stat.mod + Math.floor(skill.talent * 2.5);
-    }
-
     this.level = this.class_1.level = utils.HonourLevel(this.honours);
 
     this.class_2.level = this.class_1.level >= 3 ? this.class_1.level - 2 : 0;

@@ -36,7 +36,7 @@ export default function registerHooks() {
         let ele = element.querySelector('.directory-footer.action-buttons');
 
         let button = document.createElement('BUTTON');
-        button.innerHTML = utils.localize(`PTA.Button.ImportItem`);
+        button.innerHTML = utils.localize(`PTA.Button.ImportMove`);
         ele.appendChild(button);
 
         button.addEventListener('click', async () => {

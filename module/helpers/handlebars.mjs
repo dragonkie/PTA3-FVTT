@@ -126,6 +126,10 @@ function registerHelpers() {
         //=================================================================================================
         //> Data Validation
         //=================================================================================================
+        arrayLength: (arr) => {
+            if (Array.isArray(arr)) return arr.length;
+            else throw new Error("Can't get length of non array value");
+        },
         objectIsEmpty: (obj) => Object.keys(obj).length <= 0,
         listItem: (item) => {
             let html = ``;

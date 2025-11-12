@@ -93,7 +93,7 @@ export default class MoveImporter extends PtaApplication {
         ele.setAttribute('style', 'flex: 0');
         selection_list.appendChild(ele);
         ele.innerHTML = `
-            <a class="content-link" data-action="remove">${move_name} <i class="fas fa-trash"></i></a>
+            <a class="content-link flexrow nowrap" data-action="remove">${move_name} <i class="fas fa-trash"></i></a>
         `;
     }
 
@@ -149,60 +149,17 @@ export default class MoveImporter extends PtaApplication {
 
         // add the auto complete search results
         searchInput.addEventListener('input', (event) => {
-            const query = searchInput.value.toLowerCase();
+            const query = searchInput.value.toLowerCase().replaceAll(" ", "-");
+            const sorted = utils.duplicate(PTA.Pokedex.Moves).sort();
             const matches = [];
 
             // if theres less than 2 characters, dont bother searching
             if (query.length < 1) return;
 
-            // select the right data array to search in
-            const sArray = utils.duplicate(PTA.Pokedex.Moves).sort();
-            if (!sArray) return void console.error('didnt find an array');
-
-            // prepare the search indexing
-            let dist = Math.floor(sArray.length - 1) / 2;
-            let index = dist;
-            let done = false;
-            let final = false;
-
-            //compare the strings and get five results
-            while (!done) {
-                if (final) return void console.error('failed to find result');
-                // halves the distance the jump can be, if it hits 0 we fucked up and break the loop
-                dist = dist / 2;
-                if (dist <= 0.5) final = true; // if the jump distance makes it to less than one, we try one more time then quit
-                dist = Math.round(dist);
-                index = Math.min(Math.max(Math.round(index), 0), sArray.length - 1); // constrain the index to the array
-                let dir = query.localeCompare(sArray[index].substring(0, query.length))
-                if (dir > 0) {// positive means search is farther ahead
-                    index += dist;
-                } else if (dir < 0) { // negative Means the search query is before
-                    index -= dist;
-                } else { // the two are equal
-                    //this means an exact match, we can work backwards from here until we no longer match then return the first five results
-                    done = true;
-                    // we need to loop backwards from this index until it no longer matches, as soon as it doesnt, we can leave the loop and pass the matching results from there
-                    let backtracking = true;
-                    let offset = 0;
-                    while (backtracking) {
-                        if (index - offset < 0) {
-                            index = 0;
-                            offset = 0;
-                            backtracking = false;
-                        } else if (query.localeCompare(sArray[index - offset].substring(0, query.length)) != 0) {
-                            offset -= 1;
-                            backtracking = false;
-                        }
-
-                        if (!backtracking) {
-                            for (let i = 0; i < 5; i++) {
-                                if (query.localeCompare(sArray[index - offset + i].substring(0, query.length) == 0)) matches.push(sArray[index - offset + i]);
-                            }
-                        } else offset += 1;
-                    }
-                }
-                // insurance to make sure the index can't go out of scope
-                index = Math.min(Math.max(Math.round(index), 0), sArray.length - 1);
+            //Go through the sorted array to get the proper results
+            for (const entry of sorted) {
+                if (entry.startsWith(query)) matches.push(entry);
+                if (matches.length >= 5) break;
             }
 
             // create new elements
