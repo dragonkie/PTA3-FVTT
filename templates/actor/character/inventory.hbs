@@ -2,7 +2,7 @@
     <div class="flexcol flex">
         {{#each itemTypes}}
             {{#if (not (eq (arrayLength this) 0) )}}
-                <ol class="pta-inventory items-list collapsible">
+                <ol class="pta-inventory items-list collapsible pta-{{@key}}-list">
                     <li class="items-header flexrow">
                         <span class="item-name flexrow flex-gap-m" data-action="collapse">
                             <a class="flexshrink">
