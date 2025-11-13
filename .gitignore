@@ -90,3 +90,9 @@ Thumbs.db
 
 assets/
 *.bak
+
+# Pack logging files
+LOG*
+LOCK*
+*.old
+CURRENT*MANIFEST*
