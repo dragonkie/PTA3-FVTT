@@ -365,7 +365,6 @@ export default function PtaSheetMixin(Base) {
                         selector: selector
                     });
                 }
-
                 return this._collapsedElements;
             }
             return null;
