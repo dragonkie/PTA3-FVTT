@@ -11,13 +11,30 @@
             {{systemFieldGroup system 'details.weight'}}
         </div>
     </div>
-    {{#collapsible label='Description' collapsed=false cssClass='description'}}
-        {{formInput @root.description.field value=@root.description.value enriched=@root.description.enriched name='system.description' toggled=true}}
-    {{/collapsible}}
+
+    <div class="collapsible description pta-actor-notes">
+        <div class="flexrow" data-action="collapse">
+            <a style="flex: 0;"><i class="fas fa-caret-down"></i></a>
+            <label>Description</label>
+        </div>
+        <div class="collapsible-content">
+            <div class="wrapper">
+                {{formInput @root.description.field value=@root.description.value enriched=@root.description.enriched name='system.description' toggled=true}}
+            </div>
+        </div>
+    </div>
 
     {{#if (isGM)}}
-        {{#collapsible label='GM Notes (Private)' collapsed=true cssClass='description'}}
-            {{formInput @root.gmNotes.field value=@root.gmNotes.value enriched=@root.gmNotes.enriched name='system.gmNotes' toggled=true}}
-        {{/collapsible}}
+        <div class="collapsible description pta-actor-gm-notes">
+            <div class="flexrow" data-action="collapse">
+                <a style="flex: 0;"><i class="fas fa-caret-down"></i></a>
+                <label>GM Notes (Private)</label>
+            </div>
+            <div class="collapsible-content">
+                <div class="wrapper">
+                    {{formInput @root.gmNotes.field value=@root.gmNotes.value enriched=@root.gmNotes.enriched name='system.gmNotes' toggled=true}}
+                </div>
+            </div>
+        </div>
     {{/if}}
 </div>
