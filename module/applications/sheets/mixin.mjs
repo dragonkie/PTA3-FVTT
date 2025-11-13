@@ -293,14 +293,14 @@ export default function PtaSheetMixin(Base) {
         //> Sheet user focus control
         //======================================================================================================
         _lastFocusElement = null;
-        
+
         _setFocusElement() {
             if (this.rendered && this.element.contains(document.activeElement)) {
                 const ele = document.activeElement;
-                
+
                 var cList = '';
                 ele.classList.forEach(c => cList += `.${c}`);
-                
+
                 this._lastFocusElement = {
                     name: ele.name || '',
                     value: ele.value || '',
@@ -309,12 +309,12 @@ export default function PtaSheetMixin(Base) {
                 }
             }
         }
-        
+
         _getFocusElement() {
             if (this._lastFocusElement !== null) {
                 let selector = this._lastFocusElement.tag + this._lastFocusElement.class;
                 if (this._lastFocusElement.name) selector += `[name="${this._lastFocusElement.name}"]`;
-                
+
                 /** @type {HTMLElement|undefined}*/
                 const targetElement = this.element.querySelector(selector);
                 if (targetElement) {
@@ -336,17 +336,24 @@ export default function PtaSheetMixin(Base) {
                 for (const element of elements) {
                     let selector = ``;
                     let ele = element;
+
                     while (ele) {
-                        // Add parent selectors data
-                        let s = `${ele.nodeName}${ele.className != '' ? '.' : ''}${ele.className.replaceAll(' ', ".")}`; // classes
-                        for (let i = 0; i < ele.attributes.length; i++) {
-                            const a = ele.attributes[i];
-                            if (a.name == 'class' || a.name == 'style') s += `[${ele.attributes[i].name}]`;
-                            else s += `[${ele.attributes[i].name}="${ele.attributes[i].value}"]`;
+                        // Get element node
+                        let s = `${ele.nodeName}`; // classes
+
+                        // add elements classes
+                        for (const c of ele.classList) if (c != "collapsed" && c != "active") s += `.${c}`;
+
+                        // add element attributes
+                        for (const a of ele.attributes) {
+                            if (a.name == 'class' || a.name == 'style') s += `[${a.name}]`;
+                            else s += `[${a.name}="${a.value}"]`;
                         }
+
+                        // add this elements selector to the unique selector
                         selector = s + ' ' + selector;
 
-                        // Prevent hte check from leaving the scope of the sheet
+                        // Prevent the check from leaving the scope of the sheet
                         if (ele.classList.contains('window-content')) break;
 
                         // Progress to the next parent
@@ -355,9 +362,10 @@ export default function PtaSheetMixin(Base) {
 
                     this._collapsedElements.push({
                         collapsed: element.classList.contains('collapsed'),
-                        selector: selector.replaceAll(/(.collapsed|.active)/gm, '')
+                        selector: selector
                     });
                 }
+
                 return this._collapsedElements;
             }
             return null;
@@ -378,7 +386,7 @@ export default function PtaSheetMixin(Base) {
                 })
             }
         }
-        
+
         //======================================================================================================
         //> Drag n Drop
         //======================================================================================================
