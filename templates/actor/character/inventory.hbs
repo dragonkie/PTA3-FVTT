@@ -1,14 +1,29 @@
 <div class="pta-tab">
-    <ol class="pta-inventory items-list">
-        <li class="items-header flexrow">
-            <span class="item-name">Inventory</span>
-            <span>Controls</span>
-            <div class="item-controls flex0">
-                <a data-action="itemSort" class="pta-control fa-solid fa-sort" title="PTA.Button.Sort"></a>
-            </div>
-        </li>
-        {{#each items as | item key |}}
-            {{> "pta.list-item" item=item isEditMode=../isEditMode isPlayMode=../isPlayMode}}
+    <div class="flexcol flex">
+        {{#each itemTypes}}
+            {{#if (not (eq (arrayLength this) 0) )}}
+                <ol class="pta-inventory items-list collapsible">
+                    <li class="items-header flexrow">
+                        <span class="item-name flexrow flex-gap-m" data-action="collapse">
+                            <a class="flexshrink">
+                                <i class="fas fa-caret-down"></i>
+                            </a>
+                            <span>{{@key}}</span>
+                        </span>
+                        <span>Controls</span>
+                        <div class="item-controls flex0">
+                            <a data-action="itemSort" class="pta-control fa-solid fa-sort" title="PTA.Button.Sort"></a>
+                        </div>
+                    </li>
+                    <div class="collapsible-content">
+                        <div class="wrapper">
+                            {{#each this as | item |}}
+                                {{> "pta.list-item" item=item isEditMode=@root.isEditMode isPlayMode=@root.isPlayMode}}
+                            {{/each}}
+                        </div>
+                    </div>
+                </ol>
+            {{/if}}
         {{/each}}
-    </ol>
+    </div>
 </div>
