@@ -3,10 +3,10 @@
   "version": "2.0.0",
   "description": "CSS compiler for the pta system",
   "scripts": {
-    "build": "sass src/scss/rpta3.scss css/rpta3.css --style=expanded --no-source-map",
-    "watch": "sass src/scss/rpta3.scss css/rpta3.css --style=expanded --source-map --watch",
-    "prepack": "del \"../_packages/rpta3.zip\"",
-    "pack": "\"E:/Software/7-Zip/7z.exe\" a -tzip ../_packages/rpta3.zip -x!src/ -x!*.md -x!*.git* -x!*.lock"
+    "build": "sass src/scss/pta3.scss css/pta3.css --style=expanded --no-source-map",
+    "watch": "sass src/scss/pta3.scss css/pta3.css --style=expanded --source-map --watch",
+    "prepack": "del \"../_packages/pta3.zip\"",
+    "pack": "\"E:/Software/7-Zip/7z.exe\" a -tzip ../_packages/pta3.zip -x!src/ -x!*.md -x!*.git* -x!*.lock"
   },
   "browserslist": [
     "last 3 versions"

@@ -1026,6 +1026,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   background-color: var(--background);
   text-align: center;
   align-content: center;
+  justify-content: center;
   opacity: 70%;
   backdrop-filter: blur(4px);
 }
@@ -1075,6 +1076,10 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 }
 .pta.sheet.actor .window-content {
   min-height: 600px;
+}
+.pta.sheet.actor [data-tab=inventory] {
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .pta-pokebox {
@@ -1133,5 +1138,3 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   border: none;
   image-rendering: pixelated;
 }
-
-/*# sourceMappingURL=pta3.css.map */
