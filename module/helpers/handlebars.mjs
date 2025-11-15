@@ -37,6 +37,10 @@ function registerHelpers() {
         //=======================================================================
         toLowerCase: (str) => str.toLowerCase(),
         toTitleCase: (str) => str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()),
+        selected: (val) => {
+            if (val) return new Handlebars.SafeString('selected');
+            return ''; 
+        },
         //=======================================================================
         //>  Math                              
         //=======================================================================

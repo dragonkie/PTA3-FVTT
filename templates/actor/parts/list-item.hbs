@@ -17,9 +17,9 @@
       {{#if item.system.equipped}}
         <a class="item-control fa-solid fa-diamond" data-action="use" data-use="equip"></a>
       {{else}}
+        <a class="fas fa-arrow-right" data-action="use" data-use="give"></a>
         <a class="item-control fa-regular fa-diamond" data-action="use" data-use="equip"></a>
       {{/if}}
-      <a class="fas fa-arrow-right" data-action="use" data-use="give"></a>
     {{/if}}
     <a class="item-control fas fa-edit" data-action="edit" title="{{localize 'DOCUMENT.Update' type=Item}}"></a>
 

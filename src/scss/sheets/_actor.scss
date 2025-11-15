@@ -14,17 +14,19 @@
 
     .window-content {
         min-height: 600px;
+
+        [data-tab=inventory] {
+            max-height: 400px;
+            overflow-y: auto;
+        }
     }
 
-    [data-tab=inventory] {
-        max-height: 400px;
-        overflow-y: auto;
-    }
 }
 
 .pta-pokebox {
     max-height: 500px;
     overflow: hidden;
+
     .pta-pokebox-entries {
         box-sizing: border-box;
         overflow: auto;

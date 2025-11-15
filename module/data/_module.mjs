@@ -27,12 +27,16 @@ export const ActorConfig = {
 export const ItemModels = {
     ItemData,
     FeatureData,
-    ConsumableData
+    ConsumableData,
+    MoveData,
+    EquipmentData,
+    PokeballData
 }
 
 export const ItemConfig = {
-    consumable: ConsumableData,
     pokeball: PokeballData,
+    consumable: ConsumableData,
     feature: FeatureData,
-    move: MoveData
+    move: MoveData,
+    equipment: EquipmentData
 }

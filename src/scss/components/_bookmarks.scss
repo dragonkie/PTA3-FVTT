@@ -31,6 +31,8 @@
 
         backdrop-filter: blur(4px);
 
+        overflow: hidden;
+
         &:hover,
         &.selected {
             height: 3rem;
@@ -47,7 +49,7 @@
 }
 
 .pta.sheet {
-    // bookmarks appear outside the normal frame area, so we need to overide and make it visible
+    // bookmarks appear outside the normal frame area, so we need to override and make it visible
     // and correct the border radius of the actual window content to fix the clipping issues
     // that this change can cause around the headers corners
     overflow: visible;

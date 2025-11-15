@@ -219,8 +219,8 @@ export default function PtaSheetMixin(Base) {
         }
 
         async _preRender(context, options) {
-            this._setFocusElement();
-            this._setCollapsedElements();
+            this._getFocusElement();
+            this._getCollapsedElements();
             return super._preRender(context, options);
         }
 
@@ -228,8 +228,8 @@ export default function PtaSheetMixin(Base) {
             let r = super._onRender(context, options);
             if (!this.isEditable) this.element.querySelectorAll("input, select, textarea, multi-select").forEach(n => { n.disabled = true; });
 
-            this._getFocusElement();
-            this._getCollapsedElements();
+            this._setFocusElement();
+            this._setCollapsedElements();
             this._setupDragAndDrop();
             return r;
         }
@@ -246,6 +246,19 @@ export default function PtaSheetMixin(Base) {
             }
 
             return frame;
+        }
+
+        /** 
+         * Actions performed before closing the Application.
+         * Pre-close steps are awaited by the close process.
+         * Base foundry is empty, don't call super in mixin.
+         * @override
+         * @param {RenderOptions} options                 Provided render options
+         * @returns {Promise<void>}
+         * @protected
+         */
+        async _preClose(options) { 
+            this._setCollapsedElements();
         }
 
         // returns an element for rendering the sheets tabs as bookmarks along the side of a sheet
@@ -294,7 +307,7 @@ export default function PtaSheetMixin(Base) {
         //======================================================================================================
         _lastFocusElement = null;
 
-        _setFocusElement() {
+        _getFocusElement() {
             if (this.rendered && this.element.contains(document.activeElement)) {
                 const ele = document.activeElement;
 
@@ -310,7 +323,7 @@ export default function PtaSheetMixin(Base) {
             }
         }
 
-        _getFocusElement() {
+        _setFocusElement() {
             if (this._lastFocusElement !== null) {
                 let selector = this._lastFocusElement.tag + this._lastFocusElement.class;
                 if (this._lastFocusElement.name) selector += `[name="${this._lastFocusElement.name}"]`;
@@ -328,7 +341,7 @@ export default function PtaSheetMixin(Base) {
         //> Collapsible content persistence
         //======================================================================================================
         _collapsedElements = [];
-        _setCollapsedElements() {
+        _getCollapsedElements() {
             if (this.rendered) {
                 this._collapsedElements = [];
                 /** @type {NodeList|null} */
@@ -367,10 +380,10 @@ export default function PtaSheetMixin(Base) {
                 }
                 return this._collapsedElements;
             }
-            return null;
+            return [];
         }
 
-        _getCollapsedElements() {
+        _setCollapsedElements() {
             if (this._collapsedElements.length > 0 && this.rendered) {
                 const list = [];
                 this._collapsedElements.forEach(({ selector, collapsed }) => {

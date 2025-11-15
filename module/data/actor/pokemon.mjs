@@ -14,16 +14,7 @@ export default class PokemonData extends ActorData {
     const isRequired = { required: true, nullable: false };
     const schema = super.defineSchema();
 
-    schema.types = new ArrayField(new StringField(), { ...isRequired, initial: ['normal'], label: PTA.generic.types });
     schema.trainer = new StringField({ ...isRequired, initial: '', blank: true });
-
-    const TypeChoices = {};
-    for (const a in PTA.pokemonTypes) TypeChoices[a] = utils.localize(PTA.pokemonTypes[a]);
-
-    schema.types = new SchemaField({
-      primary: new StringField({ ...isRequired, initial: 'normal', label: PTA.generic.primary, choices: { ...TypeChoices } }),
-      secondary: new StringField({ ...isRequired, initial: 'none', label: PTA.generic.secondary, choices: { ...TypeChoices, none: pta.utils.localize(PTA.generic.none) } }),
-    }, { label: PTA.generic.types })
 
     schema.nature = new StringField({
       initial: utils.randomNature(),
@@ -53,7 +44,7 @@ export default class PokemonData extends ActorData {
         for (const a in data) data[a] = utils.localize(data[a]);
         return data;
       }
-    })
+    });
 
     schema.weight = new StringField({
       ...isRequired,
@@ -65,17 +56,18 @@ export default class PokemonData extends ActorData {
         for (const a in data) data[a] = utils.localize(data[a]);
         return data;
       }
-    })
+    });
 
     // some pokemon split evoloutions based on different factors
     schema.evoloution = new SchemaField({
 
-    })
+    });
+
     schema.gender = new StringField({ ...isRequired, initial: 'male', label: PTA.generic.gender });
     schema.shiny = new BooleanField({ ...isRequired, initial: false, label: PTA.generic.shiny });
     schema.contest = new SchemaField({
 
-    })
+    });
 
     // Holds the base API ref that this pokemon is generated from
     schema.api_ref = new ObjectField({ initial: {} });

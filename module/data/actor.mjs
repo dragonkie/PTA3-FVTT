@@ -9,6 +9,7 @@ export default class ActorData extends DataModel {
   static defineSchema() {
 
     const requiredInteger = { required: true, nullable: false, integer: true };
+    const isRequired = { required: true, nullable: false };
     const schema = super.defineSchema();
 
     schema.hp = new SchemaField({
@@ -27,6 +28,17 @@ export default class ActorData extends DataModel {
       return obj;
     }, {}));
 
+    //====================================================================================
+    //> Actors typing, even trainers require a typing of normal
+    //====================================================================================
+    const TypeChoices = {};
+    for (const a in PTA.pokemonTypes) TypeChoices[a] = utils.localize(PTA.pokemonTypes[a]);
+
+    schema.types = new SchemaField({
+      primary: new StringField({ ...isRequired, initial: 'normal', label: PTA.generic.primary, choices: { ...TypeChoices } }),
+      secondary: new StringField({ ...isRequired, initial: 'none', label: PTA.generic.secondary, choices: { ...TypeChoices, none: pta.utils.localize(PTA.generic.none) } }),
+    }, { label: PTA.generic.types })
+
     // manually set a pokemons resistance to a certain element
     schema.resistance_override = new ArrayField(
       new SchemaField({
@@ -44,7 +56,9 @@ export default class ActorData extends DataModel {
             return options;
           }
         }),
-      }), { initial: [], nullable: false });
+      }),
+      { initial: [], nullable: false }
+    );
 
     //====================================================================================
     //> Skill fields
@@ -90,7 +104,7 @@ export default class ActorData extends DataModel {
     //====================================================================================
     //> Prepare derived values from item based modifiers
     //====================================================================================
-    
+
     // sort items by their priority, then their importance
     const itemsList = this.parent.items.contents.sort((a, b) => {
       const _prioA = a.system.priority;

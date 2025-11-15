@@ -11,7 +11,6 @@
   "browserslist": [
     "last 3 versions"
   ],
-  "author": "Asacolips",
   "license": "MIT",
   "private": true,
   "devDependencies": {

@@ -1,0 +1,14 @@
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;" data-field="{{path}}">
+    {{#each fields as | field key |}}
+        <div class="form-group" data-type="{{key}}">
+            <label for="">{{field.label}}</label>
+            <div class="form-fields">
+                <select>
+                    {{#each @root.config.resistanceLabels as |value key|}}
+                        <option value="{{key}}" {{selected (eq ../field.value key)}}>{{localize value}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+    {{/each}}
+</div>

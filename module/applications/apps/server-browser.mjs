@@ -24,7 +24,7 @@ export default class ServerBrowser extends PtaApplication {
 
     static get PARTS() {
         let p = {};
-        p.main = { template: 'systems/pta3/templates/apps/server-browser.hbs' }
+        p.main = { template: PTA.templates.app.remoteAssetBrowser }
         return p;
     }
 

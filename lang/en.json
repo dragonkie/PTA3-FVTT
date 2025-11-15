@@ -76,26 +76,26 @@
       "ServerBrowser": "Remote Server Browser"
     },
     "Button": {
-      "Submit": "Submit",
+      "ImportMove": "Import Move",
+      "ImportPokemon": "Import Pokémon",
       "Local": "Local",
       "Online": "Online",
-      "ImportMove": "Import Move",
-      "ImportPokemon": "Import Pokémon"
+      "Submit": "Submit"
     },
     "Chat": {
       "Attack": {
-        "Miss": "{user} used {move}, but it missed...",
-        "Hit": "{user} used {move}, a direct hit!",
         "Crit": "{user} used {move}, it's a critical hit!",
-        "Dodge": "{user} used {move}, but {target} dodged it!"
+        "Dodge": "{user} used {move}, but {target} dodged it!",
+        "Hit": "{user} used {move}, a direct hit!",
+        "Miss": "{user} used {move}, but it missed..."
       },
       "Damage": {
-        "Immune": "{user} hit {target} with {move}, but they're immune...",
-        "Quarter": "{user} hit {target} with {move}, it was barely effective...",
-        "Half": "{user} hit {target} with {move}, it's not very effective...",
-        "Normal": "{user} hit {target} with {move}.",
         "Double": "{user} hit {target} with {move}, it's very effective!",
-        "Quadruple": "{user} hit {target} with {move}, it's super effective!"
+        "Half": "{user} hit {target} with {move}, it's not very effective...",
+        "Immune": "{user} hit {target} with {move}, but they're immune...",
+        "Normal": "{user} hit {target} with {move}.",
+        "Quadruple": "{user} hit {target} with {move}, it's super effective!",
+        "Quarter": "{user} hit {target} with {move}, it was barely effective..."
       },
       "Lifesteal": "{user} drained {target} and is healed [[{drain}]] HP"
     },
@@ -103,19 +103,14 @@
       "FileLocation": "File Location",
       "TransferRune": "Which pokemon would you like to transfer the rune to?"
     },
-    "Title": {
-      "TransferRune": "Transfer Rune",
-      "ConfigResist": "Configure Resistances",
-      "UseCaptureSphere": "Use Capture Sphere"
-    },
     "Effect": {
+      "Disabled": "Disabled Effects",
+      "Duration": "Duration",
       "Inactive": "Inactive Effects",
       "Passive": "Passive Effects",
-      "Disabled": "Disabled Effects",
       "Source": "Source",
       "Temporary": "Temporary Effects",
-      "Toggle": "Toggle Effect",
-      "Duration": "Duration"
+      "Toggle": "Toggle Effect"
     },
     "Flavour": {
       "Bitter": "Bitter",
@@ -133,21 +128,28 @@
       "Capture": "Capture",
       "Damage": "Damage",
       "Data": "Data",
+      "Default": "Default",
+      "Double": "Double",
       "Effect": "Effect",
       "Eyes": "Eyes",
       "Gender": "Gender",
       "Hair": "Hair",
+      "Half": "Half",
       "Health": "Health",
+      "Height": "Height",
       "Honour": "Honour",
       "Honours": "Honours",
-      "MaxHealth": "Max Health",
-      "Height": "Height",
+      "Immune": "Immune",
       "Import": "Import",
+      "MaxHealth": "Max Health",
       "Nature": "Nature",
       "None": "None",
+      "Normal": "Normal",
       "Origin": "Origin",
       "Physical": "Physical",
       "Pokemon": "Pokémon",
+      "Quadruple": "Quadruple",
+      "Quarter": "Quarter",
       "Rank": "Rank",
       "Shiny": "Shiny",
       "Size": "Size",
@@ -155,8 +157,8 @@
       "Species": "Species",
       "Status": "Status",
       "Sync": {
-        "long": "Synchronize",
-        "abbr": "sync"
+        "abbr": "sync",
+        "long": "Synchronize"
       },
       "Trainer": "Trainer",
       "Type": {
@@ -167,10 +169,10 @@
     },
     "Method": {
       "Add": "Add",
-      "Subtract": "Subtract",
       "Grow": "Grow",
+      "Multiply": "Multiply",
       "Shrink": "Shrink",
-      "Multiply": "Multiply"
+      "Subtract": "Subtract"
     },
     "Nature": {
       "Adamant": "Adamant",
@@ -295,28 +297,33 @@
       "Pokemon": "Pokemon",
       "Settings": "Settings"
     },
+    "Title": {
+      "ConfigResist": "Configure Resistances",
+      "TransferRune": "Transfer Rune",
+      "UseCaptureSphere": "Use Capture Sphere"
+    },
     "Type": {
-      "Normal": "Normal",
-      "Fire": "Fire",
-      "Water": "Water",
-      "Electric": "Electric",
-      "Grass": "Grass",
-      "Ice": "Ice",
-      "Fighting": "Fighting",
-      "Poison": "Poison",
-      "Ground": "Ground",
-      "Flying": "Flying",
-      "Psychic": "Psychic",
       "Bug": "Bug",
-      "Rock": "Rock",
-      "Ghost": "Ghost",
-      "Dragon": "Dragon",
-      "Dark": "Dark",
-      "Steel": "Steel",
-      "Fairy": "Fairy",
-      "Light": "Light",
       "Cyber": "Cyber",
-      "Nuclear": "Nuclear"
+      "Dark": "Dark",
+      "Dragon": "Dragon",
+      "Electric": "Electric",
+      "Fairy": "Fairy",
+      "Fighting": "Fighting",
+      "Fire": "Fire",
+      "Flying": "Flying",
+      "Ghost": "Ghost",
+      "Grass": "Grass",
+      "Ground": "Ground",
+      "Ice": "Ice",
+      "Light": "Light",
+      "Normal": "Normal",
+      "Nuclear": "Nuclear",
+      "Poison": "Poison",
+      "Psychic": "Psychic",
+      "Rock": "Rock",
+      "Steel": "Steel",
+      "Water": "Water"
     },
     "Weight": {
       "Feather": "Feather Weight",

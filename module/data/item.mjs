@@ -61,7 +61,7 @@ export default class ItemData extends DataModel {
    * @param {ActorData} actorData - The data model to augment
    */
   prepareActorData(actorData) {
-    
+    return true;
   }
 
   /**

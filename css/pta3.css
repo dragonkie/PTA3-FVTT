@@ -1029,6 +1029,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   justify-content: center;
   opacity: 70%;
   backdrop-filter: blur(4px);
+  overflow: hidden;
 }
 .pta-bookmark-nav .pta-bookmark:hover, .pta-bookmark-nav .pta-bookmark.selected {
   height: 3rem;
@@ -1077,7 +1078,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 .pta.sheet.actor .window-content {
   min-height: 600px;
 }
-.pta.sheet.actor [data-tab=inventory] {
+.pta.sheet.actor .window-content [data-tab=inventory] {
   max-height: 400px;
   overflow-y: auto;
 }

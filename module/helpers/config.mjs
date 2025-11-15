@@ -326,6 +326,24 @@ PTA.typeEffectivenessValues = {
   quadruple: 'PTA.Chat.Damage.Quadruple',
 }
 
+PTA.resistanceLabels = {
+  none: 'PTA.Generic.None',
+  immune: 'PTA.Generic.Immune',
+  half: 'PTA.Generic.Half',
+  normal: 'PTA.Generic.Normal',
+  double: 'PTA.Generic.Double',
+  quadruple: 'PTA.Generic.Quadruple',
+}
+
+PTA.resistanceKeys = {
+  none: 'none',
+  immune: 'immune',
+  half: 'half',
+  normal: 'normal',
+  double: 'double',
+  quadruple: 'quadruple',
+}
+
 PTA.typeEffectiveness = {
   bug: {
     double: ['fire', 'flying', 'rock'],
@@ -629,7 +647,7 @@ PTA.templates = {
   dialog: {
     fileServerSelect: templatePath('dialog/file-server-selector.hbs'),
     rollCaptureSphere: templatePath('dialog/roll-capture-sphere.hbs')
-  },
+    configResistanceOverride: templatePath('dialog/config-resistance-override.hbs'),  },
   app: {
     importMoves: templatePath('apps/move-importer.hbs'),
     importPokemon: templatePath('apps/pokemon-importer.hbs'),
