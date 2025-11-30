@@ -4,9 +4,7 @@
             <div class="flexrow">
                 <div class="item-name" data-action="collapse">
                     <div class="item-image">
-                        <a data-action="itemUse">
-                            <img src="{{item.img}}" title="{{item.name}}">
-                        </a>
+                        <img src="{{item.img}}" title="{{item.name}}">
                     </div>
                     <div>{{item.name}}</div>
                 </div>
@@ -19,14 +17,21 @@
                             <i class="fas fa-arrows-rotate"></i>
                         </a>
                     {{/if}}
+                    <a class="item-control fas fa-sword" data-action="itemUse" data-use="attack" title="attack"></a>
                     <a class="item-control fas fa-edit" data-action="itemEdit" title="Edit"></a>
                     {{#if @root.isEditMode}}<a class="item-control fas fa-trash" data-action="itemDelete" title="Delete"></a>{{/if}}
                 </div>
             </div>
             <div class="collapsible-content" style="width: 100%;">
                 <div class="wrapper flexcol" style="width: 100%;">
-                    <div class="text-left" style="width: 100%; margin-left: 0.5rem">
-                        {{{item.system.description}}}
+                    <div style="width: 100%; padding: 0 1rem; margin: 0.5rem 0;">
+                        <div class="flexrow">
+                            <div>{{localize @root.config.generic.type}}: {{item.system.type}}</div>
+                            <div>{{localize @root.config.generic.damage}}: {{item.system.damage.formula}}</div>
+                        </div>
+                        <div class="text-left">
+                            {{{item.system.description}}}
+                        </div>
                     </div>
                 </div>
             </div>
