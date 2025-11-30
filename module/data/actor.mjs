@@ -96,6 +96,7 @@ export default class ActorData extends DataModel {
   prepareBaseData() {
     super.prepareBaseData();
     for (const key in this.stats) this.stats[key].total = 0;
+    this.hp.total = this.hp.max;
   }
 
   prepareDerivedData() {
@@ -131,7 +132,7 @@ export default class ActorData extends DataModel {
     for (const item of itemsList) item.prepareActorData(this);
 
     // calculate max hp
-    this.hp.total = this.hp.max + this.bonuses.hpMax;
+    this.hp.total += this.bonuses.hpMax;
 
     // after status modifiers are applied, we can total up the final value of the stats
     for (const key in this.stats) {
