@@ -59,7 +59,7 @@ export default function PtaSheetMixin(Base) {
             context.isPlayMode = this.isPlayMode;
             context.isEditable = this.isEditable;
 
-            context.flags = { ...this.document.flags, ...game.user.flags.pta3 }
+            context.flags = { ...this.document.flags, ...game.user.flags[game.system.id] }
 
             const enrichmentOptions = { rollData: context.rollData }
             context.gmNotes = {

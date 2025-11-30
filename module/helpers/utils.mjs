@@ -264,7 +264,7 @@ export default class utils {
         }
 
         // check if neutral natures ahve been turned on
-        if (!game.settings.get('pta3', 'neutralNatures')) {
+        if (!game.settings.get(game.system.id, 'neutralNatures')) {
             for (const a in pta.config.natureNeutral) options.ban.push(a);
         }
 

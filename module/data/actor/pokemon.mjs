@@ -88,7 +88,7 @@ export default class PokemonData extends ActorData {
       system: {
         nature: utils.randomNature(),
         gender: (Math.floor(Math.random() * 2) > 0) ? "Male" : "Female",
-        shiny: (Math.floor(Math.random() * game.settings.get('pta3', 'shinyRate')) <= 1) ? true : false
+        shiny: (Math.floor(Math.random() * game.settings.get(game.system.id, 'shinyRate')) <= 1) ? true : false
       }
     });
 

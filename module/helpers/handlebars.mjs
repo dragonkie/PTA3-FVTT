@@ -1,7 +1,7 @@
 import { PTA } from "./config.mjs";
 
 function registerTemplates() {
-    const path = `systems/pta3/templates`;
+    const path = `systems/${game.system.id}/templates`;
     const partials = [
         `shared/tabs-nav`,
         `shared/tabs-content`,
