@@ -237,34 +237,38 @@ export default class MoveData extends ItemData {
                     message_config.drain = Math.floor(r_damage.total * (this.drain / 100));
                     message_data.content += `<p>${utils.format(PTA.chat.lifesteal, message_config)}</p>`;
                 }
+
+                //==================================================================================================
+                //>--- Apply ailments
+                //==================================================================================================
+                if (Object.keys(PTA.ailments).includes(this.ailment.type) && this.ailment.chance > 0) {
+                    let applied = false;
+
+                    // Make the dice roll if needed
+                    const r_ailment = new Roll('1d100');
+                    await r_ailment.evaluate();
+                    if (r_ailment.total <= this.ailment.chance) applied = true;
+
+                    // compile the message data
+                    message_data.content += `<p><b>${utils.localize(PTA.generic.ailment)}: ${utils.localize(PTA.ailments[this.ailment.type])} ${this.ailment.chance}%</b></p>`
+                    if (applied) {
+                        message_data.content += utils.format(PTA.chat.ailment.success, message_config);
+                        //==========================================================================================
+                        //>--- Apply status effects
+                        //==========================================================================================
+                        if (game.user.isGM || target.actor.isOwner) {
+                            console.log("Applying status effect to target")
+                            await target.actor.toggleStatusEffect(this.ailment.type, { active: true, overlay: false });
+                        }
+                    }
+                    else message_data.content += utils.format(PTA.chat.ailment.failed, message_config);
+                    message_data.content += await r_ailment.render();
+                }
             }
 
-            //========================================================================
-            //>--- Apply ailments
-            //========================================================================
-            if (Object.keys(PTA.ailments).includes(this.ailment.type) && this.ailment.chance > 0) {
-                let applied = false;
-
-                // Make the dice roll if needed
-                const r_ailment = new Roll('1d100');
-                await r_ailment.evaluate();
-                if (r_ailment.total <= this.ailment.chance) applied = true;
-
-                // compile the message data
-                message_data.content += `<p><b>${utils.localize(PTA.generic.ailment)}: ${utils.localize(PTA.ailments[this.ailment.type])} ${this.ailment.chance}%</b></p>`
-                if (applied) message_data.content += utils.format(PTA.chat.ailment.success, message_config);
-                else message_data.content += utils.format(PTA.chat.ailment.failed, message_config);
-                message_data.content += await r_ailment.render();
-            }
-
-
-            //========================================================================
-            //>--- Apply status effects
-            //========================================================================
-
-            //========================================================================
+            //======================================================================================================
             //>--- Chat Message
-            //========================================================================
+            //======================================================================================================
             message_data.content = await foundry.applications.ux.TextEditor.enrichHTML(message_data.content);
             let message = await r_accuracy.toMessage(message_data, message_config);
         }
