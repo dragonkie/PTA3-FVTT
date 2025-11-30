@@ -7,6 +7,7 @@ import PokemonData from "./actor/pokemon.mjs";
 // Export Items
 import ItemData from "./item.mjs";
 import ConsumableData from "./item/consumable.mjs";
+import EquipmentData from "./item/equipment.mjs";
 import FeatureData from "./item/feature.mjs";
 import MoveData from "./item/move.mjs";
 import PokeballData from "./item/pokeball.mjs";
