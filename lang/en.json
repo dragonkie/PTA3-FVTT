@@ -1,5 +1,10 @@
 {
   "PTA": {
+    "Ac": {
+      "Status": "Status",
+      "Physical": "Physical",
+      "Special": "Special"
+    },
     "Ability": {
       "Atk": {
         "abbr": "atk",
@@ -131,6 +136,7 @@
       "Default": "Default",
       "Double": "Double",
       "Effect": "Effect",
+      "Movement": "Movement",
       "Eyes": "Eyes",
       "Gender": "Gender",
       "Hair": "Hair",
