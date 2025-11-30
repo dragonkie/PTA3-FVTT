@@ -232,10 +232,13 @@ export default class MoveData extends ItemData {
 
                 message_data.content += await r_damage.render();
 
-                // Lifesteal value
+                //==================================================================================================
+                //>--- Lifesteal application
+                //==================================================================================================
                 if (this.drain > 0) {
                     message_config.drain = Math.floor(r_damage.total * (this.drain / 100));
                     message_data.content += `<p>${utils.format(PTA.chat.lifesteal, message_config)}</p>`;
+                    await this.actor.update({ system: { hp: { value: Math.min(this.actor.system.hp.value + message_config.drain, this.actor.system.hp.total) } } })
                 }
 
                 //==================================================================================================
