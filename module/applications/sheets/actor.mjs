@@ -48,7 +48,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         });
         context.itemTypes = this.document.itemTypes;
         context.editable = this.isEditable && (this._mode === this.constructor.SHEET_MODES.EDIT);
-        context.userSettings = game.user.getFlag('pta3', 'settings');
+        context.userSettings = game.user.getFlag(game.system.id, 'settings');
 
         context.stats = {};
         for (const [key, value] of Object.entries(this.document.system.stats)) {
