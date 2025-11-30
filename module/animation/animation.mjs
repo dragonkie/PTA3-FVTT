@@ -44,6 +44,7 @@ export default class PtaAnimationManager {
     }
 
     // function to set container position based off its lerped value to destination
+    // good for things like homing attacks, gets those cool arrow looks
     moveToCurved(asset, _x, _y, _t = 1) {
         const xStart = asset.x;
         const yStart = asset.y;
