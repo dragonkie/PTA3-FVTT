@@ -646,8 +646,9 @@ PTA.templates = {
   path: templatePath(''),
   dialog: {
     fileServerSelect: templatePath('dialog/file-server-selector.hbs'),
-    rollCaptureSphere: templatePath('dialog/roll-capture-sphere.hbs')
-    configResistanceOverride: templatePath('dialog/config-resistance-override.hbs'),  },
+    rollCaptureSphere: templatePath('dialog/roll-capture-sphere.hbs'),
+    configResistanceOverride: templatePath('dialog/config-resistance-override.hbs'),
+  },
   app: {
     importMoves: templatePath('apps/move-importer.hbs'),
     importPokemon: templatePath('apps/pokemon-importer.hbs'),
