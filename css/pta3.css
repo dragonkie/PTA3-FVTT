@@ -450,6 +450,9 @@
 .form-group.stacked label {
   flex: 0;
 }
+.form-group.stacked input {
+  text-align: center;
+}
 
 .pta-link-wrap {
   border-radius: 4px;
