@@ -24,13 +24,21 @@
             </div>
             <div class="collapsible-content" style="width: 100%;">
                 <div class="wrapper flexcol" style="width: 100%;">
-                    <div style="width: 100%; padding: 0 1rem; margin: 0.5rem 0;">
-                        <div class="flexrow">
-                            <div>{{localize @root.config.generic.type}}: {{item.system.type}}</div>
-                            <div>{{localize @root.config.generic.damage}}: {{item.system.damage.formula}}</div>
+                    <div class="flexcol flex-gap-m" style="width: 100%; padding-left: 1rem; margin: 0.5rem 0;">
+                        <div class="pta-move-details flexcol flex-gap-s">
+                            <div class="flexrow">
+                                <div><b>{{localize @root.config.generic.type}}</b>: {{item.system.type}}</div>
+                                <div><b>{{localize @root.config.generic.category}}</b>: {{item.system.class}}</div>
+                            </div>
+                            <div><b>{{localize @root.config.generic.damage}}</b>: {{item.system.damage.formula}}</div>
+                            {{#if (not (eq item.system.ailment.type 'none'))}}
+                                <div class="text-left"><b>{{localize @root.config.generic.ailment}}</b>: {{item.system.ailment.type}}</div>
+                            {{/if}}
                         </div>
-                        <div class="text-left">
-                            {{{item.system.description}}}
+                        <div class="pta-move-description">
+                            <div class="text-left">
+                                {{{item.system.description}}}
+                            </div>
                         </div>
                     </div>
                 </div>

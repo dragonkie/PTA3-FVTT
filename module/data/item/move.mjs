@@ -62,9 +62,15 @@ export default class MoveData extends ItemData {
             })
         })
 
+        const AilmentChoices = {};
+        for (const a in PTA.ailments) AilmentChoices[a] = utils.localize(PTA.ailments[a]);
         schema.ailment = new SchemaField({
-            type: new StringField({ initial: '' }),
-            chance: new NumberField({ initial: 0 })
+            type: new StringField({
+                initial: 'none',
+                choices: { ...AilmentChoices, none: PTA.generic.none },
+                label: PTA.generic.ailment
+            }),
+            chance: new NumberField({ initial: 0, label: PTA.generic.chance })
         })
 
         // if max or min hits is set to 0, the move isnt treated as a multi hit
@@ -232,6 +238,29 @@ export default class MoveData extends ItemData {
                     message_data.content += `<p>${utils.format(PTA.chat.lifesteal, message_config)}</p>`;
                 }
             }
+
+            //========================================================================
+            //>--- Apply ailments
+            //========================================================================
+            if (Object.keys(PTA.ailments).includes(this.ailment.type) && this.ailment.chance > 0) {
+                let applied = false;
+
+                // Make the dice roll if needed
+                const r_ailment = new Roll('1d100');
+                await r_ailment.evaluate();
+                if (r_ailment.total <= this.ailment.chance) applied = true;
+
+                // compile the message data
+                message_data.content += `<p><b>${utils.localize(PTA.generic.ailment)}: ${utils.localize(PTA.ailments[this.ailment.type])} ${this.ailment.chance}%</b></p>`
+                if (applied) message_data.content += utils.format(PTA.chat.ailment.success, message_config);
+                else message_data.content += utils.format(PTA.chat.ailment.failed, message_config);
+                message_data.content += await r_ailment.render();
+            }
+
+
+            //========================================================================
+            //>--- Apply status effects
+            //========================================================================
 
             //========================================================================
             //>--- Chat Message

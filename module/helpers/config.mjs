@@ -76,7 +76,9 @@ PTA.loadPokedex = async (force = false) => {
 PTA.generic = {
   accuracy: 'PTA.Generic.Accuracy',
   age: 'PTA.Generic.Age',
+  ailment: 'PTA.Generic.Ailment',
   attack: 'PTA.Generic.Attack',
+  chance: 'PTA.Generic.Chance',
   damage: 'PTA.Generic.Damage',
   data: 'PTA.Generic.Data',
   description: 'PTA.Generic.Description',
@@ -102,6 +104,7 @@ PTA.generic = {
   type: 'PTA.Generic.Type.long',
   types: 'PTA.Generic.Type.plural',
   weight: 'PTA.Generic.Weight',
+  category: 'PTA.Generic.Category',
 }
 
 PTA.dice = {
@@ -162,6 +165,10 @@ PTA.chat = {
     normal: 'PTA.Chat.Damage.Normal',
     double: 'PTA.Chat.Damage.Double',
     quadruple: 'PTA.Chat.Damage.Quadruple',
+  },
+  ailment: {
+    success: 'PTA.Chat.Ailment.Success',
+    failed: 'PTA.Chat.Ailment.Failed',
   },
   lifesteal: 'PTA.Chat.Lifesteal',
 }

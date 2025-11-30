@@ -128,9 +128,11 @@
     },
     "Generic": {
       "Accuracy": "Accuracy",
+      "Ailment": "Ailment",
       "Age": "Age",
       "All": "All",
       "Capture": "Capture",
+      "Category": "Category",
       "Damage": "Damage",
       "Data": "Data",
       "Default": "Default",

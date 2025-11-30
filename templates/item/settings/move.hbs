@@ -18,6 +18,11 @@
         {{toFieldGroup schema 'multi_hit.max' value=system.multi_hit.max label='Max hits'}}
     </div>
     <div>
+        <b>Ailments</b>
+        {{systemFieldGroup system 'ailment.type'}}
+        {{systemFieldGroup system 'ailment.chance'}}
+    </div>
+    <div>
         <b>Effects</b>
         {{toFieldGroup schema 'drain' value=system.drain label='drain'}}
     </div>
