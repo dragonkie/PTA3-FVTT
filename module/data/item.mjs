@@ -23,6 +23,10 @@ export default class ItemData extends DataModel {
 
     return schema;
   }
+
+  static migrateData(source) {
+    return super.migrateData(source);
+  }
   //============================================================
   //> Custom item schema mixins
   //============================================================

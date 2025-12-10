@@ -465,6 +465,17 @@ for (const a in PTA.ailments) {
   PTA.ailmentsAbbr[a] = PTA.ailments[a].replace('long', 'abbr');
 }
 
+PTA.apiConvertAilment = {
+  none: "none",
+  paralysis: "paralyzed",
+  sleep: "sleep",
+  freeze: "frozen",
+  burn: "burn",
+  poison: "poison",
+  confusion: "confuse",
+  infatuation: "charm",
+}
+
 PTA.statuses = {
   fainted: 'PTA.Ailment.Fainted.long',
   ...PTA.ailments

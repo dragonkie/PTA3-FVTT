@@ -191,7 +191,7 @@ export default class utils {
                 accuracy: Math.min((move.accuracy - 100) / 5, 0) || 0,
                 ailment: {
                     chance: move.meta?.ailment_chance || 0,
-                    type: move.meta?.ailment.name || 'none'
+                    type: this._apiAilmentConversion(move.meta?.ailment.name)
                 },
                 drain: move.meta?.drain || 0,
                 critical_chance: move.meta?.crit_rate || 0,
@@ -205,8 +205,11 @@ export default class utils {
         } catch (err) {
             return void this.error('recieved invalid move data to parse', err)
         }
+    }
 
-        
+    static _apiAilmentConversion(ailment) {
+        if (Object.hasOwn(PTA.apiConvertAilment, ailment)) return PTA.apiConvertAilment[ailment];
+        else return 'none';
     }
 
     static HonourLevel(num) {
@@ -398,7 +401,7 @@ export default class utils {
     //============================================================
     //> Combat
     //============================================================
-    
+
     static getTargets() {
         const targets = [];
         for (const target of game.user.targets) {
@@ -411,7 +414,7 @@ export default class utils {
         if (targets.length <= 0) return null;
         return targets;
     }
-    
+
     //============================================================
     //> Dom manipulation
     //============================================================

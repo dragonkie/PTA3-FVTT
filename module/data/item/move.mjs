@@ -84,6 +84,14 @@ export default class MoveData extends ItemData {
         return schema;
     }
 
+    static migrateData(source) {
+        // fixs data typing issue
+        console.log(Object.keys(PTA.ailments));
+        if (!source?.ailment?.type || !Object.keys(PTA.ailments).includes(source.ailment.type)) source.ailment = { type: "none", chance: 0 };
+
+        return super.migrateData(source);
+    }
+
     get isRanged() { return this.range > 5 };
 
     getRollData() {
@@ -148,7 +156,7 @@ export default class MoveData extends ItemData {
             let target_stat = {};
             if (this.class == 'physical') target_stat = target.actor.system.stats.def;
             if (this.class == 'special') target_stat = target.actor.system.stats.sdef;
-            if (this.class == 'effect') target_stat = target.actor.system.stats.spd;
+            if (this.class == 'status') target_stat = target.actor.system.stats.spd;
 
             const message_config = { ...rolldata, user: attacker.name, move: this.parent.name, target: target.token.name };
             const message_data = { content: '', speaker: null }
