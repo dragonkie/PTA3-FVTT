@@ -18,7 +18,7 @@
             "thumbnail": "systems/pta3/assets/anvil-impact.png"
         }
     ],
-    "version": "1.2.0",
+    "version": "1.2.1",
     "compatibility": {
         "minimum": "13",
         "verified": "13.350"
