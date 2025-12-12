@@ -1,20 +1,5 @@
-<div>
-    <div class="form-group">
-        <label>Quantity</label>
-        <div class="form-fields">
-            {{ formInput (getField schema 'quantity') value=system.quantity}}
-        </div>
-    </div>
-    <div class="form-group">
-        <label>Capture Rate</label>
-        <div class="form-fields">
-            {{ formInput (getField schema 'capture.base') value=system.capture.base}}
-        </div>
-    </div>
-    <div class="form-group">
-        <label>Conditional Bonus</label>
-        <div class="form-fields">
-            {{ formInput (getField schema 'capture.conditional')}}
-        </div>
-    </div>
+<div class="flexcol flex-gap-m">
+    {{systemFieldGroup system 'quantity' label='Quantity'}}
+    {{systemFieldGroup system 'capture.base' label='Capture'}}
+    {{systemFieldGroup system 'capture.conditional' label='Bonus'}}
 </div>

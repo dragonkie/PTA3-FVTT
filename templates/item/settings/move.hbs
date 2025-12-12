@@ -1,29 +1,35 @@
 <div class="flexcol flex-gap-m" style="padding: 10px;">
     <div class="flexrow flex-gap-s">
-        {{toFieldGroup schema 'type' value=system.type}}
-        {{toFieldGroup schema 'category' value=system.category label='Category'}}
+        {{systemFieldGroup system 'type'}}
+        {{systemFieldGroup system 'category' label='Category'}}
     </div>
-    {{toFieldGroup schema 'accuracy' value=system.accuracy label='accuracy'}}
-    {{toFieldGroup schema 'damage.formula' value=system.damage.formula label='Damage Formula'}}
-    {{toFieldGroup schema 'range' value=system.range label='attack range'}}
-    {{toFieldGroup schema 'critical_chance' value=system.critical_chance label='Critical Bonus'}}
-    <div class="flexcol flex-gap-s">
-        <b>Move Uses</b>
-        {{toFieldGroup schema 'uses.value' value=system.uses.value label='Remaining uses'}}
-        {{toFieldGroup schema 'uses.max' value=system.uses.max label='Max uses'}}
-    </div>
-    <div class="flexcol flex-gap-s">
-        <b>Multi Hit</b>
-        {{toFieldGroup schema 'multi_hit.min' value=system.multi_hit.min label='Min Hits'}}
-        {{toFieldGroup schema 'multi_hit.max' value=system.multi_hit.max label='Max hits'}}
-    </div>
-    <div class="flexcol flex-gap-s">
-        <b>Ailments</b>
-        {{systemFieldGroup system 'ailment.type'}}
-        {{systemFieldGroup system 'ailment.chance'}}
-    </div>
-    <div class="flexcol flex-gap-s">
+    {{systemFieldGroup system 'accuracy' label='accuracy'}}
+    {{systemFieldGroup system 'damage.formula' label='Damage Formula'}}
+    {{systemFieldGroup system 'range' label='attack range'}}
+    {{systemFieldGroup system 'critical_chance'label='Critical Bonus'}}
+    <div>
         <b>Effects</b>
-        {{toFieldGroup schema 'drain' value=system.drain label='drain'}}
+        {{systemFieldGroup system 'drain' label='drain'}}
+    </div>
+    <div>
+        <b>Move Uses</b>
+        <div class="flexrow flex-gap-s">
+            {{systemFieldGroup system 'uses.value' label='Remaining'}}
+            {{systemFieldGroup system 'uses.max' label='Max'}}
+        </div>
+    </div>
+    <div>
+        <b>Multi Hit</b>
+        <div class="flexrow flex-gap-s">
+            {{systemFieldGroup system 'multi_hit.min' label='Min Hits'}}
+            {{systemFieldGroup system 'multi_hit.max' label='Max Hits'}}
+        </div>
+    </div>
+    <div>
+        <b>Ailments</b>
+        <div class="flexrow flex-gap-s">
+            {{systemFieldGroup system 'ailment.type'}}
+            {{systemFieldGroup system 'ailment.chance'}}
+        </div>
     </div>
 </div>
