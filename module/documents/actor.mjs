@@ -33,7 +33,7 @@ export default class PtaActor extends Actor {
    */
   prepareDerivedData() {
     const actorData = this;
-    const flags = actorData.flags.pta3 || {};
+    const flags = actorData.flags[game.system.id] || {};
     super.prepareDerivedData();
   }
 

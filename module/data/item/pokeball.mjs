@@ -164,7 +164,7 @@ export default class PokeballData extends ItemData {
             `,
             flavor: `${this.actor.name} threw a ${this.parent.name}!`,
             speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-            sound: 'systems/pta3/assets/sfx/pokeball-throw.mp3',
+            sound: `systems/${game.system.id}/assets/sfx/pokeball-throw.mp3`,
             rolls: [hitRoll, captureRoll]
         }
 
