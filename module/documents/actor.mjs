@@ -76,10 +76,13 @@ export default class PtaActor extends Actor {
 
   _onUpdate(changed, options, userId) {
     super._onUpdate(changed, options, userId);
-    if (this.system.hp.value <= 0) {
-      this.toggleStatusEffect('fainted', { active: true, overlay: true });
-    } else if (this.system.hp.value > 0) {
-      this.toggleStatusEffect('fainted', { active: false });
+
+    if (game.actors.contents[0].canUserModify(game.user, 'update') && game.user.id == userId) {
+      if (this.system.hp.value <= 0) {
+        this.toggleStatusEffect('fainted', { active: true, overlay: true });
+      } else if (this.system.hp.value > 0) {
+        this.toggleStatusEffect('fainted', { active: false });
+      }
     }
   }
 }
