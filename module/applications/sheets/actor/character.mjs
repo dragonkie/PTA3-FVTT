@@ -24,13 +24,13 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
     }
 
     static PARTS = {
-        body: { template: "systems/pta3/templates/actor/character/body.hbs" },
+        body: { template: `${this.TEMPLATE_PATH}/actor/character/body.hbs` },
         // Tab bodies
-        features: { template: "systems/pta3/templates/actor/character/features.hbs" },
-        inventory: { template: "systems/pta3/templates/actor/character/inventory.hbs" },
-        pokebox: { template: "systems/pta3/templates/actor/character/pokemon.hbs" },
-        effects: { template: "systems/pta3/templates/actor/parts/actor-effects.hbs" },
-        details: { template: "systems/pta3/templates/actor/character/details.hbs" },
+        features: { template: `${this.TEMPLATE_PATH}/actor/character/features.hbs` },
+        inventory: { template: `${this.TEMPLATE_PATH}/actor/character/inventory.hbs` },
+        pokebox: { template: `${this.TEMPLATE_PATH}/actor/character/pokemon.hbs` },
+        effects: { template: `${this.TEMPLATE_PATH}/actor/parts/actor-effects.hbs` },
+        details: { template: `${this.TEMPLATE_PATH}/actor/character/details.hbs` },
     }
 
     static TABS = {

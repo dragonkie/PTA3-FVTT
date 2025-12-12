@@ -40,6 +40,8 @@ export default function PtaSheetMixin(Base) {
             return {};
         }
 
+        static get TEMPLATE_PATH() { return `systems/${PTA.SystemId}/templates` };
+
         static SHEET_MODES = { PLAY: 1, EDIT: 2 };
         _sheetMode = this.constructor.SHEET_MODES.PLAY;
         get sheetMode() { return this._sheetMode; };
@@ -257,7 +259,7 @@ export default function PtaSheetMixin(Base) {
          * @returns {Promise<void>}
          * @protected
          */
-        async _preClose(options) { 
+        async _preClose(options) {
             this._setCollapsedElements();
         }
 

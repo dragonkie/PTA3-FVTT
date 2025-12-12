@@ -7,7 +7,7 @@ export default class PtaConsumableSheet extends PtaItemSheet {
 
     static get PARTS() {
         let p = super.PARTS;
-        p.settings = { template: "systems/pta3/templates/item/settings/consumable.hbs" };
+        p.settings = { template: `${this.TEMPLATE_PATH}/item/settings/consumable.hbs` };
         return p;
     }
 }

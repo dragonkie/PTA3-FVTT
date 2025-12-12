@@ -11,8 +11,8 @@ export default class PtaItemSheet extends PtaSheetMixin(foundry.applications.she
 
     static get PARTS() {
         return {
-            body: { template: "systems/pta3/templates/item/body.hbs" },
-            description: { template: `systems/pta3/templates/item/description.hbs` }
+            body: { template: `${this.TEMPLATE_PATH}/item/body.hbs` },
+            description: { template: `${this.TEMPLATE_PATH}/item/description.hbs` }
         }
     }
 

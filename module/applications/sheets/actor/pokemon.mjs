@@ -28,14 +28,14 @@ export default class PtaPokemonSheet extends PtaActorSheet {
     static get PARTS() {
         const p = super.PARTS;
         // Load in the main body
-        p.body = { template: 'systems/pta3/templates/actor/pokemon/body.hbs' };
+        p.body = { template: `${this.TEMPLATE_PATH}/actor/pokemon/body.hbs` };
 
         // Load in the template tabs
-        p.features = { template: 'systems/pta3/templates/actor/pokemon/features.hbs' };
-        p.skills = { template: 'systems/pta3/templates/actor/pokemon/skills.hbs' };
-        p.effects = { template: 'systems/pta3/templates/actor/parts/actor-effects.hbs' };
-        p.pokedex = { template: 'systems/pta3/templates/actor/pokemon/pokedex.hbs' };
-        p.details = { template: 'systems/pta3/templates/actor/pokemon/details.hbs' };
+        p.features = { template: `${this.TEMPLATE_PATH}/actor/pokemon/features.hbs` };
+        p.skills = { template: `${this.TEMPLATE_PATH}/actor/pokemon/skills.hbs` };
+        p.effects = { template: `${this.TEMPLATE_PATH}/actor/parts/actor-effects.hbs` };
+        p.pokedex = { template: `${this.TEMPLATE_PATH}/actor/pokemon/pokedex.hbs` };
+        p.details = { template: `${this.TEMPLATE_PATH}/actor/pokemon/details.hbs` };
         
         return p;
     }

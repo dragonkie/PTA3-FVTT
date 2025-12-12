@@ -67,12 +67,12 @@ Hooks.once('init', function () {
 
     for (const sheet of applications.sheets.actor.config) {
         if (!sheet.application) continue;
-        foundry.documents.collections.Actors.registerSheet('pta3', sheet.application, sheet.options);
+        foundry.documents.collections.Actors.registerSheet(pta.id, sheet.application, sheet.options);
     }
 
     for (const sheet of applications.sheets.item.config) {
         if (!sheet.application) continue;
-        foundry.documents.collections.Items.registerSheet('pta3', sheet.application, sheet.options);
+        foundry.documents.collections.Items.registerSheet(pta.id, sheet.application, sheet.options);
     }
 
     /* -------------------------------------------- */
@@ -124,7 +124,7 @@ async function createItemMacro(data, slot) {
     const item = await Item.fromDropData(data);
 
     // Create the macro command using the uuid.
-    const command = `game.pta3.rollItemMacro("${data.uuid}");`;
+    const command = `game.${pta.id}.rollItemMacro("${data.uuid}");`;
     let macro = game.macros.find(
         (m) => m.name === item.name && m.command === command
     );
@@ -134,7 +134,7 @@ async function createItemMacro(data, slot) {
             type: 'script',
             img: item.img,
             command: command,
-            flags: { 'pta3.itemMacro': true },
+            flags: { [`${pta.id}.itemMacro`]: true },
         });
     }
     game.user.assignHotbarMacro(macro, slot);
