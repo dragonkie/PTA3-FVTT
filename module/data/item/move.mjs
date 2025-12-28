@@ -86,7 +86,7 @@ export default class MoveData extends ItemData {
 
     static migrateData(source) {
         if (!source?.ailment?.type || !Object.keys(PTA.ailments).includes(source.ailment.type)) source.ailment = { type: "none", chance: 0 };
-        if (!source?.category|| !Object.keys(PTA.moveClass).includes(source.class)) source.category= Object.keys(PTA.moveClass)[0];
+        if (!source?.category || !Object.keys(PTA.moveClass).includes(source.category)) source.category= Object.keys(PTA.moveClass)[0];
 
         return super.migrateData(source);
     }
