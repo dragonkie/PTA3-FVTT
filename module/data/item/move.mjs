@@ -101,7 +101,7 @@ export default class MoveData extends ItemData {
     getRollData() {
         const data = super.getRollData();
         let stat_key = 'atk'
-        switch (this.class) {
+        switch (this.category) {
             case 'special':
                 stat_key = 'satk';
                 break;
