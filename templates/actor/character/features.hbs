@@ -1,7 +1,73 @@
+{{#*inline 'pokemon-move'}}
+    {{#if (eq item.type 'move')}}
+        <li class="item collapsible collapsed" data-item-uuid="{{item.uuid}}" data-uuid="{{item.uuid}}" draggable="true">
+            <div class="flexrow">
+                <div class="item-name" data-action="collapse">
+                    <div class="item-image">
+                        <img src="{{item.img}}" title="{{item.name}}">
+                    </div>
+                    <div>{{item.name}}</div>
+                </div>
+                {{#if (gt item.system.uses.max 0)}}
+                    <div>Uses [{{item.system.uses.value}}/{{item.system.uses.max}}]</div>
+                {{/if}}
+                <div class="item-controls">
+                    {{#if (not (eq item.system.uses.max item.system.uses.value))}}
+                        <a class="item-control" data-action="itemUse" data-use="reload" title="Reset Uses">
+                            <i class="fas fa-arrows-rotate"></i>
+                        </a>
+                    {{/if}}
+                    <a class="item-control fas fa-sword" data-action="itemUse" data-use="attack" title="attack"></a>
+                    <a class="item-control fas fa-edit" data-action="itemEdit" title="Edit"></a>
+                    {{#if @root.isEditMode}}<a class="item-control fas fa-trash" data-action="itemDelete" title="Delete"></a>{{/if}}
+                </div>
+            </div>
+            <div class="collapsible-content" style="width: 100%;">
+                <div class="wrapper flexcol" style="width: 100%;">
+                    <div class="flexcol flex-gap-m" style="width: 100%; padding-left: 1rem; margin: 0.5rem 0;">
+                        <div class="pta-move-details flexcol flex-gap-s">
+                            <div class="flexrow">
+                                <div><b>{{localize @root.config.generic.type}}</b>: {{item.system.type}}</div>
+                                <div><b>{{localize @root.config.generic.category}}</b>: {{item.system.category}}</div>
+                            </div>
+                            <div><b>{{localize @root.config.generic.damage}}</b>: {{item.system.damage.formula}}</div>
+                            {{#if (not (eq item.system.ailment.type null))}}
+                                <div class="text-left"><b>{{localize @root.config.generic.ailment}}</b>: {{item.system.ailment.type}}</div>
+                            {{/if}}
+                        </div>
+                        <div class="pta-move-description">
+                            <div class="text-left">
+                                {{{item.system.description}}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    {{/if}}
+{{/inline}}
+
+
 {{!-- data-application-parts="features" --}}
 <div class="pta-tab">
     <div class="flexrow flex-align-start">
         <div class="flex0">{{> 'pta.actor-ability-scores'}}</div>
-        {{> 'pta.actor-skills'}}
+        <div class="flexcol flex-gap-l">
+            {{> 'pta.actor-skills'}}
+            <div class="flexcol flex-group-start flex-gap-m">
+                <ol class="pta-move-list items-list">
+                    <span class="items-header flexrow">
+                        <span class="item-name">Moves</span>
+                        <div class="item-controls">
+                            <a data-action="importMoves" class="item-control fas fa-arrow-down-to-line" title="PTA.Button.ImportMoves"></a>
+                        </div>
+                    </span>
+                    {{#each items as | item key |}}
+                        {{#if (eq item.type 'move')}}{{> 'pokemon-move' item=item}}{{/if}}
+                    {{/each}}
+                </ol>
+            </div>
+        </div>
     </div>
+
 </div>
