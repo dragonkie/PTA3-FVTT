@@ -105,7 +105,7 @@ export default class MoveData extends ItemData {
             case 'special':
                 stat_key = 'satk';
                 break;
-            case 'effect':
+            case 'status':
                 stat_key = 'spd'
                 break;
         }
