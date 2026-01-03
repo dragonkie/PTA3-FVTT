@@ -2,7 +2,6 @@ import pokeapi from "./pokeapi.mjs";
 export const PTA = {};
 PTA.SystemId = 'pta3';
 
-
 /**
  * Load config lists from pokeapi if possible, or default if unable
  */

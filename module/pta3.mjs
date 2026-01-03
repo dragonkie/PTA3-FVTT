@@ -43,7 +43,6 @@ Hooks.once('init', function () {
 
     /**
      * Set an initiative formula for the system
-     * @type {String}
      */
     CONFIG.Combat.initiative = {
         formula: '@speed',
@@ -67,12 +66,12 @@ Hooks.once('init', function () {
 
     for (const sheet of applications.sheets.actor.config) {
         if (!sheet.application) continue;
-        foundry.documents.collections.Actors.registerSheet(pta.id, sheet.application, sheet.options);
+        foundry.documents.collections.Actors.registerSheet(game.system.id, sheet.application, sheet.options);
     }
 
     for (const sheet of applications.sheets.item.config) {
         if (!sheet.application) continue;
-        foundry.documents.collections.Items.registerSheet(pta.id, sheet.application, sheet.options);
+        foundry.documents.collections.Items.registerSheet(game.system.id, sheet.application, sheet.options);
     }
 
     /* -------------------------------------------- */
