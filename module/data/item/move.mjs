@@ -66,8 +66,10 @@ export default class MoveData extends ItemData {
         for (const a in PTA.ailments) AilmentChoices[a] = utils.localize(PTA.ailments[a]);
         schema.ailment = new SchemaField({
             type: new StringField({
-                initial: 'none',
-                choices: { ...AilmentChoices, none: PTA.generic.none },
+                blank: true,
+                initial: null,
+                nullable: true,
+                choices: AilmentChoices,
                 label: PTA.generic.ailment
             }),
             chance: new NumberField({ initial: 0, label: PTA.generic.chance })
@@ -85,9 +87,11 @@ export default class MoveData extends ItemData {
     }
 
     static migrateData(source) {
-        if (!source?.ailment?.type || !Object.keys(PTA.ailments).includes(source.ailment.type)) source.ailment = { type: "none", chance: 0 };
-        if (!source?.category) source.category = Object.keys(PTA.moveClass)[0];
-        if (!Object.keys(PTA.moveClass).includes(source.category)) source.category= Object.keys(PTA.moveClass)[0];
+        // Corrects status ailment issues
+        if (source.ailment && !Object.keys(PTA.ailments).includes(source.ailment.type)) source.ailment = { type: null, chance: 0 };
+
+        // corrects category issues
+        if (source.category && !Object.keys(PTA.moveClass).includes(source.category)) source.category = Object.keys(PTA.moveClass)[0];
 
         return super.migrateData(source);
     }
