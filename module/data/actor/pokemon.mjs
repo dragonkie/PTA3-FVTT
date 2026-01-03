@@ -16,6 +16,13 @@ export default class PokemonData extends ActorData {
 
     schema.trainer = new StringField({ ...isRequired, initial: '', blank: true });
 
+    // List of user defined tags, used for sorting and searching through pc
+    schema.tags = new ArrayField(new StringField({
+      blank: false,
+      nullable: false,
+      initial: "",
+    }), { initial: [] })
+
     schema.nature = new StringField({
       initial: utils.randomNature(),
       ...isRequired,
