@@ -164,6 +164,7 @@
       "Special": "Special",
       "Species": "Species",
       "Status": "Status",
+      "Loyalty": "Loyalty",
       "Sync": {
         "abbr": "sync",
         "long": "Synchronize"
