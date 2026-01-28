@@ -70,12 +70,10 @@ export default class PokemonData extends ActorData {
 
     });
 
-    schema.loyalty = new NumberField({initial: 0, label: PTA.generic.loyalty});
+    schema.loyalty = new NumberField({ initial: 0, label: PTA.generic.loyalty });
     schema.gender = new StringField({ ...isRequired, initial: 'male', label: PTA.generic.gender });
     schema.shiny = new BooleanField({ ...isRequired, initial: false, label: PTA.generic.shiny });
-    schema.contest = new SchemaField({
-
-    });
+    schema.contest = new SchemaField({});
 
     // Holds the base API ref that this pokemon is generated from
     schema.api_ref = new ObjectField({ initial: {} });
