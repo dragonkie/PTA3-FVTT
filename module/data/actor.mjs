@@ -180,4 +180,5 @@ export default class ActorData extends DataModel {
   get fainted() { return this.isFainted };
   get isDead() { return this.isFainted };
   get isAlive() { return !this.isFainted };
+  get getTypes() { return [this.types.primary, this.types.secondary] }
 }

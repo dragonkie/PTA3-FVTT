@@ -357,8 +357,9 @@ export function PtaTrainerMixin(BaseApplication) {
             // Set up pokebox search bar functionality
             const pokebox = this.element.querySelector('.pta-pokebox-entries');
             const searchElement = this.element.querySelector('.pta-trainer-pc-search');
-            const inputs = this.element.querySelectorAll('[data-query]');
+            const inputs = searchElement.querySelectorAll('[data-query]');
 
+            // create the filter callback to re render the scene on input change
             const cb = async () => {
                 for (const ele of pokebox.querySelectorAll('[data-pokemon-uuid]')) {
                     ele.classList.remove('obliterated');
@@ -366,9 +367,18 @@ export function PtaTrainerMixin(BaseApplication) {
 
                     for (const input of inputs) {
                         if (input.dataset.query == 'name') {
-                            let query = input.value.toLowerCase();
-                            if (query == "") continue;
+                            const query = input?.value?.toLowerCase();
+                            if (!query || query == "") continue;
                             if (!pokemon.name.toLowerCase().startsWith(query) && !pokemon.system.species.toLowerCase().startsWith(query)) ele.classList.add('obliterated');
+                        }
+
+                        if (input.dataset.query == 'type') {
+                            const queries = input?.value?.toLowerCase().replaceAll(",", " ").split(" ");
+                            const types = pokemon.system.getTypes;
+
+                            for (const query of queries) {
+                                if (!pokemon.system.types.primary.startsWith(query) && !pokemon.system.types.secondary.startsWith(query)) ele.classList.add('obliterated');
+                            }
                         }
 
                         if (input.dataset.query == 'female' && input.checked && pokemon.system.gender.toLowerCase() != "female") ele.classList.add('obliterated');
@@ -378,7 +388,10 @@ export function PtaTrainerMixin(BaseApplication) {
                 }
             }
 
+            // attach the new listeners
             for (const input of inputs) input.addEventListener('input', cb);
+
+            // return the render state
             return r;
         }
     }

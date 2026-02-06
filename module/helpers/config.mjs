@@ -84,6 +84,7 @@ PTA.generic = {
   data: 'PTA.Generic.Data',
   description: 'PTA.Generic.Description',
   eyes: 'PTA.Generic.Eyes',
+  export: 'PTA.Generic.Export',
   gender: 'PTA.Generic.Gender',
   hair: 'PTA.Generic.Hair',
   height: 'PTA.Generic.Height',
@@ -102,8 +103,8 @@ PTA.generic = {
   size: 'PTA.Generic.Size',
   species: 'PTA.Generic.Species',
   sync: 'PTA.Generic.Sync.long',
-  type: 'PTA.Generic.Type.long',
-  types: 'PTA.Generic.Type.plural',
+  type: 'PTA.Generic.Type',
+  types: 'PTA.Generic.Types',
   weight: 'PTA.Generic.Weight',
   category: 'PTA.Generic.Category',
   loyalty: 'PTA.Generic.Loyalty'
