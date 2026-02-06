@@ -343,6 +343,11 @@ export default function PtaSheetMixin(Base) {
         //> Collapsible content persistence
         //======================================================================================================
         _collapsedElements = [];
+
+        /**
+         * Saves the list of elements to be collapsed and their state
+         * @returns 
+         */
         _getCollapsedElements() {
             if (this.rendered) {
                 this._collapsedElements = [];
@@ -374,6 +379,9 @@ export default function PtaSheetMixin(Base) {
                         // Progress to the next parent
                         ele = ele.parentElement;
                     }
+
+                    // Clear out redundant data points
+                    selector = selector.replaceAll(/(\[class\]|\[style\])/gm, "");
 
                     this._collapsedElements.push({
                         collapsed: element.classList.contains('collapsed'),
