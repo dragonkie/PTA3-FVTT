@@ -140,6 +140,7 @@
       "Effect": "Effect",
       "Movement": "Movement",
       "Eyes": "Eyes",
+      "Export": "Export",
       "Gender": "Gender",
       "Hair": "Hair",
       "Half": "Half",
@@ -150,6 +151,7 @@
       "Immune": "Immune",
       "Import": "Import",
       "MaxHealth": "Max Health",
+      "Name": "Name",
       "Nature": "Nature",
       "None": "None",
       "Normal": "Normal",
@@ -170,10 +172,8 @@
         "long": "Synchronize"
       },
       "Trainer": "Trainer",
-      "Type": {
-        "long": "Type",
-        "plural": "Types"
-      },
+      "Type": "Type",
+      "Types": "Types",
       "Weight": "Weight"
     },
     "Method": {
