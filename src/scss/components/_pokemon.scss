@@ -2,6 +2,12 @@
 
 /* Classes for creating pokemon type boxs and their effects */
 
+.pta-pokemon-team-view {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 225px;
+}
+
 ol.pta-pokemon-team {
     list-style: none;
     padding: 0;

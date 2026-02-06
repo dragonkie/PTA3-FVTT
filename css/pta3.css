@@ -616,6 +616,12 @@ prose-mirror.active .editor-container {
 
 /* Import utilities */
 /* Classes for creating pokemon type boxs and their effects */
+.pta-pokemon-team-view {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 225px;
+}
+
 ol.pta-pokemon-team {
   list-style: none;
   padding: 0;
@@ -1123,6 +1129,9 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   width: 100%;
   min-height: 300px;
   padding: 2px;
+}
+.pta .pta-tab.pta-pokemon-tab {
+  min-height: 525px;
 }
 .pta .remote-image-browser .sprite-gallery {
   display: grid;
