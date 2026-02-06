@@ -187,8 +187,12 @@ export default function PtaSheetMixin(Base) {
         }
 
         static _onCollapse(event, target) {
-            let ele = target.closest('.collapsible');
-            ele.classList.toggle('collapsed')
+            // toggle the collapsed state
+            const ele = target.closest('.collapsible');
+            ele.classList.toggle('collapsed');
+
+            // add the transition class temporarily
+            ele.classList.add('animating');
         }
 
         static async _onCreateEffect(event, target) {
@@ -362,13 +366,10 @@ export default function PtaSheetMixin(Base) {
                         let s = `${ele.nodeName}`; // classes
 
                         // add elements classes
-                        for (const c of ele.classList) if (c != "collapsed" && c != "active") s += `.${c}`;
+                        for (const c of ele.classList) if (c != "collapsed" && c != "active" && c != 'animating') s += `.${c}`;
 
                         // add element attributes
-                        for (const a of ele.attributes) {
-                            if (a.name == 'class' || a.name == 'style') s += `[${a.name}]`;
-                            else s += `[${a.name}="${a.value}"]`;
-                        }
+                        for (const a of ele.attributes) if (a.name != 'class' && a.name != 'style') s += `[${a.name}="${a.value}"]`;
 
                         // add this elements selector to the unique selector
                         selector = s + ' ' + selector;
@@ -379,9 +380,6 @@ export default function PtaSheetMixin(Base) {
                         // Progress to the next parent
                         ele = ele.parentElement;
                     }
-
-                    // Clear out redundant data points
-                    selector = selector.replaceAll(/(\[class\]|\[style\])/gm, "");
 
                     this._collapsedElements.push({
                         collapsed: element.classList.contains('collapsed'),
@@ -394,8 +392,9 @@ export default function PtaSheetMixin(Base) {
         }
 
         _setCollapsedElements() {
+            const list = [];
             if (this._collapsedElements.length > 0 && this.rendered) {
-                const list = [];
+                let c = 0;
                 this._collapsedElements.forEach(({ selector, collapsed }) => {
                     const ele = this.element.querySelector(selector);
                     if (!ele) {
@@ -407,6 +406,8 @@ export default function PtaSheetMixin(Base) {
                     else ele.classList.remove('collapsed');
                 })
             }
+
+            return list;
         }
 
         //======================================================================================================

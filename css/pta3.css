@@ -998,10 +998,12 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 .collapsible.collapsed .collapsible-content {
   grid-template-rows: 0fr;
 }
+.collapsible.animating .collapsible-content {
+  transition: all 0.3s ease-in-out;
+}
 .collapsible .collapsible-content {
   display: grid;
   grid-template-rows: 1fr;
-  transition: all 0.3s ease-in-out;
 }
 .collapsible .collapsible-content > .wrapper {
   overflow: hidden;
@@ -1142,3 +1144,5 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   border: none;
   image-rendering: pixelated;
 }
+
+/*# sourceMappingURL=pta3.css.map */

@@ -7,6 +7,7 @@
 */
 
 .collapsible {
+
   .fa-caret-down {
     transition: all 0.3s ease-in-out;
   }
@@ -21,10 +22,15 @@
     }
   }
 
+  &.animating {
+    .collapsible-content {
+      transition: all 0.3s ease-in-out;
+    }
+  }
+
   .collapsible-content {
     display: grid;
     grid-template-rows: 1fr;
-    transition: all 0.3s ease-in-out;
 
     >.wrapper {
       overflow: hidden;
