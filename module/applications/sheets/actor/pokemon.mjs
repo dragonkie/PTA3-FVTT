@@ -17,10 +17,16 @@ export default class PtaPokemonSheet extends PtaActorSheet {
                 label: PTA.generic.import,
                 action: 'importData',
                 ownership: 3
+            }, {
+                icon: 'fas fa-upload',
+                label: PTA.generic.export,
+                action: 'exportData',
+                ownership: 3
             }]
         },
         actions: {
             importData: this._onImportData,
+            exportData: this._onExportData,
             syncData: this._onSyncData
         }
     }
@@ -36,7 +42,7 @@ export default class PtaPokemonSheet extends PtaActorSheet {
         p.effects = { template: `${this.TEMPLATE_PATH}/actor/parts/actor-effects.hbs` };
         p.pokedex = { template: `${this.TEMPLATE_PATH}/actor/pokemon/pokedex.hbs` };
         p.details = { template: `${this.TEMPLATE_PATH}/actor/pokemon/details.hbs` };
-        
+
         return p;
     }
 
@@ -57,6 +63,30 @@ export default class PtaPokemonSheet extends PtaActorSheet {
     //============================================================================================================
     static async _onImportData() {
         let pokemon = await utils.importPokemonData({ all: true });
+    }
+
+    /**
+     * 
+     */
+    static _onExportData() {
+        // function for creating a downloadable element to store the data
+        function download(content, fileName, contentType) {
+            const a = document.createElement("a");
+            const file = new Blob([content], { type: contentType });
+            a.href = URL.createObjectURL(file);
+            a.download = fileName;
+            a.click();
+        }
+
+        // gather and prepare needed actor data
+        const doc = this.document;
+        const data = doc.toObject();
+        var json = JSON.stringify(data);
+
+        // filter out uneccessary fields
+        json = json.replaceAll(/,"_stats":{(.*?)}/gm, "");
+
+        download(json, `${doc.name}.json`, 'text/plain');
     }
 
     static async _onSyncData() {
