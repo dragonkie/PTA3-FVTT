@@ -28,7 +28,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         // Tab bodies
         features: { template: `${this.TEMPLATE_PATH}/actor/character/features.hbs` },
         inventory: { template: `${this.TEMPLATE_PATH}/actor/character/inventory.hbs` },
-        pokebox: { template: `${this.TEMPLATE_PATH}/actor/character/pokemon.hbs` },
+        pokebox: { template: `${this.TEMPLATE_PATH}/actor/character/pokemon.hbs`, scrollable: ["div.pta-pokebox-entries"] },
         effects: { template: `${this.TEMPLATE_PATH}/actor/parts/actor-effects.hbs` },
         details: { template: `${this.TEMPLATE_PATH}/actor/character/details.hbs` },
     }
@@ -57,7 +57,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         return frame;
     }
 
-    //=======================================================================================
+    //======================================================================================= 
     //> Data preperation
     //=======================================================================================
 
@@ -214,7 +214,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
 
     /**
      * 
-     * @param {*} uuid 
+     * @param {String} uuid - foundry unique identifier for this specific actor
      * @param {Boolean|Undefined} state - Force the pokemon to be in a specific state
      * @returns 
      */
