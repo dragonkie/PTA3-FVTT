@@ -39,15 +39,15 @@ export default class PokemonData extends ActorData {
       }
     });
 
-    schema.eggGroup = new StringField({
-      initial: null,
+    schema.eggTypes = new ArrayField(new StringField({
+      initial: "",
       blank: true,
       choices: () => {
         let data = {};
         for (const egg in PTA.eggTypes) data[egg] = utils.localize(PTA.eggTypes[egg]);
         return data;
       }
-    })
+    }), { initial: [] })
 
     schema.species = new StringField({ initial: "", label: PTA.generic.species })
 
