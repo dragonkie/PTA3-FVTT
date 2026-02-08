@@ -15,6 +15,12 @@
         </div>
     </div>
     {{systemFieldGroup system 'loyalty'}}
+    <div class="flexcol">
+        <a data-action="configEggGroups"><i class="fas fa-plus"></i></a><b>Egg Groups</b>
+        {{#each system.eggTypes as |egg|}}
+            <div>{{egg}}</div>
+        {{/each}}
+    </div>
     <div class="flexcol flex-gap-s">
         <div class="description collapsible">
             <div class="flexrow" data-action="collapse">
