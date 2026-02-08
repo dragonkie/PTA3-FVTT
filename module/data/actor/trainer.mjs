@@ -1,3 +1,6 @@
+import ActorData from "../actor.mjs";
+const { SchemaField, NumberField, BooleanField, StringField, ArrayField, DataField, ObjectField, HTMLField } = foundry.data.fields;
+
 export default class TrainerData extends ActorData {
 
     static defineSchema() {
