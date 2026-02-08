@@ -1,7 +1,4 @@
 <div class="pta-tab flex-gap-m flexcol">
-    <div class="flexrow flex-gap-l">
-        <a data-action="editResistance" class="fas fa-cog flex0"></a><b> Resistance Overrides</b>
-    </div>
     <div class="flexrow flex-gap-m">
         <div class="flexcol flex-gap-m">
             {{systemFieldGroup system 'shiny'}}
@@ -16,12 +13,17 @@
     </div>
     {{systemFieldGroup system 'loyalty'}}
     <div class="flexcol">
-        <a data-action="editEggGroups"><i class="fas fa-plus"></i></a><b>Egg Groups</b>
+        <div class="flexrow flex-gap-l">
+            <a data-action="editEggGroups" class="fas fa-cog flex0"></a><b>Egg Groups</b>
+            </div>
         <div class="flexrow flex-gap-s">
             {{#each system.eggTypes as |egg|}}
                 <div class="flex0">{{egg}}</div>
             {{/each}}
         </div>
+    </div>
+    <div class="flexrow flex-gap-l">
+        <a data-action="editResistance" class="fas fa-cog flex0"></a><b>Resistance Overrides</b>
     </div>
     <div class="flexcol flex-gap-s">
         <div class="description collapsible">
