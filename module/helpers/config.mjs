@@ -673,9 +673,22 @@ PTA.templates = {
   app: {
     importMoves: templatePath('apps/move-importer.hbs'),
     importPokemon: templatePath('apps/pokemon-importer.hbs'),
-    remoteAssetBrowser: templatePath('apps/server-browser.hbs')
+    remoteAssetBrowser: templatePath('apps/server-browser.hbs'),
+    trainerBrowser: templatePath('apps/trainer-browser.hbs')
   },
   sheet: {
 
   }
+}
+
+PTA.windowTitle = {
+  trainerBrowser: 'PTA.Title.TrainerBrowser',
+  creatureImporter: 'PTA.Title.CreatureImporter',
+  moveImporter: 'PTA.Title.MoveImporter',
+  serverBrowser: 'PTA.Title.ServerBrowser',
+  configResist: 'PTA.Title.ConfigResist',
+  fileServer: 'PTA.Title.FileServer',
+  releaseCreature: 'PTA.Title.ReleaseCreature',
+  selectCreature: 'PTA.Title.SelectCreature',
+  useItem: 'PTA.Title.UseItem'
 }

@@ -250,7 +250,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         content += '</div>';
 
         let app = await new PtaDialog({
-            window: { title: 'PTA.Title.ConfigResist' },
+            window: { title: PTA.windowTitle.configResist },
             id: `Actor.${this.document.id}.resist-config`,
             content: content,
             classes: ['pta'],

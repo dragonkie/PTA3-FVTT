@@ -222,7 +222,7 @@ export default class ConsumableData extends ItemData {
             // Converts the target actor into a data object to manipulate
             // if something fails along the way, we can abandon changes then
             const _uDoc = target_actor.toObject();
-            const message_data= {content: "", flavor: "", speaker: this.actor};
+            const message_data = { content: "", flavor: "", speaker: this.actor };
             try {
                 if (this.actor.uuid == target_actor.uuid) message_data.content += `${this.actor.name} used a ${this.parent.name} on themself!`;
                 else message_data.content += `${this.actor.name} used a ${this.parent.name} on ${target_actor.name}`;
@@ -269,7 +269,7 @@ export default class ConsumableData extends ItemData {
         try {
             const uuid = await new Promise(async (resolve, reject) => {
                 const app = await new PtaDialog({
-                    window: { title: "PTA.Dialog.PokemonSelect" },
+                    window: { title: PTA.windowTitle.selectCreature },
                     content: selector,
                     buttons: [{
                         label: "Cancel",

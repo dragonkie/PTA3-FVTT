@@ -7,7 +7,7 @@ export default class PokemonImporter extends PtaApplication {
     static DEFAULT_OPTIONS = {
         classes: ['importer'],
         window: {
-            title: "PTA.App.PokemonImporter",
+            title: PTA.windowTitle.creatureImporter,
             icon: "fa-solid fa-download",
             minimizable: false,
             resizeable: false,

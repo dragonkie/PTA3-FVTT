@@ -6,7 +6,7 @@ export default class ServerBrowser extends PtaApplication {
     static DEFAULT_OPTIONS = {
         classes: ['browser'],
         window: {
-            title: "PTA.App.ServerBrowser",
+            title: PTA.windowTitle.serverBrowser,
             icon: "fa-solid fa-wifi",
             minimizable: false,
             resizeable: false,
@@ -22,10 +22,8 @@ export default class ServerBrowser extends PtaApplication {
         }
     }
 
-    static get PARTS() {
-        let p = {};
-        p.main = { template: PTA.templates.app.remoteAssetBrowser }
-        return p;
+    static PARTS = {
+        main: { template: PTA.templates.app.remoteAssetBrowser }
     }
 
     constructor(options = {}) {

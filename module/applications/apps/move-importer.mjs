@@ -8,7 +8,7 @@ export default class MoveImporter extends PtaApplication {
     static DEFAULT_OPTIONS = {
         classes: ['importer'],
         window: {
-            title: "PTA.App.PokemonImporter",
+            title: PTA.windowTitle.moveImporter,
             icon: "fa-solid fa-download",
             minimizable: false,
             resizeable: false,
@@ -27,10 +27,8 @@ export default class MoveImporter extends PtaApplication {
 
     move_selections = [];
 
-    static get PARTS() {
-        let p = {};
-        p.main = { template: PTA.templates.app.importMoves }
-        return p;
+    static PARTS = {
+        main: { template: PTA.templates.app.importMoves }
     }
 
     async _prepareContext() {

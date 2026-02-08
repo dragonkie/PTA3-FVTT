@@ -11,6 +11,7 @@ import PtaMoveSheet from "./sheets/item/move.mjs";
 import PokemonImporter from "./apps/pokemon-importer.mjs";
 import ServerBrowser from "./apps/server-browser.mjs";
 import MoveImporter from "./apps/move-importer.mjs";
+import TrainerBrowser from "./apps/trainer-browser.mjs";
 
 
 
@@ -96,6 +97,7 @@ export default {
     apps: {
         PokemonImporter,
         MoveImporter,
-        ServerBrowser
+        ServerBrowser,
+        TrainerBrowser,
     }
 }

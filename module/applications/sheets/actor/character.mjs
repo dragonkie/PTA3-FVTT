@@ -1,3 +1,4 @@
+import { PTA } from "../../../helpers/config.mjs";
 import utils from "../../../helpers/utils.mjs";
 import PtaDialog from "../../dialog.mjs";
 import PtaActorSheet, { PtaTrainerMixin } from "../actor.mjs";
@@ -258,7 +259,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         try {
             if (!event.shiftKey) {
                 let confirm = await PtaDialog.confirm({
-                    title: 'PTA.Dialog.ReleasePokemon.title',
+                    title: PTA.windowTitle.releaseCreature,
                     content: `
                     <p>PTA.Dialog.ReleasePokemon.content</p>
                     <p>Are you sure you would like to release <b>${pokemon.name}</b>?</p>`

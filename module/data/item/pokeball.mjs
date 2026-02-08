@@ -124,7 +124,7 @@ export default class PokeballData extends ItemData {
                 content: template,
                 classes: ['pta'],
                 window: {
-                    title: "PTA.Title.UseCaptureSphere"
+                    title: PTA.windowTitle.useItem
                 },
                 buttons: [{
                     label: "Confirm",

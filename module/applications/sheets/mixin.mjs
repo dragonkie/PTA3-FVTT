@@ -139,7 +139,7 @@ export default function PtaSheetMixin(Base) {
 
             const selection = await new Promise(async (resolve, reject) => {
                 const app = await new PtaDialog({
-                    window: { title: "PTA.Dialog.FileLocation" },
+                    window: { title: PTA.windowTitle.fileServer },
                     content: await utils.renderTemplate(PTA.templates.dialog.fileServerSelect),
                     buttons: [{
                         label: "Cancel",

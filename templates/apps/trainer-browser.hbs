@@ -1,0 +1,30 @@
+<div class="flexcol pta-trainer-browser">
+    {{!-- Actor search controls --}}
+    <div class="flexcol">
+        <input type="text" placeholder="{{localize 'PTA.Generic.Name'}} / {{localize 'PTA.Generic.Species'}}">
+        <input type="text" placeholder="{{localize 'PTA.Generic.Type'}}">
+        <div class="flexrow">
+            <div class="flexrow">
+                <input type="checkbox">
+                <div>{{localize 'PTA.Generic.Shiny'}}</div>
+            </div>
+            <div class="flexrow">
+                <input type="checkbox">
+                <div>{{localize 'PTA.Generic.Male'}}</div>
+            </div>
+            <div class="flexrow">
+                <input type="checkbox">
+                <div>{{localize 'PTA.Generic.Female'}}</div>
+            </div>
+        </div>
+    </div>
+    {{!-- List of actors --}}
+    <div class="flexrow">
+        {{#each actors as |actor|}}
+            <div class="flexrow flex0">
+                <img class="flex0" src="{{actor.img}}" width="50" height="50">
+                <div>{{actor.name}}</div>
+            </div>
+        {{/each}}
+    </div>
+</div>
