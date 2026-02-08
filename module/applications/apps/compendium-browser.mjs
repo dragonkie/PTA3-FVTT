@@ -25,7 +25,7 @@ export default class CompendiumBrowser extends PtaApplication {
         },
         position: {
             width: 600,
-            height: 600
+            height: 800
         },
         actions: {
 
