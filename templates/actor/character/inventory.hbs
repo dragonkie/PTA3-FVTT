@@ -1,7 +1,7 @@
 <div class="pta-tab">
     <div class="flexcol flex">
         {{#each itemTypes}}
-            {{#if (not (eq (arrayLength this) 0) )}}
+            {{#if (and (not (eq @key 'base'))(not (eq @key 'move') ))}}
                 <ol class="pta-inventory items-list collapsible pta-{{@key}}-list">
                     <li class="items-header flexrow">
                         <span class="item-name flexrow flex-gap-m" data-action="collapse">
