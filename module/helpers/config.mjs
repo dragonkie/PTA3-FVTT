@@ -685,6 +685,7 @@ PTA.templates = {
     fileServerSelect: templatePath('dialog/file-server-selector.hbs'),
     rollCaptureSphere: templatePath('dialog/roll-capture-sphere.hbs'),
     configResistanceOverride: templatePath('dialog/config-resistance-override.hbs'),
+    configEggGroups: templatePath('dialog/config-egg-groups.hbs'),
   },
   app: {
     importMoves: templatePath('apps/move-importer.hbs'),
@@ -703,6 +704,7 @@ PTA.windowTitle = {
   moveImporter: 'PTA.Title.MoveImporter',
   serverBrowser: 'PTA.Title.ServerBrowser',
   configResist: 'PTA.Title.ConfigResist',
+  configEggGroups: 'PTA.Title.ConfigEggGroups',
   fileServer: 'PTA.Title.FileServer',
   releaseCreature: 'PTA.Title.ReleaseCreature',
   selectCreature: 'PTA.Title.SelectCreature',
