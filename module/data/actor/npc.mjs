@@ -1,6 +1,6 @@
-import ActorData from "../actor.mjs";
+import TrainerData from "./trainer.mjs";
 
-export default class NpcData extends ActorData {
+export default class NpcData extends TrainerData {
 
   static defineSchema() {
     const fields = foundry.data.fields;

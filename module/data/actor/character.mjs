@@ -1,12 +1,12 @@
 import { PTA } from "../../helpers/config.mjs";
 import utils from "../../helpers/utils.mjs";
-import ActorData from "../actor.mjs";
+import TrainerData from "./trainer.mjs";
 
 const {
   ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField, ObjectField
 } = foundry.data.fields;
 
-export default class CharacterData extends ActorData {
+export default class CharacterData extends TrainerData {
 
   static defineSchema() {
     const requiredInteger = { required: true, nullable: false, integer: true };
@@ -14,8 +14,6 @@ export default class CharacterData extends ActorData {
 
     schema.honours = new NumberField({ ...requiredInteger, initial: 0, min: 0, label: PTA.generic.honours });
     schema.origin = new StringField({ initial: "", label: PTA.generic.origin });
-
-    schema.credits = new NumberField({ ...requiredInteger, initial: 0 });
 
     // list of owned pokemon
     schema.pokemon = new ArrayField(new SchemaField({
