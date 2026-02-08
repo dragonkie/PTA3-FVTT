@@ -446,6 +446,23 @@ PTA.typeEffectiveness = {
   }
 };
 
+PTA.eggTypes = {
+  water1: 'PTA.EggType.Water1',
+  water2: 'PTA.EggType.Water2',
+  water3: 'PTA.EggType.Water3',
+  monster: 'PTA.EggType.Monster',
+  bug: 'PTA.EggType.Bug',
+  flying: 'PTA.EggType.Flying',
+  ground: 'PTA.EggType.Ground',
+  fairy: 'PTA.EggType.Fairy',
+  plant: 'PTA.EggType.Plant',
+  humanoid: 'PTA.EggType.Humanoid',
+  mineral: 'PTA.EggType.Mineral',
+  indeterminate: 'PTA.EggType.Unknown',
+  ditto: 'PTA.EggType.Ditto',
+  dragon: 'PTA.EggType.Dragon',
+}
+
 //===================================================================================
 //> Status Ailments
 //===================================================================================
