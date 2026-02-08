@@ -59,10 +59,12 @@
             {{!-- List of actors --}}
             <div class="flexrow">
                 {{#each actors as |actor|}}
-                    <div class="flexrow flex0">
-                        <img class="flex0" src="{{actor.img}}" width="50" height="50">
-                        <div>{{actor.name}}</div>
-                    </div>
+                    {{#if (eq actor.type 'pokemon')}}
+                        <div class="flexrow flex0">
+                            <img class="flex0" src="{{actor.img}}" width="50" height="50">
+                            <div>{{actor.name}}</div>
+                        </div>
+                    {{/if}}
                 {{/each}}
             </div>
         </div>
