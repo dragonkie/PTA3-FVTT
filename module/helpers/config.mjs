@@ -288,9 +288,8 @@ PTA.skillSpeed = {
 };
 
 PTA.genders = {
-  male: 'PTA.Gender.Male',
-  female: 'PTA.Gender.Female',
-  none: PTA.generic.none
+  male: 'PTA.Generic.Male',
+  female: 'PTA.Generic.Female',
 }
 
 //===================================================================================

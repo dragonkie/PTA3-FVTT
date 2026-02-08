@@ -26,6 +26,23 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
         return {}
     };
 
+    tabGroups = {};
+
+    static TABS = {};
+
+    _getTabs() {
+        return Object.values(this.constructor.TABS).reduce((acc, v) => {
+            const isActive = this.tabGroups[v.group] === v.id;
+            acc[v.id] = {
+                ...v,
+                active: isActive,
+                cssClass: isActive ? "item active" : "item",
+                tabCssClass: isActive ? "tab active" : "tab"
+            };
+            return acc;
+        }, {});
+    }
+
     async _prepareContext(options) { return {} };
     //==========================================================================================
     //> Sheet actions

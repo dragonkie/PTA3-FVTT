@@ -31,7 +31,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
     };
 
     tabGroups = {
-        primary: "traits"
+        
     };
 
     //====================================================================================================

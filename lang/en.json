@@ -123,6 +123,8 @@
       "Sweet": "Sweet"
     },
     "Generic": {
+      "Male": "Male",
+      "Female": "Female",
       "Accuracy": "Accuracy",
       "Age": "Age",
       "Ailment": "Ailment",
@@ -309,6 +311,7 @@
       "SelectCreature": "Select Pokémon",
       "ServerBrowser": "Remote Server Browser",
       "TransferRune": "Transfer Rune",
+      "TrainerBrowser": "Trainer Browser",
       "UseCaptureSphere": "Use Capture Sphere",
       "UseItem": "Use Item",
       "MoveImporter": "Import moves",

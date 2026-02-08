@@ -1,30 +1,70 @@
 <div class="flexcol pta-trainer-browser">
-    {{!-- Actor search controls --}}
-    <div class="flexcol">
-        <input type="text" placeholder="{{localize 'PTA.Generic.Name'}} / {{localize 'PTA.Generic.Species'}}">
-        <input type="text" placeholder="{{localize 'PTA.Generic.Type'}}">
-        <div class="flexrow">
-            <div class="flexrow">
-                <input type="checkbox">
-                <div>{{localize 'PTA.Generic.Shiny'}}</div>
+    {{!-- Tab controls --}}
+    <nav class="sheet-tabs tabs">
+        {{#each tabs}}
+            <a class="{{cssClass}}" data-action="tab" data-tab="{{id}}" data-group="primary">{{localize label}}</a>
+        {{/each}}
+    </nav>
+    <div class="pta-tab-wrapper tabs">
+        {{!-- TRAINER MANAGEMENT VIEW--}}
+        <div class="tab {{#if (eq activeTab 'trainers')}}active{{/if}}" data-group="primary" data-tab="trainers">
+            Trainer tab
+        </div>
+
+        {{!-- ITEM MANAGEMENT VIEW--}}
+        <div class="tab {{#if (eq activeTab 'items')}}active{{/if}}" data-group="primary" data-tab="items">
+            Item tab
+        </div>
+
+        {{!-- POKEMON MANAGEMENT VIEW--}}
+        <div class="tab {{#if (eq activeTab 'pokemon')}}active{{/if}}" data-group="primary" data-tab="pokemon">
+            {{!-- Pokemon search controls --}}
+            <div class="flexcol flex-gap-m">
+                <input type="text" placeholder="{{localize 'PTA.Generic.Name'}} / {{localize 'PTA.Generic.Species'}}">
+                <input type="text" placeholder="{{localize 'PTA.Generic.Type'}}">
+                <div class="flexrow flex-gap-s">
+                    <div class="flexrow">
+                        <div>Gender</div>
+                        <select class="flexlarge">
+                            <option value="null" selected></option>
+                            <option value="male">{{localize 'PTA.Generic.Male'}}</option>
+                            <option value="female">{{localize 'PTA.Generic.Female'}}</option>
+                        </select>
+                    </div>
+                    <div class="flexrow">
+                        <div>Wild</div>
+                        <select class="flexlarge">
+                            <option value="null" selected></option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flexrow flex-gap-s">
+                    <div class="flexrow">
+                        <div>Egg</div>
+                        <select class="flexlarge">
+                            <option value="null" selected></option>
+                            {{#each config.Pokedex.Eggs as |egg|}}
+                                <option value="{{egg}}">{{egg}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="flexrow">
+                        <div>{{localize 'PTA.Generic.Shiny'}}</div>
+                        <input type="checkbox" class="flex0">
+                    </div>
+                </div>
             </div>
+            {{!-- List of actors --}}
             <div class="flexrow">
-                <input type="checkbox">
-                <div>{{localize 'PTA.Generic.Male'}}</div>
-            </div>
-            <div class="flexrow">
-                <input type="checkbox">
-                <div>{{localize 'PTA.Generic.Female'}}</div>
+                {{#each actors as |actor|}}
+                    <div class="flexrow flex0">
+                        <img class="flex0" src="{{actor.img}}" width="50" height="50">
+                        <div>{{actor.name}}</div>
+                    </div>
+                {{/each}}
             </div>
         </div>
-    </div>
-    {{!-- List of actors --}}
-    <div class="flexrow">
-        {{#each actors as |actor|}}
-            <div class="flexrow flex0">
-                <img class="flex0" src="{{actor.img}}" width="50" height="50">
-                <div>{{actor.name}}</div>
-            </div>
-        {{/each}}
     </div>
 </div>
