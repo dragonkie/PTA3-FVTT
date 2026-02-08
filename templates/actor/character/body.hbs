@@ -11,8 +11,7 @@
                 <div class="progress-bar">
                     <label>Health</label>
                     <div class="wrapper">
-                        <div class="bar {{#if (lt (divide system.hp.value system.hp.total) 0.33)}}red{{else}}green{{/if}}"
-                            style="width: {{multiply 100 (divide system.hp.value system.hp.total)}}%;">
+                        <div class="bar {{#if (lt (divide system.hp.value system.hp.total) 0.33)}}red{{else}}green{{/if}}" style="width: {{multiply 100 (divide system.hp.value system.hp.total)}}%;">
                         </div>
                         <div class="pta-s flexrow">
                             {{systemFieldInput system 'hp.value'}}
@@ -29,19 +28,19 @@
             {{!-- Character classes --}}
             <div class="pta-level flexcol flex-gap-s flex-align-start">
                 <div class="flexrow flex-gap-s">
-                    <input class="flex0" style="min-width: 2rem;" type="number" disabled value="{{system.class_1.level}}">
+                    <input class="flex0 text-center" style="min-width: 2rem;" type="number" disabled value="{{system.class_1.level}}">
                     <input type="text" name="system.class_1.label" value="{{system.class_1.label}}" placeholder="First Class">
                 </div>
                 <div class="flexrow flex-gap-s">
-                    <input class="flex0" style="min-width: 2rem;" type="number" disabled value="{{system.class_2.level}}">
+                    <input class="flex0 text-center" style="min-width: 2rem;" type="number" disabled value="{{system.class_2.level}}">
                     <input type="text" name="system.class_2.label" value="{{system.class_2.label}}" placeholder="Second Class">
                 </div>
                 <div class="flexrow flex-gap-s">
-                    <input class="flex0" style="min-width: 2rem;" type="number" disabled value="{{system.class_3.level}}">
+                    <input class="flex0 text-center" style="min-width: 2rem;" type="number" disabled value="{{system.class_3.level}}">
                     <input type="text" name="system.class_3.label" value="{{system.class_3.label}}" placeholder="Third Class">
                 </div>
                 <div class="flexrow flex-gap-s">
-                    <input class="flex0" style="min-width: 2rem;" type="number" disabled value="{{system.class_4.level}}">
+                    <input class="flex0 text-center" style="min-width: 2rem;" type="number" disabled value="{{system.class_4.level}}">
                     <input type="text" name="system.class_4.label" value="{{system.class_4.label}}" placeholder="Fourth Class">
                 </div>
             </div>
