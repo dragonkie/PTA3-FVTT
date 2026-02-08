@@ -40,6 +40,11 @@ export default class CharacterData extends ActorData {
       eyes: new StringField({ label: PTA.generic.eyes, initial: '' })
     })
 
+    //===================================================================================
+    //> Pokemon player specific options
+    //===================================================================================
+    schema.isPokemon = new BooleanField({ initial: false, nullable: false, required: true });
+
     return schema;
   }
 
