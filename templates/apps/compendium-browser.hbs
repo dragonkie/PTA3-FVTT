@@ -19,40 +19,48 @@
         {{!-- POKEMON MANAGEMENT VIEW--}}
         <div class="tab {{#if (eq activeTab 'pokemon')}}active{{/if}}" data-group="primary" data-tab="pokemon">
             {{!-- Pokemon search controls --}}
-            <div class="flexcol flex-gap-m">
+            <div class="flexcol flex-gap-m collapsible">
                 <input type="text" placeholder="{{localize 'PTA.Generic.Name'}} / {{localize 'PTA.Generic.Species'}}">
                 <input type="text" placeholder="{{localize 'PTA.Generic.Type'}}">
-                <div class="flexrow flex-gap-s">
-                    <div class="flexrow">
-                        <div>Gender</div>
-                        <select class="flexlarge">
-                            <option value="null" selected></option>
-                            <option value="male">{{localize 'PTA.Generic.Male'}}</option>
-                            <option value="female">{{localize 'PTA.Generic.Female'}}</option>
-                        </select>
-                    </div>
-                    <div class="flexrow">
-                        <div>Wild</div>
-                        <select class="flexlarge">
-                            <option value="null" selected></option>
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="flexrow flex-gap-s">
-                    <div class="flexrow">
-                        <div>Egg</div>
-                        <select class="flexlarge">
-                            <option value="null" selected></option>
-                            {{#each config.Pokedex.Eggs as |egg|}}
-                                <option value="{{egg}}">{{egg}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-                    <div class="flexrow">
-                        <div>{{localize 'PTA.Generic.Shiny'}}</div>
-                        <input type="checkbox" class="flex0">
+                <a class="flexrow" data-action="collapse">
+                    <i class="fa-solid fa-caret-down"></i>
+                    <label>Advanced Filters</label>
+                </a>
+                <div class="collapsible-content">
+                    <div class="wrapper">
+                        <div class="flexrow flex-gap-s">
+                            <div class="flexrow">
+                                <div>Gender</div>
+                                <select class="flexlarge">
+                                    <option value="null" selected></option>
+                                    <option value="male">{{localize 'PTA.Generic.Male'}}</option>
+                                    <option value="female">{{localize 'PTA.Generic.Female'}}</option>
+                                </select>
+                            </div>
+                            <div class="flexrow">
+                                <div>Wild</div>
+                                <select class="flexlarge">
+                                    <option value="null" selected></option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flexrow flex-gap-s">
+                            <div class="flexrow">
+                                <div>Egg</div>
+                                <select class="flexlarge">
+                                    <option value="null" selected></option>
+                                    {{#each config.Pokedex.Eggs as |egg|}}
+                                        <option value="{{egg}}">{{egg}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="flexrow">
+                                <div>{{localize 'PTA.Generic.Shiny'}}</div>
+                                <input type="checkbox" class="flex0">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

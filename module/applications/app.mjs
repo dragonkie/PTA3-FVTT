@@ -18,7 +18,8 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
             closeOnSubmit: true,
         },
         actions: {
-            copyToClipboard: this._onCopyToClipboard
+            copyToClipboard: this._onCopyToClipboard,
+            collapse: this._onCollapse
         }
     }
 
@@ -57,6 +58,15 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
         if (!ele) return;
         if (ele.dataset.copy) navigator.clipboard.writeText(ele.dataset.copy);
         else if (ele.value) navigator.clipboard.writeText(ele.value);
+    }
+
+    static _onCollapse(event, target) {
+        // toggle the collapsed state
+        const ele = target.closest('.collapsible');
+        ele.classList.toggle('collapsed');
+
+        // add the transition class temporarily
+        ele.classList.add('animating');
     }
 
     //==========================================================================================
