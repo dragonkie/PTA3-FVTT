@@ -68,9 +68,11 @@ export default function registerHooks() {
             console.error('Failed to append PokéApi footer in actor directory', err);
         }
 
+        // CURRENTLY DISABLED DUE TO ERRORS
         //==============================================================================
         //> Render comepndium browser button
         //==============================================================================
+        /*
         try {
             const cp_browser = document.createElement('BUTTON');
             cp_browser.innerHTML = utils.localize('PTA.Button.CompendiumBrowser');
@@ -84,5 +86,6 @@ export default function registerHooks() {
         } catch (err) {
             console.error('Failed to append compendium browser header in actor directory', err);
         }
+            */
     });
 }
