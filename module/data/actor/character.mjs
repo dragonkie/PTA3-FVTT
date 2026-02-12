@@ -14,6 +14,7 @@ export default class CharacterData extends TrainerData {
 
     schema.honours = new NumberField({ ...requiredInteger, initial: 0, min: 0, label: PTA.generic.honours });
     schema.origin = new StringField({ initial: "", label: PTA.generic.origin });
+    schema.credits = new NumberField({ ...requiredInteger, initial: 0 });
 
     // list of owned pokemon
     schema.pokemon = new ArrayField(new SchemaField({

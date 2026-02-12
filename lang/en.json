@@ -102,7 +102,7 @@
       "Lifesteal": "{user} drained {target} and is healed [[{drain}]] HP"
     },
     "Dialog": {
-      "TransferRune": "Which pokemon would you like to transfer the rune to?"
+
     },
     "Effect": {
       "Disabled": "Disabled Effects",
