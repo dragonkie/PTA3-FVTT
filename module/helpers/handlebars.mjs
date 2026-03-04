@@ -32,6 +32,12 @@ function registerHelpers() {
         //>  Data Management
         //=================================================================================================
         JSON: (str) => JSON.parse(str),
+        isArray: (arr) => Array.isArray(arr),
+        arrayLength: (arr) => {
+            if (Array.isArray(arr)) return arr.length;
+            else throw new Error("Can't get length of non array value");
+        },
+        objectIsEmpty: (obj) => Object.keys(obj).length <= 0,
         //=======================================================================
         //>  Strings and Text
         //=======================================================================
@@ -39,7 +45,7 @@ function registerHelpers() {
         toTitleCase: (str) => str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()),
         selected: (val) => {
             if (val) return new Handlebars.SafeString('selected');
-            return ''; 
+            return '';
         },
         //=======================================================================
         //>  Math                              
@@ -126,18 +132,6 @@ function registerHelpers() {
 
             const group = field.toFormGroup(groupConfig, inputConfig);
             return new Handlebars.SafeString(group.outerHTML);
-        },
-        //=================================================================================================
-        //> Data Validation
-        //=================================================================================================
-        arrayLength: (arr) => {
-            if (Array.isArray(arr)) return arr.length;
-            else throw new Error("Can't get length of non array value");
-        },
-        objectIsEmpty: (obj) => Object.keys(obj).length <= 0,
-        listItem: (item) => {
-            let html = ``;
-            return new Handlebars.SafeString(html);
         },
         //=================================================================================================
         //> Elements

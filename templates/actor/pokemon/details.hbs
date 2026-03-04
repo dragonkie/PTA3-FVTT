@@ -15,11 +15,17 @@
     <div class="flexcol">
         <div class="flexrow flex-gap-l">
             <a data-action="editEggGroups" class="fas fa-cog flex0"></a><b>Egg Groups</b>
-            </div>
+        </div>
         <div class="flexrow flex-gap-s">
-            {{#each system.eggTypes as |egg|}}
-                <div class="flex0">{{egg}}</div>
-            {{/each}}
+            {{!-- If there arent any egg types, display tooltip text, else show list --}}
+            {{#if (eq 0 (arrayLength system.eggTypes))}}
+                <div class="flex0">{{localize 'PTA.Tooltip.AddEggTypes'}}</div>
+            {{else}}
+                {{#each system.eggTypes as |egg|}}
+                    <div class="flex0">{{egg}}</div>
+                {{/each}}
+            {{/if}}
+
         </div>
     </div>
     <div class="flexrow flex-gap-l">

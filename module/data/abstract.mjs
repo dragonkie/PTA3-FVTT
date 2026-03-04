@@ -12,6 +12,16 @@ const fieldList = {
   HTMLField: fields.HTMLField
 };
 
+const { ArrayField,
+  BooleanField,
+  IntegerSortField,
+  NumberField,
+  SchemaField,
+  SetField,
+  StringField,
+  HTMLField,
+} = fields;
+
 export default class DataModel extends foundry.abstract.TypeDataModel {
   /**
    * Convert the schema to a plain object.

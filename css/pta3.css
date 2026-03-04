@@ -397,7 +397,7 @@
 
 .description {
   padding: 5px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #302831;
   border-radius: 10px;
 }
 .description label {
@@ -1153,3 +1153,5 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   border: none;
   image-rendering: pixelated;
 }
+
+/*# sourceMappingURL=pta3.css.map */
