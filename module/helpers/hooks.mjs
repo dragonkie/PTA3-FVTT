@@ -88,47 +88,49 @@ export default function registerHooks() {
         }
         */
     });
+    
+    Hooks.on('rebderSettings', async (settings, html, context, options) => {
+        //==========================================================================================================
+        //> Developer links
+        //==========================================================================================================
+        try {
+            const section = document.createElement('section');
+            section.classList.add('flexcol');
 
-    //==========================================================================================================
-    //> Developer links
-    //==========================================================================================================
-    try {
-        const section = document.createElement('section');
-        section.classList.add('flexcol');
+            // create the divider header
+            const divider = document.createElement('h4');
+            divider.classList.add('divider');
+            divider.textContent = 'System Developer';
 
-        // create the divider header
-        const divider = document.createElement('h4');
-        divider.classList.add('divider');
-        divider.textContent = 'System Developer';
+            // System github
+            const git = document.createElement('a');
+            git.href = 'https://github.com/dragonkie/PTA3-FVTT';
+            git.classList.add('button');
+            git.innerHTML = `<i class="fa-brands fa-github"></i> Github`;
 
-        // System github
-        const git = document.createElement('a');
-        git.href = 'https://github.com/dragonkie/PTA3-FVTT';
-        git.classList.add('button');
-        git.innerHTML = `<i class="fa-brands fa-github"></i> Github`;
+            // Developers patreon
+            const patreon = document.createElement('a');
+            patreon.href = 'https://www.patreon.com/cw/AstasArmoury';
+            patreon.classList.add('button');
+            patreon.innerHTML = `<i class="fa-brands fa-patreon"></i> Support us on Patreon`;
 
-        // Developers patreon
-        const patreon = document.createElement('a');
-        patreon.href = 'https://www.patreon.com/cw/AstasArmoury';
-        patreon.classList.add('button');
-        patreon.innerHTML = `<i class="fa-brands fa-patreon"></i> Support us on Patreon`;
+            // Ko-fi link
+            const kofi = document.createElement('a');
+            kofi.href = 'https://ko-fi.com/dragonkie';
+            kofi.classList.add('button');
+            kofi.innerHTML = `<i class="fas fa-coffee"></i> Buy the devs a coffee`;
 
-        // Ko-fi link
-        const kofi = document.createElement('a');
-        kofi.href = 'https://ko-fi.com/dragonkie';
-        kofi.classList.add('button');
-        kofi.innerHTML = `<i class="fas fa-coffee"></i> Buy the devs a coffee`;
+            // add everything together
+            section.appendChild(divider);
+            section.appendChild(git);
+            section.appendChild(kofi);
+            section.appendChild(patreon);
 
-        // add everything together
-        section.appendChild(divider);
-        section.appendChild(git);
-        section.appendChild(kofi);
-        section.appendChild(patreon);
-
-        // append it to the settings tab
-        html.appendChild(section);
-    } catch (err) {
-        console.error('Failed to append developer support links');
-    }
+            // append it to the settings tab
+            html.appendChild(section);
+        } catch (err) {
+            console.error('Failed to append developer support links');
+        }
+    })
 
 }
