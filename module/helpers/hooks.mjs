@@ -89,7 +89,7 @@ export default function registerHooks() {
         */
     });
     
-    Hooks.on('rebderSettings', async (settings, html, context, options) => {
+    Hooks.on('renderSettings', async (settings, html, context, options) => {
         //==========================================================================================================
         //> Developer links
         //==========================================================================================================
