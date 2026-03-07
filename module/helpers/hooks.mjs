@@ -88,11 +88,11 @@ export default function registerHooks() {
         }
         */
     });
-    
+
+    //==========================================================================================================
+    //> Developer links
+    //==========================================================================================================
     Hooks.on('renderSettings', async (settings, html, context, options) => {
-        //==========================================================================================================
-        //> Developer links
-        //==========================================================================================================
         try {
             const section = document.createElement('section');
             section.classList.add('flexcol');
@@ -100,7 +100,7 @@ export default function registerHooks() {
             // create the divider header
             const divider = document.createElement('h4');
             divider.classList.add('divider');
-            divider.textContent = 'System Developer';
+            divider.textContent = 'System Developers';
 
             // System github
             const git = document.createElement('a');
@@ -112,13 +112,13 @@ export default function registerHooks() {
             const patreon = document.createElement('a');
             patreon.href = 'https://www.patreon.com/cw/AstasArmoury';
             patreon.classList.add('button');
-            patreon.innerHTML = `<i class="fa-brands fa-patreon"></i> Support us on Patreon`;
+            patreon.innerHTML = `<i class="fa-brands fa-patreon"></i> Patreon`;
 
             // Ko-fi link
             const kofi = document.createElement('a');
             kofi.href = 'https://ko-fi.com/dragonkie';
             kofi.classList.add('button');
-            kofi.innerHTML = `<i class="fas fa-coffee"></i> Buy the devs a coffee`;
+            kofi.innerHTML = `<i class="fas fa-coffee"></i> Ko-Fi`;
 
             // add everything together
             section.appendChild(divider);
