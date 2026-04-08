@@ -1,16 +1,18 @@
-prose-mirror {
-    &.inactive {
-        .editor-container {
-            background: var(--color-cool-4);
-            border-radius: 4px;
+.pta {
+    prose-mirror {
+        &.inactive {
+            .editor-container {
+                background: var(--color-cool-4);
+                border-radius: 4px;
+            }
         }
-    }
 
-    &.active {
-        .editor-container {
-            background: var(--color-cool-4);
-            border-radius: 4px;
-            min-height: 200px;
+        &.active {
+            .editor-container {
+                background: var(--color-cool-4);
+                border-radius: 4px;
+                min-height: 200px;
+            }
         }
     }
 }
