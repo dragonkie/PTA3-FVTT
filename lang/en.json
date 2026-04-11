@@ -102,7 +102,9 @@
       "Lifesteal": "{user} drained {target} and is healed [[{drain}]] HP"
     },
     "Dialog": {
-
+      "Confirm": {
+        "deleteItem": "Are you sure you would like to delete: {name} <br><i>Hold shift to skip this prompt</i>"
+      }
     },
     "Effect": {
       "Disabled": "Disabled Effects",
