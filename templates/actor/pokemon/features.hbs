@@ -18,8 +18,8 @@
                         </a>
                     {{/if}}
                     <a class="item-control fas fa-sword" data-action="itemUse" data-use="attack" title="attack"></a>
-                    <a class="item-control fas fa-edit" data-action="itemEdit" title="Edit"></a>
-                    {{#if @root.isEditMode}}<a class="item-control fas fa-trash" data-action="itemDelete" title="Delete"></a>{{/if}}
+                    <a class="item-control fas fa-edit" data-action="edit" title="Edit"></a>
+                    {{#if @root.isEditMode}}<a class="item-control fas fa-trash" data-action="delete" title="Delete"></a>{{/if}}
                 </div>
             </div>
             <div class="collapsible-content" style="width: 100%;">

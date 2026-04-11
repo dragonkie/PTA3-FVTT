@@ -115,7 +115,11 @@ export default function PtaSheetMixin(Base) {
             if (!doc) return void console.error('Couldnt find UUID to delete from', uuid);
 
             let confirmed = true;
-            if (!event.shiftKey) confirmed = await PtaDialog.confirm();
+            if (!event.shiftKey) confirmed = await PtaDialog.confirm({
+                content: pta.utils.format('PTA.Dialog.Confirm.deleteItem', { name: doc.name }),
+                rejectClose: false,
+                modal: true
+            });
             if (!confirmed) return;
             else doc.delete();
         }
@@ -126,12 +130,13 @@ export default function PtaSheetMixin(Base) {
          * @param {HTMLElement} target 
          */
         static async _onEdit(event, target) {
-            let uuid = target.closest('[data-uuid]')?.dataset.uuid;
-            let doc = await fromUuid(uuid);
+            const uuid = target.closest('[data-uuid]')?.dataset.uuid;
+            const doc = await fromUuid(uuid);
             if (!doc) return void console.error('Couldnt find UUID to delete from', uuid);
-            let sheet = doc.sheet;
-            if (!sheet) return void console.error('Given uuid doesnt have a sheet');
-            sheet.render(true);
+            if (!doc.sheet.rendered) doc.sheet.render(true);
+            else doc.sheet.bringToFront(true);
+
+            console.log("Rendered sheet", doc)
         }
 
         static async _onEditImage(event, target) {
@@ -415,7 +420,7 @@ export default function PtaSheetMixin(Base) {
         //======================================================================================================
         _setupDragAndDrop() {
             const dd = new foundry.applications.ux.DragDrop({
-                dragSelector: "[data-item-uuid]",
+                dragSelector: "[data-uuid]",
                 dropSelector: ".application",
                 permissions: {
                     dragstart: this._canDragStart.bind(this),
@@ -434,7 +439,7 @@ export default function PtaSheetMixin(Base) {
         _canDragDrop(selector) { return this.isEditable && this.document.isOwner };
 
         async _onDragStart(event) {
-            const uuid = event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid;
+            const uuid = event.currentTarget.closest("[data-uuid]").dataset.itemUuid;
             const item = await fromUuid(uuid);
             const data = item.toDragData();
             event.dataTransfer.setData("text/plain", JSON.stringify(data));

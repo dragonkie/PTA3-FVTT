@@ -9,8 +9,6 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         classes: ["actor"],
         position: { height: 'auto', width: 600, left: 120, top: 60 },
         actions: {
-            itemDelete: this._onDeleteItem,
-            itemEdit: this._onEditItem,
             itemQuantity: this._onChangeItemQuantity,
             itemUse: this._onUseItem,
             itemSort: this._onSortItemMethod,
@@ -31,7 +29,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
     };
 
     tabGroups = {
-        
+
     };
 
     //====================================================================================================
@@ -100,13 +98,6 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
     //====================================================================================================
     //> Actions
     //====================================================================================================
-    static async _onEditItem(event, target) {
-        const uuid = target.closest(".item[data-item-uuid]").dataset.itemUuid;
-        const item = await fromUuid(uuid);
-        if (!item.sheet.rendered) item.sheet.render(true);
-        else item.sheet.bringToFront();
-    };
-
     static async _onUseItem(event, target) {
         // Get the item were actually targeting
         const uuid = target.closest(".item[data-item-uuid]").dataset.itemUuid;
@@ -115,18 +106,6 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
 
         return item.use(event, target, action);
     };
-
-    static async _onDeleteItem(event, target) {
-        const uuid = target.closest(".item[data-item-uuid]")?.dataset.itemUuid;
-        if (!uuid) return;
-        const item = await fromUuid(uuid);
-        const confirm = await foundry.applications.api.DialogV2.confirm({
-            content: `${pta.utils.localize('PTA.confirm.deleteItem')}: ${item.name}`,
-            rejectClose: false,
-            modal: true
-        });
-        if (confirm) return item.delete();
-    }
 
     static SORTING_METHODS = {
         NAME: 1,
@@ -296,18 +275,20 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
 
         const effectData = effect.toObject();
         const modification = {
-            "-=_id": null,
-            "-=ownership": null,
-            "-=folder": null,
-            "-=sort": null,
-            "duration.-=combat": null,
-            "duration.-=startRound": null,
-            "duration.-=startTime": null,
-            "duration.-=startTurn": null,
-            "system.source": null
+            _id: foundry.data.operators.ForcedDeletion,
+            ownership: foundry.data.operators.ForcedDeletion,
+            folder: foundry.data.operators.ForcedDeletion,
+            sort: foundry.data.operators.ForcedDeletion,
+            duration: {
+                combat: foundry.data.operators.ForcedDeletion,
+                startRound: foundry.data.operators.ForcedDeletion,
+                startTime: foundry.data.operators.ForcedDeletion,
+                startTurn: foundry.data.operators.ForcedDeletion,
+            },
+            system: { source: foundry.data.operators.ForcedDeletion }
         };
 
-        foundry.utils.mergeObject(effectData, modification, { performDeletions: true });
+        foundry.utils.applyDataOperators(effectData, modification, { performDeletions: true });
         getDocumentClass(type).create(itemData, { parent: this.document });
     }
 
@@ -316,12 +297,12 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         if (!Object.keys(this.document.constructor.metadata.embedded).includes(type)) return;
         const itemData = item.toObject();
         const modification = {
-            "-=_id": null,
-            "-=ownership": null,
-            "-=folder": null,
-            "-=sort": null
+            _id: foundry.data.operators.ForcedDeletion,
+            ownership: foundry.data.operators.ForcedDeletion,
+            folder: foundry.data.operators.ForcedDeletion,
+            sort: foundry.data.operators.ForcedDeletion
         };
-        foundry.utils.mergeObject(itemData, modification, { performDeletions: true });
+        foundry.utils.applyDataOperators(itemData, modification, { performDeletions: true });
         getDocumentClass(type).create(itemData, { parent: this.document });
     }
 
