@@ -184,24 +184,4 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
     async _onDropActor(event, actor) {
 
     }
-
-    async _onSortItem(item, target) {
-        if (item.documentName !== "Item") return;
-
-        const self = target.closest("[data-tab]")?.querySelector(`[data-item-uuid="${item.uuid}"]`);
-        if (!self || !target.closest("[data-item-uuid]")) return;
-
-        let sibling = target.closest("[data-item-uuid]") ?? null;
-        if (sibling?.dataset.itemUuid === item.uuid) return;
-        if (sibling) sibling = await fromUuid(sibling.dataset.itemUuid);
-
-        let siblings = target.closest("[data-tab]").querySelectorAll("[data-item-uuid]");
-        siblings = await Promise.all(Array.from(siblings).map(s => fromUuid(s.dataset.itemUuid)));
-        siblings.findSplice(i => i === item);
-
-        let updates = SortingHelpers.performIntegerSort(item, { target: sibling, siblings: siblings, sortKey: "sort" });
-        updates = updates.map(({ target, update }) => ({ _id: target.id, sort: update.sort }));
-        this.document.updateEmbeddedDocuments("Item", updates);
-    }
-
 }
