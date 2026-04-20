@@ -18,10 +18,10 @@
             "thumbnail": "systems/pta3/assets/anvil-impact.png"
         }
     ],
-    "version": "1.3.3",
+    "version": "1.4.0",
     "compatibility": {
-        "minimum": "14.359",
-        "verified": "14.359"
+        "minimum": "14.360",
+        "verified": "14.360"
     },
     "esmodules": [
         "module/pta3.mjs"
@@ -36,20 +36,22 @@
             "path": "lang/en.json"
         }
     ],
-    "packs": [{
-      "label": "Tools",
-      "name": "macro-tools",
-      "path": "packs/macro",
-      "system": "",
-      "type": "Macro",
-      "ownership": {
-        "ASSISTANT": "OBSERVER",
-        "GAMEMASTER": "OWNER",
-        "PLAYER": "OBSERVER",
-        "TRUSTED": "OBSERVER"
-      }
-    }],
-    "packFolders": [ ],
+    "packs": [
+        {
+            "label": "Tools",
+            "name": "macro-tools",
+            "path": "packs/macro",
+            "system": "",
+            "type": "Macro",
+            "ownership": {
+                "ASSISTANT": "OBSERVER",
+                "GAMEMASTER": "OWNER",
+                "PLAYER": "OBSERVER",
+                "TRUSTED": "OBSERVER"
+            }
+        }
+    ],
+    "packFolders": [],
     "socket": true,
     "url": "https://github.com/dragonkie/PTA3-FVTT",
     "manifest": "https://github.com/dragonkie/PTA3-FVTT/releases/latest/download/system.json",
@@ -63,16 +65,16 @@
     "secondaryTokenAttribute": "",
     "documentTypes": {
         "Actor": {
-            "character": { },
-            "npc": { },
-            "pokemon": { }
+            "character": {},
+            "npc": {},
+            "pokemon": {}
         },
         "Item": {
-            "equipment": { },
-            "feature": { },
-            "move": { },
-            "pokeball": { },
-            "consumable": { }
+            "equipment": {},
+            "feature": {},
+            "move": {},
+            "pokeball": {},
+            "consumable": {}
         }
     }
 }
