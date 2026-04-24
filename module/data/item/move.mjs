@@ -125,14 +125,6 @@ export default class MoveData extends ItemData {
         return this._onUseAttack(event, target);
     }
 
-    async _onRollAttack() {
-
-    }
-
-    async _onRollDamage() {
-
-    }
-
     //=====================================================================================================
     //>- Attack 
     //=====================================================================================================
@@ -175,7 +167,7 @@ export default class MoveData extends ItemData {
             //========================================================================
             //>--- Attack Roll
             //========================================================================
-            let r_accuracy = new Roll('1d20 + @stat.mod + @accuracy', rolldata);
+            const r_accuracy = new Roll('1d20 + @stat.mod + @accuracy', rolldata);
             await r_accuracy.evaluate();
 
             let missed = false;
@@ -194,55 +186,57 @@ export default class MoveData extends ItemData {
             //========================================================================
             //>--- Damage Roll
             //========================================================================
-            // Add stab damage bonus
-            for (const key of Object.keys(attacker.system.types)) {
-                if (attacker.system.types[key] == this.type) {
-                    damage_formula += '+4';
-                    break;
-                }
-            }
-
-            const r_damage = new Roll(damage_formula, rolldata);
-
-            // get the move effectiveness values
-            let effectiveness = { value: 0, percent: 1, immune: false };;
             if (!missed) {
-                if (target.actor.type == 'pokemon') {
-                    let overriden = false
-                    for (const override of target.actor.system.resistance_override) {
-                        if (override.type == this.type) {
-                            overriden = true;
-                            switch (override.value) {
-                                case 'immune': effectiveness = { value: 0, percent: 0, immune: true }; break;
-                                case 'double': effectiveness = { value: 1, percent: 2, immune: false }; break;
-                                case 'quadruple': effectiveness = { value: 2, percent: 4, immune: false }; break;
-                                case 'half': effectiveness = { value: -1, percent: 0.5, immune: false }; break;
-                                case 'quarter': effectiveness = { value: -2, percent: 0.25, immune: false }; break;
+                // Add stab damage bonus
+                for (const key of Object.keys(attacker.system.types)) {
+                    if (attacker.system.types[key] == this.type) {
+                        damage_formula += '+4';
+                        break;
+                    }
+                }
+
+                const r_damage = new Roll(damage_formula, rolldata);
+
+                // get the move effectiveness values
+                let effectiveness = { value: 0, percent: 1, immune: false };;
+                if (!missed) {
+                    if (target.actor.type == 'pokemon') {
+                        let overriden = false
+                        for (const override of target.actor.system.resistance_override) {
+                            if (override.type == this.type) {
+                                overriden = true;
+                                switch (override.value) {
+                                    case 'immune': effectiveness = { value: 0, percent: 0, immune: true }; break;
+                                    case 'double': effectiveness = { value: 1, percent: 2, immune: false }; break;
+                                    case 'quadruple': effectiveness = { value: 2, percent: 4, immune: false }; break;
+                                    case 'half': effectiveness = { value: -1, percent: 0.5, immune: false }; break;
+                                    case 'quarter': effectiveness = { value: -2, percent: 0.25, immune: false }; break;
+                                }
                             }
                         }
+                        if (!overriden) effectiveness = utils.typeEffectiveness(this.type, target.actor.system.getTypes());
                     }
-                    if (!overriden) effectiveness = utils.typeEffectiveness(this.type, target.actor.system.getTypes());
+
+                    // add or remove dice from the formula to match effectiveness, then resert formula to match new terms
+                    r_damage.dice[0].number = Math.max(r_damage.dice[0].number + effectiveness.value, 0);
+                    r_damage.resetFormula();
+
+                    // critical hits maximize dice
+                    await r_damage.evaluate({ maximize: critical });
+
+                    message_data.content += `<p><b>${utils.localize(PTA.generic.damage)}</b></p>`
+
+                    if (effectiveness.immune) message_data.content += utils.format(PTA.chat.damage.immune, message_config);
+                    else switch (effectiveness.value) {
+                        case -2: message_data.content += utils.format(PTA.chat.damage.quarter, message_config); break;
+                        case -1: message_data.content += utils.format(PTA.chat.damage.half, message_config); break;
+                        case 0: message_data.content += utils.format(PTA.chat.damage.normal, message_config); break;
+                        case 1: message_data.content += utils.format(PTA.chat.damage.double, message_config); break;
+                        case 2: message_data.content += utils.format(PTA.chat.damage.quadruple, message_config); break;
+                    }
+
+                    message_data.content += await r_damage.render();
                 }
-
-                // add or remove dice from the formula to match effectiveness, then resert formula to match new terms
-                r_damage.dice[0].number = Math.max(r_damage.dice[0].number + effectiveness.value, 0);
-                r_damage.resetFormula();
-
-                // critical hits maximize dice
-                await r_damage.evaluate({ maximize: critical });
-
-                message_data.content += `<p><b>${utils.localize(PTA.generic.damage)}</b></p>`
-
-                if (effectiveness.immune) message_data.content += utils.format(PTA.chat.damage.immune, message_config);
-                else switch (effectiveness.value) {
-                    case -2: message_data.content += utils.format(PTA.chat.damage.quarter, message_config); break;
-                    case -1: message_data.content += utils.format(PTA.chat.damage.half, message_config); break;
-                    case 0: message_data.content += utils.format(PTA.chat.damage.normal, message_config); break;
-                    case 1: message_data.content += utils.format(PTA.chat.damage.double, message_config); break;
-                    case 2: message_data.content += utils.format(PTA.chat.damage.quadruple, message_config); break;
-                }
-
-                message_data.content += await r_damage.render();
 
                 //==================================================================================================
                 //>--- Lifesteal application
