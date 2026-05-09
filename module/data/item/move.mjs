@@ -194,93 +194,93 @@ export default class MoveData extends ItemData {
                         break;
                     }
                 }
-
-                const r_damage = new Roll(damage_formula, rolldata);
-
-                // get the move effectiveness values
-                let effectiveness = { value: 0, percent: 1, immune: false };;
-                if (!missed) {
-                    if (target.actor.type == 'pokemon') {
-                        let overriden = false
-                        for (const override of target.actor.system.resistance_override) {
-                            if (override.type == this.type) {
-                                overriden = true;
-                                switch (override.value) {
-                                    case 'immune': effectiveness = { value: 0, percent: 0, immune: true }; break;
-                                    case 'double': effectiveness = { value: 1, percent: 2, immune: false }; break;
-                                    case 'quadruple': effectiveness = { value: 2, percent: 4, immune: false }; break;
-                                    case 'half': effectiveness = { value: -1, percent: 0.5, immune: false }; break;
-                                    case 'quarter': effectiveness = { value: -2, percent: 0.25, immune: false }; break;
-                                }
-                            }
-                        }
-                        if (!overriden) effectiveness = utils.typeEffectiveness(this.type, target.actor.system.getTypes());
-                    }
-
-                    // add or remove dice from the formula to match effectiveness, then resert formula to match new terms
-                    r_damage.dice[0].number = Math.max(r_damage.dice[0].number + effectiveness.value, 0);
-                    r_damage.resetFormula();
-
-                    // critical hits maximize dice
-                    await r_damage.evaluate({ maximize: critical });
-
-                    message_data.content += `<p><b>${utils.localize(PTA.generic.damage)}</b></p>`
-
-                    if (effectiveness.immune) message_data.content += utils.format(PTA.chat.damage.immune, message_config);
-                    else switch (effectiveness.value) {
-                        case -2: message_data.content += utils.format(PTA.chat.damage.quarter, message_config); break;
-                        case -1: message_data.content += utils.format(PTA.chat.damage.half, message_config); break;
-                        case 0: message_data.content += utils.format(PTA.chat.damage.normal, message_config); break;
-                        case 1: message_data.content += utils.format(PTA.chat.damage.double, message_config); break;
-                        case 2: message_data.content += utils.format(PTA.chat.damage.quadruple, message_config); break;
-                    }
-
-                    message_data.content += await r_damage.render();
-                }
-
-                //==================================================================================================
-                //>--- Lifesteal application
-                //==================================================================================================
-                if (this.drain > 0) {
-                    message_config.drain = Math.floor(r_damage.total * (this.drain / 100));
-                    message_data.content += `<p>${utils.format(PTA.chat.lifesteal, message_config)}</p>`;
-                    await this.actor.update({ system: { hp: { value: Math.min(this.actor.system.hp.value + message_config.drain, this.actor.system.hp.total) } } })
-                }
-
-                //==================================================================================================
-                //>--- Apply ailments
-                //==================================================================================================
-                if (Object.keys(PTA.ailments).includes(this.ailment.type) && this.ailment.chance > 0) {
-                    let applied = false;
-
-                    // Make the dice roll if needed
-                    const r_ailment = new Roll('1d100');
-                    await r_ailment.evaluate();
-                    if (r_ailment.total <= this.ailment.chance) applied = true;
-
-                    // compile the message data
-                    message_data.content += `<p><b>${utils.localize(PTA.generic.ailment)}: ${utils.localize(PTA.ailments[this.ailment.type])} ${this.ailment.chance}%</b></p>`
-                    if (applied) {
-                        message_data.content += utils.format(PTA.chat.ailment.success, message_config);
-                        //==========================================================================================
-                        //>--- Apply status effects
-                        //==========================================================================================
-                        if (game.user.isGM || target.actor.isOwner) {
-                            console.log("Applying status effect to target")
-                            await target.actor.toggleStatusEffect(this.ailment.type, { active: true, overlay: false });
-                        }
-                    }
-                    else message_data.content += utils.format(PTA.chat.ailment.failed, message_config);
-                    message_data.content += await r_ailment.render();
-                }
             }
 
-            //======================================================================================================
-            //>--- Chat Message
-            //======================================================================================================
-            message_data.content = await foundry.applications.ux.TextEditor.enrichHTML(message_data.content);
-            let message = await r_accuracy.toMessage(message_data, message_config);
+            const r_damage = new Roll(damage_formula, rolldata);
+
+            // get the move effectiveness values
+            let effectiveness = { value: 0, percent: 1, immune: false };;
+            if (!missed) {
+                if (target.actor.type == 'pokemon') {
+                    let overriden = false
+                    for (const override of target.actor.system.resistance_override) {
+                        if (override.type == this.type) {
+                            overriden = true;
+                            switch (override.value) {
+                                case 'immune': effectiveness = { value: 0, percent: 0, immune: true }; break;
+                                case 'double': effectiveness = { value: 1, percent: 2, immune: false }; break;
+                                case 'quadruple': effectiveness = { value: 2, percent: 4, immune: false }; break;
+                                case 'half': effectiveness = { value: -1, percent: 0.5, immune: false }; break;
+                                case 'quarter': effectiveness = { value: -2, percent: 0.25, immune: false }; break;
+                            }
+                        }
+                    }
+                    if (!overriden) effectiveness = utils.typeEffectiveness(this.type, target.actor.system.getTypes());
+                }
+
+                // add or remove dice from the formula to match effectiveness, then resert formula to match new terms
+                r_damage.dice[0].number = Math.max(r_damage.dice[0].number + effectiveness.value, 0);
+                r_damage.resetFormula();
+
+                // critical hits maximize dice
+                await r_damage.evaluate({ maximize: critical });
+
+                message_data.content += `<p><b>${utils.localize(PTA.generic.damage)}</b></p>`
+
+                if (effectiveness.immune) message_data.content += utils.format(PTA.chat.damage.immune, message_config);
+                else switch (effectiveness.value) {
+                    case -2: message_data.content += utils.format(PTA.chat.damage.quarter, message_config); break;
+                    case -1: message_data.content += utils.format(PTA.chat.damage.half, message_config); break;
+                    case 0: message_data.content += utils.format(PTA.chat.damage.normal, message_config); break;
+                    case 1: message_data.content += utils.format(PTA.chat.damage.double, message_config); break;
+                    case 2: message_data.content += utils.format(PTA.chat.damage.quadruple, message_config); break;
+                }
+
+                message_data.content += await r_damage.render();
+            }
+
+            //==================================================================================================
+            //>--- Lifesteal application
+            //==================================================================================================
+            if (this.drain > 0) {
+                message_config.drain = Math.floor(r_damage.total * (this.drain / 100));
+                message_data.content += `<p>${utils.format(PTA.chat.lifesteal, message_config)}</p>`;
+                await this.actor.update({ system: { hp: { value: Math.min(this.actor.system.hp.value + message_config.drain, this.actor.system.hp.total) } } })
+            }
+
+            //==================================================================================================
+            //>--- Apply ailments
+            //==================================================================================================
+            if (Object.keys(PTA.ailments).includes(this.ailment.type) && this.ailment.chance > 0) {
+                let applied = false;
+
+                // Make the dice roll if needed
+                const r_ailment = new Roll('1d100');
+                await r_ailment.evaluate();
+                if (r_ailment.total <= this.ailment.chance) applied = true;
+
+                // compile the message data
+                message_data.content += `<p><b>${utils.localize(PTA.generic.ailment)}: ${utils.localize(PTA.ailments[this.ailment.type])} ${this.ailment.chance}%</b></p>`
+                if (applied) {
+                    message_data.content += utils.format(PTA.chat.ailment.success, message_config);
+                    //==========================================================================================
+                    //>--- Apply status effects
+                    //==========================================================================================
+                    if (game.user.isGM || target.actor.isOwner) {
+                        console.log("Applying status effect to target")
+                        await target.actor.toggleStatusEffect(this.ailment.type, { active: true, overlay: false });
+                    }
+                }
+                else message_data.content += utils.format(PTA.chat.ailment.failed, message_config);
+                message_data.content += await r_ailment.render();
+            }
         }
+
+        //======================================================================================================
+        //>--- Chat Message
+        //======================================================================================================
+        message_data.content = await foundry.applications.ux.TextEditor.enrichHTML(message_data.content);
+        let message = await r_accuracy.toMessage(message_data, message_config);
 
         // if we reach this point, attack was successful so we expend a use
         if (this.uses.max > 0) this.parent.update({ 'system.uses.value': this.uses.value - 1 });
