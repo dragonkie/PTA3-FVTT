@@ -274,16 +274,17 @@ export default class MoveData extends ItemData {
                 else message_data.content += utils.format(PTA.chat.ailment.failed, message_config);
                 message_data.content += await r_ailment.render();
             }
+
+
+            //======================================================================================================
+            //>--- Chat Message
+            //======================================================================================================
+            message_data.content = await foundry.applications.ux.TextEditor.enrichHTML(message_data.content);
+            let message = await r_accuracy.toMessage(message_data, message_config);
+
+            // if we reach this point, attack was successful so we expend a use
+            if (this.uses.max > 0) this.parent.update({ 'system.uses.value': this.uses.value - 1 });
         }
-
-        //======================================================================================================
-        //>--- Chat Message
-        //======================================================================================================
-        message_data.content = await foundry.applications.ux.TextEditor.enrichHTML(message_data.content);
-        let message = await r_accuracy.toMessage(message_data, message_config);
-
-        // if we reach this point, attack was successful so we expend a use
-        if (this.uses.max > 0) this.parent.update({ 'system.uses.value': this.uses.value - 1 });
     }
 
     async _onUseReload(event, target) {
