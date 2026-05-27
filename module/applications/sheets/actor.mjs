@@ -332,12 +332,13 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
 export function PtaTrainerMixin(BaseApplication) {
     return class TrainerSheet extends BaseApplication {
         _pcSearchQuery = {}
+        _itemSearchQuery = "";
 
-        async _performSearchQuery() {
+        async _performPcSearchQuery() {
             // Set up pokebox search bar functionality
             const pokebox = this.element.querySelector('.pta-pokebox-entries');
-            const searchElement = this.element.querySelector('.pta-trainer-pc-search');
-            const inputs = searchElement.querySelectorAll('[data-query]');
+            const pcSearchElement = this.element.querySelector('.pta-trainer-pc-search');
+            const inputs = pcSearchElement.querySelectorAll('[data-query]');
 
             for (const ele of pokebox.querySelectorAll('[data-pokemon-uuid]')) {
                 ele.classList.remove('obliterated');
@@ -366,14 +367,29 @@ export function PtaTrainerMixin(BaseApplication) {
             }
         }
 
+        async _performBackpackSearchQuery() {
+            // setup item search options
+            const backpack = this.element.querySelector('.pta-inventory');
+            const backpackContents = backpack.querySelectorAll('.item');
+            const searchElement = this.element.querySelector('input.pta-inventory-search');
+            const query = searchElement.value.toLowerCase();
+
+            for (const ele of backpackContents) {
+                const item = await fromUuid(ele.dataset.uuid);
+                if (!item.name.toLowerCase().includes(query)) ele.classList.add('obliterated');
+                else ele.classList.remove('obliterated');
+            }
+        }
+
         _setupSearchQuery() {
             // Set up pokebox search bar functionality
-            const pokebox = this.element.querySelector('.pta-pokebox-entries');
-            const searchElement = this.element.querySelector('.pta-trainer-pc-search');
-            const inputs = searchElement.querySelectorAll('[data-query]');
+            const pcSearchElement = this.element.querySelector('.pta-trainer-pc-search');
+            const pcInputs = pcSearchElement.querySelectorAll('[data-query]');
+            for (const input of pcInputs) input.addEventListener('input', this._performPcSearchQuery.bind(this));
 
-            // attach the new listeners
-            for (const input of inputs) input.addEventListener('input', this._performSearchQuery.bind(this));
+            // set up backpack search bar
+            const bagSearchElement = this.element.querySelector('.pta-inventory-search');
+            bagSearchElement.addEventListener('input', this._performBackpackSearchQuery.bind(this));
         }
 
         _saveSearchQuery() {
@@ -385,6 +401,9 @@ export function PtaTrainerMixin(BaseApplication) {
                 if (ele.type == 'checkbox') this._pcSearchQuery[ele.dataset.query] = ele.checked;
                 else this._pcSearchQuery[ele.dataset.query] = ele.value;
             }
+
+            // save inventory search query
+            this._itemSearchQuery = this.element.querySelector('input.pta-inventory-search').value;
         }
 
         _loadSearchQuery() {
@@ -399,6 +418,8 @@ export function PtaTrainerMixin(BaseApplication) {
                     }
                 }
             }
+
+            this.element.querySelector('input.pta-inventory-search').value = this._itemSearchQuery;
         }
 
         _resetSearchQuery() {
@@ -419,7 +440,8 @@ export function PtaTrainerMixin(BaseApplication) {
             let r = super._onRender(context, options);
             this._setupSearchQuery();
             this._loadSearchQuery();
-            this._performSearchQuery();
+            this._performBackpackSearchQuery();
+            this._performPcSearchQuery();
             return r;
         }
 

@@ -1,29 +1,34 @@
 <div class="pta-tab">
-    <div class="flexcol flex">
-        {{#each itemTypes}}
-            {{#if (and (not (eq @key 'base'))(not (eq @key 'move') ))}}
-                <ol class="pta-inventory items-list collapsible pta-{{@key}}-list">
-                    <li class="items-header flexrow">
-                        <span class="item-name flexrow flex-gap-m" data-action="collapse">
-                            <a class="flexshrink">
-                                <i class="fas fa-caret-down"></i>
-                            </a>
-                            <span>{{@key}}</span>
-                        </span>
-                        <span>Controls</span>
-                        <div class="item-controls flex0">
-                            <a data-action="itemSort" class="pta-control fa-solid fa-sort" title="PTA.Button.Sort"></a>
+    <div class="flexcol flex flex-gap-m">
+        <div class="pta-search-container flexrow">
+            <input type="text" class="pta-inventory-search flex" placeholder="Search...">
+        </div>
+        <div class="flexcol pta-inventory">
+            {{#each itemTypes}}
+                {{#if (and (not (eq @key 'base'))(not (eq @key 'move') ))}}
+                    <ol class="pta-bag items-list collapsible pta-{{@key}}-list">
+                        <li class="items-header flexrow">
+                            <span class="item-name flexrow flex-gap-m" data-action="collapse">
+                                <a class="flexshrink">
+                                    <i class="fas fa-caret-down"></i>
+                                </a>
+                                <span>{{@key}}</span>
+                            </span>
+                            <span>Controls</span>
+                            <div class="item-controls flex0">
+                                <a data-action="itemSort" class="pta-control fa-solid fa-sort" title="PTA.Button.Sort"></a>
+                            </div>
+                        </li>
+                        <div class="collapsible-content">
+                            <div class="wrapper">
+                                {{#each this as | item |}}
+                                    {{> "pta.list-item" item=item isEditMode=@root.isEditMode isPlayMode=@root.isPlayMode}}
+                                {{/each}}
+                            </div>
                         </div>
-                    </li>
-                    <div class="collapsible-content">
-                        <div class="wrapper">
-                            {{#each this as | item |}}
-                                {{> "pta.list-item" item=item isEditMode=@root.isEditMode isPlayMode=@root.isPlayMode}}
-                            {{/each}}
-                        </div>
-                    </div>
-                </ol>
-            {{/if}}
-        {{/each}}
+                    </ol>
+                {{/if}}
+            {{/each}}
+        </div>
     </div>
 </div>

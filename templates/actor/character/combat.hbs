@@ -47,13 +47,18 @@
     {{/if}}
 {{/inline}}
 
-
-{{!-- data-application-parts="features" --}}
 <div class="pta-tab">
-    <div class="flexrow flex-align-start">
-        <div class="flex0">{{> 'pta.actor-ability-scores'}}</div>
-        <div class="flexcol flex-gap-l">
-            {{> 'pta.actor-skills'}}
-        </div>
+    <div class="pta-tab-content flexcol flex-group-start flex-gap-m">
+        <ol class="pta-move-list items-list">
+            <span class="items-header flexrow">
+                <span class="item-name">Moves</span>
+                <div class="item-controls">
+                    <a data-action="importMoves" class="item-control fas fa-arrow-down-to-line" title="PTA.Button.ImportMoves"></a>
+                </div>
+            </span>
+            {{#each items as | item key |}}
+                {{#if (eq item.type 'move')}}{{> 'pokemon-move' item=item}}{{/if}}
+            {{/each}}
+        </ol>
     </div>
 </div>
