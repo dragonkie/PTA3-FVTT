@@ -1,6 +1,7 @@
 import ItemData from "../item.mjs";
 import { PTA } from "../../helpers/config.mjs";
 import utils from "../../helpers/utils.mjs";
+import PtaDialog from "../../applications/dialog.mjs";
 
 const {
     ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField
@@ -120,6 +121,33 @@ export default class MoveData extends ItemData {
     //=====================================================================================================
     //> Actions 
     //=====================================================================================================
+
+    /**
+     * 
+     */
+    _itemActions() {
+        return [
+            ...super._itemActions(),
+            {
+                name: PTA.contextMenu.attack,
+                action: 'attack',
+                group: 'combat',
+                icon: '<i class="fas fa-sword"></i>',
+                condition: true,
+                callback: () => {
+                    this._onUseAttack()
+                }
+            }, {
+                name: PTA.contextMenu.damage,
+                action: 'damage',
+                group: 'combat',
+                icon: '<i class="fas fa-heart-crack"></i>',
+                condition: true,
+                callback: () => this.parent.delete()
+            }
+        ]
+    }
+
     async use(event, target, action) {
         if (action == 'reload') return this._onUseReload(event, target);
         return this._onUseAttack(event, target);
@@ -285,6 +313,38 @@ export default class MoveData extends ItemData {
             // if we reach this point, attack was successful so we expend a use
             if (this.uses.max > 0) this.parent.update({ 'system.uses.value': this.uses.value - 1 });
         }
+    }
+
+    /**
+     * Skips usual attack roll to purely roll for damage dealt
+     * roll prompt inclues optional modifier fields and type effectivness values
+     */
+    async _onUseDamage() {
+
+        // prepare prompt context
+
+        // create the dialog prompt
+        const dialog = new PtaDialog({
+            window: { title: PTA.windowTitle.roll },
+            content: promptContent,
+            buttons: [{
+                label: PTA.generic.cancel,
+                action: 'cancel'
+            }, {
+                label: PTA.generic.roll,
+                action: 'roll'
+            }],
+            close: () => { },
+            actions: {
+                roll: () => { },
+                cancel: () => { }
+            }
+        }).render();
+
+        // make the damage roll
+        const r = new Roll(this.damage.formula);
+        await r.evaluate();
+        r.toMessage();
     }
 
     async _onUseReload(event, target) {
