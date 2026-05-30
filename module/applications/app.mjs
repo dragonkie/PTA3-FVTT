@@ -1,3 +1,5 @@
+import { PTA } from "../helpers/config.mjs";
+
 let { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
 export default class PtaApplication extends HandlebarsApplicationMixin(ApplicationV2) {
@@ -44,7 +46,7 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
         }, {});
     }
 
-    async _prepareContext(options) { return {} };
+    async _prepareContext(options) { return { config: PTA } };
     //==========================================================================================
     //> Sheet actions
     //==========================================================================================
