@@ -1,16 +1,17 @@
 {{#*inline 'pokemon-move'}}
-    {{#if (eq item.type 'move')}}
         <li class="item collapsible collapsed" data-item-uuid="{{item.uuid}}" data-uuid="{{item.uuid}}" draggable="true">
             <div class="flexrow">
-                <div class="item-name" data-action="collapse">
-                    <div class="item-image">
-                        <img src="{{item.img}}" title="{{item.name}}">
+                <div class="item-details flexrow flexshrink flex-gap-l flex-group-start flex-align-center flex-nowrap">
+                    <div class="pta-type-tag pta-type-{{item.system.type}} pta-fill">
+                        {{localize (objectValue @root.config.pokemonTypes item.system.type)}}
                     </div>
-                    <div>{{item.name}}</div>
+                    <div class="pta-category flexcol flex-align-center">
+                        {{localize (objectValue @root.config.moveClass item.system.category)}}
+                    </div>
+                    {{#if (gt item.system.uses.max 0)}}
+                        <div>Uses [{{item.system.uses.value}}/{{item.system.uses.max}}]</div>
+                    {{/if}}
                 </div>
-                {{#if (gt item.system.uses.max 0)}}
-                    <div>Uses [{{item.system.uses.value}}/{{item.system.uses.max}}]</div>
-                {{/if}}
                 <div class="item-controls">
                     {{#if (not (eq item.system.uses.max item.system.uses.value))}}
                         <a class="item-control" data-action="itemUse" data-use="reload" title="Reset Uses">
@@ -44,7 +45,6 @@
                 </div>
             </div>
         </li>
-    {{/if}}
 {{/inline}}
 
 <div class="pta-tab">
@@ -56,6 +56,7 @@
                     <a data-action="importMoves" class="item-control fas fa-arrow-down-to-line" title="PTA.Button.ImportMoves"></a>
                 </div>
             </span>
+            {{log this}}
             {{#each items as | item key |}}
                 {{#if (eq item.type 'move')}}{{> 'pokemon-move' item=item}}{{/if}}
             {{/each}}
