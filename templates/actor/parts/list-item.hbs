@@ -1,26 +1,31 @@
 {{!-- Content for move type items --}}
-{{#*inline 'move-item'}}
-  <div class="flexcol flex-gap-m" style="width: 100%; padding-left: 1rem; margin: 0.5rem 0;">
-    <div class="pta-move-details flexcol flex-gap-s">
-      <div class="flexrow">
-        <div><b>{{localize @root.config.generic.type}}</b>: {{item.system.type}}</div>
-        <div><b>{{localize @root.config.generic.category}}</b>: {{item.system.category}}</div>
-      </div>
-      <div><b>{{localize @root.config.generic.damage}}</b>: {{item.system.damage.formula}}</div>
-      {{#if (not (eq item.system.ailment.type null))}}
-        <div class="text-left"><b>{{localize @root.config.generic.ailment}}</b>: {{item.system.ailment.type}}</div>
-      {{/if}}
-    </div>
-    <div class="pta-move-description">
-      <div class="text-left">
-        {{{item.system.description}}}
-      </div>
-    </div>
+{{#*inline 'move-details'}}
+  <div class="pta-type-tag pta-type-{{item.system.type}} pta-fill">
+    {{localize (objectValue @root.config.pokemonTypes item.system.type)}}
+  </div>
+  <div class="pta-category flexcol flex-align-center">
+    {{localize (objectValue @root.config.moveClass item.system.category)}}
+  </div>
+  {{#if (gt item.system.uses.max 0)}}
+    <div>Uses [{{item.system.uses.value}}/{{item.system.uses.max}}]</div>
+  {{/if}}
+{{/inline}}
+
+{{#*inline 'move-content'}}
+  <div class="pta-move-details flexcol flex-gap-s">
+    <div><b>{{localize @root.config.generic.damage}}</b>: {{item.system.damage.formula}}</div>
+    {{#if (not (eq item.system.ailment.type null))}}
+      <div class="text-left"><b>{{localize @root.config.generic.ailment}}</b>: {{item.system.ailment.type}}</div>
+    {{/if}}
   </div>
 {{/inline}}
 
+{{#*inline 'consumable-content'}}
+
+{{/inline}}
+
 <li class="item collapsible collapsed" data-uuid="{{item.uuid}}" draggable="true">
-  <div class="flexrow">
+  <div class="flexrow" data-action="collapse">
     <div class="item-name">
       <div class="item-image">
         <a data-action="itemUse">
@@ -29,36 +34,27 @@
       </div>
       <div>{{item.name}}</div>
     </div>
+
     {{!-- Item listing details, only the most important at a glance details belong here --}}
-    <div class="item-quantity flexrow">
-      <a class="fa-solid fa-minus" data-action="itemQuantity" data-value="-1" title="remove"></a>
-      <div class="item-count">{{item.system.quantity}}x</div>
-      <a class="fa-solid fa-plus" data-action="itemQuantity" data-value="1" title="add"></a>
+    <div class="item-details flexrow">
+      {{#if (eq item.type 'move')}}{{> 'move-details' item=item}}{{/if}}
     </div>
+
     {{!-- Item controls, different buttons and actions to use the item more accurately then in a single 'use' button --}}
     <div class="item-controls">
-      <a class="item-control fas fa-edit" data-action="edit" title="{{localize 'DOCUMENT.Update' type=Item}}"></a>
-      {{#if isEditMode}}
+      {{#if @root.isEditMode}}
+        <a class="item-control fas fa-edit" data-action="edit" title="{{localize 'DOCUMENT.Update' type=Item}}"></a>
         <a class="item-control fas fa-trash" data-action="delete" title="{{localize 'DOCUMENT.Delete' type=Item}}"></a>
       {{/if}}
     </div>
   </div>
 
   {{!-- Item content, an alternative to opening up the full item sheet, display secondary info here --}}
-  <div class="collapsible-content" style="width: 100%;">
-    <div class="wrapper flexcol" style="width: 100%;">
+  <div class="collapsible-content" style="width: 100%;" data-action="collapse">
+    <div class="wrapper">
       <div class="flexcol flex-gap-m" style="width: 100%; padding-left: 1rem; margin: 0.5rem 0;">
-        <div class="pta-move-details flexcol flex-gap-s">
-          <div class="flexrow">
-            <div><b>{{localize @root.config.generic.type}}</b>: {{item.system.type}}</div>
-            <div><b>{{localize @root.config.generic.category}}</b>: {{item.system.category}}</div>
-          </div>
-          <div><b>{{localize @root.config.generic.damage}}</b>: {{item.system.damage.formula}}</div>
-          {{#if (not (eq item.system.ailment.type null))}}
-            <div class="text-left"><b>{{localize @root.config.generic.ailment}}</b>: {{item.system.ailment.type}}</div>
-          {{/if}}
-        </div>
-        <div class="pta-move-description">
+        {{#if (eq item.type 'move')}}{{> 'move-content' item=item}}{{/if}}
+        <div class="pta-item-description">
           <div class="text-left">
             {{{item.system.description}}}
           </div>

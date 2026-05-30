@@ -5,7 +5,7 @@
         </div>
         <div class="flexcol pta-inventory">
             {{#each itemTypes}}
-                {{#if (and (not (eq @key 'base'))(not (eq @key 'move') ))}}
+                {{#if (not (or (eq @key 'base')  (eq @key 'move') (eq @key 'feature')))}}
                     <ol class="pta-bag items-list collapsible pta-{{@key}}-list">
                         <li class="items-header flexrow">
                             <span class="item-name flexrow flex-gap-m" data-action="collapse">
