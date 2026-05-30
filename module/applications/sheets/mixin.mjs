@@ -50,7 +50,7 @@ export default function PtaSheetMixin(Base) {
 
         async _prepareContext() {
             const context = await super._prepareContext();
-
+            
             context.document = this.document;
             context.actor = this.document.actor;
             context.config = pta.config;
@@ -371,7 +371,8 @@ export default function PtaSheetMixin(Base) {
                         let s = `${ele.nodeName}`; // classes
 
                         // add elements classes
-                        for (const c of ele.classList) if (c != "collapsed" && c != "active" && c != 'animating') s += `.${c}`;
+                        const cBlacklist = ['collapsed', 'active', 'animating', 'obliterated'];
+                        for (const c of ele.classList) if (!cBlacklist.includes(c)) s += `.${c}`;
 
                         // add element attributes
                         for (const a of ele.attributes) if (a.name != 'class' && a.name != 'style') s += `[${a.name}="${a.value}"]`;
