@@ -94,6 +94,28 @@ ol.pta-pokemon-team {
     }
 }
 
+.pta-type-tag {
+    --pta-type-colour: transparent;
+
+    border-radius: 4px;
+    border: 2px solid var(--pta-type-colour);
+    width: fit-content;
+    text-align: center;
+    min-width: 6em;
+
+    @each $type in util.$pokemon-types {
+        &.pta-type-#{$type} {
+            --pta-type-colour: var(--pta-c-type-#{$type});
+        }
+    }
+
+    // Sets background to match the colour
+    &.pta-fill {
+        background-color: var(--pta-type-colour);
+        color: rgba(0, 0, 0, 0.8);
+    }
+}
+
 $pta-grid-size: 75px;
 
 .pta-pc-layout-grid {

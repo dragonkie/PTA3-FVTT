@@ -734,6 +734,73 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   border-color: var(--pta-c-type-fairy);
 }
 
+.pta-type-tag {
+  --pta-type-colour: transparent;
+  border-radius: 4px;
+  border: 2px solid var(--pta-type-colour);
+  width: fit-content;
+  text-align: center;
+  min-width: 6em;
+}
+.pta-type-tag.pta-type-normal {
+  --pta-type-colour: var(--pta-c-type-normal);
+}
+.pta-type-tag.pta-type-fire {
+  --pta-type-colour: var(--pta-c-type-fire);
+}
+.pta-type-tag.pta-type-water {
+  --pta-type-colour: var(--pta-c-type-water);
+}
+.pta-type-tag.pta-type-electric {
+  --pta-type-colour: var(--pta-c-type-electric);
+}
+.pta-type-tag.pta-type-grass {
+  --pta-type-colour: var(--pta-c-type-grass);
+}
+.pta-type-tag.pta-type-ice {
+  --pta-type-colour: var(--pta-c-type-ice);
+}
+.pta-type-tag.pta-type-fighting {
+  --pta-type-colour: var(--pta-c-type-fighting);
+}
+.pta-type-tag.pta-type-poison {
+  --pta-type-colour: var(--pta-c-type-poison);
+}
+.pta-type-tag.pta-type-ground {
+  --pta-type-colour: var(--pta-c-type-ground);
+}
+.pta-type-tag.pta-type-flying {
+  --pta-type-colour: var(--pta-c-type-flying);
+}
+.pta-type-tag.pta-type-psychic {
+  --pta-type-colour: var(--pta-c-type-psychic);
+}
+.pta-type-tag.pta-type-bug {
+  --pta-type-colour: var(--pta-c-type-bug);
+}
+.pta-type-tag.pta-type-rock {
+  --pta-type-colour: var(--pta-c-type-rock);
+}
+.pta-type-tag.pta-type-ghost {
+  --pta-type-colour: var(--pta-c-type-ghost);
+}
+.pta-type-tag.pta-type-dragon {
+  --pta-type-colour: var(--pta-c-type-dragon);
+}
+.pta-type-tag.pta-type-dark {
+  --pta-type-colour: var(--pta-c-type-dark);
+}
+.pta-type-tag.pta-type-steel {
+  --pta-type-colour: var(--pta-c-type-steel);
+}
+.pta-type-tag.pta-type-fairy {
+  --pta-type-colour: var(--pta-c-type-fairy);
+}
+.pta-type-tag.pta-fill {
+  background-color: var(--pta-type-colour);
+  color: rgba(0, 0, 0, 0.8);
+}
+
 .pta-pc-layout-grid {
   display: flex;
   flex: 0 1;
@@ -1153,3 +1220,5 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   border: none;
   image-rendering: pixelated;
 }
+
+/*# sourceMappingURL=pta3.css.map */
