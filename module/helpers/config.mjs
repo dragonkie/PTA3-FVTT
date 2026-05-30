@@ -79,6 +79,7 @@ PTA.generic = {
   age: 'PTA.Generic.Age',
   ailment: 'PTA.Generic.Ailment',
   attack: 'PTA.Generic.Attack',
+  cancel: 'PTA.Generic.Cancel',
   chance: 'PTA.Generic.Chance',
   damage: 'PTA.Generic.Damage',
   data: 'PTA.Generic.Data',
@@ -98,6 +99,7 @@ PTA.generic = {
   pokemon: 'PTA.Generic.Pokemon',
   primary: 'PTA.Generic.Primary',
   rank: 'PTA.Generic.Rank',
+  roll: 'PTA.generic.Roll',
   secondary: 'PTA.Generic.Secondary',
   shiny: 'PTA.Generic.Shiny',
   size: 'PTA.Generic.Size',
@@ -708,5 +710,16 @@ PTA.windowTitle = {
   fileServer: 'PTA.Title.FileServer',
   releaseCreature: 'PTA.Title.ReleaseCreature',
   selectCreature: 'PTA.Title.SelectCreature',
-  useItem: 'PTA.Title.UseItem'
+  useItem: 'PTA.Title.UseItem',
+  roll: 'PTA.Title.Roll'
+}
+
+PTA.contextMenu = {
+  edit: 'PTA.ContextMenu.Edit',
+  delete: 'PTA.ContextMenu.Delete',
+  equip: 'PTA.ContextMenu.Delete',
+  unequip: 'PTA.ContextMenu.Delete',
+  use: 'PTA.ContextMenu.Delete',
+  attack: 'PTA.ContextMenu.Delete',
+  damage: '',
 }

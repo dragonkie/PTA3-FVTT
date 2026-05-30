@@ -38,6 +38,8 @@ function registerHelpers() {
             else throw new Error("Can't get length of non array value");
         },
         objectIsEmpty: (obj) => Object.keys(obj).length <= 0,
+        objectValue: (obj, key) => obj[key],
+        systemConfig: () => PTA,
         //=======================================================================
         //>  Strings and Text
         //=======================================================================
