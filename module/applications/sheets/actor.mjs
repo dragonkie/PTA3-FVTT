@@ -371,7 +371,7 @@ export function PtaTrainerMixin(BaseApplication) {
             // setup item search options
             const backpack = this.element.querySelector('.pta-inventory');
             const backpackContents = backpack.querySelectorAll('.item');
-            const searchElement = this.element.querySelector('input.pta-inventory-search');
+            const searchElement = this.element.querySelector('input.pta-search-input');
             const query = searchElement.value.toLowerCase();
 
             for (const ele of backpackContents) {
@@ -381,15 +381,42 @@ export function PtaTrainerMixin(BaseApplication) {
             }
         }
 
+        /**
+         * Each search is wrapped in an elemented with a [data-search] tag specifying what search type it is
+         * ex. data-search="items" is used to filter items
+         * 
+         * All inputs inside the search wrapper are applied to elements matching the search tag
+         * A search container can have many different contexts or filters to search throguh
+         * in this system that usually includes a name, type, gender, etc.
+         * 
+         * search inputs are seperated with tags to show what elements they search by 
+         * 
+         * Searchable elements are indicated with the class "".pta-searchable" tag to select which group reveals or hides them
+         * an item entry with data-searchable="items" will be filtered to match those standards
+         * 
+         * searchable elements are filtered with a data-search-tags
+         */
         _setupSearchQuery() {
+            // get a list of input elements
+            const elements = this.element.querySelectorAll('[data-search]');
+
+            // convert the elements to actual search queries
+            const inputs = {};
+            for (const ele of elements) {
+                const input = ele.querySelectorAll('[data-search]');
+            }
+
+            /*============================== DELETING BELOW ================================
+
             // Set up pokebox search bar functionality
             const pcSearchElement = this.element.querySelector('.pta-trainer-pc-search');
             const pcInputs = pcSearchElement.querySelectorAll('[data-query]');
             for (const input of pcInputs) input.addEventListener('input', this._performPcSearchQuery.bind(this));
 
             // set up backpack search bar
-            const bagSearchElement = this.element.querySelector('.pta-inventory-search');
+            const bagSearchElement = this.element.querySelector('.pta-search-input');
             bagSearchElement.addEventListener('input', this._performBackpackSearchQuery.bind(this));
+            */
         }
 
         _saveSearchQuery() {

@@ -1,24 +1,24 @@
 <div class="pta-tab">
     <div class="flexcol flex flex-gap-m">
-        <div class="pta-search-container flexrow">
+        <div class="pta-search-container flexrow" data-search="items">
             <div class="pta-search-wrap">
                 <i class="fas fa-magnifying-glass"></i>
                 <input type="text" class="pta-search-input flex" placeholder="PTA.Placeholder.SearchInventory">
             </div>
             <ul class="flexrow flexshrink flex-nowrap flex-gap-s">
                 <li>
-                    <button data-action="clear">
+                    <button class="pta-clear-button" data-action="clear">
                         <i class="fas fa-x"></i>
                     </button>
                 </li>
                 <li>
-                    <button data-action="sort">
+                    <button class="pta-clear-button" data-action="sort">
                         <i class="fas fa-arrow-down-short-wide"></i>
                     </button>
                 </li>
             </ul>
         </div>
-        <div class="flexcol pta-inventory flex-gap-m">
+        <div class="flexcol pta-inventory flex-gap-l">
             {{#each itemTypes}}
                 {{#if (not (or (eq @key 'base')  (eq @key 'move') (eq @key 'feature')))}}
                     <div class="pta-bag pta-item-list collapsible pta-{{@key}}-list" data-list="{{@key}}">

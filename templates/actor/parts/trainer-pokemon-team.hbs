@@ -15,13 +15,16 @@
                     <div class="details">
                         <div class="flexrow">
                             <div class="nickname pta-font-l">{{pokemon.name}}</div>
-                            <button class="flex0" type="button" data-action="pokemonBox" title="PTA.TitleHint.Box"><i style="margin: 0;" class="fas fa-box-archive"></i></button>
+                            <button class="flex0 pta-clear-button" type="button" data-action="pokemonBox" title="PTA.TitleHint.Box">
+                                <i style="margin: 0;" class="fas fa-box-archive"></i>
+                            </button>
                         </div>
                         <div class="health">
                             <div class="progress-bar round pta-xs">
                                 <label>HP</label>
                                 <div class="wrapper">
-                                    <div class="bar {{#if (lt (divide pokemon.data.hp.value pokemon.data.hp.max) 0.33)}}red{{else}}green{{/if}}" style="width: {{multiply 100 (divide pokemon.data.hp.value pokemon.data.hp.max)}}%">
+                                    <div class="bar {{#if (lt (divide pokemon.data.hp.value pokemon.data.hp.max) 0.33)}}red{{else}}green{{/if}}"
+                                        style="width: {{multiply 100 (divide pokemon.data.hp.value pokemon.data.hp.max)}}%">
                                     </div>
                                 </div>
                             </div>

@@ -30,3 +30,11 @@
     display: none !important;
   }
 }
+
+button.pta-clear-button {
+  border: 0;
+  background: none;
+  &:focus {
+    outline: 0;
+  }
+}

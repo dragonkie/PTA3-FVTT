@@ -1,0 +1,25 @@
+.pta-search-container {
+    background-color: #302831;
+    border-radius: 5px;
+
+    .pta-search-wrap {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    input {
+        box-sizing: border-box;
+        height: 1em;
+        margin: 0.5em 0;
+
+        &:focus {
+            border: 0;
+            outline: none;
+        }
+    }
+
+    &:focus-within {
+        outline: 2px solid gold;
+    }
+}

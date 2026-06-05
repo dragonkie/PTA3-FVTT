@@ -144,6 +144,14 @@
   display: none !important;
 }
 
+button.pta-clear-button {
+  border: 0;
+  background: none;
+}
+button.pta-clear-button:focus {
+  outline: 0;
+}
+
 .grid,
 .grid-2col {
   display: grid;
@@ -350,6 +358,28 @@
 }
 
 /* Components */
+.pta-search-container {
+  background-color: #302831;
+  border-radius: 5px;
+}
+.pta-search-container .pta-search-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.pta-search-container input {
+  box-sizing: border-box;
+  height: 1em;
+  margin: 0.5em 0;
+}
+.pta-search-container input:focus {
+  border: 0;
+  outline: none;
+}
+.pta-search-container:focus-within {
+  outline: 2px solid gold;
+}
+
 /* Import utilities */
 .item-form {
   font-family: "Roboto", sans-serif;
@@ -469,158 +499,12 @@
 }
 
 /* Import utilities */
-.items-header {
-  height: 28px;
-  margin: 2px 0;
-  padding: 0;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.05);
-  border: 2px groove #eeede0;
-  font-weight: bold;
-}
-.items-header > * {
-  font-size: 14px;
-  text-align: center;
-}
-.items-header .item-name {
-  font-weight: bold;
-  padding-left: 5px;
-  text-align: left;
-  display: flex;
-}
-
-ol.items-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
-}
-ol.items-list .item-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-ol.items-list .item-name {
-  flex: 2;
-  margin: 0;
-  overflow: hidden;
-  font-size: 13px;
-  text-align: left;
-  align-items: center;
-  display: flex;
-}
-ol.items-list .item-name h3,
-ol.items-list .item-name h4 {
-  margin: 0;
-  white-space: nowrap;
-}
-ol.items-list .item-controls {
-  display: flex;
-  flex: 0 1 100px;
-  justify-content: flex-end;
-  margin: 0 0.3rem;
-}
-ol.items-list .item-controls a {
-  font-size: 12px;
-  text-align: center;
-  margin: 0 6px;
-}
-ol.items-list .item {
-  align-items: center;
-  padding: 0 2px;
-  border-bottom: 1px solid #c9c7b8;
-}
-ol.items-list .item:last-child {
-  border-bottom: none;
-}
-ol.items-list .item .item-name {
-  font-size: 1rem;
-}
-ol.items-list .item .item-name .item-image {
-  flex: 0 0 30px;
-  height: 30px;
-  background-size: 30px;
-  border: none;
-  margin-right: 5px;
-}
-ol.items-list .item .item-quantity {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  flex: 0;
-}
-ol.items-list .item .item-quantity .item-count {
-  text-align: center;
-  min-width: 3em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-ol.items-list .item .item-quantity > * {
-  flex: 0;
-}
-ol.items-list .item .item-quantity button {
-  padding: 2px;
-}
-ol.items-list .item .item-quantity i {
-  margin: 0;
-}
-ol.items-list .item-prop {
-  text-align: center;
-  border-left: 1px solid #c9c7b8;
-  border-right: 1px solid #c9c7b8;
-  font-size: 12px;
-}
-ol.items-list .items-header {
-  height: 28px;
-  margin: 2px 0;
-  padding: 0;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.05);
-  border: 2px groove #eeede0;
-  font-weight: bold;
-}
-ol.items-list .items-header > * {
-  font-size: 12px;
-  text-align: center;
-}
-ol.items-list .items-header .item-name {
-  padding-left: 5px;
-  text-align: left;
-}
-
-.item-formula {
-  flex: 0 0 200px;
-  padding: 0 8px;
-}
-
-.pta-search-container {
-  background-color: #302831;
-}
-.pta-search-container .pta-search-wrap {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-}
-.pta-search-container input {
-  box-sizing: border-box;
-  height: 1em;
-  margin: 0.5em 0;
-}
-.pta-search-container input:focus {
-  border: 0;
-  outline: none;
-}
-.pta-search-container:focus-within {
-  outline: 2px solid gold;
-}
-
 .pta-item-list {
   display: flex;
   flex-direction: column;
   padding: 0;
   margin: 0;
+  box-shadow: 0 0 5px black;
 }
 .pta-item-list .pta-item-list-header {
   border-radius: 5px 5px 0 0;
@@ -1195,6 +1079,10 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   box-sizing: border-box;
   overflow: auto;
   flex: 1;
+}
+
+.pta-inventory {
+  padding: 5px;
 }
 
 /* Styles limited to pta3 sheets */

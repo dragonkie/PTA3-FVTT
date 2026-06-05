@@ -18,13 +18,13 @@
         </div>
 
         {{!-- Search Bar --}}
-        <div class="pta-trainer-pc-search collapsible-content flex-gap-s">
+        <div class=" pta-trainer-pc-search collapsible-content flex-gap-s">
             <div class="wrapper">
                 <div class="flexcol flex-gap-s">
-                    <input data-query="name" type="text" placeholder="{{localize 'PTA.Generic.Name'}} / {{localize 'PTA.Generic.Species'}}">
-                    <input data-query="type" type="text" placeholder="{{localize 'PTA.Generic.Type'}}">
+                    <input class="pta-search-input" data-query="name" type="text" placeholder="{{localize 'PTA.Generic.Name'}} / {{localize 'PTA.Generic.Species'}}">
+                    <input class="pta-search-input" data-query="type" type="text" placeholder="{{localize 'PTA.Generic.Type'}}">
                     <div class="pta-tooltip">
-                        <input data-query="tag" type="text" placeholder="tags">
+                        <input class="pta-search-input" data-query="tag" type="text" placeholder="tags">
                         <div class="pta-tooltip-content"></div>
                     </div>
                     <div class="flexrow flex-gap-m">
