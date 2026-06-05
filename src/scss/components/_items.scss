@@ -158,3 +158,134 @@ ol.items-list {
   flex: 0 0 200px;
   padding: 0 8px;
 }
+
+//=============================================================================================
+//> New item list format!
+//=============================================================================================
+$pta-border-radius: 5px;
+
+// widths for item details
+$pta-move-detail-type: 5em;
+$pta-move-detail-class: 5em;
+$pta-move-detail-damage: 5em;
+
+.pta-search-container {
+  background-color: #302831;
+
+  .pta-search-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  input {
+    box-sizing: border-box;
+    height: 1em;
+    margin: 0.5em 0;
+
+    &:focus {
+      border: 0;
+      outline: none;
+    }
+  }
+
+  &:focus-within {
+    outline: 2px solid gold;
+  }
+}
+
+.pta-item-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+
+  // Defines the block at the top of the item list
+  .pta-item-list-header {
+    border-radius: $pta-border-radius $pta-border-radius 0 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 1.5em;
+    font-size: 1rem;
+    align-items: center;
+    margin: 0;
+
+    background: linear-gradient(to left, #631f1f, #8e2b2b);
+
+    .pta-item-list-header-detail {
+      flex: 0 0 5em;
+    }
+  }
+
+  .collapsed {
+    .pta-item-list-header {
+      border-radius: $pta-border-radius;
+    }
+  }
+
+  // identifier for the collapsible wrapper holding all the items
+  .pta-item-entries {
+    :last-child {
+      border-radius: 0 0 $pta-border-radius $pta-border-radius;
+    }
+  }
+
+  // class for each entry in the list
+  .pta-item {
+    border-top: 1px solid rgb(224, 242, 255);
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+
+    background: linear-gradient(to right, #7c7c7c, #616161);
+    transition: background-color 0.3s;
+
+    &:hover {
+      background: linear-gradient(to right, #8b8b8b, #707070);
+    }
+
+    .pta-item-details {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0;
+    }
+
+    .pta-item-detail {
+      flex: 0 0 5em;
+    }
+
+    // items identity, far left side of the row
+    .pta-item-name {
+      font-size: 1rem;
+      flex: 2;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .pta-item-image {
+        flex: 0 0 30px;
+        height: 30px;
+        background-size: 30px;
+        border: none;
+        margin-right: 5px;
+      }
+    }
+
+    // important item details, populates space between items name and controls
+    .pta-item-details {}
+
+    // list of controls in the item bar on the far right side
+    .pta-item-controls {
+      flex: 0;
+    }
+
+    // Collapsible content for the item, displayed when clicked
+    .pta-item-content {}
+  }
+}
+
+//=============================================================================================
+//> Item detail variables
+//=============================================================================================

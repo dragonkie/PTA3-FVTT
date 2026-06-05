@@ -80,28 +80,14 @@ ol.pta-pokemon-team {
     }
 }
 
-.type-tag {
-    //font-size: var(--pta-scale-em);
-    border-radius: 4px;
-    border: 2px solid;
-    width: fit-content;
-    text-align: center;
-
-    @each $type in util.$pokemon-types {
-        &.#{$type} {
-            border-color: var(--pta-c-type-#{$type});
-        }
-    }
-}
-
 .pta-type-tag {
     --pta-type-colour: transparent;
 
     border-radius: 4px;
     border: 2px solid var(--pta-type-colour);
-    width: fit-content;
     text-align: center;
-    min-width: 6em;
+    min-width: 5em;
+    flex: 0 0;
 
     @each $type in util.$pokemon-types {
         &.pta-type-#{$type} {

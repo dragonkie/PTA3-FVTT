@@ -34,7 +34,7 @@ export default class MoveData extends ItemData {
         // move damage
         schema.damage = new SchemaField({
             // normal data
-            formula: new StringField({ ...isRequired, blank: false, initial: '2d6 + @atk', validate: (value) => Roll.validate(value), validationError: 'PTA.Error.InvalidFormula' }),
+            formula: new StringField({ ...isRequired, blank: false, initial: '2d6', validate: (value) => Roll.validate(value), validationError: 'PTA.Error.InvalidFormula' }),
         })
 
         schema.range = new NumberField({ initial: 5 })
@@ -116,6 +116,12 @@ export default class MoveData extends ItemData {
         };
 
         return data;
+    }
+
+    get displayDamageFormula() {
+        const data = this.getRollData();
+
+        return formula;
     }
 
     //=====================================================================================================
@@ -342,7 +348,7 @@ export default class MoveData extends ItemData {
         }).render();
 
         // make the damage roll
-        const r = new Roll(this.damage.formula);
+        const r = new Roll(this.damage.formula, this.getRollData());
         await r.evaluate();
         r.toMessage();
     }

@@ -312,6 +312,9 @@
 .pta .flex-between {
   justify-content: space-between;
 }
+.pta .flex {
+  flex: 1;
+}
 .pta .flexlarge {
   flex: 2;
 }
@@ -592,6 +595,90 @@ ol.items-list .items-header .item-name {
   padding: 0 8px;
 }
 
+.pta-search-container {
+  background-color: #302831;
+}
+.pta-search-container .pta-search-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.pta-search-container input {
+  box-sizing: border-box;
+  height: 1em;
+  margin: 0.5em 0;
+}
+.pta-search-container input:focus {
+  border: 0;
+  outline: none;
+}
+.pta-search-container:focus-within {
+  outline: 2px solid gold;
+}
+
+.pta-item-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+.pta-item-list .pta-item-list-header {
+  border-radius: 5px 5px 0 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  height: 1.5em;
+  font-size: 1rem;
+  align-items: center;
+  margin: 0;
+  background: linear-gradient(to left, #631f1f, #8e2b2b);
+}
+.pta-item-list .pta-item-list-header .pta-item-list-header-detail {
+  flex: 0 0 5em;
+}
+.pta-item-list .collapsed .pta-item-list-header {
+  border-radius: 5px;
+}
+.pta-item-list .pta-item-entries :last-child {
+  border-radius: 0 0 5px 5px;
+}
+.pta-item-list .pta-item {
+  border-top: 1px solid rgb(224, 242, 255);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  background: linear-gradient(to right, #7c7c7c, #616161);
+  transition: background-color 0.3s;
+}
+.pta-item-list .pta-item:hover {
+  background: linear-gradient(to right, #8b8b8b, #707070);
+}
+.pta-item-list .pta-item .pta-item-details {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  flex: 0;
+}
+.pta-item-list .pta-item .pta-item-detail {
+  flex: 0 0 5em;
+}
+.pta-item-list .pta-item .pta-item-name {
+  font-size: 1rem;
+  flex: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.pta-item-list .pta-item .pta-item-name .pta-item-image {
+  flex: 0 0 30px;
+  height: 30px;
+  background-size: 30px;
+  border: none;
+  margin-right: 5px;
+}
+.pta-item-list .pta-item .pta-item-controls {
+  flex: 0;
+}
 .effects .item .effect-source,
 .effects .item .effect-duration,
 .effects .item .effect-controls {
@@ -673,74 +760,13 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   flex: 0;
 }
 
-.type-tag {
-  border-radius: 4px;
-  border: 2px solid;
-  width: fit-content;
-  text-align: center;
-}
-.type-tag.normal {
-  border-color: var(--pta-c-type-normal);
-}
-.type-tag.fire {
-  border-color: var(--pta-c-type-fire);
-}
-.type-tag.water {
-  border-color: var(--pta-c-type-water);
-}
-.type-tag.electric {
-  border-color: var(--pta-c-type-electric);
-}
-.type-tag.grass {
-  border-color: var(--pta-c-type-grass);
-}
-.type-tag.ice {
-  border-color: var(--pta-c-type-ice);
-}
-.type-tag.fighting {
-  border-color: var(--pta-c-type-fighting);
-}
-.type-tag.poison {
-  border-color: var(--pta-c-type-poison);
-}
-.type-tag.ground {
-  border-color: var(--pta-c-type-ground);
-}
-.type-tag.flying {
-  border-color: var(--pta-c-type-flying);
-}
-.type-tag.psychic {
-  border-color: var(--pta-c-type-psychic);
-}
-.type-tag.bug {
-  border-color: var(--pta-c-type-bug);
-}
-.type-tag.rock {
-  border-color: var(--pta-c-type-rock);
-}
-.type-tag.ghost {
-  border-color: var(--pta-c-type-ghost);
-}
-.type-tag.dragon {
-  border-color: var(--pta-c-type-dragon);
-}
-.type-tag.dark {
-  border-color: var(--pta-c-type-dark);
-}
-.type-tag.steel {
-  border-color: var(--pta-c-type-steel);
-}
-.type-tag.fairy {
-  border-color: var(--pta-c-type-fairy);
-}
-
 .pta-type-tag {
   --pta-type-colour: transparent;
   border-radius: 4px;
   border: 2px solid var(--pta-type-colour);
-  width: fit-content;
   text-align: center;
-  min-width: 6em;
+  min-width: 5em;
+  flex: 0 0;
 }
 .pta-type-tag.pta-type-normal {
   --pta-type-colour: var(--pta-c-type-normal);
@@ -1172,6 +1198,11 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
 }
 
 /* Styles limited to pta3 sheets */
+.pta ol, .pta ul, .pta li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
 .pta input[type=text] {
   font-family: "DM Sans", serif;
   font-size: var(--pta-scale-rem);

@@ -1,14 +1,14 @@
 {{!-- Content for move type items --}}
 {{#*inline 'move-details'}}
-  <div class="pta-type-tag pta-type-{{item.system.type}} pta-fill">
+  <div class="pta-item-detail pta-type-tag pta-type-{{item.system.type}} pta-fill">
     {{localize (objectValue @root.config.pokemonTypes item.system.type)}}
   </div>
-  <div class="pta-category flexcol flex-align-center">
+  <div class="pta-item-detail pta-category flexcol flex-align-center">
     {{localize (objectValue @root.config.moveClass item.system.category)}}
   </div>
-  {{#if (gt item.system.uses.max 0)}}
-    <div>Uses [{{item.system.uses.value}}/{{item.system.uses.max}}]</div>
-  {{/if}}
+  <div class="pta-item-detail pta-damage">
+    {{item.system.damage.formula}}
+  </div>
 {{/inline}}
 
 {{#*inline 'move-content'}}
@@ -24,28 +24,26 @@
 
 {{/inline}}
 
-<li class="item collapsible collapsed" data-uuid="{{item.uuid}}" draggable="true">
+<li class="pta-item collapsible collapsed" data-uuid="{{item.uuid}}" draggable="true">
   <div class="flexrow" data-action="collapse">
-    <div class="item-name">
-      <div class="item-image">
+    <div class="pta-item-name">
+      <div class="pta-item-image">
         <a data-action="itemUse">
-          <img src="{{item.img}}" title="{{item.name}}" />
+          <img src="{{item.img}}" title="{{item.name}}" width="30" height="30" />
         </a>
       </div>
       <div>{{item.name}}</div>
     </div>
 
     {{!-- Item listing details, only the most important at a glance details belong here --}}
-    <div class="item-details flexrow">
+
+    <div class="pta-item-details">
       {{#if (eq item.type 'move')}}{{> 'move-details' item=item}}{{/if}}
     </div>
 
     {{!-- Item controls, different buttons and actions to use the item more accurately then in a single 'use' button --}}
-    <div class="item-controls">
-      {{#if @root.isEditMode}}
-        <a class="item-control fas fa-edit" data-action="edit" title="{{localize 'DOCUMENT.Update' type=Item}}"></a>
-        <a class="item-control fas fa-trash" data-action="delete" title="{{localize 'DOCUMENT.Delete' type=Item}}"></a>
-      {{/if}}
+    <div class="pta-item-controls">
+      <button><i class="fas fa-ellipsis-vertical"></i></button>
     </div>
   </div>
 

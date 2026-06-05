@@ -1,16 +1,20 @@
 <div class="pta-tab">
-    <div class="pta-tab-content flexcol flex-group-start flex-gap-m">
-        <ol class="pta-move-list items-list">
-            <span class="items-header flexrow">
-                <span class="item-name">Moves</span>
-                <div class="item-controls">
-                    <a data-action="importMoves" class="item-control fas fa-arrow-down-to-line" title="PTA.Button.ImportMoves"></a>
+    <div class="pta-tab-content flexcol">
+        <div class="pta-move-list pta-item-list">
+            <span class="pta-item-list-header">
+                <div class="pta-item-list-name flex" style="padding-left: 1em;">PTA.Generic.Moves</div>
+                <div class="flexrow flexshrink flex-nowrap">
+                    <div class="pta-item-list-header-detail flexshrink">Type</div>
+                    <div class="pta-item-list-header-detail flexshrink">Class</div>
+                    <div class="pta-item-list-header-detail flexshrink">Damage</div>
                 </div>
+                <div>Controls</div>
             </span>
-            {{log this}}
-            {{#each items as | item key |}}
-                {{#if (eq item.type 'move')}}{{> 'pta.list-item' item=item}}{{/if}}
-            {{/each}}
-        </ol>
+            <ol class="pta-item-entries">
+                {{#each items as | item key |}}
+                    {{#if (eq item.type 'move')}}{{> 'pta.list-item' item=item isEditMode=@root.isEditMode isPlayMode=@root.isPlayMode}}{{/if}}
+                {{/each}}
+            </ol>
+        </div>
     </div>
 </div>
