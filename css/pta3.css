@@ -368,6 +368,7 @@ button.pta-clear-button:focus {
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
+  padding-left: 0.5rem;
 }
 .pta-search-container input {
   box-sizing: border-box;
@@ -551,6 +552,8 @@ button.pta-clear-button:focus {
 }
 .pta-item-list .pta-item .pta-item-detail {
   flex: 0 0 5em;
+  text-wrap: nowrap;
+  text-overflow: hidden;
 }
 .pta-item-list .pta-item .pta-item-name {
   font-size: 1rem;
@@ -1067,7 +1070,6 @@ button.pta-clear-button:focus {
 
 /* Sheet specific styles */
 .pta.sheet.actor .pta-sheet-header {
-  margin-bottom: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--color-light-5);
 }
@@ -1082,7 +1084,6 @@ button.pta-clear-button:focus {
 }
 
 .pta-inventory {
-  padding: 5px;
   overflow: auto;
 }
 
@@ -1115,7 +1116,7 @@ button.pta-clear-button:focus {
   height: 100%;
   width: 100%;
   min-height: 300px;
-  padding: 2px;
+  padding: 0.5rem;
 }
 .pta .pta-tab.pta-companion-tab {
   min-height: 525px;

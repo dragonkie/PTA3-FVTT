@@ -77,6 +77,8 @@ $pta-move-detail-damage: 5em;
 
     .pta-item-detail {
       flex: 0 0 5em;
+      text-wrap: nowrap;
+      text-overflow: hidden;
     }
 
     // items identity, far left side of the row
@@ -95,9 +97,6 @@ $pta-move-detail-damage: 5em;
         margin: 0 0.3rem;
       }
     }
-
-    // important item details, populates space between items name and controls
-    .pta-item-details {}
 
     // list of controls in the item bar on the far right side
     .pta-item-controls {
