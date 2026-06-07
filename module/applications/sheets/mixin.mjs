@@ -20,6 +20,7 @@ export default function PtaSheetMixin(Base) {
                 delete: this._onDelete,
                 edit: this._onEdit,
                 toggle: this._onToggle,
+                clear: this._onClear,
 
                 collapse: this._onCollapse,
                 copyToClipboard: this._onCopyToClipboard,
@@ -50,7 +51,7 @@ export default function PtaSheetMixin(Base) {
 
         async _prepareContext() {
             const context = await super._prepareContext();
-            
+
             context.document = this.document;
             context.actor = this.document.actor;
             context.config = pta.config;
@@ -137,6 +138,16 @@ export default function PtaSheetMixin(Base) {
             else doc.sheet.bringToFront(true);
 
             console.log("Rendered sheet", doc)
+        }
+
+        static async _onClear(event, target) {
+            const search = target.closest(".pta-search-container");
+            const input = search.querySelector('.pta-search-input');
+
+            if (input) {
+                input.value = "";
+                input.dispatchEvent(new Event("input"));
+            }
         }
 
         static async _onEditImage(event, target) {
