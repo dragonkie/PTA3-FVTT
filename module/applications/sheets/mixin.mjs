@@ -9,7 +9,7 @@ export default function PtaSheetMixin(Base) {
 
         static DEFAULT_OPTIONS = {
             classes: ['pta', 'sheet'],
-            window: { resizable: false },
+            window: { resizable: true },
             form: {
                 submitOnChange: true,
                 submitOnClose: true,
@@ -60,8 +60,8 @@ export default function PtaSheetMixin(Base) {
             context.isEditMode = this.isEditMode;
             context.isPlayMode = this.isPlayMode;
             context.isEditable = this.isEditable;
-
-            context.flags = { ...this.document.flags, ...game.user.flags[game.system.id] }
+            context.flags = this.document.flags;
+            context.userSettings = game.user.getFlag(game.system.id, 'settings');
 
             const enrichmentOptions = { rollData: context.rollData }
             context.gmNotes = {
