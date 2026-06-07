@@ -147,6 +147,7 @@
 button.pta-clear-button {
   border: 0;
   background: none;
+  padding: 0 0.2rem;
 }
 button.pta-clear-button:focus {
   outline: 0;
@@ -366,6 +367,7 @@ button.pta-clear-button:focus {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  align-items: center;
 }
 .pta-search-container input {
   box-sizing: border-box;
@@ -517,8 +519,12 @@ button.pta-clear-button:focus {
   margin: 0;
   background: linear-gradient(to left, #631f1f, #8e2b2b);
 }
+.pta-item-list .pta-item-list-header .pta-header-detail-groups {
+  margin-right: 40px;
+  text-align: center;
+}
 .pta-item-list .pta-item-list-header .pta-item-list-header-detail {
-  flex: 0 0 5em;
+  flex: 0 0 70px;
 }
 .pta-item-list .collapsed .pta-item-list-header {
   border-radius: 5px;
@@ -558,10 +564,12 @@ button.pta-clear-button:focus {
   height: 30px;
   background-size: 30px;
   border: none;
-  margin-right: 5px;
+  margin: 0 0.3rem;
 }
 .pta-item-list .pta-item .pta-item-controls {
-  flex: 0;
+  flex: 0 0 40px;
+  align-items: center;
+  justify-items: center;
 }
 .effects .item .effect-source,
 .effects .item .effect-duration,
@@ -587,18 +595,15 @@ button.pta-clear-button:focus {
 
 /* Import utilities */
 /* Classes for creating pokemon type boxs and their effects */
-.pta-pokemon-team-view {
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 225px;
-}
-
-ol.pta-pokemon-team {
+.pta-companion-tab .pta-companion-team {
   list-style: none;
-  padding: 0;
+  padding: 0.5em;
   margin: 0;
+  flex: 0 0 225px;
+  background: linear-gradient(to right, #808080, #6d6d6d);
+  border-radius: 5px;
 }
-ol.pta-pokemon-team .pta-pokemon {
+.pta-companion-tab .pta-companion-team .pta-companion {
   --angle: 110deg;
   --scale: 60%;
   background-color: var(--color-cool-4);
@@ -613,17 +618,17 @@ ol.pta-pokemon-team .pta-pokemon {
   --corner: 1em;
   clip-path: polygon(var(--corner) 0%, calc(100% - var(--corner)) 0%, 100% var(--corner), 100% calc(100% - var(--corner)), calc(100% - var(--corner)) 100%, var(--corner) 100%, 0% calc(100% - var(--corner)), 0% var(--corner));
 }
-ol.pta-pokemon-team .pta-pokemon .portrait {
+.pta-companion-tab .pta-companion-team .pta-companion .pta-companion-portrait {
   flex: 0 0;
   background-repeat: no-repeat;
   background-size: contain;
   height: 100%;
   aspect-ratio: 1;
 }
-ol.pta-pokemon-team .pta-pokemon .portrait img {
+.pta-companion-tab .pta-companion-team .pta-companion .pta-companion-portrait img {
   border: 0;
 }
-ol.pta-pokemon-team .pta-pokemon .details {
+.pta-companion-tab .pta-companion-team .pta-companion .details {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -631,16 +636,16 @@ ol.pta-pokemon-team .pta-pokemon .details {
   justify-content: center;
   text-align: center;
 }
-ol.pta-pokemon-team .pta-pokemon .details > * {
+.pta-companion-tab .pta-companion-team .pta-companion .details > * {
   flex: 1;
   width: 100%;
 }
-ol.pta-pokemon-team .pta-pokemon .details .nickname {
+.pta-companion-tab .pta-companion-team .pta-companion .details .pta-companion-nickname {
   text-align: left;
   font-weight: bold;
   font-size: calc(var(--pta-scale-em) * 0.8);
 }
-ol.pta-pokemon-team .pta-pokemon .details .health {
+.pta-companion-tab .pta-companion-team .pta-companion .details .health {
   flex: 0;
 }
 
@@ -793,6 +798,15 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   word-break: keep-all;
   word-wrap: break-word;
   flex: 0;
+}
+
+.pta-pokebox {
+  height: 100%;
+}
+
+.pta-pc-entries {
+  overflow: auto;
+  flex: 1;
 }
 
 .progress-bar {
@@ -1063,26 +1077,13 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   object-fit: cover;
   object-position: 50% 0%;
 }
-.pta.sheet.actor .window-content {
-  min-height: 600px;
-}
 .pta.sheet.actor .window-content [data-tab=inventory] {
-  max-height: 400px;
   overflow-y: auto;
-}
-
-.pta-pokebox {
-  max-height: 500px;
-  overflow: hidden;
-}
-.pta-pokebox .pta-pokebox-entries {
-  box-sizing: border-box;
-  overflow: auto;
-  flex: 1;
 }
 
 .pta-inventory {
   padding: 5px;
+  overflow: auto;
 }
 
 /* Styles limited to pta3 sheets */
@@ -1116,7 +1117,7 @@ ol.pta-pokemon-team .pta-pokemon .details .health {
   min-height: 300px;
   padding: 2px;
 }
-.pta .pta-tab.pta-pokemon-tab {
+.pta .pta-tab.pta-companion-tab {
   min-height: 525px;
 }
 .pta .remote-image-browser .sprite-gallery {
