@@ -46,7 +46,6 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         });
         context.itemTypes = this.document.itemTypes;
         context.editable = this.isEditable && (this._mode === this.constructor.SHEET_MODES.EDIT);
-        context.userSettings = game.user.getFlag(game.system.id, 'settings');
 
         context.stats = {};
         for (const [key, value] of Object.entries(this.document.system.stats)) {
@@ -334,92 +333,83 @@ export function PtaTrainerMixin(BaseApplication) {
         _pcSearchQuery = {}
         _itemSearchQuery = "";
 
-        async _performPcSearchQuery() {
-            // Set up pokebox search bar functionality
-            const pokebox = this.element.querySelector('.pta-pokebox-entries');
-            const pcSearchElement = this.element.querySelector('.pta-trainer-pc-search');
-            const inputs = pcSearchElement.querySelectorAll('[data-query]');
-
-            for (const ele of pokebox.querySelectorAll('[data-pokemon-uuid]')) {
-                ele.classList.remove('obliterated');
-                const pokemon = await fromUuid(ele.dataset.pokemonUuid);
-
-                for (const input of inputs) {
-                    if (input.dataset.query == 'name') {
-                        const query = input?.value?.toLowerCase();
-                        if (!query || query == "") continue;
-                        if (!pokemon.name.toLowerCase().startsWith(query) && !pokemon.system.species.toLowerCase().startsWith(query)) ele.classList.add('obliterated');
-                    }
-
-                    if (input.dataset.query == 'type') {
-                        const queries = input?.value?.toLowerCase().replaceAll(",", " ").split(" ");
-                        const types = pokemon.system.getTypes;
-
-                        for (const query of queries) {
-                            if (!pokemon.system.types.primary.startsWith(query) && !pokemon.system.types.secondary.startsWith(query)) ele.classList.add('obliterated');
-                        }
-                    }
-
-                    if (input.dataset.query == 'female' && input.checked && pokemon.system.gender.toLowerCase() != "female") ele.classList.add('obliterated');
-                    if (input.dataset.query == 'male' && input.checked && pokemon.system.gender.toLowerCase() != "male") ele.classList.add('obliterated');
-                    if (input.dataset.query == 'shiny' && !pokemon.system.shiny == input.checked) ele.classList.add('obliterated');
-                }
-            }
-        }
-
-        async _performBackpackSearchQuery() {
-            // setup item search options
-            const backpack = this.element.querySelector('.pta-inventory');
-            const backpackContents = backpack.querySelectorAll('.item');
-            const searchElement = this.element.querySelector('input.pta-search-input');
-            const query = searchElement.value.toLowerCase();
-
-            for (const ele of backpackContents) {
-                const item = await fromUuid(ele.dataset.uuid);
-                if (!item.name.toLowerCase().includes(query)) ele.classList.add('obliterated');
-                else ele.classList.remove('obliterated');
-            }
-        }
-
         /**
-         * Each search is wrapped in an elemented with a [data-search] tag specifying what search type it is
+         * Each search is wrapped in an elemented with a [data-search] attribute specifying what search type it is
          * ex. data-search="items" is used to filter items
          * 
          * All inputs inside the search wrapper are applied to elements matching the search tag
          * A search container can have many different contexts or filters to search throguh
          * in this system that usually includes a name, type, gender, etc.
          * 
-         * search inputs are seperated with tags to show what elements they search by 
+         * Searchable elements are indicated with the class [data-searchable] attribute to select which group reveals or hides them
+         * an item entry with data-searchable="item" will be filtered to match those standards
          * 
-         * Searchable elements are indicated with the class "".pta-searchable" tag to select which group reveals or hides them
-         * an item entry with data-searchable="items" will be filtered to match those standards
+         * All searchable elements need to have, or be contained by am element with, a [data-uuid] attribute
+         * The uuid search allows us to pull up which item is which and access item or creature data
+         * with creature data available the [data-search] group and [data-query] value checks can run
+         * against the internal data model for that document
          * 
-         * searchable elements are filtered with a data-search-tags
+         * Search data is compared against DOCUMENT data, not the system data model
+         * Adding a search query for system data values means including system in the query,
+         * search inputs without a specified [data-path] compare against document name by default
+         * eg. [data-query="system.hp.value"], [data-query="name"], [data-query="system.type.primary"]
+         * 
+         * ----SEARCHABLE GROUPS----
+         * companion
+         * item
+         * move
+         * feature
+         * 
+         * -------SEARCH TAGS-------
+         * all elemental types
+         * all item document types
+         * item
+         * creature
+         * male
+         * female
+         * shiny
          */
         _setupSearchQuery() {
             // get a list of input elements
-            const elements = this.element.querySelectorAll('[data-search]');
+            const containers = this.element.querySelectorAll('[data-search]');
 
             // convert the elements to actual search queries
-            const inputs = {};
-            for (const ele of elements) {
-                const input = ele.querySelectorAll('[data-search]');
+            for (const container of containers) {
+                const inputs = container.querySelectorAll(".pta-search-input");
+                for (const input of inputs) input.addEventListener('input', this._performSearch.bind(this));
             }
-
-            /*============================== DELETING BELOW ================================
-
-            // Set up pokebox search bar functionality
-            const pcSearchElement = this.element.querySelector('.pta-trainer-pc-search');
-            const pcInputs = pcSearchElement.querySelectorAll('[data-query]');
-            for (const input of pcInputs) input.addEventListener('input', this._performPcSearchQuery.bind(this));
-
-            // set up backpack search bar
-            const bagSearchElement = this.element.querySelector('.pta-search-input');
-            bagSearchElement.addEventListener('input', this._performBackpackSearchQuery.bind(this));
-            */
         }
 
+        /**
+         * Take given search queries and filter searchable items from the sheet
+         * @param {Event} event 
+         */
+        async _performSearch(event) {
+            // Gather filter details and list of targets to search through
+            const target = event.target;
+            const container = event.target.closest('[data-search]');
+            const group = container.dataset.search;
+            const elements = this.element.querySelectorAll(`[data-searchable=${group}]`);
+            const search = utils.sluggify(target.value);
+
+            // remove the obliterate class from all of them
+            for (const e of elements) e.classList.remove("obliterated");
+
+            // check through list against items to hide them
+            for (const ele of elements) {
+
+                // get the item to filter agaisnt
+                const uuid = ele.closest('[data-uuid]').dataset.uuid;
+                const item = await fromUuid(uuid);
+
+                if (!utils.sluggify(item.name).includes(search)) ele.classList.add("obliterated");
+            }
+        }
+
+
+
         _saveSearchQuery() {
+            /*
             if (!this.rendered) return;
             const search = this.element.querySelector('.pta-trainer-pc-search');
             if (!search) return false;
@@ -431,9 +421,11 @@ export function PtaTrainerMixin(BaseApplication) {
 
             // save inventory search query
             this._itemSearchQuery = this.element.querySelector('input.pta-inventory-search').value;
+            */
         }
 
         _loadSearchQuery() {
+            /*
             const search = this.element.querySelector('.pta-trainer-pc-search');
             if (!search) return false;
 
@@ -447,17 +439,7 @@ export function PtaTrainerMixin(BaseApplication) {
             }
 
             this.element.querySelector('input.pta-inventory-search').value = this._itemSearchQuery;
-        }
-
-        _resetSearchQuery() {
-            this._pcSearchQuery = {};
-            const search = this.element.querySelector('.pta-trainer-pc-search');
-            if (!search) return false;
-
-            for (const ele of search.querySelectorAll('[data-query]')) {
-                if (ele.type == 'checkbox') ele.checked = false;
-                else ele.value = "";
-            }
+            */
         }
 
         //=========================================================================================
@@ -467,8 +449,6 @@ export function PtaTrainerMixin(BaseApplication) {
             let r = super._onRender(context, options);
             this._setupSearchQuery();
             this._loadSearchQuery();
-            this._performBackpackSearchQuery();
-            this._performPcSearchQuery();
             return r;
         }
 
