@@ -96,7 +96,7 @@ PTA.generic = {
   nature: 'PTA.Generic.Nature',
   none: 'PTA.Generic.None',
   origin: 'PTA.Generic.Origin',
-  pokemon: 'PTA.Generic.Pokemon',
+  pokemon: 'PTA.Generic.Companion',
   primary: 'PTA.Generic.Primary',
   rank: 'PTA.Generic.Rank',
   roll: 'PTA.generic.Roll',

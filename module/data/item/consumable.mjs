@@ -19,7 +19,7 @@ export default class ConsumableData extends ItemData {
             label: 'PTA.Generic.Target',
             choices: {
                 trainer: pta.utils.localize("PTA.Generic.Trainer"),
-                pokemon: pta.utils.localize("PTA.Generic.Pokemon"),
+                pokemon: pta.utils.localize("PTA.Generic.Companion"),
                 all: pta.utils.localize("PTA.Generic.All")
             }
         }, { initial: "pokemon" }));
