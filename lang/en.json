@@ -125,14 +125,13 @@
       "Sweet": "Sweet"
     },
     "Generic": {
-      "Male": "Male",
-      "Female": "Female",
       "Accuracy": "Accuracy",
       "Age": "Age",
       "Ailment": "Ailment",
       "All": "All",
       "Capture": "Capture",
       "Category": "Category",
+      "Companion": "Pokémon",
       "Damage": "Damage",
       "Data": "Data",
       "Default": "Default",
@@ -140,6 +139,7 @@
       "Effect": "Effect",
       "Export": "Export",
       "Eyes": "Eyes",
+      "Female": "Female",
       "Gender": "Gender",
       "Hair": "Hair",
       "Half": "Half",
@@ -150,6 +150,7 @@
       "Immune": "Immune",
       "Import": "Import",
       "Loyalty": "Loyalty",
+      "Male": "Male",
       "MaxHealth": "Max Health",
       "Movement": "Movement",
       "Name": "Name",
@@ -158,7 +159,6 @@
       "Normal": "Normal",
       "Origin": "Origin",
       "Physical": "Physical",
-      "Pokemon": "Pokémon",
       "Quadruple": "Quadruple",
       "Quarter": "Quarter",
       "Rank": "Rank",
@@ -307,17 +307,17 @@
       "Settings": "Settings"
     },
     "Title": {
+      "CompendiumBrowser": "Compendium Browser",
       "ConfigResist": "Configure Resistances",
+      "CreatureImporter": "Import Pokémon",
       "FileServer": "File Server",
+      "MoveImporter": "Import moves",
       "ReleaseCreature": "Release Pokémon",
       "SelectCreature": "Select Pokémon",
       "ServerBrowser": "Remote Server Browser",
       "TransferRune": "Transfer Rune",
-      "CompendiumBrowser": "Compendium Browser",
       "UseCaptureSphere": "Use Capture Sphere",
-      "UseItem": "Use Item",
-      "MoveImporter": "Import moves",
-      "CreatureImporter": "Import Pokémon"
+      "UseItem": "Use Item"
     },
     "Type": {
       "Bug": "Bug",
