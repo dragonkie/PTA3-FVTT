@@ -6,7 +6,7 @@
   <div class="pta-item-detail pta-category flexcol flex-align-center">
     {{localize (objectValue @root.config.moveClass item.system.category)}}
   </div>
-  <div class="pta-item-detail pta-damage">
+  <div class="pta-item-detail pta-damage flex-align-center">
     {{item.system.damage.formula}}
   </div>
 {{/inline}}
@@ -41,7 +41,7 @@
 
     {{!-- Item controls, different buttons and actions to use the item more accurately then in a single 'use' button --}}
     <div class="pta-item-controls">
-      <button class="pta-clear-button"><i class="fas fa-ellipsis-vertical"></i></button>
+      <button class="pta-clear-button" data-action="edit"><i class="fas fa-ellipsis-vertical"></i></button>
     </div>
   </div>
 
