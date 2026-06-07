@@ -6,7 +6,7 @@ import PtaActorSheet, { PtaTrainerMixin } from "../actor.mjs";
 export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
     static DEFAULT_OPTIONS = {
         classes: ["character"],
-        position: { width: 600 },
+        position: { width: 700, height: 760 },
         window: {
             controls: [{
                 icon: 'fas fa-link',
@@ -311,11 +311,18 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
      * @param {Element} target 
      */
     static async _onChangePcLayout(event, target) {
-        let l = target.dataset.layout;
-        let s = game.user.getFlag(game.system.id, 'settings');
-        if (!s) s = { pcLayout: l }
-        else s.pcLayout = l;
-        await game.user.setFlag(game.system.id, 'settings', s);
+        const layout = {
+            list: 0,
+            grid: 1
+        }
+        let settings = game.user.getFlag(game.system.id, 'settings');
+        if (!settings || typeof settings.pcLayout != 'number') settings = { pcLayout: 0 }
+        else {
+            settings.pcLayout += 1;
+            if (settings.pcLayout >= Object.keys(layout).length) settings.pcLayout = 0;
+        }
+
+        await game.user.setFlag(game.system.id, 'settings', settings);
         this.render(false);
     }
 }
