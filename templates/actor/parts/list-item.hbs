@@ -24,13 +24,11 @@
 
 {{/inline}}
 
-<li class="pta-item collapsible collapsed" data-uuid="{{item.uuid}}" draggable="true">
+<li class="pta-item collapsible collapsed" data-uuid="{{item.uuid}}" draggable="true" data-searchable="item">
   <div class="flexrow" data-action="collapse">
     <div class="pta-item-name">
       <div class="pta-item-image">
-        <a data-action="itemUse">
-          <img src="{{item.img}}" title="{{item.name}}" width="30" height="30" />
-        </a>
+        <img data-action="itemUse" src="{{item.img}}" title="{{item.name}}" width="30" height="30" />
       </div>
       <div>{{item.name}}</div>
     </div>

@@ -4,45 +4,45 @@
     - Detailed
     - Grid
 --}}
-<div class="flex flexcol pta-pokebox">
-    {{!-- Box header --}}
-    <div class="collapsible collapsed pta-pokebox-header">
-        <div class="flexrow items-header">
-            <div class="item-name">Pokemon Box</div>
-            <div class="flexrow flex-group-end flex-gap-m text-right" style="padding-right: 0.5em;">
-                <a class="flex0" data-action="pcLayout" data-layout="card"><i class="fas fa-address-card"></i></a>
-                <a class="flex0" data-action="pcLayout" data-layout="list"><i class="fas fa-list"></i></a>
-                <a class="flex0" data-action="pcLayout" data-layout="grid"><i class="fas fa-grid-2"></i></a>
-                <a class="flex0" data-action="collapse"><i class="fas fa-magnifying-glass"></i></a>
-            </div>
+<div class="flex flexcol pta-pokebox flex-gap-l">
+    {{!-- Search Bar --}}
+    <div class="pta-search-container flexrow flexshrink" data-search="companion">
+        <div class="pta-search-wrap">
+            <i class="fas fa-magnifying-glass"></i>
+            <input type="text" class="pta-search-input flex" placeholder="PTA.Placeholder.SearchCompanions">
         </div>
-
-        {{!-- Search Bar --}}
-        <div class=" pta-trainer-pc-search collapsible-content flex-gap-s">
-            <div class="wrapper">
-                <div class="flexcol flex-gap-s">
-                    <input class="pta-search-input" data-query="name" type="text" placeholder="{{localize 'PTA.Generic.Name'}} / {{localize 'PTA.Generic.Species'}}">
-                    <input class="pta-search-input" data-query="type" type="text" placeholder="{{localize 'PTA.Generic.Type'}}">
-                    <div class="pta-tooltip">
-                        <input class="pta-search-input" data-query="tag" type="text" placeholder="tags">
-                        <div class="pta-tooltip-content"></div>
-                    </div>
-                    <div class="flexrow flex-gap-m">
-                        <div>{{localize 'PTA.Generic.Shiny'}} <input data-query="shiny" type="checkbox"></div>
-                        <div>{{localize 'PTA.Generic.Male'}} <input data-query="male" type="checkbox"></div>
-                        <div>{{localize 'PTA.Generic.Female'}} <input data-query="female" type="checkbox"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <ul class="flexrow flexshrink flex-nowrap flex-gap-s">
+            <li>
+                <button class="pta-clear-button" data-action="clear">
+                    <i class="fas fa-x"></i>
+                </button>
+            </li>
+            <li>
+                <button class="pta-clear-button" data-action="filter">
+                    <i class="fas fa-filter"></i>
+                </button>
+            </li>
+            <li>
+                <button class="pta-clear-button" data-action="sort">
+                    <i class="fas fa-arrow-down-short-wide"></i>
+                </button>
+            </li>
+            <li>
+                <button class="pta-clear-button" data-action="pcLayout">
+                    {{#if (eq userSettings.pcLayout 1)}}
+                        <i class="fas fa-grid-2"></i>
+                    {{else}}
+                        <i class="fas fa-list"></i>
+                    {{/if}}
+                </button>
+            </li>
+        </ul>
     </div>
 
-    {{!-- List of pokemon in the trainers box --}}
-    <div class="pta-pokebox-entries">
-        {{#if (eq flags.settings.pcLayout 'grid')}}
+    {{!-- List of companion in the trainers box --}}
+    <div class="pta-pc-entries">
+        {{#if (eq userSettings.pcLayout 1)}}
             {{> 'pta.trainer-pc-grid'}}
-        {{else if (eq flags.settings.pcLayout 'card')}}
-            {{> 'pta.trainer-pc-cards'}}
         {{else}}
             {{> 'pta.trainer-pc-list'}}
         {{/if}}

@@ -1,7 +1,7 @@
 <div class="pta-pc-layout-grid pta-s">
     {{#each pokemon as |pokemon key|}}
         {{#if (not pokemon.active)}}
-            <div class="pta-grid-item flex-align-start" data-pokemon-uuid="{{pokemon.uuid}}" data-uuid="{{pokemon.uuid}}" data-action="selectElement">
+            <div class="pta-grid-item flex-align-start pta-searchable" data-searchable="companion" data-pokemon-uuid="{{pokemon.uuid}}" data-uuid="{{pokemon.uuid}}" data-action="selectElement">
                 <span style="display: inline-block;">
                     <div class="wrapper" style="background-image: url({{pokemon.img}});">
 

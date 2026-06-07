@@ -31,8 +31,14 @@ $pta-move-detail-damage: 5em;
 
     background: linear-gradient(to left, #631f1f, #8e2b2b);
 
+    .pta-header-detail-groups {
+      margin-right: 40px;
+      text-align: center;
+    }
+
+    // generic header details get 70px
     .pta-item-list-header-detail {
-      flex: 0 0 5em;
+      flex: 0 0 70px;
     }
   }
 
@@ -49,7 +55,6 @@ $pta-move-detail-damage: 5em;
     }
   }
 
-  // class for each entry in the list
   .pta-item {
     border-top: 1px solid rgb(224, 242, 255);
     display: flex;
@@ -87,7 +92,7 @@ $pta-move-detail-damage: 5em;
         height: 30px;
         background-size: 30px;
         border: none;
-        margin-right: 5px;
+        margin: 0 0.3rem;
       }
     }
 
@@ -96,7 +101,9 @@ $pta-move-detail-damage: 5em;
 
     // list of controls in the item bar on the far right side
     .pta-item-controls {
-      flex: 0;
+      flex: 0 0 40px;
+      align-items: center;
+      justify-items: center;
     }
 
     // Collapsible content for the item, displayed when clicked

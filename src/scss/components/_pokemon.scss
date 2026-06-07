@@ -2,207 +2,214 @@
 
 /* Classes for creating pokemon type boxs and their effects */
 
-.pta-pokemon-team-view {
+.pta-companion-tab .pta-companion-team {
+  list-style: none;
+  padding: 0.5em;
+  margin: 0;
+  flex: 0 0 225px;
+
+  background: linear-gradient(to right, #808080, #6d6d6d);
+  border-radius: 5px;
+
+  .pta-companion {
+    --angle: 110deg;
+    --scale: 60%;
+
+    background-color: var(--color-cool-4);
+    margin-bottom: 5px;
+    position: relative;
+    width: 225px;
+    height: 75px;
+    box-sizing: border-box;
+    padding: var(--pta-scale-px);
     display: flex;
-    flex-direction: column;
-    flex: 0 0 225px;
-}
+    flex-direction: row;
 
-ol.pta-pokemon-team {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    --corner: 1em;
+    clip-path: polygon(
+        /* top edge */
+        var(--corner) 0%,
+        calc(100% - var(--corner)) 0%,
+        /* right edge */
+        100% var(--corner),
+        100% calc(100% - var(--corner)),
+        /* bottom edge */
+        calc(100% - var(--corner)) 100%,
+        var(--corner) 100%,
+        /* left edge */
+        0% calc(100% - var(--corner)),
+        0% var(--corner));
 
-    .pta-pokemon {
-        --angle: 110deg;
-        --scale: 60%;
+    .pta-companion-portrait {
+      flex: 0 0;
+      background-repeat: no-repeat;
+      background-size: contain;
+      height: 100%;
+      aspect-ratio: 1;
 
-        background-color: var(--color-cool-4);
-        margin-bottom: 5px;
-        position: relative;
-        width: 225px;
-        height: 75px;
-        box-sizing: border-box;
-        padding: var(--pta-scale-px);
-        display: flex;
-        flex-direction: row;
-
-        --corner: 1em;
-        clip-path: polygon(
-                /* top edge */
-                var(--corner) 0%,
-                calc(100% - var(--corner)) 0%,
-                /* right edge */
-                100% var(--corner),
-                100% calc(100% - var(--corner)),
-                /* bottom edge */
-                calc(100% - var(--corner)) 100%,
-                var(--corner) 100%,
-                /* left edge */
-                0% calc(100% - var(--corner)),
-                0% var(--corner));
-
-        .portrait {
-            flex: 0 0;
-            background-repeat: no-repeat;
-            background-size: contain;
-            height: 100%;
-            aspect-ratio: 1;
-
-            img {
-                border: 0;
-            }
-        }
-
-        .details {
-            align-items: center;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            justify-content: center;
-            text-align: center;
-
-            >* {
-                flex: 1;
-                width: 100%;
-            }
-
-            .nickname {
-                text-align: left;
-                font-weight: bold;
-                font-size: calc(var(--pta-scale-em) * 0.8);
-            }
-
-            .health {
-                flex: 0;
-            }
-        }
+      img {
+        border: 0;
+      }
     }
+
+    .details {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: center;
+      text-align: center;
+
+      >* {
+        flex: 1;
+        width: 100%;
+      }
+
+      .pta-companion-nickname {
+        text-align: left;
+        font-weight: bold;
+        font-size: calc(var(--pta-scale-em) * 0.8);
+      }
+
+      .health {
+        flex: 0;
+      }
+    }
+  }
 }
 
 .pta-type-tag {
-    --pta-type-colour: transparent;
+  --pta-type-colour: transparent;
 
-    border-radius: 4px;
-    border: 2px solid var(--pta-type-colour);
-    text-align: center;
-    min-width: 5em;
-    flex: 0 0;
+  border-radius: 4px;
+  border: 2px solid var(--pta-type-colour);
+  text-align: center;
+  min-width: 5em;
+  flex: 0 0;
 
-    @each $type in util.$pokemon-types {
-        &.pta-type-#{$type} {
-            --pta-type-colour: var(--pta-c-type-#{$type});
-        }
+  @each $type in util.$pokemon-types {
+    &.pta-type-#{$type} {
+      --pta-type-colour: var(--pta-c-type-#{$type});
     }
+  }
 
-    // Sets background to match the colour
-    &.pta-fill {
-        background-color: var(--pta-type-colour);
-        color: rgba(0, 0, 0, 0.8);
-    }
+  // Sets background to match the colour
+  &.pta-fill {
+    background-color: var(--pta-type-colour);
+    color: rgba(0, 0, 0, 0.8);
+  }
 }
 
 $pta-grid-size: 75px;
 
 .pta-pc-layout-grid {
+  display: flex;
+  flex: 0 1;
+  gap: var(--pta-scale-px, 4px);
+  flex-wrap: wrap;
+
+  .pta-grid-item {
+    height: $pta-grid-size;
+    flex: 0 0 $pta-grid-size;
+    border: 1px solid rgb(174, 174, 174);
+    border-radius: 5px;
+    transition: flex 0.2s ease-in-out;
     display: flex;
-    flex: 0 1;
-    gap: var(--pta-scale-px, 4px);
-    flex-wrap: wrap;
+    flex-direction: row;
 
-    .pta-grid-item {
-        height: $pta-grid-size;
-        flex: 0 0 $pta-grid-size;
-        border: 1px solid rgb(174, 174, 174);
-        border-radius: 5px;
-        transition: flex 0.2s ease-in-out;
-        display: flex;
-        flex-direction: row;
+    align-items: flex-start;
+    overflow: hidden;
+    flex-wrap: nowrap;
+    white-space: nowrap;
 
-        align-items: flex-start;
-        overflow: hidden;
-        flex-wrap: nowrap;
-        white-space: nowrap;
+    transition: all 0.2s;
 
-        transition: all 0.2s;
+    background-color: rgba(255, 255, 255, 0);
 
-        background-color: rgba(255, 255, 255, 0);
-
-        &:hover {
-            border-color: white;
-            border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .wrapper {
-            min-width: $pta-grid-size;
-            min-height: $pta-grid-size;
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        >.controls {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            justify-content: center;
-
-            .item-control {
-                flex: 1;
-            }
-        }
-
-        label {
-            opacity: 0;
-            transition: opacity 0.3s;
-            text-align: center;
-            background-color: grey;
-        }
-
-        &.selected {
-            flex: 0 0 calc($pta-grid-size * 1.3);
-        }
-
-        :hover {
-            cursor: pointer;
-
-            label {
-                opacity: 1;
-            }
-        }
+    &:hover {
+      border-color: white;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.15);
     }
+
+    .wrapper {
+      min-width: $pta-grid-size;
+      min-height: $pta-grid-size;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    >.controls {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+
+      .item-control {
+        flex: 1;
+      }
+    }
+
+    label {
+      opacity: 0;
+      transition: opacity 0.3s;
+      text-align: center;
+      background-color: grey;
+    }
+
+    &.selected {
+      flex: 0 0 calc($pta-grid-size * 1.3);
+    }
+
+    :hover {
+      cursor: pointer;
+
+      label {
+        opacity: 1;
+      }
+    }
+  }
 }
 
 .search-results {
-    .pta-grid-item {
-        min-height: 100px;
-        min-width: 100px;
-        flex: 0;
-        border: 1px solid rgb(174, 174, 174);
-        border-radius: 5px;
-        transition: flex 0.2s ease-in-out;
+  .pta-grid-item {
+    min-height: 100px;
+    min-width: 100px;
+    flex: 0;
+    border: 1px solid rgb(174, 174, 174);
+    border-radius: 5px;
+    transition: flex 0.2s ease-in-out;
 
-        transition: all 0.2s;
-        background-color: rgba(255, 255, 255, 0);
+    transition: all 0.2s;
+    background-color: rgba(255, 255, 255, 0);
 
-        &:hover {
-            border-color: white;
-            border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.15);
-        }
+    &:hover {
+      border-color: white;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.15);
     }
+  }
 }
 
 .pta-selection-list {
-    white-space: nowrap;
-    flex-wrap: wrap;
-    flex-direction: row;
+  white-space: nowrap;
+  flex-wrap: wrap;
+  flex-direction: row;
 
-    .wrapper {
-        [data-pokemon] {
-            word-break: keep-all;
-            word-wrap: break-word;
-            flex: 0;
-        }
+  .wrapper {
+    [data-pokemon] {
+      word-break: keep-all;
+      word-wrap: break-word;
+      flex: 0;
     }
+  }
+}
+
+.pta-pokebox {
+  height: 100%;
+}
+
+.pta-pc-entries {
+  overflow: auto;
+  flex: 1;
 }
