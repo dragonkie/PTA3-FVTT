@@ -1,21 +1,24 @@
 <div class="pta-tab flexcol flex-gap-l">
-    <div class="pta-search-container flexrow flexshrink" data-search="item">
-        <div class="pta-search-wrap">
-            <i class="fas fa-magnifying-glass"></i>
-            <input type="text" class="pta-search-input flex" placeholder="PTA.Placeholder.SearchInventory">
+    <div class="flexrow flex-gap-l">
+        <div class="pta-search-container flexlarge flexrow" data-search="item">
+            <div class="pta-search-wrap">
+                <i class="fas fa-magnifying-glass"></i>
+                <input type="text" class="pta-search-input flex" placeholder="PTA.Placeholder.SearchInventory">
+            </div>
+            <ul class="flexrow flexshrink flex-nowrap flex-gap-s">
+                <li>
+                    <button class="pta-clear-button" data-action="clear">
+                        <i class="fas fa-x"></i>
+                    </button>
+                </li>
+                <li>
+                    <button class="pta-clear-button" data-action="sort">
+                        <i class="fas fa-arrow-down-short-wide"></i>
+                    </button>
+                </li>
+            </ul>
         </div>
-        <ul class="flexrow flexshrink flex-nowrap flex-gap-s">
-            <li>
-                <button class="pta-clear-button" data-action="clear">
-                    <i class="fas fa-x"></i>
-                </button>
-            </li>
-            <li>
-                <button class="pta-clear-button" data-action="sort">
-                    <i class="fas fa-arrow-down-short-wide"></i>
-                </button>
-            </li>
-        </ul>
+        <div class="flex">{{systemFieldGroup system 'money'}}</div>
     </div>
     <div class="flexcol pta-inventory flex-gap-l flex">
         {{#each itemTypes}}

@@ -28,9 +28,9 @@ export default class ActorData extends DataModel {
       return obj;
     }, {}));
 
-    //====================================================================================
-    //> Actors typing, even trainers require a typing of normal
-    //====================================================================================
+    //================================================================================================================
+    //> Actors typing, even trainers require a typing of normal for abilities to work right
+    //================================================================================================================
     const TypeChoices = {};
     for (const a in PTA.pokemonTypes) TypeChoices[a] = utils.localize(PTA.pokemonTypes[a]);
 
@@ -90,6 +90,7 @@ export default class ActorData extends DataModel {
       hpMax: new NumberField({ initial: 0, ...requiredInteger })
     })
 
+    schema.money = new NumberField({ initial: 0, label: "Money" });
     return schema;
   }
 
