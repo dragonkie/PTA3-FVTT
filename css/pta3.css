@@ -586,6 +586,29 @@ button.pta-clear-button:focus {
   border: none;
 }
 
+.pta-effect-list .pta-effect-list-header .pta-effect-name {
+  padding-left: 30px;
+}
+.pta-effect-list .pta-effect-name {
+  flex: 2;
+  display: flex;
+  flex-direction: row;
+}
+.pta-effect-list .pta-effect-name .pta-effect-image {
+  flex: 0 0 30px;
+  margin-right: 0.3rem;
+}
+.pta-effect-list .pta-effect-duration {
+  flex: 1;
+  text-align: center;
+}
+.pta-effect-list .pta-effect-source {
+  flex: 1;
+  text-align: center;
+}
+.pta-effect-list .pta-effect-controls {
+  flex: 0 0 2rem;
+}
 .pta prose-mirror.inactive .editor-container {
   background: var(--color-cool-4);
   border-radius: 4px;

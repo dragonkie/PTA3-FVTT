@@ -96,7 +96,7 @@ export default class DataModel extends foundry.abstract.TypeDataModel {
       label: "PTA.ContextMenu.Delete",
       icon: "<i class='fa-solid fa-fw fa-trash'></i>",
       visible: isOwner && isItem,
-      onClick: () => document.delete(),
+      onClick: () => document.deleteDialog(),
       group: "manage"
     }];
   }

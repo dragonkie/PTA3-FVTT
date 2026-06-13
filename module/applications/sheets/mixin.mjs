@@ -547,12 +547,31 @@ export default function PtaSheetMixin(Base) {
                 onOpen: async element => {
                     const uuid = element.closest("[data-uuid]").dataset.uuid;
                     const document = await fromUuid(uuid);
-                    if (!document) return;
-                    ui.context.menuItems = document.system.getMenuActions();
+
+                    // if this document has custom action list specified
+                    if (document?.system?.getMenuActions) ui.context.menuItems = document.system.getMenuActions();
+
+                    // if not, use default
+                    else ui.context.menuItems = [{
+                        label: "PTA.ContextMenu.Edit",
+                        icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+                        visible: document.isOwner,
+                        onClick: () => document.sheet.render(true),
+                        group: "manage"
+                    }, {
+                        label: "PTA.ContextMenu.Delete",
+                        icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+                        visible: document.isOwner,
+                        onClick: () => document.deleteDialog(),
+                        group: "manage"
+                    }];
                 }
             }
 
+            // Standard right click menu for all items
             new PtaContextMenu(this.element, "[data-uuid]", [], config)
+
+            // left click menu option
             new PtaContextMenu(this.element, '[data-action="menu"]', [], { ...config, eventName: 'click' })
         }
 

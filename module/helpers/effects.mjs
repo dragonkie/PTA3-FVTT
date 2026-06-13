@@ -7,8 +7,8 @@ export function onManageActiveEffect(event, owner) {
   event.preventDefault();
   const a = event.currentTarget;
   const li = a.closest('li');
-  const effect = li.dataset.effectId
-    ? owner.effects.get(li.dataset.effectId)
+  const effect = li.dataset.uuid
+    ? owner.effects.get(li.dataset.uuid)
     : null;
   switch (a.dataset.action) {
     case 'create':

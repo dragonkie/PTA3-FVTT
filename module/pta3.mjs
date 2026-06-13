@@ -7,14 +7,20 @@ globalThis.pta = {
     pokeapi: pokeapi
 }
 
+// import document types
+import PtaActiveEffect from './documents/active-effect.mjs';
 import PtaActor from './documents/actor.mjs';
+import PtaChatMessage from './documents/message.mjs';
 import PtaItem from './documents/item.mjs';
+
 // Import sheet classes.
 import applications from "./applications/_module.mjs";
+
 // Import helper/utility classes and constants.
 import PtaUtils from './helpers/utils.mjs'
 import { PTA } from './helpers/config.mjs';
 import PtaSocketManager from './helpers/socket.mjs';
+
 // Import DataModel classes
 import * as models from './data/_module.mjs';
 import registerPtaHandlebars from './helpers/handlebars.mjs';
@@ -57,6 +63,7 @@ Hooks.once('init', function () {
     // Define custom Document and DataModel classes
     CONFIG.Actor.documentClass = PtaActor;
     CONFIG.Item.documentClass = PtaItem;
+    CONFIG.ActiveEffect.documentClass = PtaActiveEffect;
     CONFIG.Actor.dataModels = models.ActorConfig;
     CONFIG.Item.dataModels = models.ItemConfig;
 
