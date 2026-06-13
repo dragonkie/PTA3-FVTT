@@ -15,7 +15,6 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             trainTalent: this._onTrainTalent,
             use: this._onUseItem,
             editResistance: this._onEditResistance,
-            roll: this._onRoll,
             importMoves: this._onImportMoves,
         }
     }
@@ -174,29 +173,6 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
 
         await this.document.update({ [`system.skills.${key}`]: skill });
         await this.render({ force: false, parts: ['features'] }); /**EDITING THIS RANDOM LINE HERE TO TRY AND OPTIMIZE THE LEVEL OF LAYERS BEING EDITED AND PREPARED TO MAKE THIGNS RENDER BETTER AND FASTER */
-    }
-
-    /**
-     * Generic roll event, prompts user to spend legend and confirm the roll formula
-     * @param {Event} event 
-     * @param {HTMLElement} target 
-     */
-    static async _onRoll(event, target) {
-        let formula = target.closest('[data-roll')?.dataset.roll;
-        let msg_content = target.closest('[data-roll-msg]')?.dataset.rollMsg;
-        if (!formula) return void console.error('Couldnt find roll formula');
-
-
-        let rolldata = this.getRollData();
-
-        let roll = new Roll(formula, rolldata);
-        await roll.evaluate();
-
-        let msg_data = {
-            flavor: msg_content,
-            speaker: ChatMessage.getSpeaker({ actor: this.document })
-        }
-        let msg = await roll.toMessage(msg_data);
     }
 
     static async _onEditResistance(event, target) {

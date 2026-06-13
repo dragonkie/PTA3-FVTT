@@ -22,6 +22,7 @@ export default function PtaSheetMixin(Base) {
                 edit: this._onEdit,
                 toggle: this._onToggle,
                 clear: this._onClear,
+                roll: this._onRoll,
 
                 collapse: this._onCollapse,
                 copyToClipboard: this._onCopyToClipboard,
@@ -149,6 +150,29 @@ export default function PtaSheetMixin(Base) {
                 input.value = "";
                 input.dispatchEvent(new Event("input"));
             }
+        }
+
+        /**
+         * Generic roll event, prompts user to spend legend and confirm the roll formula
+         * @param {Event} event 
+         * @param {HTMLElement} target 
+         */
+        static async _onRoll(event, target) {
+            let formula = target.closest('[data-roll')?.dataset.roll;
+            let msg_content = target.closest('[data-roll-msg]')?.dataset.rollMsg;
+            if (!formula) return void console.error('Couldnt find roll formula');
+
+
+            let rolldata = this.getRollData();
+
+            let roll = new Roll(formula, rolldata);
+            await roll.evaluate();
+
+            let msg_data = {
+                flavor: `<b>${msg_content}</b>`,
+                speaker: ChatMessage.getSpeaker({ actor: this.document })
+            }
+            let msg = await roll.toMessage(msg_data);
         }
 
         static async _onEditImage(event, target) {
@@ -414,11 +438,11 @@ export default function PtaSheetMixin(Base) {
             const list = [];
             if (this._collapsedElements.length > 0 && this.rendered) {
                 let c = 0;
-                this._collapsedElements.forEach(({ selector, collapsed }) => {
+                for (const { selector, collapsed } of this._collapsedElements) {
                     const ele = this.element.querySelector(selector);
                     if (!ele) {
 
-                        /* DISABLED DIAGNOSTIC SCRIPT FOR CHECKING PERSISTENCY SELECTORS
+                        /* DISABLED DIAGNOSTIC SCRIPT FOR CHECKING PERSISTENCY SELECTORS */
                         console.error('Failed to get element with selector: ', { s: selector });
 
                         // run diagnostic sequential check element by element to figure out where the chain breaks
@@ -434,14 +458,14 @@ export default function PtaSheetMixin(Base) {
                             chain.push(e);
                         }
                         console.log(chain);
-                        */
+
 
                         return;
                     }
                     list.push({ ele: ele, sel: selector, collapsed: collapsed })
                     if (collapsed) ele.classList.add('collapsed');
                     else ele.classList.remove('collapsed');
-                })
+                }
             }
 
             return list;

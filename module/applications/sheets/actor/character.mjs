@@ -28,8 +28,8 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         body: { template: `${this.TEMPLATE_PATH}/actor/character/body.hbs`, scrollable: [".tab"] },
         // Tab bodies
         features: { template: `${this.TEMPLATE_PATH}/actor/character/features.hbs`, scrollable: [".tab"] },
-        inventory: { template: `${this.TEMPLATE_PATH}/actor/character/inventory.hbs`, scrollable: ["div.pta-pokebox-entries"] },
-        pokebox: { template: `${this.TEMPLATE_PATH}/actor/character/pokemon.hbs`, scrollable: [".tab"] },
+        inventory: { template: `${this.TEMPLATE_PATH}/actor/character/inventory.hbs`, scrollable: [".tab", ".pta-inventory"] },
+        pokebox: { template: `${this.TEMPLATE_PATH}/actor/character/pokemon.hbs`, scrollable: [".tab", ".pta-pc-entries"] },
         effects: { template: `${this.TEMPLATE_PATH}/actor/parts/actor-effects.hbs`, scrollable: [".tab"] },
         details: { template: `${this.TEMPLATE_PATH}/actor/character/details.hbs`, scrollable: [".tab"] },
         combat: { template: `${this.TEMPLATE_PATH}/actor/character/combat.hbs`, scrollable: [".tab"] },

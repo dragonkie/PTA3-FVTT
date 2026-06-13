@@ -135,6 +135,7 @@
       "Sweet": "Sweet"
     },
     "Generic": {
+      "Ability":"Ability",
       "Accuracy": "Accuracy",
       "Age": "Age",
       "Ailment": "Ailment",
