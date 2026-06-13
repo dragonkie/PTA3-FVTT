@@ -1,6 +1,7 @@
 import PtaDialog from "../../applications/dialog.mjs";
 import PtaChatMessage from "../../documents/message.mjs";
 import { PTA } from "../../helpers/config.mjs";
+import utils from "../../helpers/utils.mjs";
 import ItemData from "../item.mjs";
 
 const {
@@ -18,9 +19,9 @@ export default class ConsumableData extends ItemData {
             ...isSelector,
             label: 'PTA.Generic.Target',
             choices: {
-                trainer: pta.utils.localize("PTA.Generic.Trainer"),
-                pokemon: pta.utils.localize("PTA.Generic.Companion"),
-                all: pta.utils.localize("PTA.Generic.All")
+                trainer: utils.localize("PTA.Generic.Trainer"),
+                pokemon: utils.localize("PTA.Generic.Companion"),
+                all: utils.localize("PTA.Generic.All")
             }
         }, { initial: "pokemon" }));
 
@@ -101,12 +102,12 @@ export default class ConsumableData extends ItemData {
                 label: 'PTA.Cures.long',
                 choices: () => {
                     const data = {
-                        none: pta.utils.localize('PTA.Generic.None'),
-                        ...pta.utils.duplicate(pta.config.ailments),
-                        all: pta.utils.localize('PTA.Generic.All')
+                        none: utils.localize('PTA.Generic.None'),
+                        ...utils.duplicate(pta.config.ailments),
+                        all: utils.localize('PTA.Generic.All')
                     }
 
-                    for (const [key, value] of Object.entries(data)) data[key] = pta.utils.localize(value);
+                    for (const [key, value] of Object.entries(data)) data[key] = utils.localize(value);
 
                     return data;
                 }
@@ -186,10 +187,10 @@ export default class ConsumableData extends ItemData {
             label: 'PTA.Flavour.long',
             choices: () => {
                 const data = {
-                    none: pta.utils.localize('PTA.Generic.None'),
-                    ...pta.utils.duplicate(pta.config.flavours)
+                    none: utils.localize('PTA.Generic.None'),
+                    ...utils.duplicate(pta.config.flavours)
                 }
-                for (const [key, value] of Object.entries(data)) data[key] = pta.utils.localize(value);
+                for (const [key, value] of Object.entries(data)) data[key] = utils.localize(value);
                 return data;
             }
         })
@@ -248,7 +249,7 @@ export default class ConsumableData extends ItemData {
                 // Generate the chat message
                 const msg = PtaChatMessage.create(message_data);
             } catch (err) {
-                pta.utils.error(err.message)
+                utils.error(err.message)
             }
         }
 

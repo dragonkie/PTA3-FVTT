@@ -18,7 +18,7 @@ export default class MoveData extends ItemData {
         // is this a physical, special, or effect move
         // moves that deal damage are still classified as physical / effect, such as ember
         const MoveClasses = {};
-        for (const a in PTA.moveClass) MoveClasses[a] = pta.utils.localize(PTA.moveClass[a]);
+        for (const a in PTA.moveClass) MoveClasses[a] = utils.localize(PTA.moveClass[a]);
         schema.category = new StringField({
             ...isRequired,
             blank: false,
@@ -28,7 +28,7 @@ export default class MoveData extends ItemData {
 
         // Move typing
         const TypeChoices = {};
-        for (const a in PTA.pokemonTypes) TypeChoices[a] = pta.utils.localize(PTA.pokemonTypes[a]);
+        for (const a in PTA.pokemonTypes) TypeChoices[a] = utils.localize(PTA.pokemonTypes[a]);
         schema.type = new StringField({ ...isRequired, initial: 'normal', label: PTA.generic.type, choices: { ...TypeChoices } });
 
         // move damage

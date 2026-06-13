@@ -117,7 +117,7 @@ export default class utils {
                 })
             }
 
-            if (!options.name || options.name == '') return void pta.utils.warn('PTA.Warn.NeedPokemonName');
+            if (!options.name || options.name == '') return void utils.warn('PTA.Warn.NeedPokemonName');
 
             // format the name a bit
             options.name = options.name.replace(/\s+/g, '-');

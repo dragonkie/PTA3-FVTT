@@ -203,7 +203,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
             if (actor.type == 'pokemon') await actor.update({ system: { trainer: this.document.uuid } });
             await this.render(false);
         } catch (err) {
-            pta.utils.warn(err.message)
+            utils.warn(err.message)
         }
     }
 
@@ -242,7 +242,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         let c = 0;
         for (const pokemon of list) if (pokemon.active) c += 1;
         let limit = game.settings.get(game.system.id, 'partyLimit');
-        if (c > limit && limit > 0) return void pta.utils.warn('PTA.Warn.ExceedsPartyLimit');
+        if (c > limit && limit > 0) return void utils.warn('PTA.Warn.ExceedsPartyLimit');
 
         // Push the update
         await this.document.update({ system: { pokemon: list } });
@@ -290,17 +290,17 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
      * @param {Element} target 
      */
     static async _onLinkPokemon(event, target) {
-        pta.utils.info('PTA.Info.LinkingPokemonTokens')
+        utils.info('PTA.Info.LinkingPokemonTokens')
         for (const entry of this.document.system.pokemon) {
-            let uuid = entry.uuid;
-            let pokemon = await fromUuid(uuid);
+            const uuid = entry.uuid;
+            const pokemon = await fromUuid(uuid);
             if (!pokemon.isOwner) {
-                pta.utils.warn(pta.utils.localize('PTA.Warn.UnownedPokemon') + ' ' + pokemon.name);
+                utils.warn(utils.localize('PTA.Warn.UnownedPokemon') + ' ' + pokemon.name);
                 continue;
             }
             await pokemon.update({ prototypeToken: { actorLink: true } });
         }
-        pta.utils.info('PTA.Info.Complete');
+        utils.info('PTA.Info.Complete');
     }
 
     /**

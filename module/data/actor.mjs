@@ -36,7 +36,7 @@ export default class ActorData extends DataModel {
 
     schema.types = new SchemaField({
       primary: new StringField({ ...isRequired, initial: 'normal', label: PTA.generic.primary, choices: { ...TypeChoices } }),
-      secondary: new StringField({ ...isRequired, initial: 'none', label: PTA.generic.secondary, choices: { ...TypeChoices, none: pta.utils.localize(PTA.generic.none) } }),
+      secondary: new StringField({ ...isRequired, initial: 'none', label: PTA.generic.secondary, choices: { ...TypeChoices, none: utils.localize(PTA.generic.none) } }),
     }, { label: PTA.generic.types })
 
     // manually set a characters resistance to a certain element

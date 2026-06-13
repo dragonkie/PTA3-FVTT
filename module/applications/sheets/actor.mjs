@@ -51,8 +51,8 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         for (const [key, value] of Object.entries(this.document.system.stats)) {
             context.stats[key] = { ...value };
             context.stats[key].label = {
-                long: pta.utils.localize(CONFIG.PTA.stats[key]),
-                abbr: pta.utils.localize(CONFIG.PTA.statsAbbr[key])
+                long: utils.localize(CONFIG.PTA.stats[key]),
+                abbr: utils.localize(CONFIG.PTA.statsAbbr[key])
             }
             context.stats[key].field_path = `system.stats.${key}`;
             context.stats[key].field = this.document.system.schema.getField(`stats.${key}`);
@@ -65,8 +65,8 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         })) {
             context.skills[key] = value;
             context.skills[key].label = {
-                long: pta.utils.localize(CONFIG.PTA.skills[key]),
-                abbr: pta.utils.localize(CONFIG.PTA.skillsAbbr[key])
+                long: utils.localize(CONFIG.PTA.skills[key]),
+                abbr: utils.localize(CONFIG.PTA.skillsAbbr[key])
             }
         }
 

@@ -1,3 +1,5 @@
+import utils from "./utils.mjs";
+
 export default class PtaSocketManager {
     constructor() {
         // The socket channel to use
@@ -77,7 +79,7 @@ export default class PtaSocketManager {
                 response: true,// should a callback be registered for this event
                 timeout: 0 // should the event timeout if it is a request
             },
-            id: pta.utils.randomID()
+            id: utils.randomID()
         }
     }
 
@@ -91,7 +93,7 @@ export default class PtaSocketManager {
                 response: false,// should a callback be registered for this event
                 timeout: 0 // should the event timeout if it is a request
             },
-            id: pta.utils.randomID()
+            id: utils.randomID()
         }
     }
 

@@ -1,6 +1,7 @@
 import pokeapi from "../../helpers/pokeapi.mjs";
 import { PTA } from "../../helpers/config.mjs";
 import PtaApplication from "../app.mjs";
+import utils from "../../helpers/utils.mjs";
 
 export default class ServerBrowser extends PtaApplication {
     static DEFAULT_OPTIONS = {
@@ -119,7 +120,7 @@ export default class ServerBrowser extends PtaApplication {
             if (query.length < 1) return void console.error('search query to small');
 
             // select the right data array to search in
-            const sArray = pta.utils.duplicate(pta.config.Pokedex[searchType.value]).sort();
+            const sArray = utils.duplicate(pta.config.Pokedex[searchType.value]).sort();
             if (!sArray) return void console.error('didnt find an array');
 
             // prepare the search indexing

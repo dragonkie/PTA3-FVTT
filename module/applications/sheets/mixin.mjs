@@ -118,7 +118,7 @@ export default function PtaSheetMixin(Base) {
 
             let confirmed = true;
             if (!event.shiftKey) confirmed = await PtaDialog.confirm({
-                content: pta.utils.format('PTA.Dialog.Confirm.deleteItem', { name: doc.name }),
+                content: utils.format('PTA.Dialog.Confirm.deleteItem', { name: doc.name }),
                 rejectClose: false,
                 modal: true
             });

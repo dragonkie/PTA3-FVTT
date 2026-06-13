@@ -1,4 +1,5 @@
 import { PTA } from "./config.mjs";
+import utils from "./utils.mjs";
 
 function registerTemplates() {
     const path = `systems/${game.system.id}/templates`;
@@ -144,8 +145,8 @@ function registerHelpers() {
                 name: "",
                 choices: () => {
                     let opt = {};
-                    for (const [k, v] of Object.entries(PTA.pokemonTypes)) opt[k] = pta.utils.localize(v);
-                    if (none) opt.none = pta.utils.localize(PTA.generic.none);
+                    for (const [k, v] of Object.entries(PTA.pokemonTypes)) opt[k] = utils.localize(v);
+                    if (none) opt.none = utils.localize(PTA.generic.none);
                     return opt;
                 }
             });
