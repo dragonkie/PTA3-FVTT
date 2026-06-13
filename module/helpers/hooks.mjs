@@ -124,7 +124,6 @@ export default function registerHooks() {
             section.appendChild(divider);
             section.appendChild(git);
             section.appendChild(kofi);
-            //section.appendChild(patreon);
 
             // append it to the settings tab
             html.appendChild(section);

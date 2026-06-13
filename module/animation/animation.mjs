@@ -1,6 +1,6 @@
 import utils from "../helpers/utils.mjs";
 
-// MATH FUNCTIONS STORED IN pta.utils (lerp, curve, easing, etc...)
+// MATH FUNCTIONS STORED IN utils (lerp, curve, easing, etc...)
 export default class PtaAnimationManager {
     async loadPixelSprite(url) {
         // load the asset

@@ -148,32 +148,6 @@ export default class MoveData extends ItemData {
     //> Actions 
     //=====================================================================================================
 
-    /**
-     * 
-     */
-    _itemActions() {
-        return [
-            ...super._itemActions(),
-            {
-                name: PTA.contextMenu.attack,
-                action: 'attack',
-                group: 'combat',
-                icon: '<i class="fas fa-sword"></i>',
-                condition: true,
-                onClick: () => {
-                    this._onUseAttack()
-                }
-            }, {
-                name: PTA.contextMenu.damage,
-                action: 'damage',
-                group: 'combat',
-                icon: '<i class="fas fa-heart-crack"></i>',
-                condition: true,
-                onClick: () => this.parent.delete()
-            }
-        ]
-    }
-
     async use(event, target, action) {
         if (action == 'reload') return this._onUseReload(event, target);
         return this._onUseAttack(event, target);
