@@ -1068,6 +1068,11 @@ button.pta-clear-button:focus {
   opacity: 100%;
 }
 
+#context-menu {
+  min-width: 150px;
+  max-width: 200px;
+}
+
 /* Sheet specific styles */
 .pta.sheet.actor .pta-sheet-header {
   padding-bottom: 0.5rem;
@@ -1088,7 +1093,9 @@ button.pta-clear-button:focus {
 }
 
 /* Styles limited to pta3 sheets */
-.pta ol, .pta ul, .pta li {
+.pta.sheet ol,
+.pta.sheet ul,
+.pta.sheet li {
   padding: 0;
   margin: 0;
   list-style: none;

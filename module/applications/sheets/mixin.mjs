@@ -1,6 +1,7 @@
 import { PTA } from "../../helpers/config.mjs";
 import utils from "../../helpers/utils.mjs";
 import ServerBrowser from "../apps/server-browser.mjs";
+import PtaContextMenu from "../context-menu.mjs";
 import PtaDialog from "../dialog.mjs";
 
 export default function PtaSheetMixin(Base) {
@@ -496,8 +497,59 @@ export default function PtaSheetMixin(Base) {
         //> Context Menu
         //============================================================================================
         _setupContextMenu() {
+            new PtaContextMenu(this.element, "[data-uuid]", [],
+                {
+                    fixed: false,
+                    jQuery: false,
+                    onClose: () => { },
+                    onOpen: async element => {
+                        const document = await fromUuid(element.dataset.uuid);
+                        if (!document) return;
+                        console.log(ui)
+                        ui.context.menuItems = this.constructor._getDocumentContextOptions(document);
+                    }
+                })
 
+            // left click handler for events
+            new PtaContextMenu(this.element, '[data-action="menu"]', [],
+                {
+                    fixed: false,
+                    jQuery: false,
+                    eventName: 'click',
+                    onClose: () => { },
+                    onOpen: async element => {
+                        console.log("left click menu");
+                        const uuid = element.closest("[data-uuid]").dataset.uuid;
+                        const document = await fromUuid(uuid);
+                        if (!document) return;
+                        ui.context.menuItems = this.constructor._getDocumentContextOptions(document);
+                    }
+                })
         }
+
+        static _getDocumentContextOptions(document) {
+            if (!document) return [];
+            const isOwner = document.isOwner;
+            const isActor = document.documentName == 'Actor';
+            const isItem = document.documentName == 'Item';
+
+            const options = [{
+                label: "PTA.ContextMenu.Edit",
+                icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+                visible: isOwner,
+                callback: () => document.sheet.render(true),
+                group: "manage"
+            }, {
+                label: "PTA.ContextMenu.Delete",
+                icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+                visible: isOwner && isItem,
+                callback: () => document.delete(),
+                group: "manage"
+            }];
+
+            return options;
+        }
+
 
         _preapreSubmitData(event, form, formData) {
             return super._preapreSubmitData(event, form, formData);

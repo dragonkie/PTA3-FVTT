@@ -1,5 +1,10 @@
 {
   "PTA": {
+    "ContextMenu": {
+      "Edit": "Edit",
+      "Delete": "Delete",
+      "Release": "Release"
+    },
     "Ability": {
       "Atk": {
         "abbr": "atk",
