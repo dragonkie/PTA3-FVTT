@@ -1,0 +1,19 @@
+<div class="pta-tab">
+    <div class="pta-tab-content flexcol">
+        <div class="pta-move-list pta-item-list">
+            <span class="pta-item-list-header">
+                <div class="pta-item-list-name flex" style="padding-left: 2.5rem;">PTA.Generic.Moves</div>
+                <div class="flexrow flexshrink flex-nowrap pta-header-detail-groups">
+                    <div class="pta-item-list-header-detail flexshrink">Type</div>
+                    <div class="pta-item-list-header-detail flexshrink">Class</div>
+                    <div class="pta-item-list-header-detail flexshrink">Damage</div>
+                </div>
+            </span>
+            <ol class="pta-item-entries">
+                {{#each items as | item key |}}
+                    {{#if (eq item.type 'move')}}{{> 'pta.list-item' item=item isEditMode=@root.isEditMode isPlayMode=@root.isPlayMode}}{{/if}}
+                {{/each}}
+            </ol>
+        </div>
+    </div>
+</div>

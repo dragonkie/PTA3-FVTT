@@ -46,6 +46,18 @@ export default class DataModel extends foundry.abstract.TypeDataModel {
     return schema;
   }
 
+  /**
+   * Corrects the data used to construct this data model to match newer standards
+   * if any breaking changes are made to data structures,  they are premptivly corrected here
+   * any breaking changes in versions should be documented and maintained in their respective migration
+   * that way even versions from years past can be brought to a modern standard even fi the data is lossy
+   * @param {Object} source 
+   * @returns 
+   */
+  static migrateData(source) {
+    return source;
+  }
+
   get name() {
     return this.parent.name;
   }
@@ -62,6 +74,31 @@ export default class DataModel extends foundry.abstract.TypeDataModel {
   getRollData() {
     //grabs the roll data based on what type of document this is, item or actor
     return { ...this };
+  }
+
+  /**
+   * Returns a list of available actions to be rendered by the PtaContextMenu class
+   * @returns {Object[]}
+   */
+  getMenuActions() {
+    const document = this.parent;
+    const isOwner = document.isOwner;
+    const isActor = document.documentName == 'Actor';
+    const isItem = document.documentName == 'Item';
+
+    return [{
+      label: "PTA.ContextMenu.Edit",
+      icon: "<i class='fa-solid fa-fw fa-edit'></i>",
+      visible: isOwner,
+      onClick: () => document.sheet.render(true),
+      group: "manage"
+    }, {
+      label: "PTA.ContextMenu.Delete",
+      icon: "<i class='fa-solid fa-fw fa-trash'></i>",
+      visible: isOwner && isItem,
+      onClick: () => document.delete(),
+      group: "manage"
+    }];
   }
 
   static BonusField() {

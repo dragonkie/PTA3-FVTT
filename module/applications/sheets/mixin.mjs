@@ -383,11 +383,12 @@ export default function PtaSheetMixin(Base) {
                         let s = `${ele.nodeName}`; // classes
 
                         // add elements classes
-                        const cBlacklist = ['collapsed', 'active', 'animating', 'obliterated'];
+                        const cBlacklist = ['collapsed', 'active', 'animating', 'obliterated', 'context'];
                         for (const c of ele.classList) if (!cBlacklist.includes(c)) s += `.${c}`;
 
                         // add element attributes
-                        for (const a of ele.attributes) if (a.name != 'class' && a.name != 'style') s += `[${a.name}="${a.value}"]`;
+                        const aBlacklist = ['class', 'style']
+                        for (const a of ele.attributes) if (!aBlacklist.includes(a.name)) s += `[${a.name}="${a.value}"]`;
 
                         // add this elements selector to the unique selector
                         selector = s + ' ' + selector;
@@ -416,7 +417,25 @@ export default function PtaSheetMixin(Base) {
                 this._collapsedElements.forEach(({ selector, collapsed }) => {
                     const ele = this.element.querySelector(selector);
                     if (!ele) {
+
+                        /* DISABLED DIAGNOSTIC SCRIPT FOR CHECKING PERSISTENCY SELECTORS
                         console.error('Failed to get element with selector: ', { s: selector });
+
+                        // run diagnostic sequential check element by element to figure out where the chain breaks
+                        const sequence = selector.split(" ");
+                        var e = this.element;
+                        const chain = [e]
+                        for (const s of sequence) {
+                            e = e.querySelector(s);
+                            if (!e) {
+                                console.log("broke on", { s: s });
+                                break;
+                            }
+                            chain.push(e);
+                        }
+                        console.log(chain);
+                        */
+
                         return;
                     }
                     list.push({ ele: ele, sel: selector, collapsed: collapsed })
@@ -452,7 +471,7 @@ export default function PtaSheetMixin(Base) {
         _canDragDrop(selector) { return this.isEditable && this.document.isOwner };
 
         async _onDragStart(event) {
-            const uuid = event.currentTarget.closest("[data-uuid]").dataset.itemUuid;
+            const uuid = event.currentTarget.closest("[data-uuid]").dataset.uuid;
             const item = await fromUuid(uuid);
             const data = item.toDragData();
             event.dataTransfer.setData("text/plain", JSON.stringify(data));
@@ -497,57 +516,20 @@ export default function PtaSheetMixin(Base) {
         //> Context Menu
         //============================================================================================
         _setupContextMenu() {
-            new PtaContextMenu(this.element, "[data-uuid]", [],
-                {
-                    fixed: false,
-                    jQuery: false,
-                    onClose: () => { },
-                    onOpen: async element => {
-                        const document = await fromUuid(element.dataset.uuid);
-                        if (!document) return;
-                        console.log(ui)
-                        ui.context.menuItems = this.constructor._getDocumentContextOptions(document);
-                    }
-                })
+            const config = {
+                fixed: false,
+                jQuery: false,
+                onClose: () => { },
+                onOpen: async element => {
+                    const uuid = element.closest("[data-uuid]").dataset.uuid;
+                    const document = await fromUuid(uuid);
+                    if (!document) return;
+                    ui.context.menuItems = document.system.getMenuActions();
+                }
+            }
 
-            // left click handler for events
-            new PtaContextMenu(this.element, '[data-action="menu"]', [],
-                {
-                    fixed: false,
-                    jQuery: false,
-                    eventName: 'click',
-                    onClose: () => { },
-                    onOpen: async element => {
-                        console.log("left click menu");
-                        const uuid = element.closest("[data-uuid]").dataset.uuid;
-                        const document = await fromUuid(uuid);
-                        if (!document) return;
-                        ui.context.menuItems = this.constructor._getDocumentContextOptions(document);
-                    }
-                })
-        }
-
-        static _getDocumentContextOptions(document) {
-            if (!document) return [];
-            const isOwner = document.isOwner;
-            const isActor = document.documentName == 'Actor';
-            const isItem = document.documentName == 'Item';
-
-            const options = [{
-                label: "PTA.ContextMenu.Edit",
-                icon: "<i class='fa-solid fa-fw fa-edit'></i>",
-                visible: isOwner,
-                callback: () => document.sheet.render(true),
-                group: "manage"
-            }, {
-                label: "PTA.ContextMenu.Delete",
-                icon: "<i class='fa-solid fa-fw fa-trash'></i>",
-                visible: isOwner && isItem,
-                callback: () => document.delete(),
-                group: "manage"
-            }];
-
-            return options;
+            new PtaContextMenu(this.element, "[data-uuid]", [], config)
+            new PtaContextMenu(this.element, '[data-action="menu"]', [], { ...config, eventName: 'click' })
         }
 
 

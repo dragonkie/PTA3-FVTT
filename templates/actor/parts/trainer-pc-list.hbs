@@ -7,7 +7,7 @@
     {{#each pokemon as | pokemon key |}}
         {{!-- List standard pokemon --}}
         {{#if (and (not pokemon.active) (not pokemon.missing))}}
-            <li class="pta-item collapsible collapsed" data-searchable="companion" data-pokemon-uuid="{{pokemon.uuid}}" data-uuid="{{pokemon.uuid}}">
+            <li class="pta-item collapsible collapsed" data-searchable="companion" data-uuid="{{pokemon.uuid}}">
                 <div class="flexrow" data-action="collapse">
                     <div class="pta-item-name">
                         <div class="pta-item-image">
@@ -20,7 +20,7 @@
         {{/if}}
         {{!-- List out pokemon with damaged links --}}
         {{#if pokemon.missing}}
-            <li class="item flexrow" data-pokemon-uuid="{{pokemon.uuid}}" data-uuid="{{pokemon.uuid}}">
+            <li class="item flexrow" data-uuid="{{pokemon.uuid}}">
                 <div class="item-name">
                     <i class="fas fa-link-slash"></i>
                     <div>{{pokemon.name}}</div>

@@ -717,9 +717,9 @@ PTA.windowTitle = {
 PTA.contextMenu = {
   edit: 'PTA.ContextMenu.Edit',
   delete: 'PTA.ContextMenu.Delete',
-  equip: 'PTA.ContextMenu.Delete',
-  unequip: 'PTA.ContextMenu.Delete',
-  use: 'PTA.ContextMenu.Delete',
-  attack: 'PTA.ContextMenu.Delete',
-  damage: '',
+  equip: 'PTA.ContextMenu.Equip',
+  unequip: 'PTA.ContextMenu.Unequip',
+  use: 'PTA.ContextMenu.Use',
+  attack: 'PTA.ContextMenu.Attack',
+  damage: 'PTA.ContextMenu.Damage',
 }

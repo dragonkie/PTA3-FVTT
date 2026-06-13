@@ -96,8 +96,8 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         super._setupDragAndDrop();
 
         const dd = new foundry.applications.ux.DragDrop({
-            dragSelector: "[data-pokemon-uuid]",
-            dropSelector: "#fuck",
+            dragSelector: ".pta-companion-tab .pta-item[data-uuid]",
+            dropSelector: "",
             permissions: {
                 dragstart: this._canDragStart.bind(this),
                 drop: this._canDragDrop.bind(this)
@@ -115,9 +115,10 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
      */
     async _onDragPokemon(event) {
         // Prepare pokemon data for transfer
-        const uuid = event.target.closest('[data-pokemon-uuid]').dataset.pokemonUuid;
-        const pokemon = await fromUuid(uuid);
-        const data = pokemon.toDragData();
+        const uuid = event.target.closest('[data-uuid]').dataset.uuid;
+        const companion = await fromUuid(uuid);
+        if (!companion) throw new Error("No companion found");
+        const data = companion.toDragData();
         event.dataTransfer.setData("text/plain", JSON.stringify(data));
 
         // Create snapshot image for drag and drop event
@@ -127,7 +128,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
         container.style.minHeight = `${s}px`;
         container.style.left = '100%';
         container.style.position = 'fixed';
-        const source = 'url(' + pokemon.img + ')';
+        const source = 'url(' + companion.img + ')';
         container.style.backgroundImage = source
         container.style.backgroundSize = `${s}px ${s}px`;
 
@@ -147,17 +148,23 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
      */
     async _onDropActor(event, actor) {
         try {
-            if (actor.type != 'pokemon' && !game.settings.get(game.system.id, 'palworld')) throw new Error("That's not a Pokémon!");
-            if (this.document.type == 'pokemon') throw new Error("Pokemon can only be added to a Trainer sheet!");
+
+            // filter out the actor and the contexts in which they can be dropped
+            if (actor.type != 'pokemon' && !game.settings.get(game.system.id, 'palworld')) throw new Error("That's not a companion!");
+            if (this.document.type == 'pokemon') throw new Error("Companions can only be added to a Trainer sheet!");
             let mons = this.document.system.pokemon;
 
+            // loops through the mons to find the appropriate target
             for (const p of mons) if (p.uuid == actor.uuid) {
+
+                // check the companions active state, we do this pretty bad ngl should probs fix
                 let state = false;
                 if (event.target.closest('.pta-pokebox') === null) state = true;
 
+                // if this companion is active
                 if (p.active == state) {
                     // Sorting pokemon
-                    const targetUuid = event.target.closest('[data-pokemon-uuid]').dataset.pokemonUuid;
+                    const targetUuid = event.target.closest('[data-uuid]').dataset.uuid;
                     if (targetUuid == p.uuid) return;
 
                     if (targetUuid) {
@@ -210,7 +217,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
      * @param {Element} target 
      */
     static async _onBoxPokemon(event, target) {
-        const uuid = target.closest('[data-pokemon-uuid]')?.dataset.pokemonUuid;
+        const uuid = target.closest('[data-uuid]')?.dataset.uuid;
         if (!uuid) return void console.error('Couldnt find pokemon uuid');
         this._boxPokemon(uuid);
     }
@@ -248,7 +255,7 @@ export default class PtaCharacterSheet extends PtaTrainerMixin(PtaActorSheet) {
      * @param {Element} target 
      */
     static async _onRemovePokemon(event, target) {
-        const uuid = target.closest('[data-pokemon-uuid]')?.dataset?.pokemonUuid;
+        const uuid = target.closest('[data-uuid]')?.dataset?.uuid;
         if (!uuid) return void console.error('Couldnt find pokemon uuid');
 
         let list = [];

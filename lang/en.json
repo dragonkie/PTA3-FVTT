@@ -3,7 +3,12 @@
     "ContextMenu": {
       "Edit": "Edit",
       "Delete": "Delete",
-      "Release": "Release"
+      "Release": "Release",
+      "Attack": "Attack",
+      "Damage": "Damage",
+      "Use": "Use",
+      "Equip": "Equip",
+      "Unequip": "Unequip"
     },
     "Ability": {
       "Atk": {

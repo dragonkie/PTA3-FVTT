@@ -2,7 +2,7 @@
 <ol class="pta-companion-team">
   {{#each pokemon as | pokemon key |}}
     {{#if (and pokemon.active (not pokemon.missing))}}
-      <li class="pta-companion" data-pokemon-uuid="{{pokemon.uuid}}" data-uuid="{{pokemon.uuid}}">
+      <li class="pta-companion" data-uuid="{{pokemon.uuid}}">
         <div class="pta-companion-portrait" data-action="edit">
           <img src="{{pokemon.img}}">
         </div>

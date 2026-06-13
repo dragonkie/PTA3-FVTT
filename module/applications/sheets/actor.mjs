@@ -99,7 +99,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
     //====================================================================================================
     static async _onUseItem(event, target) {
         // Get the item were actually targeting
-        const uuid = target.closest(".item[data-item-uuid]").dataset.itemUuid;
+        const uuid = target.closest("[data-uuid]").dataset.uuid;
         const item = await fromUuid(uuid);
         const action = target.closest("[data-use]")?.dataset.use;
 
@@ -146,7 +146,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
     }
 
     static async _onChangeItemQuantity(event, target) {
-        const item = await fromUuid(target.closest('[data-item-uuid]').dataset.itemUuid);
+        const item = await fromUuid(target.closest('[data-uuid]').dataset.uuid);
         if (!item) return void console.error('Couldnt find item to update');
 
         let value = Number(target.dataset.value);
@@ -308,15 +308,15 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
     async _onSortItem(item, target) {
         if (item.documentName !== "Item") return;
 
-        const self = target.closest("[data-tab]")?.querySelector(`[data-item-uuid="${item.uuid}"]`);
-        if (!self || !target.closest("[data-item-uuid]")) return;
+        const self = target.closest("[data-tab]")?.querySelector(`[data-uuid="${item.uuid}"]`);
+        if (!self || !target.closest("[data-uuid]")) return;
 
-        let sibling = target.closest("[data-item-uuid]") ?? null;
-        if (sibling?.dataset.itemUuid === item.uuid) return;
-        if (sibling) sibling = await fromUuid(sibling.dataset.itemUuid);
+        let sibling = target.closest("[data-uuid]") ?? null;
+        if (sibling?.dataset.uuid === item.uuid) return;
+        if (sibling) sibling = await fromUuid(sibling.dataset.uuid);
 
-        let siblings = target.closest("[data-tab]").querySelectorAll("[data-item-uuid]");
-        siblings = await Promise.all(Array.from(siblings).map(s => fromUuid(s.dataset.itemUuid)));
+        let siblings = target.closest("[data-tab]").querySelectorAll("[data-uuid]");
+        siblings = await Promise.all(Array.from(siblings).map(s => fromUuid(s.dataset.uuid)));
         siblings.findSplice(i => i === item);
 
         let updates = foundry.utils.performIntegerSort(item, { target: sibling, siblings: siblings, sortKey: "sort" });

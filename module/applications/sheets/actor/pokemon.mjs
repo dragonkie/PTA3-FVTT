@@ -39,7 +39,7 @@ export default class PtaPokemonSheet extends PtaActorSheet {
 
         // Load in the template tabs
         p.features = { template: `${this.TEMPLATE_PATH}/actor/pokemon/features.hbs` };
-        p.skills = { template: `${this.TEMPLATE_PATH}/actor/pokemon/skills.hbs` };
+        p.combat = { template: `${this.TEMPLATE_PATH}/actor/pokemon/combat.hbs` };
         p.effects = { template: `${this.TEMPLATE_PATH}/actor/parts/actor-effects.hbs` };
         p.pokedex = { template: `${this.TEMPLATE_PATH}/actor/pokemon/pokedex.hbs` };
         p.details = { template: `${this.TEMPLATE_PATH}/actor/pokemon/details.hbs` };
@@ -49,7 +49,7 @@ export default class PtaPokemonSheet extends PtaActorSheet {
 
     static TABS = {
         features: { id: "features", group: "primary", label: "PTA.Tab.Features", icon: "fa-user" },
-        skills: { id: "skills", group: "primary", label: "PTA.Tab.Skills", icon: "fa-hand" },
+        combat: { id: "combat", group: "primary", label: "PTA.Tab.Combat", icon: "fa-sword" },
         effects: { id: "effects", group: "primary", label: "PTA.Tab.Effects", icon: "fa-sparkles" },
         details: { id: "details", group: "primary", label: "PTA.Tab.Details", icon: "fa-book" },
         pokedex: { id: "pokedex", group: "primary", label: "PTA.Tab.Pokedex", icon: "fa-circle-info" },

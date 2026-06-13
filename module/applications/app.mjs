@@ -119,7 +119,7 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
     //==========================================================================================
     _setupDragAndDrop() {
         const dd = new foundry.applications.ux.DragDrop({
-            dragSelector: "[data-item-uuid]",
+            dragSelector: "[data-uuid]",
             dropSelector: ".application",
             permissions: {
                 dragstart: this._canDragStart.bind(this),
@@ -138,7 +138,7 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
     _canDragDrop(selector) { return this.isEditable && this.document.isOwner };
 
     async _onDragStart(event) {
-        const uuid = event.currentTarget.closest("[data-item-uuid]").dataset.itemUuid;
+        const uuid = event.currentTarget.closest("[data-uuid]").dataset.uuid;
         const item = await fromUuid(uuid);
         const data = item.toDragData();
         event.dataTransfer.setData("text/plain", JSON.stringify(data));

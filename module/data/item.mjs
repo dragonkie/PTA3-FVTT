@@ -60,36 +60,6 @@ export default class ItemData extends DataModel {
     console.warn('No uses defined for this object!');
   }
 
-
-  /**
-   * Overriden by child classes, used to get sheet controls for item lists or context menus
-   * Control array follows the structure defined by foundry for context menu popups
-   * @returns {Object[]}
-   */
-  _itemActions() {
-    return [{
-      name: PTA.ContextMenu.edit,         // Localized label for the action
-      action: 'edit',                     // the actual action to use
-      group: 'general',                   // Group for tge action
-      icon: '<i class="fas fa-edit"></i>',// Icon to use for the action
-      condition: true,                    // A condition required to show this option
-      callback: () => {                   // A function to use when this action is called
-        this.parent.sheet.render({ force: true });
-      }
-    }, {
-      name: PTA.ContextMenu.delete,
-      action: 'delete',
-      group: 'general',
-      icon: '<i class="fas fa-trash"></i>',
-      condition: true,
-      callback: () => this.parent.delete()
-    }]
-  }
-
-  get getItemActions() {
-    return this._itemActions();
-  }
-
   /**
    * Takes a given actor data model and will attempt to modify its data
    * This can included changes to stats, attack rolls, etc

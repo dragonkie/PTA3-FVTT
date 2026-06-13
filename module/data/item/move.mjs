@@ -97,6 +97,26 @@ export default class MoveData extends ItemData {
         return super.migrateData(source);
     }
 
+    getMenuActions() {
+        const group = "attack";
+        return [
+            ...super.getMenuActions(),
+            {
+                label: PTA.contextMenu.attack,
+                visible: true,
+                group: group,
+                icon: "",
+                callback: () => this._onUseAttack()
+            }, {
+                label: PTA.contextMenu.damage,
+                visible: true,
+                group: group,
+                icon: "",
+                callback: () => this._onUseDamage()
+            }
+        ];
+    }
+
     get isRanged() { return this.range > 5 };
 
     getRollData() {
@@ -140,7 +160,7 @@ export default class MoveData extends ItemData {
                 group: 'combat',
                 icon: '<i class="fas fa-sword"></i>',
                 condition: true,
-                callback: () => {
+                onClick: () => {
                     this._onUseAttack()
                 }
             }, {
@@ -149,7 +169,7 @@ export default class MoveData extends ItemData {
                 group: 'combat',
                 icon: '<i class="fas fa-heart-crack"></i>',
                 condition: true,
-                callback: () => this.parent.delete()
+                onClick: () => this.parent.delete()
             }
         ]
     }

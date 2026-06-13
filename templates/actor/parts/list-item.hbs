@@ -13,7 +13,6 @@
 
 {{#*inline 'move-content'}}
   <div class="pta-move-details flexcol flex-gap-s">
-    <div><b>{{localize @root.config.generic.damage}}</b>: {{item.system.damage.formula}}</div>
     {{#if (not (eq item.system.ailment.type null))}}
       <div class="text-left"><b>{{localize @root.config.generic.ailment}}</b>: {{item.system.ailment.type}}</div>
     {{/if}}
