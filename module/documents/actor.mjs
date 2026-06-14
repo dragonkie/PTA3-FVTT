@@ -3,6 +3,9 @@
  * @extends {Actor}
  */
 export default class PtaActor extends Actor {
+  static migrateData(source, options) {
+    return super.migrateData(source, options);
+  }
   /** @override */
   prepareData() {
     // Prepare data for the actor. Calling the super version of this executes

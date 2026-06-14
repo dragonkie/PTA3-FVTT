@@ -54,8 +54,8 @@ export default class DataModel extends foundry.abstract.TypeDataModel {
    * @param {Object} source 
    * @returns 
    */
-  static migrateData(source) {
-    return source;
+  static migrateData(source, options) {
+    return super.migrateData(source, options);
   }
 
   get name() {
