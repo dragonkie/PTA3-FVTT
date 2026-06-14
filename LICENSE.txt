@@ -28,3 +28,6 @@ SOFTWARE.
 IMAGE LICENSES
 
 anvil-impact.png by Lorc under CC BY 3.0 from game-icons.net
+
+Copyright (c) 2026 Pokémon. 1995–2026 Nintendo/Creatures Inc./GAME FREAK inc. 
+Pokémon and Pokémon character names are trademarks of Nintendo
