@@ -30,7 +30,7 @@ export default class utils {
     static localize(str) { return game.i18n.localize(str); }
     static format(str, data) { return game.i18n.format(str, data); }
     static sluggify(str) {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-").toLowerCase();
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "-").replace("'", "").toLowerCase();
     }
 
     //============================================================
@@ -83,7 +83,7 @@ export default class utils {
                     const app = await new PtaDialog({
                         window: { title: "PTA.Dialog.PokemonImporter" },
                         content: `
-                        <input type="text" class="pokemon-name" placeholder="${this.localize(PTA.Generic.Companion)}">
+                        <input type="text" class="pokemon-name" placeholder="${this.localize(PTA.generic.companion)}">
                         <div class="form-group">
                             <label>Moves</label>
                             <div class="form-fields">
