@@ -14,7 +14,8 @@ key - the access key for the stat
 --}}
 {{#*inline 'stat-pokeball'}}
   <div class="pta-score-wrap flexcol flex-group-center">
-    <div class="pta-stat-label text-center text-nowrap" data-action="roll" data-roll="1d20+{{stat.mod}}" data-roll-msg="{{localize 'PTA.Generic.Ability'}}: {{stat.label.long}}">{{stat.label.long}}</div>
+    <div class="pta-stat-label text-center text-nowrap" data-action="roll" data-roll="1d20+{{stat.mod}}" data-roll-msg="{{localize 'PTA.Generic.Ability'}}: {{stat.label.long}}">{{stat.label.long}}
+    </div>
     <div class="pta-score flexcol pta-m">
       {{#if @root.isEditMode}}
         <input class="flex1 text-center" type="number" name="system.stats.{{key}}.value" value="{{stat.value}}">
@@ -27,9 +28,9 @@ key - the access key for the stat
 {{/inline}}
 
 {{!-- Actual abilities and skills list --}}
-<div class="pta-stats">
+<div class="pta-stats flexrow flex-align-center">
   {{#each stats as | stat key |}}
-    <div class="pta-stat-wrap pta-xs" data-pta-stat="{{key}}">
+    <div class="pta-stat-wrap pta-xs flex flex-align-center" data-pta-stat="{{key}}">
       {{!-- stat score pokeball --}}
       {{> 'stat-pokeball' stat=stat key=key}}
     </div>
