@@ -311,12 +311,12 @@ export default class ConsumableData extends ItemData {
 
     _onHeal(actor) {
         const heal = this.effects.heal;
-        if (heal.percent > 0) actor.system.hp.value += actor.system.hp.total * (heal.percent / 100)
+        if (heal.percent > 0) actor.system.hp.value += actor.system.hp.max * (heal.percent / 100)
         if (heal.value > 0) actor.system.hp.value += heal.value;
-        if (heal.full) actor.system.hp.value = actor.system.hp.total;
+        if (heal.full) actor.system.hp.value = actor.system.hp.max;
 
         // clamp to the max hp possible
-        actor.system.hp.value = Math.min(actor.system.hp.total, actor.system.hp.value);
+        actor.system.hp.value = Math.min(actor.system.hp.max, actor.system.hp.value);
     }
 
     async _onCure(actor) {

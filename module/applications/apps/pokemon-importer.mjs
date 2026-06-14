@@ -83,7 +83,7 @@ export default class PokemonImporter extends PtaApplication {
             data.description = getFlavorText(api_speices.flavor_text_entries);
 
             if (!data) continue;
-            data.hp.value = data.hp.max;
+            data.hp.value = data.hp.base;
             create_data.push({
                 name: utils.toTitleCase(pokemon.name),
                 type: 'pokemon',
