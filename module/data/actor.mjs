@@ -14,7 +14,7 @@ export default class ActorData extends DataModel {
 
     schema.hp = new SchemaField({
       value: new NumberField({ ...requiredInteger, initial: 20, min: 0 }),
-      max: new NumberField({ ...requiredInteger, initial: 20, min: 0 }),
+      base: new NumberField({ ...requiredInteger, initial: 20, min: 0 }),
       min: new NumberField({ ...requiredInteger, initial: 0, min: 0, max: 0 }),
     })
 
@@ -94,10 +94,19 @@ export default class ActorData extends DataModel {
     return schema;
   }
 
+  static migrateData(source, options) {
+    //migrates previous max hp value to the new base value so that the max one can be used 
+    //to show total hp on resource bars with tokens
+    if (source.hp.max) source.hp.base = source.hp.max;
+    delete source.hp.max;
+
+    return super.migrateData(source, options);
+  }
+
   prepareBaseData() {
     super.prepareBaseData();
-    for (const key in this.stats) this.stats[key].total = 0;
-    this.hp.total = this.hp.max;
+    for (const key in this.stats) this.stats[key].total = this.stats[key].value;
+    this.hp.max = this.hp.base;
   }
 
   prepareDerivedData() {
@@ -133,11 +142,11 @@ export default class ActorData extends DataModel {
     for (const item of itemsList) item.prepareActorData(this);
 
     // calculate max hp
-    this.hp.total += this.bonuses.hpMax;
+    this.hp.max += this.bonuses.hpMax;
 
     // after status modifiers are applied, we can total up the final value of the stats
     for (const key in this.stats) {
-      this.stats[key].total += (this.stats[key].value + this.stats[key].bonus) * utils.AbilityStage(this.stats[key].boost);
+      this.stats[key].total += (this.stats[key].bonus) * utils.AbilityStage(this.stats[key].boost);
       this.stats[key].mod = Math.floor(this.stats[key].total / 2);
     }
 
