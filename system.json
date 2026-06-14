@@ -38,6 +38,19 @@
     ],
     "packs": [
         {
+            "label": "Moves",
+            "name": "moves",
+            "path": "packs/moves",
+            "system": "",
+            "type": "Item",
+            "ownership": {
+                "ASSISTANT": "OBSERVER",
+                "GAMEMASTER": "OWNER",
+                "PLAYER": "OBSERVER",
+                "TRUSTED": "OBSERVER"
+            }
+        },
+        {
             "label": "Tools",
             "name": "macro-tools",
             "path": "packs/macro",
