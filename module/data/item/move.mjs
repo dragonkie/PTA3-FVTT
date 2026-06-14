@@ -37,7 +37,10 @@ export default class MoveData extends ItemData {
             formula: new StringField({ ...isRequired, blank: false, initial: '2d6', validate: (value) => Roll.validate(value), validationError: 'PTA.Error.InvalidFormula' }),
         })
 
-        schema.range = new NumberField({ initial: 5 })
+        schema.range = new SchemaField({
+            type: new StringField({ ...isRequired, blank: false, initial: "melee", choices: { melee: "melee", ranged: "ranged" } }),
+            value: new NumberField({ initial: 5 })
+        })
 
         // additional crit chance
         schema.critical_chance = new NumberField({ initial: 0, ...isRequired, min: 0, max: 100 });
@@ -84,6 +87,74 @@ export default class MoveData extends ItemData {
 
         schema.priority = new NumberField({ initial: 0, ...isRequired });
 
+        // special field for holding a ton of the pokeapi data, nothing here is restricted and is for archival and restoration purposes
+        schema.api = new SchemaField({
+            id: new NumberField(),
+            name: new StringField(),
+            accuracy: new NumberField(),
+            effect_chance: new NumberField(),
+            pp: new NumberField(),
+            priority: new NumberField(),
+            power: new NumberField(),
+            contest_combos: new SchemaField({
+                normal: new SchemaField({
+                    use_before: new ArrayField(new StringField()),
+                    use_after: new ArrayField(new StringField())
+                }),
+                super: new SchemaField({
+                    use_before: new ArrayField(new StringField()),
+                    use_after: new ArrayField(new StringField())
+                })
+            }),
+            contest_type: new StringField(),
+            contest_effect: new SchemaField({
+                appeal: new NumberField(),
+                id: new NumberField(),
+                jam: new NumberField(),
+            }),
+            damage_class: new StringField(),
+            effect_chance: new NumberField(),
+            effect_entries: new ArrayField(new SchemaField({
+                effect: new StringField(),
+                short_effect: new StringField(),
+                language: new StringField()
+            })),
+            flavour_text_entries: new ArrayField(new SchemaField({
+                flavour_text: new StringField(),
+                language: new StringField(),
+                version_group: new StringField(),
+            })),
+            generation: new StringField(),
+            meta: new SchemaField({
+                ailment: new StringField(),
+                ailment_chance: new NumberField(),
+                category: new StringField(),
+                crit_rate: new NumberField(),
+                drain: new NumberField(),
+                flinch_chance: new NumberField(),
+                healing: new NumberField(),
+                max_hits: new NumberField(),
+                max_turns: new NumberField(),
+                min_hits: new NumberField(),
+                min_turns: new NumberField(),
+                stat_chance: new NumberField()
+            }),
+            names: new ArrayField(new SchemaField({
+                name: new StringField(),
+                language: new StringField()
+            })),
+            stat_changes: new ArrayField(new SchemaField({
+                change: new NumberField(),
+                stat: new StringField()
+            })),
+            super_contest_effect: new SchemaField({
+                appeal: new NumberField(),
+                id: new NumberField()
+            }),
+            target: new StringField(),
+            type: new StringField(),
+        })
+
         return schema;
     }
 
@@ -93,6 +164,9 @@ export default class MoveData extends ItemData {
 
         // corrects category issues
         if (source.category && !Object.keys(PTA.moveClass).includes(source.category)) source.category = Object.keys(PTA.moveClass)[0];
+
+        // correct static range field to in depth range field
+        if (typeof source.range != 'object') source.range = { value: source.range || 5, type: source.range > 5 ? 'ranged' : 'melee' };
 
         return super.migrateData(source);
     }
@@ -273,7 +347,7 @@ export default class MoveData extends ItemData {
             if (this.drain > 0) {
                 message_config.drain = Math.floor(r_damage.total * (this.drain / 100));
                 message_data.content += `<p>${utils.format(PTA.chat.lifesteal, message_config)}</p>`;
-                await this.actor.update({ system: { hp: { value: Math.min(this.actor.system.hp.value + message_config.drain, this.actor.system.hp.total) } } })
+                await this.actor.update({ system: { hp: { value: Math.min(this.actor.system.hp.value + message_config.drain, this.actor.system.hp.max) } } })
             }
 
             //==================================================================================================
