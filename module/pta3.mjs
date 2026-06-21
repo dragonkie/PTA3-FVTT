@@ -71,12 +71,12 @@ Hooks.once('init', function () {
     foundry.documents.collections.Actors.unregisterSheet('core', foundry.appv1.sheets.ActorSheet);
     foundry.documents.collections.Items.unregisterSheet('core', foundry.appv1.sheets.ItemSheet);
 
-    for (const sheet of applications.sheets.actor.config) {
+    for (const [key, sheet] of Object.entries(applications.sheets.actor.config)) {
         if (!sheet.application) continue;
         foundry.documents.collections.Actors.registerSheet(game.system.id, sheet.application, sheet.options);
     }
 
-    for (const sheet of applications.sheets.item.config) {
+    for (const [key, sheet] of Object.entries(applications.sheets.item.config)) {
         if (!sheet.application) continue;
         foundry.documents.collections.Items.registerSheet(game.system.id, sheet.application, sheet.options);
     }
