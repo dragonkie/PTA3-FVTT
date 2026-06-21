@@ -96,7 +96,7 @@ PTA.generic = {
   nature: 'PTA.Generic.Nature',
   none: 'PTA.Generic.None',
   origin: 'PTA.Generic.Origin',
-  pokemon: 'PTA.Generic.Companion',
+  companion: 'PTA.Generic.Companion',
   primary: 'PTA.Generic.Primary',
   rank: 'PTA.Generic.Rank',
   roll: 'PTA.generic.Roll',
@@ -109,7 +109,8 @@ PTA.generic = {
   types: 'PTA.Generic.Types',
   weight: 'PTA.Generic.Weight',
   category: 'PTA.Generic.Category',
-  loyalty: 'PTA.Generic.Loyalty'
+  loyalty: 'PTA.Generic.Loyalty',
+  stat: 'PTA.Generic.Stats'
 }
 
 PTA.dice = {
@@ -146,10 +147,12 @@ PTA.moveClass = {
 //======================================================================
 PTA.modifierMethods = {
   add: 'PTA.Method.Add',
-  subtract: 'PTA.Method.Subtract',
   grow: 'PTA.Method.Grow',
-  shrink: 'PTA.Method.Shrink',
   multiply: 'PTA.Method.Multiply',
+  set: 'PTA.Method.Set',
+  shrink: 'PTA.Method.Shrink',
+  subtract: 'PTA.Method.Subtract',
+  formula: 'PTA.Method.Formula'
 }
 
 //======================================================================
@@ -722,4 +725,18 @@ PTA.contextMenu = {
   use: 'PTA.ContextMenu.Use',
   attack: 'PTA.ContextMenu.Attack',
   damage: 'PTA.ContextMenu.Damage',
+  activate: 'PTA.ContextMenu.Activate',
+  deactivate: 'PTA.ContextMenu.Deactivate',
+}
+
+// list used in the rules setup
+PTA.quickStatMods = {
+  ...PTA.stats,
+  hp: 'Max HP',
+  moveSpeed: 'Movement',
+  evasion: 'Evasion',
+  evasionPh: 'Evasion Ph.',
+  evasionSp: 'Evasion Sp.',
+  evasionAl: 'Evasion Al.',
+  ...PTA.skills,
 }
