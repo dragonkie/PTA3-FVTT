@@ -34,7 +34,7 @@ export default class PtaPokemonSheet extends PtaActorSheet {
 
     static PARTS = {
         body: { template: `${this.TEMPLATE_PATH}/actor/pokemon/body.hbs` },
-        features: { template: `${this.TEMPLATE_PATH}/actor/pokemon/features.hbs` },
+        features: { template: `${this.TEMPLATE_PATH}/actor/shared/features.hbs` },
         combat: { template: `${this.TEMPLATE_PATH}/actor/shared/combat.hbs` },
         effects: { template: `${this.TEMPLATE_PATH}/actor/parts/actor-effects.hbs` },
         pokedex: { template: `${this.TEMPLATE_PATH}/actor/pokemon/pokedex.hbs` },
