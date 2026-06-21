@@ -20,13 +20,13 @@
     </div>
 
     {{!-- Active effects list, seperate the effects by type first, then list --}}
-    <ol class="pta-effect-lists flexcol flex-gap-l">
+    <ol class="pta-effect-list flexcol flex-gap-l">
       {{#each effects as |section sid|}}
         <div class="pta-effect-list pta-item-list">
           <li class="pta-effect-list-header pta-item-list-header flexrow" data-effect-type="{{section.type}}" data-parent-id="{{@root.actor.id}}">
             <div class="pta-effect-name">{{localize section.label}}</div>
             <div class="pta-effect-source">{{localize "PTA.Effect.Source"}}</div>
-            <div class="pta-effect-duration">{{localize "PTA.Effect.Duration"}}</div>
+            <div class="pta-effect-duration">{{localize "EFFECT.DURATION.label"}}</div>
             <button class="pta-effect-controls pta-clear-button" data-action="effectCreate" title="{{localize 'DOCUMENT.Create' type=" Effect"}}">
               <i class="fas fa-plus"></i>
             </button>

@@ -10,11 +10,14 @@ $pta-move-detail-type: 5em;
 $pta-move-detail-class: 5em;
 $pta-move-detail-damage: 5em;
 
+$pta-button-size: 30px;
+
 .pta-item-list {
   display: flex;
   flex-direction: column;
   padding: 0;
   margin: 0;
+  list-style: none;
 
   box-shadow: 0 0 5px black;
 
@@ -28,17 +31,13 @@ $pta-move-detail-damage: 5em;
     font-size: 1rem;
     align-items: center;
     margin: 0;
-
     background: linear-gradient(to left, #631f1f, #8e2b2b);
 
-    .pta-header-detail-groups {
-      margin-right: 40px;
-      text-align: center;
-    }
-
-    // generic header details get 70px
-    .pta-item-list-header-detail {
-      flex: 0 0 70px;
+    .pta-header-name {
+      flex: 2;
+      text-align: left;
+      display: flex;
+      flex-direction: row;
     }
   }
 
@@ -50,8 +49,28 @@ $pta-move-detail-damage: 5em;
 
   // identifier for the collapsible wrapper holding all the items
   .pta-item-entries {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     :last-child {
       border-radius: 0 0 $pta-border-radius $pta-border-radius;
+    }
+  }
+
+  // items identity, far left side of the row
+  .pta-item-name {
+    font-size: 1rem;
+    flex: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .pta-item-image {
+      flex: 0 0 30px;
+      height: 30px;
+      background-size: 30px;
+      border: none;
+      margin: 0 0.3rem;
     }
   }
 
@@ -74,42 +93,51 @@ $pta-move-detail-damage: 5em;
       flex-wrap: nowrap;
       flex: 0;
     }
-
-    .pta-item-detail {
-      flex: 0 0 5em;
-      text-wrap: nowrap;
-      text-overflow: hidden;
-    }
-
-    // items identity, far left side of the row
-    .pta-item-name {
-      font-size: 1rem;
-      flex: 2;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      .pta-item-image {
-        flex: 0 0 30px;
-        height: 30px;
-        background-size: 30px;
-        border: none;
-        margin: 0 0.3rem;
-      }
-    }
-
-    // list of controls in the item bar on the far right side
-    .pta-item-controls {
-      flex: 0 0 40px;
-      align-items: center;
-      justify-items: center;
-    }
-
-    // Collapsible content for the item, displayed when clicked
-    .pta-item-content {}
   }
+
+  // list of controls in the item bar on the far right side
+  .pta-item-controls {
+    flex: 0 0 $pta-button-size;
+    align-items: center;
+    justify-items: center;
+  }
+
+  // different item type details are stored here, they're best served with matching headers to keep collumns aligned
 }
 
 //=============================================================================================
 //> Item detail variables
 //=============================================================================================
+.pta-item-detail,
+.pta-header-detail {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  text-wrap: nowrap;
+  text-align: center;
+  text-overflow: ellipsis;
+
+  align-items: center;
+  justify-content: center;
+
+  &.pta-item-quantity {
+    flex: 0 0 calc($pta-button-size * 3);
+
+    button {
+      flex: 0 0 $pta-button-size;
+    }
+  }
+
+  &.pta-equip-state {
+    flex: 0 0 calc($pta-button-size * 3);
+  }
+
+  &.pta-damage {
+    flex: 2 0;
+  }
+
+  &.pta-category,
+  &.pta-type-tag {
+    flex: 1 0;
+  }
+}

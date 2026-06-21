@@ -2,11 +2,14 @@
 
 /* Classes for creating pokemon type boxs and their effects */
 
-.pta-companion-tab .pta-companion-team {
+.pta-companion-tab ol.pta-companion-team {
   list-style: none;
   padding: 0.5em;
   margin: 0;
   flex: 0 0 225px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 
   background: linear-gradient(to right, #808080, #6d6d6d);
   border-radius: 5px;
@@ -16,7 +19,6 @@
     --scale: 60%;
 
     background-color: var(--color-cool-4);
-    margin-bottom: 5px;
     position: relative;
     width: 225px;
     height: 75px;

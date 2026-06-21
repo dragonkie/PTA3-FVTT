@@ -1,0 +1,23 @@
+<div class="pta-tab">
+        <div class="pta-move-list pta-item-list">
+            <span class="pta-item-list-header">
+                <div class="pta-header-name">
+                    <div>PTA.Generic.Moves</div>
+                </div>
+                <div class="pta-header-detail pta-damage flexshrink">Damage</div>
+                <div class="pta-header-detail pta-type-tag flexshrink">Type</div>
+                <div class="pta-header-detail pta-category flexshrink">Class</div>
+                <div class="pta-item-controls">
+                    <button class="pta-clear-button" data-action="create">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </span>
+            <ol class="pta-item-entries">
+                {{#each items as | item key |}}
+                    {{#if (eq item.type 'move')}}{{> 'pta.list-item' item=item isEditMode=@root.isEditMode isPlayMode=@root.isPlayMode}}{{/if}}
+                {{/each}}
+            </ol>
+        </div>
+    </div>
+</div>

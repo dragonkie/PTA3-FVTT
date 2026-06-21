@@ -25,17 +25,6 @@
 
 /* Styles limited to pta3 sheets */
 .pta {
-    &.sheet {
-
-        ol,
-        ul,
-        li {
-            padding: 0;
-            margin: 0;
-            list-style: none;
-        }
-    }
-
     // force our sheets to use the set font instead of foundrys very specific declarations
     input[type=text] {
         font-family: "DM Sans", serif;
@@ -64,7 +53,6 @@
     .pta-tab {
         height: 100%;
         width: 100%;
-        min-height: 300px;
         padding: 0.5rem;
 
         &.pta-companion-tab {

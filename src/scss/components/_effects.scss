@@ -20,13 +20,18 @@
 
 
 .pta-effect-list {
+  box-sizing: border-box;
+
+  margin: 0;
+  padding: 0;
+
   .pta-effect-list-header {
     .pta-effect-name {
-      padding-left: 30px;
+      * {
+        padding-left: 30px;
+      }
     }
   }
-
-  .pta-effect-list-header-name {}
 
   .pta-effect-name {
     flex: 2;
@@ -52,8 +57,4 @@
   .pta-effect-controls {
     flex: 0 0 2rem;
   }
-
-  .pta-effect-list-header-control {}
-
-  .pta-effect {}
 }

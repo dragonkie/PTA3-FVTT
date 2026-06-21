@@ -1,3 +1,70 @@
-<div class="flexcol flex-gap-s">
+<div class="pta-tab flexcol flex-gap-l">
+  <div class="pta-effect-list pta-item-list">
+    <div class="pta-effect-list-header pta-item-list-header flexrow" data-effect-type="{{section.type}}" data-parent-id="{{@root.actor.id}}">
+      <div class="pta-effect-name">
+        <div>{{localize 'DOCUMENT.ActiveEffects'}}</div>
+      </div>
+      <div class="pta-effect-source">{{localize "PTA.Effect.Source"}}</div>
+      <div class="pta-effect-duration">{{localize "PTA.Effect.Duration"}}</div>
+      <button class="pta-effect-controls pta-clear-button" data-action="effectCreate" title="{{localize 'DOCUMENT.Create' type=" Effect"}}">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <ol class="pta-item-entries">
+      {{#each effects.contents as |effect key|}}
+        <li class="pta-item pta-effect flexcol collapsible collapsed" data-uuid="{{effect.uuid}}">
+          <div class="flexrow">
+            {{!-- Item name and image --}}
+            <div class="pta-effect-name flexrow" data-action="collapse">
+              <div class="pta-effect-image"><img src="{{effect.img}}" width="30" height="30" /></div>
+              <div>{{effect.name}}</div>
+            </div>
+            <div class="pta-effect-source">{{effect.sourceName}}</div>
+            <div class="pta-effect-duration">{{effect.duration.label}}</div>
+            <div class="pta-effect-controls flexrow">
+              <button class="pta-clear-button" data-action="menu"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+          </div>
+          <div class="collapsible-content" data-action="collapse">
+            <div class="wrapper">
+              <div class="flexcol">
+                {{{effect.description}}}
+              </div>
+            </div>
+          </div>
+        </li>
+      {{/each}}
+    </ol>
+  </div>
 
+  {{!-- each rule type has its own unique set up! --}}
+  <div class="flexcol flex-gap-m pta-rule-list">
+    <div class="flexrow flex-gap-m">
+      <div class="text-center flex">Rule</div>
+      <div class="text-center flex">Method</div>
+      <div class="text-center flex">Value</div>
+      <div class="text-center flex" style="flex: 0 0 2em;">Priority</div>
+      <button class="flexshrink" data-action="createModifier">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+    {{#each system.rules as |rule key|}}
+      <div class="flexrow flex-gap-m" data-rule-index="{{key}}">
+        {{!-- this helper was modified to accomodate the new TypedObjectField nested options --}}
+        {{toFieldInput @root.system.schema 'rules.element.stat' name=(concat 'system.rules.' key '.stat') value=rule.stat localize=true}}
+        {{toFieldInput @root.system.schema 'rules.element.method' name=(concat 'system.rules.' key '.method') value=rule.method localize=true}}
+
+        {{#if (eq rule.method 'formula')}}
+          <input class="flex text-center" name="system.rules.{{key}}.formula" type="text" value="{{rule.formula}}">
+        {{/if}}
+        {{#unless (eq rule.method 'formula')}}
+          <input class="flex" name="system.rules.{{key}}.value" type="number" value="{{rule.value}}">
+        {{/unless}}
+
+        <input class="flex text-center" style="flex: 0 0 2em;" name="system.rules.{{key}}.priority" type="text" value="{{rule.priority}}">
+
+        <button class="flexshrink pta-clear-button" data-action="remove"><i class="fas fa-trash"></i></button>
+      </div>
+    {{/each}}
+  </div>
 </div>

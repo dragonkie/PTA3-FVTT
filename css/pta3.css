@@ -362,6 +362,8 @@ button.pta-clear-button:focus {
 .pta-search-container {
   background-color: #302831;
   border-radius: 5px;
+  transition: outline-color 0.5s;
+  outline: 2px solid transparent;
 }
 .pta-search-container .pta-search-wrap {
   display: flex;
@@ -378,9 +380,15 @@ button.pta-clear-button:focus {
 .pta-search-container input:focus {
   border: 0;
   outline: none;
+  outline-color: transparent;
 }
 .pta-search-container:focus-within {
-  outline: 2px solid gold;
+  outline: 2px solid #584a75;
+}
+.pta-search-container ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 /* Import utilities */
@@ -507,6 +515,7 @@ button.pta-clear-button:focus {
   flex-direction: column;
   padding: 0;
   margin: 0;
+  list-style: none;
   box-shadow: 0 0 5px black;
 }
 .pta-item-list .pta-item-list-header {
@@ -520,18 +529,36 @@ button.pta-clear-button:focus {
   margin: 0;
   background: linear-gradient(to left, #631f1f, #8e2b2b);
 }
-.pta-item-list .pta-item-list-header .pta-header-detail-groups {
-  margin-right: 40px;
-  text-align: center;
-}
-.pta-item-list .pta-item-list-header .pta-item-list-header-detail {
-  flex: 0 0 70px;
+.pta-item-list .pta-item-list-header .pta-header-name {
+  flex: 2;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
 }
 .pta-item-list .collapsed .pta-item-list-header {
   border-radius: 5px;
 }
+.pta-item-list .pta-item-entries {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 .pta-item-list .pta-item-entries :last-child {
   border-radius: 0 0 5px 5px;
+}
+.pta-item-list .pta-item-name {
+  font-size: 1rem;
+  flex: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.pta-item-list .pta-item-name .pta-item-image {
+  flex: 0 0 30px;
+  height: 30px;
+  background-size: 30px;
+  border: none;
+  margin: 0 0.3rem;
 }
 .pta-item-list .pta-item {
   border-top: 1px solid rgb(224, 242, 255);
@@ -550,30 +577,45 @@ button.pta-clear-button:focus {
   flex-wrap: nowrap;
   flex: 0;
 }
-.pta-item-list .pta-item .pta-item-detail {
-  flex: 0 0 5em;
-  text-wrap: nowrap;
-  text-overflow: hidden;
-}
-.pta-item-list .pta-item .pta-item-name {
-  font-size: 1rem;
-  flex: 2;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.pta-item-list .pta-item .pta-item-name .pta-item-image {
+.pta-item-list .pta-item-controls {
   flex: 0 0 30px;
-  height: 30px;
-  background-size: 30px;
-  border: none;
-  margin: 0 0.3rem;
-}
-.pta-item-list .pta-item .pta-item-controls {
-  flex: 0 0 40px;
   align-items: center;
   justify-items: center;
 }
+
+.pta-item-detail,
+.pta-header-detail {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  text-wrap: nowrap;
+  text-align: center;
+  text-overflow: ellipsis;
+  align-items: center;
+  justify-content: center;
+}
+.pta-item-detail.pta-item-quantity,
+.pta-header-detail.pta-item-quantity {
+  flex: 0 0 90px;
+}
+.pta-item-detail.pta-item-quantity button,
+.pta-header-detail.pta-item-quantity button {
+  flex: 0 0 30px;
+}
+.pta-item-detail.pta-equip-state,
+.pta-header-detail.pta-equip-state {
+  flex: 0 0 90px;
+}
+.pta-item-detail.pta-damage,
+.pta-header-detail.pta-damage {
+  flex: 2 0;
+}
+.pta-item-detail.pta-category, .pta-item-detail.pta-type-tag,
+.pta-header-detail.pta-category,
+.pta-header-detail.pta-type-tag {
+  flex: 1 0;
+}
+
 .effects .item .effect-source,
 .effects .item .effect-duration,
 .effects .item .effect-controls {
@@ -586,7 +628,16 @@ button.pta-clear-button:focus {
   border: none;
 }
 
-.pta-effect-list .pta-effect-list-header .pta-effect-name {
+#token-hud .status-effects {
+  height: auto;
+}
+
+.pta-effect-list {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.pta-effect-list .pta-effect-list-header .pta-effect-name * {
   padding-left: 30px;
 }
 .pta-effect-list .pta-effect-name {
@@ -609,6 +660,7 @@ button.pta-clear-button:focus {
 .pta-effect-list .pta-effect-controls {
   flex: 0 0 2rem;
 }
+
 .pta prose-mirror.inactive .editor-container {
   background: var(--color-cool-4);
   border-radius: 4px;
@@ -621,19 +673,21 @@ button.pta-clear-button:focus {
 
 /* Import utilities */
 /* Classes for creating pokemon type boxs and their effects */
-.pta-companion-tab .pta-companion-team {
+.pta-companion-tab ol.pta-companion-team {
   list-style: none;
   padding: 0.5em;
   margin: 0;
   flex: 0 0 225px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   background: linear-gradient(to right, #808080, #6d6d6d);
   border-radius: 5px;
 }
-.pta-companion-tab .pta-companion-team .pta-companion {
+.pta-companion-tab ol.pta-companion-team .pta-companion {
   --angle: 110deg;
   --scale: 60%;
   background-color: var(--color-cool-4);
-  margin-bottom: 5px;
   position: relative;
   width: 225px;
   height: 75px;
@@ -644,17 +698,17 @@ button.pta-clear-button:focus {
   --corner: 1em;
   clip-path: polygon(var(--corner) 0%, calc(100% - var(--corner)) 0%, 100% var(--corner), 100% calc(100% - var(--corner)), calc(100% - var(--corner)) 100%, var(--corner) 100%, 0% calc(100% - var(--corner)), 0% var(--corner));
 }
-.pta-companion-tab .pta-companion-team .pta-companion .pta-companion-portrait {
+.pta-companion-tab ol.pta-companion-team .pta-companion .pta-companion-portrait {
   flex: 0 0;
   background-repeat: no-repeat;
   background-size: contain;
   height: 100%;
   aspect-ratio: 1;
 }
-.pta-companion-tab .pta-companion-team .pta-companion .pta-companion-portrait img {
+.pta-companion-tab ol.pta-companion-team .pta-companion .pta-companion-portrait img {
   border: 0;
 }
-.pta-companion-tab .pta-companion-team .pta-companion .details {
+.pta-companion-tab ol.pta-companion-team .pta-companion .details {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -662,16 +716,16 @@ button.pta-clear-button:focus {
   justify-content: center;
   text-align: center;
 }
-.pta-companion-tab .pta-companion-team .pta-companion .details > * {
+.pta-companion-tab ol.pta-companion-team .pta-companion .details > * {
   flex: 1;
   width: 100%;
 }
-.pta-companion-tab .pta-companion-team .pta-companion .details .pta-companion-nickname {
+.pta-companion-tab ol.pta-companion-team .pta-companion .details .pta-companion-nickname {
   text-align: left;
   font-weight: bold;
   font-size: calc(var(--pta-scale-em) * 0.8);
 }
-.pta-companion-tab .pta-companion-team .pta-companion .details .health {
+.pta-companion-tab ol.pta-companion-team .pta-companion .details .health {
   flex: 0;
 }
 
@@ -903,7 +957,7 @@ button.pta-clear-button:focus {
   flex: 1;
   flex-wrap: nowrap;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   --stat-border-c: white;
 }
 .pta-stats [data-pta-stat=atk] {
@@ -927,9 +981,10 @@ button.pta-clear-button:focus {
 }
 .pta-stats .pta-stat-wrap {
   display: flex;
-  flex: 0;
+  flex: 1;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
 }
 .pta-stats .pta-stat-wrap .pta-score-wrap {
   flex: 0;
@@ -1116,13 +1171,6 @@ button.pta-clear-button:focus {
 }
 
 /* Styles limited to pta3 sheets */
-.pta.sheet ol,
-.pta.sheet ul,
-.pta.sheet li {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
 .pta input[type=text] {
   font-family: "DM Sans", serif;
   font-size: var(--pta-scale-rem);
@@ -1145,7 +1193,6 @@ button.pta-clear-button:focus {
 .pta .pta-tab {
   height: 100%;
   width: 100%;
-  min-height: 300px;
   padding: 0.5rem;
 }
 .pta .pta-tab.pta-companion-tab {

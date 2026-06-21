@@ -1,13 +1,13 @@
 {{!-- Content for move type items --}}
 {{#*inline 'move-details'}}
+  <div class="pta-item-detail pta-damage flex-align-center">
+    {{item.system.damage.formula}}
+  </div>
   <div class="pta-item-detail pta-type-tag pta-type-{{item.system.type}} pta-fill">
     {{localize (objectValue @root.config.pokemonTypes item.system.type)}}
   </div>
   <div class="pta-item-detail pta-category flexcol flex-align-center">
     {{localize (objectValue @root.config.moveClass item.system.category)}}
-  </div>
-  <div class="pta-item-detail pta-damage flex-align-center">
-    {{item.system.damage.formula}}
   </div>
 {{/inline}}
 
@@ -19,8 +19,44 @@
   </div>
 {{/inline}}
 
-{{#*inline 'consumable-content'}}
+{{!-- Common, used when a specific isnt set --}}
+{{#*inline 'equipment-details'}}
+  <div class="pta-item-detail pta-equip-state">
+    <button class="pta-clear-button" data-action="use">
+      {{#if item.system.equipped}}
+        <i class="fas fa-hand-fist"></i>
+      {{else}}
+        <i class="fas fa-backpack"></i>
+      {{/if}}
+    </button>
+  </div>
+  {{> 'item-quantity'}}
+{{/inline}}
 
+{{#*inline 'equipment-content'}}
+
+{{/inline}}
+
+{{!-- Common, used when a specific isnt set --}}
+{{#*inline 'common-details'}}
+  {{> 'item-quantity'}}
+{{/inline}}
+
+{{#*inline 'common-content'}}
+
+{{/inline}}
+
+{{!-- Partial helper for common details --}}
+{{#*inline 'item-quantity'}}
+  <div class="pta-item-detail pta-item-quantity flexrow flex-group-center flexshrink">
+    <button class="pta-quantity-subtract pta-clear-button flexshrink" data-action="itemQuantity" data-value="-1">
+      <i class="fas fa-minus"></i>
+    </button>
+    <div class="pta-item-quantity-counter text-center">{{item.system.quantity}}</div>
+    <button class="pta-quantity-add pta-clear-button flexshrink" data-action="itemQuantity" data-value="1">
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
 {{/inline}}
 
 <li class="pta-item collapsible collapsed" data-uuid="{{item.uuid}}" draggable="true" data-searchable="item">
@@ -33,10 +69,13 @@
     </div>
 
     {{!-- Item listing details, only the most important at a glance details belong here --}}
-
-    <div class="pta-item-details">
-      {{#if (eq item.type 'move')}}{{> 'move-details' item=item}}{{/if}}
-    </div>
+    {{#if (eq item.type 'move')}}
+      {{> 'move-details' item=item}}
+    {{else if (eq item.type 'equipment')}}
+      {{> 'equipment-details' item=item}}
+    {{else}}
+      {{> 'common-details' item=item}}
+    {{/if}}
 
     {{!-- Item controls, different buttons and actions to use the item more accurately then in a single 'use' button --}}
     <div class="pta-item-controls">
@@ -48,7 +87,11 @@
   <div class="collapsible-content" style="width: 100%;" data-action="collapse">
     <div class="wrapper">
       <div class="flexcol flex-gap-m" style="width: 100%; padding-left: 1rem; margin: 0.5rem 0;">
-        {{#if (eq item.type 'move')}}{{> 'move-content' item=item}}{{/if}}
+        {{#if (eq item.type 'move')}}
+          {{> 'move-content' item=item}}
+        {{else}}
+          {{> 'common-content'}}
+        {{/if}}
         <div class="pta-item-description">
           <div class="text-left">
             {{{item.system.description}}}
