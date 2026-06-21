@@ -23,6 +23,7 @@ export default function PtaSheetMixin(Base) {
                 toggle: this._onToggle,
                 clear: this._onClear,
                 roll: this._onRoll,
+                create: this._onCreateEmbedded,
 
                 collapse: this._onCollapse,
                 copyToClipboard: this._onCopyToClipboard,
@@ -65,6 +66,7 @@ export default function PtaSheetMixin(Base) {
             context.isEditable = this.isEditable;
             context.flags = this.document.flags;
             context.userSettings = game.user.getFlag(game.system.id, 'settings');
+            context.effects = this.document.effects;
 
             const enrichmentOptions = { rollData: context.rollData }
             context.gmNotes = {
@@ -236,6 +238,33 @@ export default function PtaSheetMixin(Base) {
             ele.classList.add('animating');
         }
 
+        /**
+         * Embedded documents can either be of 'Item' or 'ActiveEffect' type
+         * these have subtypes to be specifiede based on which they are
+         * @param {Event} event 
+         * @param {HTMLElement} target 
+         */
+        static async _onCreateEmbedded(event, target) {
+            const documentName = target.closest('[data-document-name]').dataset.documentName;
+            const documentType = target.closest('[data-document-type]').dataset.documentType;
+
+            if (documentName == Item.documentName) {
+                if (this.document.documentName != 'Actor') throw new Error("Can't add items to a non-actor");
+
+                const doc = Item.create({
+                    name: `New ${documentType}`,
+                    type: documentType,
+                }, { parent: this.document, renderSheet: true });
+            } else if (documentName == AcitiveEffect.documentName) {
+                const data = {
+                    name: `New ${documentType} Effect`,
+                    disabled: documentType == 'disabled',
+                }
+
+                Item.create(data, { parent: this.document, renderSheet: true });
+            }
+        }
+
         static async _onCreateEffect(event, target) {
             let effect = await ActiveEffect.create({
                 name: 'New Effect',
@@ -305,7 +334,7 @@ export default function PtaSheetMixin(Base) {
          * @protected
          */
         async _preClose(options) {
-            this._setCollapsedElements();
+            this._getCollapsedElements();
         }
 
         // returns an element for rendering the sheets tabs as bookmarks along the side of a sheet
@@ -354,9 +383,16 @@ export default function PtaSheetMixin(Base) {
         //======================================================================================================
         _lastFocusElement = null;
 
+        /**
+         * Save the focused element to the _lastFocusElement variable
+         */
         _getFocusElement() {
             if (this.rendered && this.element.contains(document.activeElement)) {
                 const ele = document.activeElement;
+                if (ele.nodeName != 'INPUT') {
+                    this._lastFocusElement = null;
+                    return;
+                }
 
                 var cList = '';
                 ele.classList.forEach(c => cList += `.${c}`);
@@ -370,6 +406,9 @@ export default function PtaSheetMixin(Base) {
             }
         }
 
+        /**
+         * Set the _lastFocusElement to be focused properly
+         */
         _setFocusElement() {
             if (this._lastFocusElement !== null) {
                 let selector = this._lastFocusElement.tag + this._lastFocusElement.class;
@@ -408,11 +447,11 @@ export default function PtaSheetMixin(Base) {
 
                         // add elements classes
                         const cBlacklist = ['collapsed', 'active', 'animating', 'obliterated', 'context'];
-                        for (const c of ele.classList) if (!cBlacklist.includes(c)) s += `.${c}`;
+                        for (const cssClass of ele.classList) if (!cBlacklist.includes(cssClass)) s += `.${cssClass}`;
 
                         // add element attributes
-                        const aBlacklist = ['class', 'style']
-                        for (const a of ele.attributes) if (!aBlacklist.includes(a.name)) s += `[${a.name}="${a.value}"]`;
+                        const aBlacklist = ['class', 'style', 'draggable']
+                        for (const attribute of ele.attributes) if (!aBlacklist.includes(attribute.name)) s += `[${attribute.name}="${attribute.value}"]`;
 
                         // add this elements selector to the unique selector
                         selector = s + ' ' + selector;
@@ -424,7 +463,7 @@ export default function PtaSheetMixin(Base) {
                         ele = ele.parentElement;
                     }
 
-                    this._collapsedElements.push({
+                    if (selector != "") this._collapsedElements.push({
                         collapsed: element.classList.contains('collapsed'),
                         selector: selector
                     });
@@ -434,33 +473,45 @@ export default function PtaSheetMixin(Base) {
             return [];
         }
 
+        /** 
+         * loads the collapsed element state to the element from saved list selectors
+         */
         _setCollapsedElements() {
+            if (!this.rendered) return;
+
             const list = [];
             if (this._collapsedElements.length > 0 && this.rendered) {
                 let c = 0;
                 for (const { selector, collapsed } of this._collapsedElements) {
                     const ele = this.element.querySelector(selector);
                     if (!ele) {
-
                         /* DISABLED DIAGNOSTIC SCRIPT FOR CHECKING PERSISTENCY SELECTORS */
-                        console.error('Failed to get element with selector: ', { s: selector });
+                        /*
+                        const savedHtml = document.createElement("DIV");
+                        savedHtml.classList.add("preserved-element")
+                        savedHtml.innerHTML = this.element.innerHTML;
+                        console.error('Failed to get element with selector: ', { selector });
+                        console.log("Preserved HTML", savedHtml)
 
                         // run diagnostic sequential check element by element to figure out where the chain breaks
                         const sequence = selector.split(" ");
-                        var e = this.element;
+                        console.log('Sequenced selectors', { sequence })
+                        var e = savedHtml;
                         const chain = [e]
                         for (const s of sequence) {
                             e = e.querySelector(s);
                             if (!e) {
-                                console.log("broke on", { s: s });
+                                console.log("Element chain", chain);
+                                console.log("Last Element", chain[chain.length - 1])
+                                console.log("broke on", { selector: s });
+                                console.log("Attempting unique application search", this.element.querySelector(s));
+                                console.log("Attempting unique element search", chain[chain.length - 1].querySelector(s));
                                 break;
                             }
                             chain.push(e);
                         }
-                        console.log(chain);
-
-
-                        return;
+                        */
+                        continue;
                     }
                     list.push({ ele: ele, sel: selector, collapsed: collapsed })
                     if (collapsed) ele.classList.add('collapsed');
