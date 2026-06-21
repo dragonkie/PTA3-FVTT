@@ -97,8 +97,10 @@ export default class ActorData extends DataModel {
   static migrateData(source, options) {
     //migrates previous max hp value to the new base value so that the max one can be used 
     //to show total hp on resource bars with tokens
-    if (source.hp.max) source.hp.base = source.hp.max;
-    delete source.hp.max;
+    if (source?.hp?.max) {
+      source.hp.base = source.hp.max;
+      delete source.hp.max;
+    }
 
     return super.migrateData(source, options);
   }
@@ -106,7 +108,10 @@ export default class ActorData extends DataModel {
   prepareBaseData() {
     super.prepareBaseData();
     for (const key in this.stats) this.stats[key].total = this.stats[key].value;
+    for (const key in this.skills) this.skills[key].total = this.skills[key].value + this.skills[key].bonus + Math.floor(this.skills[key].talent * 2.5);
+
     this.hp.max = this.hp.base;
+    this.moveSpeed = 0;
   }
 
   prepareDerivedData() {
@@ -152,9 +157,8 @@ export default class ActorData extends DataModel {
 
     // calculate skill totals
     for (const key in this.skills) {
-      let skill = this.skills[key];
-      let stat = this.stats[skill.stat];
-      skill.total = skill.value + stat.mod + Math.floor(skill.talent * 2.5) + skill.bonus;
+      const stat = this.stats[this.skills[key].stat];
+      this.skills[key].total += stat.mod + this.skills[key].bonus;
     }
 
     // applys conditions relevant to token statuses
@@ -173,6 +177,9 @@ export default class ActorData extends DataModel {
         default: break;
       }
     }
+
+    // calculates total movement speed
+    this.moveSpeed += this.stats.spd.total * 5;
   }
 
   getRollData() {
