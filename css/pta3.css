@@ -735,7 +735,6 @@ button.pta-clear-button:focus {
   border: 2px solid var(--pta-type-colour);
   text-align: center;
   min-width: 5em;
-  flex: 0 0;
 }
 .pta-type-tag.pta-type-normal {
   --pta-type-colour: var(--pta-c-type-normal);

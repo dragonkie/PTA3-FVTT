@@ -87,7 +87,6 @@
   border: 2px solid var(--pta-type-colour);
   text-align: center;
   min-width: 5em;
-  flex: 0 0;
 
   @each $type in util.$pokemon-types {
     &.pta-type-#{$type} {
