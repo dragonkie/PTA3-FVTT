@@ -245,8 +245,9 @@ export default function PtaSheetMixin(Base) {
          * @param {HTMLElement} target 
          */
         static async _onCreateEmbedded(event, target) {
-            const documentName = target.closest('[data-document-name]').dataset.documentName;
-            const documentType = target.closest('[data-document-type]').dataset.documentType;
+            const documentName = target.closest('[data-document-name]')?.dataset?.documentName;
+            const documentType = target.closest('[data-document-type]')?.dataset?.documentType;
+            if (!documentName || !documentType) return;
 
             if (documentName == Item.documentName) {
                 if (this.document.documentName != 'Actor') throw new Error("Can't add items to a non-actor");
