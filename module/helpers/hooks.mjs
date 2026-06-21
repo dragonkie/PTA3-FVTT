@@ -84,13 +84,13 @@ export default function registerHooks() {
         //==============================================================================
         /*
         try {
-            const cp_browser = document.createElement('BUTTON');
-            cp_browser.innerHTML = utils.localize('PTA.Button.CompendiumBrowser');
+            const compendium_browser = document.createElement('BUTTON');
+            compendium_browser.innerHTML = utils.localize('PTA.Button.CompendiumBrowser');
             let header = element.querySelector('header.directory-header');
             let search = header.querySelector('search');
-            header.insertBefore(cp_browser, search);
+            header.insertBefore(compendium_browser, search);
 
-            cp_browser.addEventListener('click', async () => {
+            compendium_browser.addEventListener('click', async () => {
                 compendium_browser.render(true);
             })
         } catch (err) {
