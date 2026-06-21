@@ -81,13 +81,18 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             disabled: {
                 label: "PTA.Effect.Disabled",
                 effects: []
+            },
+            expired: {
+                label: "PTA.Effect.Expired",
+                effects: [],
             }
         }
 
         for (const effect of this.document.effects.contents) {
             if (effect.disabled) context.effects.disabled.effects.push(effect);
-            else if (effect.duration.type == 'none') context.effects.passive.effects.push(effect);
-            else context.effects.temporary.effects.push(effect);
+            else if (effect.duration.expired) context.effects.expired.effects.push(effect);
+            else if (!effect.isTemporary) context.effects.passive.effects.push(effect);
+            else if (effect.isTemporary) context.effects.temporary.effects.push(effect);
         }
 
         return context;
@@ -171,7 +176,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         if (skill.talent > 2) skill.talent = 0;
         if (skill.talent < 0) skill.talent = 2;
 
-        await this.document.update({ [`system.skills.${key}`]: skill });
+        await this.document.update({ [`system.skills.${key}.talent`]: skill.talent });
         await this.render({ force: false, parts: ['features'] }); /**EDITING THIS RANDOM LINE HERE TO TRY AND OPTIMIZE THE LEVEL OF LAYERS BEING EDITED AND PREPARED TO MAKE THIGNS RENDER BETTER AND FASTER */
     }
 
