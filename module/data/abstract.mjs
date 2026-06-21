@@ -1,26 +1,31 @@
 import { PTA } from "../helpers/config.mjs";
 
-const fields = foundry.data.fields
-const fieldList = {
-  ArrayField: fields.ArrayField,
-  BooleanField: fields.BooleanField,
-  IntegerSortField: fields.IntegerSortField,
-  NumberField: fields.NumberField,
-  SchemaField: fields.SchemaField,
-  SetField: fields.SetField,
-  StringField: fields.StringField,
-  HTMLField: fields.HTMLField
-};
-
-const { ArrayField,
+const {
+  AlphaField,
+  AngleField,
+  AnyField,
+  ArrayField,
   BooleanField,
+  ColorField,
+  DataField,
+  FilePathField,
+  ForeignDocumentField,
+  HTMLField,
+  HueField,
   IntegerSortField,
+  JSONField,
+  JavaScriptField,
   NumberField,
+  ObjectField,
   SchemaField,
   SetField,
+  ShaderField,
+  ShapesField,
   StringField,
-  HTMLField,
-} = fields;
+  TypeDataField,
+  TypedObjectField,
+  TypedSchemaField
+} = foundry.data.fields;
 
 export default class DataModel extends foundry.abstract.TypeDataModel {
   /**
@@ -35,9 +40,6 @@ export default class DataModel extends foundry.abstract.TypeDataModel {
   toPlainObject() {
     return { ...this };
   }
-
-  static fields = { ...fieldList };
-
 
   static defineSchema() {
     const schema = {};
