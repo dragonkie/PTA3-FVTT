@@ -610,10 +610,11 @@ button.pta-clear-button:focus {
 .pta-header-detail.pta-damage {
   flex: 2 0;
 }
-.pta-item-detail.pta-category, .pta-item-detail.pta-type-tag,
+.pta-item-detail.pta-category, .pta-item-detail.pta-move-uses, .pta-item-detail.pta-type-tag,
 .pta-header-detail.pta-category,
+.pta-header-detail.pta-move-uses,
 .pta-header-detail.pta-type-tag {
-  flex: 1 0;
+  flex: 0 0 100px;
 }
 
 .effects .item .effect-source,

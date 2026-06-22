@@ -138,7 +138,8 @@ $pta-button-size: 30px;
   }
 
   &.pta-category,
+  &.pta-move-uses,
   &.pta-type-tag {
-    flex: 1 0;
+    flex: 0 0 100px;
   }
 }
