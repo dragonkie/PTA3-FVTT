@@ -173,22 +173,27 @@ export default class MoveData extends ItemData {
 
     getMenuActions() {
         const group = "attack";
-        return [
-            ...super.getMenuActions(),
-            {
-                label: PTA.contextMenu.attack,
-                visible: true,
-                group: group,
-                icon: "",
-                callback: () => this._onUseAttack()
-            }, {
-                label: PTA.contextMenu.damage,
-                visible: true,
-                group: group,
-                icon: "",
-                callback: () => this._onUseDamage()
-            }
-        ];
+        const actions = super.getMenuActions();
+        actions.splice(1, 0, {
+            label: PTA.contextMenu.attack,
+            visible: true,
+            group: group,
+            icon: `<i class="fas fa-sword"></i>`,
+            callback: () => this._onUseAttack()
+        }, {
+            label: PTA.contextMenu.damage,
+            visible: true,
+            group: group,
+            icon: `<i class="fas fa-heart-crack"></i>`,
+            callback: () => this._onUseDamage()
+        }, {
+            label: PTA.contextMenu.reload,
+            visible: this.uses.max > 0 && this.uses.value < this.uses.max,
+            group: group,
+            icon: `<i class="fas fa-arrow-rotate-right"></i>`,
+            callback: () => this._onUseReload()
+        })
+        return actions;
     }
 
     get isRanged() { return this.range > 5 };

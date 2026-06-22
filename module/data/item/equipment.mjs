@@ -173,22 +173,21 @@ export default class EquipmentData extends ItemData {
 
   getMenuActions() {
     const group = "equipment";
-    return [
-      ...super.getMenuActions(),
-      {
-        label: PTA.contextMenu.equip,
-        visible: !this.equipped,
-        group: group,
-        icon: "",
-        onClick: () => this.parent.update({ system: { equipped: true } })
-      }, {
-        label: PTA.contextMenu.unequip,
-        visible: this.equipped,
-        group: group,
-        icon: "",
-        onClick: () => this.parent.update({ system: { equipped: false } })
-      }
-    ];
+    const actions = super.getMenuActions();
+    actions.splice(1, 0, {
+      label: PTA.contextMenu.equip,
+      visible: !this.equipped,
+      group: group,
+      icon: `<i class="fas fa-hand-fist"></i>`,
+      onClick: () => this.parent.update({ system: { equipped: true } })
+    }, {
+      label: PTA.contextMenu.unequip,
+      visible: this.equipped,
+      group: group,
+      icon: `<i class="fas fa-backpack"></i>`,
+      onClick: () => this.parent.update({ system: { equipped: false } })
+    })
+    return actions;
   }
 
   prepareActorData(actorData) {

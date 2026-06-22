@@ -727,6 +727,8 @@ PTA.contextMenu = {
   damage: 'PTA.ContextMenu.Damage',
   activate: 'PTA.ContextMenu.Activate',
   deactivate: 'PTA.ContextMenu.Deactivate',
+  reload: 'PTA.ContextMenu.Reload',
+  refresh: 'PTA.ContextMenu.Refresh'
 }
 
 // list used in the rules setup

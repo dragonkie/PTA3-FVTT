@@ -198,6 +198,12 @@ export default class ConsumableData extends ItemData {
         return schema;
     }
 
+    getMenuActions() {
+        const actions = super.getMenuActions();
+        
+        return actions
+    }
+
     /**
      * Use action for consumables is complex and delegated based on its affects
      * Initial split is determined by whether the item can affect humans or just pokemon
