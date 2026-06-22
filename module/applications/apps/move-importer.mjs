@@ -208,7 +208,12 @@ async function importAllMovesFromCSV() {
         else if (uses == "1/day" || uses == "1/GMAX") uses = 1;
         else uses = 0;
 
-        sets.push({
+        let category = pieces[3]?.toLowerCase();
+        if (category == "attack") category = 'physical';
+        if (category == "special") category = 'special';
+        if (category == "effect") category = 'status';
+
+        const data = {
             name: pieces[0],
             type: 'move',
             img: '',
@@ -218,8 +223,7 @@ async function importAllMovesFromCSV() {
                     type: Number(pieces[15]) > 5 ? "ranged" : "melee"
                 },
                 type: pieces[2],
-                category: pieces[3]?.toLowerCase(),
-                //frequency: pieces[i + 4],
+                category: category,
                 damage: {
                     formula: `${pieces[5]}${pieces[6]}`
                 },
@@ -230,7 +234,9 @@ async function importAllMovesFromCSV() {
                     max: uses
                 }
             }
-        });
+        }
+        console.log('New CSV data', data);
+        sets.push(data);
     }
 
     // filter and adjust the data to match the schema
