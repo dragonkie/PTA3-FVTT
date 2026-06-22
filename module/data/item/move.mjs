@@ -17,12 +17,10 @@ export default class MoveData extends ItemData {
 
         // is this a physical, special, or effect move
         // moves that deal damage are still classified as physical / effect, such as ember
-        const MoveClasses = {};
-        for (const a in PTA.moveClass) MoveClasses[a] = utils.localize(PTA.moveClass[a]);
         schema.category = new StringField({
             ...isRequired,
             blank: false,
-            choices: { ...MoveClasses },
+            choices: PTA.moveClass,
             initial: 'physical'
         })
 
