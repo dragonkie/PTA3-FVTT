@@ -28,8 +28,8 @@ export default function PtaSheetMixin(Base) {
                 collapse: this._onCollapse,
                 copyToClipboard: this._onCopyToClipboard,
                 editImage: this._onEditImage,
+
                 // effect controls
-                effectCreate: this._onCreateEffect,
                 effectToggle: this._onToggleEffect,
 
                 toggleDescription: this._onToggleDescription,
@@ -247,31 +247,20 @@ export default function PtaSheetMixin(Base) {
         static async _onCreateEmbedded(event, target) {
             const documentName = target.closest('[data-document-name]')?.dataset?.documentName;
             const documentType = target.closest('[data-document-type]')?.dataset?.documentType;
-            if (!documentName || !documentType) return;
+            if (!documentName) return;
 
             if (documentName == Item.documentName) {
                 if (this.document.documentName != 'Actor') throw new Error("Can't add items to a non-actor");
 
                 const doc = Item.create({
                     name: `New ${documentType}`,
-                    type: documentType,
+                    type: documentType || "pokeball",
                 }, { parent: this.document, renderSheet: true });
-            } else if (documentName == AcitiveEffect.documentName) {
-                const data = {
-                    name: `New ${documentType} Effect`,
-                    disabled: documentType == 'disabled',
-                }
+            } else if (documentName == ActiveEffect.documentName) {
+                const data = { name: `New Effect` };
 
-                Item.create(data, { parent: this.document, renderSheet: true });
+                ActiveEffect.create(data, { parent: this.document, renderSheet: true });
             }
-        }
-
-        static async _onCreateEffect(event, target) {
-            let effect = await ActiveEffect.create({
-                name: 'New Effect',
-                type: 'base',
-                img: 'icons/svg/aura.svg'
-            }, { parent: this.document, renderSheet: true });
         }
 
         static async _onToggleEffect(event, target) {
