@@ -3,6 +3,13 @@
   <div class="pta-item-detail pta-damage flex-align-center">
     {{item.system.damage.formula}}
   </div>
+  <div class="pta-item-detail pta-move-uses flex-align-center">
+    {{#if (gt item.system.uses.max 0)}}
+    {{item.system.uses.value}}/{{item.system.uses.max}}
+    {{else}}
+      N/A
+    {{/if}}
+  </div>
   <div class="pta-item-detail pta-type-tag pta-type-{{item.system.type}} pta-fill">
     {{localize (objectValue @root.config.pokemonTypes item.system.type)}}
   </div>
