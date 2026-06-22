@@ -16,6 +16,7 @@ export default class ActorData extends DataModel {
       value: new NumberField({ ...requiredInteger, initial: 20, min: 0 }),
       base: new NumberField({ ...requiredInteger, initial: 20, min: 0 }),
       min: new NumberField({ ...requiredInteger, initial: 0, min: 0, max: 0 }),
+      max: new NumberField(),// Garbage field for letting the token use the resource bar on hp
     })
 
     // Iterate over stats names and create a new SchemaField for each.
