@@ -9,11 +9,10 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         classes: ["actor"],
         position: { height: 'auto', width: 700, left: 120, top: 60 },
         actions: {
+            use: this._onUseItem,
             itemQuantity: this._onChangeItemQuantity,
-            itemUse: this._onUseItem,
             itemSort: this._onSortItemMethod,
             trainTalent: this._onTrainTalent,
-            use: this._onUseItem,
             editResistance: this._onEditResistance,
             importMoves: this._onImportMoves,
         }
