@@ -4,11 +4,13 @@
     {{item.system.damage.formula}}
   </div>
   <div class="pta-item-detail pta-move-uses flex-align-center">
-    {{#if (gt item.system.uses.max 0)}}
-    {{item.system.uses.value}}/{{item.system.uses.max}}
-    {{else}}
-      N/A
-    {{/if}}
+    <button class="pta-clear-button" data-action="use" data-use="reload">
+      {{#if (gt item.system.uses.max 0)}}
+        {{item.system.uses.value}}/{{item.system.uses.max}}
+      {{else}}
+        N/A
+      {{/if}}
+    </button>
   </div>
   <div class="pta-item-detail pta-type-tag pta-type-{{item.system.type}} pta-fill">
     {{localize (objectValue @root.config.pokemonTypes item.system.type)}}
@@ -70,7 +72,7 @@
   <div class="flexrow" data-action="collapse">
     <div class="pta-item-name">
       <div class="pta-item-image">
-        <img data-action="itemUse" src="{{item.img}}" title="{{item.name}}" width="30" height="30" />
+        <img data-action="use" src="{{item.img}}" title="{{item.name}}" width="30" height="30" />
       </div>
       <div>{{item.name}}</div>
     </div>
