@@ -1,0 +1,26 @@
+<div class="pta-roll-form">
+    {{!-- Attack accuracy formula, 1d20 + stat --}}
+    <div class="pta-roll-group">
+        <label>Stat</label>
+        <div class="pta-fields">
+            <input type="text" value="{{stat.mod}}" disabled>
+        </div>
+    </div>
+    {{!-- Accuracy modifiers from passives, move, etc --}}
+    <div class="pta-roll-group">
+        <label>Accuracy</label>
+        <div class="pta-fields">
+            <input type="text" value="{{accuracy}}" disabled>
+        </div>
+    </div>
+    {{!-- Advantage and disadvantage toggle --}}
+    {{!-- Bonuses to the attack formula --}}
+    {{!-- Final roll formula --}}
+    <div class="pta-roll-group">
+        <label>Finished Formula</label>
+        <div class="pta-fields"><input type="text" value="{{attackFormula}}" disabled></div>
+    </div>
+    {{!-- Add additional modifiers area --}}
+    <input type="text" placeholder="Situational bonus...">
+    {{!-- List of targets to include, click to toggle their inclusion --}}
+</div>
