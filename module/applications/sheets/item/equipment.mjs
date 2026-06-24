@@ -31,19 +31,14 @@ export default class PtaEquipmentSheet extends PtaItemSheet {
 
     static async _onRemoveRule(event, target) {
         const index = target.closest('[data-rule-index').dataset?.ruleIndex;
-
         if (!index) throw new Error("Failed to find rule to delete");
-
-        const copy = this.document.system.toObject().rules;
-        const modification = {
-            [index]: new foundry.data.operators.ForcedDeletion()
-        }
-        const merge = foundry.utils.mergeObject(copy, modification, { applyOperators: true });
 
         this.document.update({
             system: {
-                rules: merge
+                rules: {
+                    [index]: _del
+                }
             }
-        }, { recursive: false })
+        }, { recursive: false, applyOperators: true})
     }
 }
