@@ -142,34 +142,51 @@ export default class utils {
         }
     }
 
-    static parsePokemonSpecies() {
-
-    }
-
     /**
-     * converts given pokemon data into useable vtt data
+     * converts given api data into useable vtt data
      */
-    static parsePokemonData(pokemon) {
+    static parseCompanionData(data) {
         try {
-            const data = {
-                hp: { max: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'hp' }).base_stat / 10) * game.settings.get(game.system.id, 'healthMult') },
+            const companion = {
+                hp: { base: Math.round(data.stats.find((s) => { return s.stat.name == 'hp' }).base_stat / 10) * game.settings.get(game.system.id, 'healthMult') },
                 stats: {
-                    atk: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'attack' }).base_stat / 10) },
-                    def: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'defense' }).base_stat / 10) },
-                    spd: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'speed' }).base_stat / 10) },
-                    satk: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'special-attack' }).base_stat / 10) },
-                    sdef: { value: Math.round(pokemon.stats.find((s) => { return s.stat.name == 'special-defense' }).base_stat / 10) },
+                    atk: { value: Math.round(data.stats.find((s) => { return s.stat.name == 'attack' }).base_stat / 10) },
+                    def: { value: Math.round(data.stats.find((s) => { return s.stat.name == 'defense' }).base_stat / 10) },
+                    spd: { value: Math.round(data.stats.find((s) => { return s.stat.name == 'speed' }).base_stat / 10) },
+                    satk: { value: Math.round(data.stats.find((s) => { return s.stat.name == 'special-attack' }).base_stat / 10) },
+                    sdef: { value: Math.round(data.stats.find((s) => { return s.stat.name == 'special-defense' }).base_stat / 10) },
                 },
                 types: {
-                    primary: pokemon.types[0].type.name,
-                    secondary: pokemon.types[1] ? pokemon.types[1].type.name : 'none'
+                    primary: data.types[0].type.name,
+                    secondary: data.types[1] ? data.types[1].type.name : 'none'
                 },
-                species: pokemon.species.name,
+                species: data.species.name,
+                api: {
+                    id: data.id,
+                    name: data.name,
+                    species: data.species.name,
+                    height: data.height,
+                    weight: data.weight,
+                    is_default: data.is_default,
+                    order: data.order,
+                    cries: {
+                        latest: data.cries?.latest,
+                        legacy: data.cries?.legacy
+                    },
+                    stats: {
+                        hp: data.stats.find((s) => { return s.stat.name == 'hp' })?.base_stat,
+                        attack: data.stats.find((s) => { return s.stat.name == 'attack' })?.base_stat,
+                        defence: data.stats.find((s) => { return s.stat.name == 'defense' })?.base_stat,
+                        special_attack: data.stats.find((s) => { return s.stat.name == 'special-attack' })?.base_stat,
+                        special_defence: data.stats.find((s) => { return s.stat.name == 'special-defense' })?.base_stat,
+                        speed: data.stats.find((s) => { return s.stat.name == 'speed' })?.base_stat,
+                    }
+                }
             };
 
-            return data;
+            return companion;
         } catch (err) {
-            return void console.error('recieved invalid pokemon data to parse', err)
+            return void console.error('recieved invalid api data to parse', err)
         }
     }
 
