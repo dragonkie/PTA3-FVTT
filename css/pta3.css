@@ -1169,13 +1169,16 @@ button.pta-clear-button:focus {
     background-position: 64px 64px;
   }
 }
-.pta.actor.character .pta-sheet-header {
+.pta.actor .pta-sheet-header {
   --c-one: rgb(19, 16, 38);
   --c-two: rgb(13, 54, 84);
   padding: 0.5rem;
   border-radius: 10px;
-  border: 2px solid #499ab5;
-  background: linear-gradient(18deg, var(--c-one) 20%, var(--c-two) 40%, var(--c-two) 70%, var(--c-one) 90%);
+  border: 2px solid #797c81;
+  box-shadow: 0px 4px 10px 6px black;
+  margin: 0.5em;
+  background-color: #7f5a83;
+  background: linear-gradient(160deg, #485563, #1e252c);
 }
 
 .pta.sheet.actor .pta-sheet-header img {
