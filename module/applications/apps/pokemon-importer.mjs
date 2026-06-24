@@ -79,7 +79,7 @@ export default class PokemonImporter extends PtaApplication {
         for (const pokemon of this.pokemon_selections) {
             const api_pokemon = await pokeapi.pokemon(pokemon.name);
             const api_speices = await pokeapi.species(api_pokemon.species.name);
-            const data = utils.parsePokemonData(api_pokemon);
+            const data = utils.parseCompanionData(api_pokemon);
             data.description = getFlavorText(api_speices.flavor_text_entries);
 
             if (!data) continue;

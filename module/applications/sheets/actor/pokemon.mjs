@@ -99,11 +99,7 @@ export default class PtaPokemonSheet extends PtaActorSheet {
 
         // obtain and parse the pokemon data
         let pokemon = await utils.importPokemonData({ species: true, forms: true, name: search });
-        let update_data = utils.parsePokemonData(pokemon);
-
-        if (!set_species) delete update_data.species;
-
-        update_data.hp.value = Math.min(this.document.system.hp.value, update_data.hp.max);
+        let update_data = utils.parseCompanionData(pokemon);
 
         await this.document.update({ system: update_data })
         this.render(false);
