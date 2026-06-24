@@ -132,7 +132,7 @@ export default class PokeballData extends ItemData {
         var acc = 0;
         var chn = 0;
         await new Promise(async (resolve, reject) => {
-            const template = await utils.renderTemplate(PTA.templates.dialog.rollCaptureSphere, { item: this.parent });
+            const template = await utils.renderTemplate(PTA.templates.dialog.rollCapture, { item: this.parent });
             const app = new PtaDialog({
                 content: template,
                 classes: ['pta'],

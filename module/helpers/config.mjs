@@ -688,15 +688,20 @@ PTA.templates = {
   path: templatePath(''),
   dialog: {
     fileServerSelect: templatePath('dialog/file-server-selector.hbs'),
-    rollCaptureSphere: templatePath('dialog/roll-capture-sphere.hbs'),
     configResistanceOverride: templatePath('dialog/config-resistance-override.hbs'),
     configEggGroups: templatePath('dialog/config-egg-groups.hbs'),
+    rollCapture: templatePath('dialog/rolls/roll-capture.hbs'),
+    rollAttack: templatePath('dialog/rolls/roll-attack.hbs'),
+    rollDamage: templatePath('dialog/rolls/roll-damage.hbs'),
+    rollStandard: templatePath('dialog/rolls/roll-standard.hbs'),
+    rollSkill: templatePath('dialog/rolls/roll-skill.hbs'),
   },
   app: {
     importMoves: templatePath('apps/move-importer.hbs'),
     importPokemon: templatePath('apps/pokemon-importer.hbs'),
     remoteAssetBrowser: templatePath('apps/server-browser.hbs'),
-    compendiumBrowser: templatePath('apps/compendium-browser.hbs')
+    compendiumBrowser: templatePath('apps/compendium-browser.hbs'),
+    featureEditor: templatePath('apps/feature-editor.hbs')
   },
   sheet: {
 
