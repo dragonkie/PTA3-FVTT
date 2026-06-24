@@ -8,7 +8,7 @@
             <a class="pta-skill-label" data-action="roll" data-roll="1d20+{{skill.total}}" data-roll-msg="{{skill.label.long}}">
                 {{numberFormat skill.total sign=true}} {{skill.label.long}}
             </a>
-            <input type="number" value="{{skill.bonus}}" name="system.skills.{{key}}.bonus" class="flex0" style="width: 2em; flex: 0; height: 1.5em;">
+            <input class="pta-skill-bonus" type="number" value="{{skill.bonus}}" name="system.skills.{{key}}.bonus">
         </div>
     {{/each}}
 </div>

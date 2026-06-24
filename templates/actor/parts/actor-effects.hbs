@@ -23,14 +23,14 @@
     <ol class="pta-effect-list flexcol flex-gap-l">
       {{#each effects as |section sid|}}
         <div class="pta-effect-list pta-item-list">
-          <li class="pta-effect-list-header pta-item-list-header flexrow" data-effect-type="{{section.type}}" data-parent-id="{{@root.actor.id}}">
-            <div class="pta-effect-name">{{localize section.label}}</div>
+          <div class="pta-effect-list-header pta-item-list-header flexrow" data-effect-type="{{section.type}}" data-parent-id="{{@root.actor.id}}">
+            <div class="pta-item-name pta-effect-name">{{localize section.label}}</div>
             <div class="pta-effect-source">{{localize "PTA.Effect.Source"}}</div>
             <div class="pta-effect-duration">{{localize "EFFECT.DURATION.Label"}}</div>
             <button class="pta-effect-controls pta-clear-button" title="{{localize 'DOCUMENT.Create' type=" Effect"}}" data-action="create" data-document-name="ActiveEffect">
               <i class="fas fa-plus"></i>
             </button>
-          </li>
+          </div>
           <ol class="pta-item-entries">
             {{#each section.effects as |effect|}}
               <li class="pta-item pta-effect flexcol collapsible collapsed" data-uuid="{{effect.uuid}}">
