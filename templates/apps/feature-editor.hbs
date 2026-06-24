@@ -1,0 +1,25 @@
+<div class="pta-feature-editor flexcol flex-gap-m">
+    {{log this}}
+    <div class="form-group">
+        <label>Name</label>
+        <div class="form-fields">
+            <input type="text" name="name" value="{{name}}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Level</label>
+        <div class="form-fields">
+            <input type="number" min="0" max="15" name="level" value="{{level}}">
+        </div>
+    </div>
+    {{!-- Item list for item type features --}}
+
+    <prose-mirror
+			class="actor-text"
+			name="description"
+			value="{{description}}"
+			data-document-uuid="{{document.uuid}}"
+		>
+        {{description}}
+		</prose-mirror>
+</div>

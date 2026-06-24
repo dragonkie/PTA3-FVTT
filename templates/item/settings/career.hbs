@@ -1,0 +1,49 @@
+<div class="pta-tab flexcol flex-gap-m">
+    <div class="flexrow flex-gap-m">
+        {{systemFieldGroup system 'slot' label='Career Priority'}}
+        {{systemFieldGroup system 'isAdvanced' label='Is Advanced class?'}}
+    </div>
+    <div class="pta-feature-list pta-item-list flexcol">
+        <div class="pta-feature-list-header pta-item-list-header flexrow" data-effect-type="{{section.type}}" data-parent-id="{{@root.actor.id}}">
+            <div class="pta-item-name pta-feature-name">{{localize 'PTA.Generic.Feature'}}</div>
+            <div class="pta-item-detail pta-feature-level">{{localize "PTA.Generic.Level"}}</div>
+            <button class="pta-feature-controls pta-clear-button flex0" title="{{localize 'DOCUMENT.Create' type=" Effect"}}" data-action="feature">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+        {{!-- Features are put into subgroups by level --}}
+        <ol class="pta-item-entries">
+            {{#each system.features as |feature|}}
+                <li class="pta-item pta-feature collapsible collapsed" data-feature-id="{{@key}}">
+                    <div class="flexrow">
+                        {{!-- Item name and image --}}
+                        <div class="pta-item-name pta-feature-name flexrow" data-action="collapse">
+                            <div class="pta-item-image">
+                                <img src="{{feature.img}}" width="30" height="30" />
+                            </div>
+                            <div>{{feature.name}}</div>
+                        </div>
+                        <div class="pta-item-detail pta-feature-level flex">{{feature.level}}</div>
+                        <div class="pta-item-controls">
+                            <button class="pta-clear-button" data-action="edit">
+                                <i class="fas fa-pen-to-square"></i>
+                            </button>
+                            <button class="pta-clear-button" data-action="delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="collapsible-content" data-action="collapse">
+                        <div class="wrapper">
+                            <div class="pta-item-description">
+                                <div class="text-left">
+                                    {{{feature.description}}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {{/each}}
+        </ol>
+    </div>
+</div>
