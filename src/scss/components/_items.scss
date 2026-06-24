@@ -94,11 +94,18 @@ $pta-button-size: 30px;
       flex-wrap: nowrap;
       flex: 0;
     }
+
+    .pta-item-description {
+      padding: 0 0.5em;
+    }
   }
 
   // list of controls in the item bar on the far right side
   .pta-item-controls {
-    flex: 0 0 $pta-button-size;
+    flex: 0 1 $pta-button-size;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     align-items: center;
     justify-items: center;
   }

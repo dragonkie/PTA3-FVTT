@@ -1,3 +1,18 @@
+@keyframes pta-scrolling-bg {
+    100% {
+        background-position: 64px 64px;
+    }
+}
+
+.pta.actor.character .pta-sheet-header {
+    --c-one: rgb(19, 16, 38);
+    --c-two: rgb(13, 54, 84);
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: 2px solid #499ab5;
+    background: linear-gradient(18deg, var(--c-one) 20%, var(--c-two) 40%, var(--c-two) 70%, var(--c-one) 90%)
+}
+
 .pta.sheet.actor {
     .pta-sheet-header {
         img {
@@ -5,21 +20,38 @@
             min-height: 128px;
             object-fit: cover;
             object-position: 50% 0%;
-        }
 
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid var(--color-light-5);
+            background:
+                linear-gradient(90deg, #3d7385 2px, rgba(21, 53, 97, 0) 1px),
+                linear-gradient(0deg, #3d7385 2px, rgba(21, 53, 97, 0) 1px);
+            background-size: 64px 64px;
+            background-color: rgb(7, 24, 49);
+            animation: pta-scrolling-bg 20s infinite;
+            animation-timing-function: linear;
+
+            border-radius: 5px;
+            border: 2px solid #499ab5;
+        }
     }
 
     .window-content {
+        background:
+            //radial-gradient(at top, rgba(68, 0, 255, 0.1) 30%, transparent),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 60%, transparent),
+            url("../assets/textures/slash_it.webp");
 
         [data-tab=inventory] {
             overflow-y: auto;
         }
     }
-
 }
 
 .pta-inventory {
     overflow: auto;
+}
+
+.pta-skill-bonus {
+    flex: 0 0 3em;
+    text-align: center;
+    height: 1.5em;
 }

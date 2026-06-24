@@ -1,0 +1,70 @@
+// Special formatting for roll popups
+.pta-roll-form {
+    background: linear-gradient(to right, rgb(106, 106, 106), rgb(81, 81, 81));
+
+    .dialog-form {
+        gap: 0.5em;
+    }
+
+    .window-content {
+        display: flex;
+        flex-direction: column;
+        padding: 0.5em;
+        width: 300px;
+        box-sizing: border-box;
+
+        .pta-roll-group {
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
+            align-items: center;
+            border-bottom: 1px solid rgb(159, 159, 159);
+
+
+            >label {
+                text-align: left;
+                flex: 1;
+
+                transition: all 0.2s;
+            }
+
+            >input {
+                flex: 1;
+            }
+
+            .pta-fields {
+                text-align: left;
+                flex: 1;
+                gap: 0.5rem;
+                display: flex;
+                flex-direction: row;
+
+                * {
+                    flex: 1;
+                }
+            }
+
+            &:hover {
+                color: white;
+
+                input {
+                    color: white;
+                }
+            }
+
+            input {
+                height: 1.5em;
+
+                &[disabled] {
+                    background-color: transparent;
+                    outline: 0px transparent;
+                    border: 0px solid transparent;
+                }
+            }
+        }
+
+
+
+
+    }
+}

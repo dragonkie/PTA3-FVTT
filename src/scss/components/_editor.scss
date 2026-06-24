@@ -1,9 +1,18 @@
 .pta {
     prose-mirror {
+
+        button.toggle {
+            padding: 0;
+        }
+
         &.inactive {
             .editor-container {
                 background: var(--color-cool-4);
                 border-radius: 4px;
+
+                .editor-content {
+                    padding: 4px;
+                }
             }
         }
 
@@ -12,6 +21,10 @@
                 background: var(--color-cool-4);
                 border-radius: 4px;
                 min-height: 200px;
+
+                .editor-content {
+                    padding: 4px;
+                }
             }
         }
     }

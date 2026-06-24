@@ -577,8 +577,14 @@ button.pta-clear-button:focus {
   flex-wrap: nowrap;
   flex: 0;
 }
+.pta-item-list .pta-item .pta-item-description {
+  padding: 0 0.5em;
+}
 .pta-item-list .pta-item-controls {
-  flex: 0 0 30px;
+  flex: 0 1 30px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: center;
   justify-items: center;
 }
@@ -662,14 +668,23 @@ button.pta-clear-button:focus {
   flex: 0 0 2rem;
 }
 
+.pta prose-mirror button.toggle {
+  padding: 0;
+}
 .pta prose-mirror.inactive .editor-container {
   background: var(--color-cool-4);
   border-radius: 4px;
+}
+.pta prose-mirror.inactive .editor-container .editor-content {
+  padding: 4px;
 }
 .pta prose-mirror.active .editor-container {
   background: var(--color-cool-4);
   border-radius: 4px;
   min-height: 200px;
+}
+.pta prose-mirror.active .editor-container .editor-content {
+  padding: 4px;
 }
 
 /* Import utilities */
@@ -1139,9 +1154,6 @@ button.pta-clear-button:focus {
 .pta.sheet .window-content {
   padding: 0.5rem;
 }
-.pta.sheet .window-header, .pta.sheet .window-content {
-  border-radius: inherit;
-}
 .pta.sheet:hover .pta-bookmark {
   opacity: 100%;
 }
@@ -1152,15 +1164,35 @@ button.pta-clear-button:focus {
 }
 
 /* Sheet specific styles */
-.pta.sheet.actor .pta-sheet-header {
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-light-5);
+@keyframes pta-scrolling-bg {
+  100% {
+    background-position: 64px 64px;
+  }
 }
+.pta.actor.character .pta-sheet-header {
+  --c-one: rgb(19, 16, 38);
+  --c-two: rgb(13, 54, 84);
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: 2px solid #499ab5;
+  background: linear-gradient(18deg, var(--c-one) 20%, var(--c-two) 40%, var(--c-two) 70%, var(--c-one) 90%);
+}
+
 .pta.sheet.actor .pta-sheet-header img {
   min-width: 128px;
   min-height: 128px;
   object-fit: cover;
   object-position: 50% 0%;
+  background: linear-gradient(90deg, #3d7385 2px, rgba(21, 53, 97, 0) 1px), linear-gradient(0deg, #3d7385 2px, rgba(21, 53, 97, 0) 1px);
+  background-size: 64px 64px;
+  background-color: rgb(7, 24, 49);
+  animation: pta-scrolling-bg 20s infinite;
+  animation-timing-function: linear;
+  border-radius: 5px;
+  border: 2px solid #499ab5;
+}
+.pta.sheet.actor .window-content {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 60%, transparent), url("../assets/textures/slash_it.webp");
 }
 .pta.sheet.actor .window-content [data-tab=inventory] {
   overflow-y: auto;
@@ -1168,6 +1200,65 @@ button.pta-clear-button:focus {
 
 .pta-inventory {
   overflow: auto;
+}
+
+.pta-skill-bonus {
+  flex: 0 0 3em;
+  text-align: center;
+  height: 1.5em;
+}
+
+.pta-roll-form {
+  background: linear-gradient(to right, rgb(106, 106, 106), rgb(81, 81, 81));
+}
+.pta-roll-form .dialog-form {
+  gap: 0.5em;
+}
+.pta-roll-form .window-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+  width: 300px;
+  box-sizing: border-box;
+}
+.pta-roll-form .window-content .pta-roll-group {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  border-bottom: 1px solid rgb(159, 159, 159);
+}
+.pta-roll-form .window-content .pta-roll-group > label {
+  text-align: left;
+  flex: 1;
+  transition: all 0.2s;
+}
+.pta-roll-form .window-content .pta-roll-group > input {
+  flex: 1;
+}
+.pta-roll-form .window-content .pta-roll-group .pta-fields {
+  text-align: left;
+  flex: 1;
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: row;
+}
+.pta-roll-form .window-content .pta-roll-group .pta-fields * {
+  flex: 1;
+}
+.pta-roll-form .window-content .pta-roll-group:hover {
+  color: white;
+}
+.pta-roll-form .window-content .pta-roll-group:hover input {
+  color: white;
+}
+.pta-roll-form .window-content .pta-roll-group input {
+  height: 1.5em;
+}
+.pta-roll-form .window-content .pta-roll-group input[disabled] {
+  background-color: transparent;
+  outline: 0px transparent;
+  border: 0px solid transparent;
 }
 
 /* Styles limited to pta3 sheets */
