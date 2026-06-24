@@ -15,6 +15,7 @@ import PokemonImporter from "./apps/pokemon-importer.mjs";
 import ServerBrowser from "./apps/server-browser.mjs";
 import MoveImporter from "./apps/move-importer.mjs";
 import CompendiumBrowser from "./apps/compendium-browser.mjs";
+import PtaCareerSheet from "./sheets/item/career.mjs";
 
 export default {
     sheets: {
@@ -63,10 +64,10 @@ export default {
                         types: ['consumable']
                     }
                 }, {
-                    application: null,
+                    application: PtaCareerSheet,
                     options: {
-                        label: 'TYPES.Item.class',
-                        types: ['class']
+                        label: 'TYPES.Item.career',
+                        types: ['career']
                     }
                 }, {
                     application: PtaMoveSheet,
