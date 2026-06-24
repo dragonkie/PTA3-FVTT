@@ -182,6 +182,13 @@ export default class PtaPokemonSheet extends PtaActorSheet {
     //============================================================================================================
     //> Sheet rendering
     //============================================================================================================
+    async _preRender(context, options) {
+
+        console.log(this);
+        console.log({ context, options });
+        return super._preRender(context, options);
+    }
+
     async render(options = {}) {
         // register trainers sheet application as a dependency to be re rendered
         if (this.document.system.trainer != '') {
