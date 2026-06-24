@@ -159,7 +159,7 @@ export default class ActorData extends DataModel {
     // calculate skill totals
     for (const key in this.skills) {
       const stat = this.stats[this.skills[key].stat];
-      this.skills[key].total += stat.mod + this.skills[key].bonus;
+      this.skills[key].total += stat.mod;
     }
 
     // applys conditions relevant to token statuses
