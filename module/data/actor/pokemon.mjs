@@ -4,7 +4,7 @@ import { PTA } from "../../helpers/config.mjs";
 import utils from "../../helpers/utils.mjs";
 
 const {
-  ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField, ObjectField
+  ArrayField, BooleanField, IntegerSortField, NumberField, SchemaField, SetField, StringField, ObjectField, TypedObjectField,
 } = foundry.data.fields;
 
 export default class PokemonData extends ActorData {
@@ -86,7 +86,37 @@ export default class PokemonData extends ActorData {
     schema.contest = new SchemaField({});
 
     // Holds the base API ref that this pokemon is generated from
-    schema.api_ref = new ObjectField({ initial: {} });
+    schema.api = new SchemaField({
+      id: new NumberField({ nullable: true, initial: 0 }),
+      species: new StringField({ nullable: true, initial: "" }),
+      name: new StringField({ nullable: true, initial: "" }),
+      height: new NumberField({ nullable: true, initial: 0 }),
+      weight: new NumberField({ nullable: true, initial: 0 }),
+      types: new ArrayField(new SchemaField({
+        name: new StringField({ nullable: true, initial: "" }),
+        slot: new NumberField({ nullable: true, initial: "" }),
+      })),
+      abilities: new ArrayField(new SchemaField({
+        name: new StringField({ nullable: true, initial: "" }),
+        is_hidden: new BooleanField({ nullable: true, initial: false }),
+        slot: new NumberField({ nullable: true, initial: 0 }),
+      })),
+      cries: new SchemaField({
+        latest: new StringField({ nullable: true, initial: "" }),
+        legacy: new StringField({ nullable: true, initial: "" }),
+      }),
+      is_default: new BooleanField({ nullable: true, initial: true }),
+      moves: new ArrayField(new StringField({ nullable: true, initial: "" }), { initial: [] }),
+      order: new NumberField({ nullable: true, initial: 0 }),
+      stats: new SchemaField({
+        hp: new NumberField({ nullable: true, initial: 0 }),
+        attack: new NumberField({ nullable: true, initial: 0 }),
+        defence: new NumberField({ nullable: true, initial: 0 }),
+        special_attack: new NumberField({ nullable: true, initial: 0 }),
+        special_defence: new NumberField({ nullable: true, initial: 0 }),
+        speed: new NumberField({ nullable: true, initial: 0 }),
+      })
+    });
 
     return schema
   }
