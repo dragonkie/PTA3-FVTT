@@ -176,7 +176,7 @@ export default class PtaApplication extends HandlebarsApplicationMixin(Applicati
     }
 
     async _onDropActiveEffect(event, effect) {
-
+        
     }
 
     async _onDropItem(event, item) {
