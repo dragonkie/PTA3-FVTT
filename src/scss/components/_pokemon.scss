@@ -2,6 +2,11 @@
 
 /* Classes for creating pokemon type boxs and their effects */
 
+$pta-team-h: 75px;
+$pta-team-w: 225px;
+$pta-team-padding: 0.5em;
+$pta-team-gap: 0.5em;
+
 .pta-companion-tab ol.pta-companion-team {
   list-style: none;
   padding: 0.5em;
@@ -10,15 +15,56 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  height: calc(($pta-team-h * 6) + ($pta-team-gap * 5) + ($pta-team-padding * 2));
 
-  background: linear-gradient(to right, #808080, #6d6d6d);
+  background: linear-gradient(0deg, rgb(84, 84, 84) 1px, transparent 2px), linear-gradient(90deg, rgb(84, 84, 84) 1px, transparent 2px);
+  background-color: rgb(20, 20, 20);
+  background-size: 32px 32px;
+
   border-radius: 5px;
+  border: 2px solid rgb(112, 112, 112);
+
+  animation: util.$anim-scrolling;
+  animation-timing-function: linear;
+  animation-duration: 20s;
+
+  /* STOP SMOOTHING, GIVE ME SPEED  */
+  image-rendering: optimizeSpeed;
+  /* Firefox                        */
+  image-rendering: -moz-crisp-edges;
+  /* Opera                          */
+  image-rendering: -o-crisp-edges;
+  /* Chrome (and eventually Safari) */
+  image-rendering: -webkit-optimize-contrast;
+  /* Universal support since 2021   */
+  image-rendering: pixelated;
+  /* CSS3 Proposed                  */
+  image-rendering: optimize-contrast;
+  /* IE8+                           */
+  -ms-interpolation-mode: nearest-neighbor;
 
   .pta-companion {
-    --angle: 110deg;
     --scale: 60%;
 
-    background-color: var(--color-cool-4);
+    --c-one: rgba(22, 51, 86, 0.5);
+    --c-two: rgba(21, 118, 186, 0.8);
+
+    background:
+      linear-gradient(45deg, var(--c-one) 45%, var(--c-two)) 0px 0px;
+    transition: all 0.2s;
+    background-size: 200% 100%;
+    box-sizing: border-box;
+
+    &:hover {
+      border: 2px solid #8ed3ea;
+      --w: #{0px - $pta-team-w};
+      --p: #{$pta-team-padding};
+      background-position: calc(var(--w) + var(--p));
+      background-repeat: no-repeat;
+    }
+
+    border: 2px solid #4eb3d4;
+
     position: relative;
     width: 225px;
     height: 75px;
@@ -26,21 +72,8 @@
     padding: var(--pta-scale-px);
     display: flex;
     flex-direction: row;
-
-    --corner: 1em;
-    clip-path: polygon(
-        /* top edge */
-        var(--corner) 0%,
-        calc(100% - var(--corner)) 0%,
-        /* right edge */
-        100% var(--corner),
-        100% calc(100% - var(--corner)),
-        /* bottom edge */
-        calc(100% - var(--corner)) 100%,
-        var(--corner) 100%,
-        /* left edge */
-        0% calc(100% - var(--corner)),
-        0% var(--corner));
+    border-radius: 5px;
+    margin: 0;
 
     .pta-companion-portrait {
       flex: 0 0;
@@ -50,6 +83,7 @@
       aspect-ratio: 1;
 
       img {
+        image-rendering: auto;
         border: 0;
       }
     }
