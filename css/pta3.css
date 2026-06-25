@@ -116,6 +116,11 @@
   --pta-scale-px: 20px;
 }
 
+@keyframes pta-scrolling-bg {
+  100% {
+    background-position: 128px 64px;
+  }
+}
 /* Global styles */
 .rollable:hover, .rollable:focus {
   color: #000;
@@ -697,13 +702,39 @@ button.pta-clear-button:focus {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  background: linear-gradient(to right, #808080, #6d6d6d);
+  height: calc(450px + 2.5em + 1em);
+  background: linear-gradient(0deg, rgb(84, 84, 84) 1px, transparent 2px), linear-gradient(90deg, rgb(84, 84, 84) 1px, transparent 2px);
+  background-color: rgb(20, 20, 20);
+  background-size: 32px 32px;
   border-radius: 5px;
+  border: 2px solid rgb(112, 112, 112);
+  animation: pta-scrolling-bg 20s infinite;
+  animation-timing-function: linear;
+  animation-duration: 20s;
+  /* STOP SMOOTHING, GIVE ME SPEED  */
+  image-rendering: optimizeSpeed;
+  /* Firefox                        */
+  image-rendering: -moz-crisp-edges;
+  /* Opera                          */
+  image-rendering: -o-crisp-edges;
+  /* Chrome (and eventually Safari) */
+  image-rendering: -webkit-optimize-contrast;
+  /* Universal support since 2021   */
+  image-rendering: pixelated;
+  /* CSS3 Proposed                  */
+  image-rendering: optimize-contrast;
+  /* IE8+                           */
+  -ms-interpolation-mode: nearest-neighbor;
 }
 .pta-companion-tab ol.pta-companion-team .pta-companion {
-  --angle: 110deg;
   --scale: 60%;
-  background-color: var(--color-cool-4);
+  --c-one: rgba(22, 51, 86, 0.5);
+  --c-two: rgba(21, 118, 186, 0.8);
+  background: linear-gradient(45deg, var(--c-one) 45%, var(--c-two)) 0px 0px;
+  transition: all 0.2s;
+  background-size: 200% 100%;
+  box-sizing: border-box;
+  border: 2px solid #4eb3d4;
   position: relative;
   width: 225px;
   height: 75px;
@@ -711,8 +742,15 @@ button.pta-clear-button:focus {
   padding: var(--pta-scale-px);
   display: flex;
   flex-direction: row;
-  --corner: 1em;
-  clip-path: polygon(var(--corner) 0%, calc(100% - var(--corner)) 0%, 100% var(--corner), 100% calc(100% - var(--corner)), calc(100% - var(--corner)) 100%, var(--corner) 100%, 0% calc(100% - var(--corner)), 0% var(--corner));
+  border-radius: 5px;
+  margin: 0;
+}
+.pta-companion-tab ol.pta-companion-team .pta-companion:hover {
+  border: 2px solid #8ed3ea;
+  --w: -225px;
+  --p: 0.5em;
+  background-position: calc(var(--w) + var(--p));
+  background-repeat: no-repeat;
 }
 .pta-companion-tab ol.pta-companion-team .pta-companion .pta-companion-portrait {
   flex: 0 0;
@@ -722,6 +760,7 @@ button.pta-clear-button:focus {
   aspect-ratio: 1;
 }
 .pta-companion-tab ol.pta-companion-team .pta-companion .pta-companion-portrait img {
+  image-rendering: auto;
   border: 0;
 }
 .pta-companion-tab ol.pta-companion-team .pta-companion .details {
@@ -1164,21 +1203,91 @@ button.pta-clear-button:focus {
 }
 
 /* Sheet specific styles */
-@keyframes pta-scrolling-bg {
-  100% {
-    background-position: 64px 64px;
-  }
-}
+/* Import utilities */
 .pta.actor .pta-sheet-header {
-  --c-one: rgb(19, 16, 38);
-  --c-two: rgb(13, 54, 84);
+  --c-gradient-highlight: rgba(212, 212, 212, 0.7);
+  --c-gradient-shadow: rgba(36, 36, 36, 0.6);
+  --c-background: #686868;
   padding: 0.5rem;
   border-radius: 10px;
   border: 2px solid #797c81;
   box-shadow: 0px 4px 10px 6px black;
   margin: 0.5em;
-  background-color: #7f5a83;
-  background: linear-gradient(180deg, rgba(52, 73, 142, 0.5), transparent), linear-gradient(140deg, var(--c-one) 60%, var(--c-two) 60%, var(--c-two) 80%, var(--c-one) 80%);
+  background: linear-gradient(130deg, transparent, var(--c-gradient-highlight) 26%, transparent 35%, transparent 70%, var(--c-gradient-shadow));
+  background-color: var(--c-background);
+  background-blend-mode: overlay;
+}
+
+.pta.actor [data-type=normal].pta-sheet-header {
+  --c-background: var(--pta-c-type-normal);
+}
+
+.pta.actor [data-type=fire].pta-sheet-header {
+  --c-background: var(--pta-c-type-fire);
+}
+
+.pta.actor [data-type=water].pta-sheet-header {
+  --c-background: var(--pta-c-type-water);
+}
+
+.pta.actor [data-type=electric].pta-sheet-header {
+  --c-background: var(--pta-c-type-electric);
+}
+
+.pta.actor [data-type=grass].pta-sheet-header {
+  --c-background: var(--pta-c-type-grass);
+}
+
+.pta.actor [data-type=ice].pta-sheet-header {
+  --c-background: var(--pta-c-type-ice);
+}
+
+.pta.actor [data-type=fighting].pta-sheet-header {
+  --c-background: var(--pta-c-type-fighting);
+}
+
+.pta.actor [data-type=poison].pta-sheet-header {
+  --c-background: var(--pta-c-type-poison);
+}
+
+.pta.actor [data-type=ground].pta-sheet-header {
+  --c-background: var(--pta-c-type-ground);
+}
+
+.pta.actor [data-type=flying].pta-sheet-header {
+  --c-background: var(--pta-c-type-flying);
+}
+
+.pta.actor [data-type=psychic].pta-sheet-header {
+  --c-background: var(--pta-c-type-psychic);
+}
+
+.pta.actor [data-type=bug].pta-sheet-header {
+  --c-background: var(--pta-c-type-bug);
+}
+
+.pta.actor [data-type=rock].pta-sheet-header {
+  --c-background: var(--pta-c-type-rock);
+}
+
+.pta.actor [data-type=ghost].pta-sheet-header {
+  --c-background: var(--pta-c-type-ghost);
+}
+
+.pta.actor [data-type=dragon].pta-sheet-header {
+  --c-background: var(--pta-c-type-dragon);
+}
+
+.pta.actor [data-type=dark].pta-sheet-header {
+  --c-background: var(--pta-c-type-dark);
+}
+
+.pta.actor [data-type=steel].pta-sheet-header {
+  --c-background: var(--pta-c-type-steel);
+}
+
+.pta.actor [data-type=fairy].pta-sheet-header {
+  --c-background: var(--pta-c-type-fairy);
 }
 
 .pta.sheet.actor .pta-sheet-header img {
@@ -1186,13 +1295,19 @@ button.pta-clear-button:focus {
   min-height: 128px;
   object-fit: cover;
   object-position: 50% 0%;
-  background: linear-gradient(90deg, #3d7385 2px, rgba(21, 53, 97, 0) 1px), linear-gradient(0deg, #3d7385 2px, rgba(21, 53, 97, 0) 1px);
+  background: linear-gradient(90deg, #3d7385 2px, rgba(0, 0, 0, 0) 1px), linear-gradient(0deg, #3d7385 2px, rgba(0, 0, 0, 0) 1px);
   background-size: 64px 64px;
-  background-color: rgb(7, 24, 49);
+  background-color: #071831;
   animation: pta-scrolling-bg 20s infinite;
   animation-timing-function: linear;
   border-radius: 5px;
   border: 2px solid #499ab5;
+}
+.pta.sheet.actor .pta-sheet-header input {
+  background-color: rgba(45, 62, 87, 0.5);
+}
+.pta.sheet.actor .pta-sheet-header input:focus {
+  outline-color: #499ab5;
 }
 .pta.sheet.actor .window-content {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 60%, transparent), url("../assets/textures/slash_it.webp");
@@ -1290,7 +1405,7 @@ button.pta-clear-button:focus {
   padding: 0.5rem;
 }
 .pta .pta-tab.pta-companion-tab {
-  min-height: 525px;
+  min-height: 535px;
 }
 .pta .remote-image-browser .sprite-gallery {
   display: grid;
