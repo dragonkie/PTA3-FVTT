@@ -1,0 +1,7 @@
+@keyframes pta-scrolling-bg {
+    100% {
+        background-position: 128px 64px;
+    }
+}
+
+$anim-scrolling: pta-scrolling-bg 20s infinite;
