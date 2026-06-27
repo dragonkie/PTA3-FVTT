@@ -44,7 +44,6 @@ Hooks.once('init', function () {
     PTA.loadPokedex();
     pta.config = PTA;
     CONFIG.PTA = PTA;
-
     CONFIG.statusEffects = PTA.statusEffects;
 
     /**
