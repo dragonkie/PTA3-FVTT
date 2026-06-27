@@ -3,6 +3,7 @@ import MoveImporter from "../applications/apps/move-importer.mjs";
 import utils from "./utils.mjs";
 import CompendiumBrowser from "../applications/apps/compendium-browser.mjs";
 import { PTA } from "./config.mjs";
+import PtaDialog from "../applications/dialog.mjs";
 
 /**
  * @callback HooksOn
@@ -136,4 +137,44 @@ export default function registerHooks() {
         }
     })
 
+    // Asking community for help because I want my patreon account back but they don't believe me :<
+    Hooks.once('ready', async (settings, html, context, options) => {
+        var banned = game.user.getFlag(game.system.id, 'ban_support');
+        if (banned === undefined) {
+            game.user.setFlag(game.system.id, 'ban_support', false);
+            banned = false;
+        } else if (banned) return;
+
+        new PtaDialog({
+            classes: ['pta'],
+            id: "PTA.Developer.SupportMeGettingMyAccountBackQ_Q",
+            modal: true,
+            buttons: [{
+                action: "finish",
+                label: "Okay, now let me play!"
+            }, {
+                action: "ban",
+                label: "Don't show again"
+            }],
+            content: `
+                <div style="max-width: 500px;">
+                    <p><b>Hello everyone!</b> You may not know me, but I'm <b>Ásta</b>, the developer / maintainer of the PTA3 foundry system! I hope you've been having fun and the system hasn't had toooo many bugs ^_^ (Yeah, I know there's a lot... I fixed like 60+ in this update alone)</p>
+                    <p><b>Unfortunately, today I'm here to ask for help.</b></p>
+                    <p>I've dedicated hundreds of hours over many years to developing multiple different foundry systems such as NewEdo, Tales from Myriad, and PTA3.</p>
+                    <p>Trying and get more time to work on these projects and amke a career from my passion, I made a Patreon account like many developers do.</p>
+                    <p>Shortly after opening the page a common scam on Patreon happened to me. Scammers with stolen credit cards used my account to make payments, then get refunds to collect the money.</p>
+                    <p>My accounts authenticity came into question, since then I've been trying to get reinstated to no avail.</p>
+                    <p>I didn't ever want to have to ask this of the community, but now it's gotten to the point where my account will go from deactivated to deleted if I can't prove my legitimacy.</p>
+                    <p>I'm not a very social person and with no social media backing, so unfortunately my last chance is to ask the community to help tell Patreon that I'm a real person and not a scammer.</p>
+                    <p>I'm <b>NOT</b> asking for money, but if you have the time and like what I do, please <b>email Patreon</b> and tell them my page <b>"Ásta's Armoury"</b> is legitimate, I'm just bad at marketing. :< </p>
+                    <b><a href="https://support.patreon.com/hc/en-us/requests/new">Patreon Support Email</a></b>
+                    <p>Again, I'm so sorry to be asking this, I wish beyond anything else that I didn't have to, and I appreciate all of your support!</p>
+                    <p>Happy gaming! - Ásta</p>
+                </div>
+            `,
+            submit: (result, dialog) => {
+                if (result == "ban") game.user.setFlag(game.system.id, 'ban_support', true);
+            }
+        }).render(true)
+    })
 }
