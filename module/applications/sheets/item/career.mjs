@@ -1,6 +1,5 @@
 import { PTA } from "../../../helpers/config.mjs";
 import utils from "../../../helpers/utils.mjs";
-import PtaFeatureEditor from "../../apps/feature-editor.mjs";
 import PtaDialog from "../../dialog.mjs";
 import PtaItemSheet from "../item.mjs";
 
