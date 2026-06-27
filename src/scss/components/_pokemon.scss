@@ -241,7 +241,13 @@ $pta-grid-size: 75px;
 }
 
 .pta-pokebox {
-  height: 100%;
+  height: calc(($pta-team-h * 6) + ($pta-team-gap * 5) + ($pta-team-padding * 2));
+  padding: 0.5em;
+  border: 2px solid rgb(112, 112, 112);
+
+  background: radial-gradient(rgba(255, 255, 255, 0.1), transparent);
+  background-color: rgb(20, 20, 20);
+  border-radius: 5px;
 }
 
 .pta-pc-entries {

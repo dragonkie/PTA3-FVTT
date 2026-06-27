@@ -28,8 +28,19 @@
         justify-content: center;
 
         .pta-score-wrap {
+            display: flex;
+            flex-direction: column;
             flex: 0;
-            margin-right: var(--pta-scale-px);
+            gap: 0.5em;
+
+            padding: 0.5em;
+            box-shadow: 0px 10px 8px black;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), transparent 40%, rgba(255, 255, 255, 0.4) 50%, transparent 60%, rgba(0, 0, 0, 0.4));
+            background-color: var(--stat-border-c);
+            //background: linear-gradient(transparent, rgba(255, 255, 255, 0.6) 50%, transparent 70%, rgba(0, 0, 0, 0.4)), rgb(81, 81, 81);
+
+            border-radius: 5px;
+            border: 2px solid var(--stat-border-c);
         }
 
         .pta-score {
@@ -41,7 +52,13 @@
             width: 72px;
             overflow: hidden;
             text-align: center;
-            border: 2px solid var(--stat-border-c);
+            border: 2px solid rgb(144, 144, 144);
+            background-color: rgb(99, 99, 99);
+
+            input {
+                // on top of the score modifier field
+                background-color: rgb(62, 62, 62);
+            }
 
             >* {
                 display: flex;
@@ -54,6 +71,14 @@
                 border-right: none;
                 border-top: none;
             }
+        }
+
+        .pta-stat-label {
+            padding: 0.2em;
+            background: linear-gradient(0deg, rgb(77, 77, 77) 80%, rgb(27, 27, 27));
+            border-radius: 3px;
+            text-align: center;
+            width: 100%;
         }
     }
 }

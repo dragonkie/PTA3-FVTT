@@ -14,14 +14,32 @@
 
     background:
         //linear-gradient(180deg, rgba(52, 73, 142, 0.5), transparent),
-        linear-gradient(130deg, transparent, var(--c-gradient-highlight) 26%, transparent 35%, transparent 70%, var(--c-gradient-shadow));
+        linear-gradient(130deg, transparent, var(--c-gradient-highlight) 26%, transparent 35%, transparent 70%, var(--c-gradient-shadow)),
+        linear-gradient(90deg, var(--c-background-main) 66%, var(--c-background-extra) 85%);
     background-color: var(--c-background);
     background-blend-mode: overlay;
+
+    .pta-actor-name {
+        height: 3rem;
+        font-size: 2rem;
+        font-weight: 600;
+        background-color: rgba(53, 53, 53, 0.8);
+    }
+
+    input,
+    select {
+        background-color: rgba(53, 53, 53, 0.8);
+    }
 }
 
 @each $type in util.$pokemon-types {
-    .pta.actor [data-type=#{$type}].pta-sheet-header {
-        --c-background: var(--pta-c-type-#{$type});
+    .pta.actor [data-type-main=#{$type}].pta-sheet-header {
+        --c-background-main: var(--pta-c-type-#{$type});
+        --c-background-extra: var(--pta-c-type-#{$type});
+    }
+
+    .pta.actor [data-type-extra=#{$type}].pta-sheet-header {
+        --c-background-extra: var(--pta-c-type-#{$type});
     }
 }
 
@@ -46,8 +64,6 @@
         }
 
         input {
-            background-color: rgba(45, 62, 87, 0.5);
-
             &:focus {
                 outline-color: #499ab5;
             }

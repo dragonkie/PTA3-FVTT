@@ -935,7 +935,12 @@ button.pta-clear-button:focus {
 }
 
 .pta-pokebox {
-  height: 100%;
+  height: calc(450px + 2.5em + 1em);
+  padding: 0.5em;
+  border: 2px solid rgb(112, 112, 112);
+  background: radial-gradient(rgba(255, 255, 255, 0.1), transparent);
+  background-color: rgb(20, 20, 20);
+  border-radius: 5px;
 }
 
 .pta-pc-entries {
@@ -1041,8 +1046,16 @@ button.pta-clear-button:focus {
   justify-content: center;
 }
 .pta-stats .pta-stat-wrap .pta-score-wrap {
+  display: flex;
+  flex-direction: column;
   flex: 0;
-  margin-right: var(--pta-scale-px);
+  gap: 0.5em;
+  padding: 0.5em;
+  box-shadow: 0px 10px 8px black;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), transparent 40%, rgba(255, 255, 255, 0.4) 50%, transparent 60%, rgba(0, 0, 0, 0.4));
+  background-color: var(--stat-border-c);
+  border-radius: 5px;
+  border: 2px solid var(--stat-border-c);
 }
 .pta-stats .pta-stat-wrap .pta-score {
   align-items: center;
@@ -1053,7 +1066,11 @@ button.pta-clear-button:focus {
   width: 72px;
   overflow: hidden;
   text-align: center;
-  border: 2px solid var(--stat-border-c);
+  border: 2px solid rgb(144, 144, 144);
+  background-color: rgb(99, 99, 99);
+}
+.pta-stats .pta-stat-wrap .pta-score input {
+  background-color: rgb(62, 62, 62);
 }
 .pta-stats .pta-stat-wrap .pta-score > * {
   display: flex;
@@ -1065,6 +1082,13 @@ button.pta-clear-button:focus {
   border-left: none;
   border-right: none;
   border-top: none;
+}
+.pta-stats .pta-stat-wrap .pta-stat-label {
+  padding: 0.2em;
+  background: linear-gradient(0deg, rgb(77, 77, 77) 80%, rgb(27, 27, 27));
+  border-radius: 3px;
+  text-align: center;
+  width: 100%;
 }
 
 .pta-skills-wrap {
@@ -1213,81 +1237,181 @@ button.pta-clear-button:focus {
   border: 2px solid #797c81;
   box-shadow: 0px 4px 10px 6px black;
   margin: 0.5em;
-  background: linear-gradient(130deg, transparent, var(--c-gradient-highlight) 26%, transparent 35%, transparent 70%, var(--c-gradient-shadow));
+  background: linear-gradient(130deg, transparent, var(--c-gradient-highlight) 26%, transparent 35%, transparent 70%, var(--c-gradient-shadow)), linear-gradient(90deg, var(--c-background-main) 66%, var(--c-background-extra) 85%);
   background-color: var(--c-background);
   background-blend-mode: overlay;
 }
-
-.pta.actor [data-type=normal].pta-sheet-header {
-  --c-background: var(--pta-c-type-normal);
+.pta.actor .pta-sheet-header .pta-actor-name {
+  height: 3rem;
+  font-size: 2rem;
+  font-weight: 600;
+  background-color: rgba(53, 53, 53, 0.8);
+}
+.pta.actor .pta-sheet-header input,
+.pta.actor .pta-sheet-header select {
+  background-color: rgba(53, 53, 53, 0.8);
 }
 
-.pta.actor [data-type=fire].pta-sheet-header {
-  --c-background: var(--pta-c-type-fire);
+.pta.actor [data-type-main=normal].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-normal);
+  --c-background-extra: var(--pta-c-type-normal);
 }
 
-.pta.actor [data-type=water].pta-sheet-header {
-  --c-background: var(--pta-c-type-water);
+.pta.actor [data-type-extra=normal].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-normal);
 }
 
-.pta.actor [data-type=electric].pta-sheet-header {
-  --c-background: var(--pta-c-type-electric);
+.pta.actor [data-type-main=fire].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-fire);
+  --c-background-extra: var(--pta-c-type-fire);
 }
 
-.pta.actor [data-type=grass].pta-sheet-header {
-  --c-background: var(--pta-c-type-grass);
+.pta.actor [data-type-extra=fire].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-fire);
 }
 
-.pta.actor [data-type=ice].pta-sheet-header {
-  --c-background: var(--pta-c-type-ice);
+.pta.actor [data-type-main=water].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-water);
+  --c-background-extra: var(--pta-c-type-water);
 }
 
-.pta.actor [data-type=fighting].pta-sheet-header {
-  --c-background: var(--pta-c-type-fighting);
+.pta.actor [data-type-extra=water].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-water);
 }
 
-.pta.actor [data-type=poison].pta-sheet-header {
-  --c-background: var(--pta-c-type-poison);
+.pta.actor [data-type-main=electric].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-electric);
+  --c-background-extra: var(--pta-c-type-electric);
 }
 
-.pta.actor [data-type=ground].pta-sheet-header {
-  --c-background: var(--pta-c-type-ground);
+.pta.actor [data-type-extra=electric].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-electric);
 }
 
-.pta.actor [data-type=flying].pta-sheet-header {
-  --c-background: var(--pta-c-type-flying);
+.pta.actor [data-type-main=grass].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-grass);
+  --c-background-extra: var(--pta-c-type-grass);
 }
 
-.pta.actor [data-type=psychic].pta-sheet-header {
-  --c-background: var(--pta-c-type-psychic);
+.pta.actor [data-type-extra=grass].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-grass);
 }
 
-.pta.actor [data-type=bug].pta-sheet-header {
-  --c-background: var(--pta-c-type-bug);
+.pta.actor [data-type-main=ice].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-ice);
+  --c-background-extra: var(--pta-c-type-ice);
 }
 
-.pta.actor [data-type=rock].pta-sheet-header {
-  --c-background: var(--pta-c-type-rock);
+.pta.actor [data-type-extra=ice].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-ice);
 }
 
-.pta.actor [data-type=ghost].pta-sheet-header {
-  --c-background: var(--pta-c-type-ghost);
+.pta.actor [data-type-main=fighting].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-fighting);
+  --c-background-extra: var(--pta-c-type-fighting);
 }
 
-.pta.actor [data-type=dragon].pta-sheet-header {
-  --c-background: var(--pta-c-type-dragon);
+.pta.actor [data-type-extra=fighting].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-fighting);
 }
 
-.pta.actor [data-type=dark].pta-sheet-header {
-  --c-background: var(--pta-c-type-dark);
+.pta.actor [data-type-main=poison].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-poison);
+  --c-background-extra: var(--pta-c-type-poison);
 }
 
-.pta.actor [data-type=steel].pta-sheet-header {
-  --c-background: var(--pta-c-type-steel);
+.pta.actor [data-type-extra=poison].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-poison);
 }
 
-.pta.actor [data-type=fairy].pta-sheet-header {
-  --c-background: var(--pta-c-type-fairy);
+.pta.actor [data-type-main=ground].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-ground);
+  --c-background-extra: var(--pta-c-type-ground);
+}
+
+.pta.actor [data-type-extra=ground].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-ground);
+}
+
+.pta.actor [data-type-main=flying].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-flying);
+  --c-background-extra: var(--pta-c-type-flying);
+}
+
+.pta.actor [data-type-extra=flying].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-flying);
+}
+
+.pta.actor [data-type-main=psychic].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-psychic);
+  --c-background-extra: var(--pta-c-type-psychic);
+}
+
+.pta.actor [data-type-extra=psychic].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-psychic);
+}
+
+.pta.actor [data-type-main=bug].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-bug);
+  --c-background-extra: var(--pta-c-type-bug);
+}
+
+.pta.actor [data-type-extra=bug].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-bug);
+}
+
+.pta.actor [data-type-main=rock].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-rock);
+  --c-background-extra: var(--pta-c-type-rock);
+}
+
+.pta.actor [data-type-extra=rock].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-rock);
+}
+
+.pta.actor [data-type-main=ghost].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-ghost);
+  --c-background-extra: var(--pta-c-type-ghost);
+}
+
+.pta.actor [data-type-extra=ghost].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-ghost);
+}
+
+.pta.actor [data-type-main=dragon].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-dragon);
+  --c-background-extra: var(--pta-c-type-dragon);
+}
+
+.pta.actor [data-type-extra=dragon].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-dragon);
+}
+
+.pta.actor [data-type-main=dark].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-dark);
+  --c-background-extra: var(--pta-c-type-dark);
+}
+
+.pta.actor [data-type-extra=dark].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-dark);
+}
+
+.pta.actor [data-type-main=steel].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-steel);
+  --c-background-extra: var(--pta-c-type-steel);
+}
+
+.pta.actor [data-type-extra=steel].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-steel);
+}
+
+.pta.actor [data-type-main=fairy].pta-sheet-header {
+  --c-background-main: var(--pta-c-type-fairy);
+  --c-background-extra: var(--pta-c-type-fairy);
+}
+
+.pta.actor [data-type-extra=fairy].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-fairy);
 }
 
 .pta.sheet.actor .pta-sheet-header img {
@@ -1302,9 +1426,6 @@ button.pta-clear-button:focus {
   animation-timing-function: linear;
   border-radius: 5px;
   border: 2px solid #499ab5;
-}
-.pta.sheet.actor .pta-sheet-header input {
-  background-color: rgba(45, 62, 87, 0.5);
 }
 .pta.sheet.actor .pta-sheet-header input:focus {
   outline-color: #499ab5;

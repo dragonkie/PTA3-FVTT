@@ -1,9 +1,9 @@
 <div>
-    <header class="pta-id-card pta-actor-sheet-header pta-sheet-header" data-type="{{system.types.primary}}">
+    <header class="pta-id-card pta-actor-sheet-header pta-sheet-header" data-type-main="{{system.types.primary}}" data-type-extra="{{system.types.secondary}}">
         <div class="flexrow flex-gap-m">
             <img class="flex0" data-action="editImage" width="100" height="100" src="{{document.img}}">
             <div class="flexcol flex-gap-m">
-                <input type="text" value="{{document.name}}" name="name">
+                <input class="pta-actor-name" type="text" value="{{document.name}}" name="name">
                 <div class="flexrow">
                     <div class="flexrow flex-gap-s">
 

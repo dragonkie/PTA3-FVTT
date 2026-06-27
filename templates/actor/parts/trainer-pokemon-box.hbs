@@ -5,46 +5,50 @@
     - Grid
 --}}
 <div class="flex flexcol pta-pokebox flex-gap-l">
-    {{!-- Search Bar --}}
-    <div class="pta-search-container flexrow flexshrink" data-search="companion">
+  <div class="flexrow flex-gap-m">
+    <div class="flexlarge">
+      {{!-- Search Bar --}}
+      <div class="pta-search-container flexrow flexshrink" data-search="companion">
         <div class="pta-search-wrap">
-            <i class="fas fa-magnifying-glass"></i>
-            <input type="text" class="pta-search-input flex" placeholder="PTA.Placeholder.SearchCompanions">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" class="pta-search-input flex" placeholder="PTA.Placeholder.SearchCompanions">
         </div>
         <ul class="flexrow flexshrink flex-nowrap flex-gap-s">
-            <li>
-                <button class="pta-clear-button" data-action="clear">
-                    <i class="fas fa-x"></i>
-                </button>
-            </li>
-            <li>
-                <button class="pta-clear-button" data-action="filter">
-                    <i class="fas fa-filter"></i>
-                </button>
-            </li>
-            <li>
-                <button class="pta-clear-button" data-action="sort">
-                    <i class="fas fa-arrow-down-short-wide"></i>
-                </button>
-            </li>
-            <li>
-                <button class="pta-clear-button" data-action="pcLayout">
-                    {{#if (eq userSettings.pcLayout 1)}}
-                        <i class="fas fa-grid-2"></i>
-                    {{else}}
-                        <i class="fas fa-list"></i>
-                    {{/if}}
-                </button>
-            </li>
+          <li>
+            <button class="pta-clear-button" data-action="clear">
+              <i class="fas fa-x"></i>
+            </button>
+          </li>
+          <li>
+            <button class="pta-clear-button" data-action="filter">
+              <i class="fas fa-filter"></i>
+            </button>
+          </li>
+          <li>
+            <button class="pta-clear-button" data-action="sort">
+              <i class="fas fa-arrow-down-short-wide"></i>
+            </button>
+          </li>
+          <li>
+            <button class="pta-clear-button" data-action="pcLayout">
+              {{#if (eq userSettings.pcLayout 1)}}
+                <i class="fas fa-grid-2"></i>
+              {{else}}
+                <i class="fas fa-list"></i>
+              {{/if}}
+            </button>
+          </li>
         </ul>
+      </div>
     </div>
+  </div>
 
-    {{!-- List of companion in the trainers box --}}
-    <div class="pta-pc-entries">
-        {{#if (eq userSettings.pcLayout 1)}}
-            {{> 'pta.trainer-pc-grid'}}
-        {{else}}
-            {{> 'pta.trainer-pc-list'}}
-        {{/if}}
-    </div>
+  {{!-- List of companion in the trainers box --}}
+  <div class="pta-pc-entries">
+    {{#if (eq userSettings.pcLayout 1)}}
+      {{> 'pta.trainer-pc-grid'}}
+    {{else}}
+      {{> 'pta.trainer-pc-list'}}
+    {{/if}}
+  </div>
 </div>
