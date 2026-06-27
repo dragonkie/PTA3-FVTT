@@ -227,7 +227,7 @@ export default class MoveData extends ItemData {
     //=====================================================================================================
     async use(event, target, action) {
         if (action == 'reload') return this._onUseReload(event, target);
-        return this._onUseAttackV2(event, target);
+        return this._onUseAttack(event, target);
     }
 
     //=====================================================================================================
@@ -278,8 +278,10 @@ export default class MoveData extends ItemData {
             let missed = false;
             let critical = false;
 
+            // calculates if this was a critical hit
             if (r_accuracy.dice.find(a => a.faces == 20).results[0].result >= 20 - this.critical_chance) critical = true;
-            else if (r_accuracy.total < game.settings.get(game.system.id, 'baseAc') + target_stat.mod) missed = true;
+            // Check if the roll hit
+            else if (r_accuracy.total < game.settings.get(game.system.id, 'baseAc') + target_stat.total) missed = true;
 
             // attack roll content
             message_data.content += `<p><b>${utils.localize(PTA.generic.accuracy)}</b></p>`
