@@ -1232,12 +1232,14 @@ button.pta-clear-button:focus {
   --c-gradient-highlight: rgba(212, 212, 212, 0.7);
   --c-gradient-shadow: rgba(36, 36, 36, 0.6);
   --c-background: #686868;
+  --c-background-main: transparent;
+  --c-background-extra: transparent;
   padding: 0.5rem;
   border-radius: 10px;
   border: 2px solid #797c81;
   box-shadow: 0px 4px 10px 6px black;
   margin: 0.5em;
-  background: linear-gradient(130deg, transparent, var(--c-gradient-highlight) 26%, transparent 35%, transparent 70%, var(--c-gradient-shadow)), linear-gradient(90deg, var(--c-background-main) 66%, var(--c-background-extra) 85%);
+  background: linear-gradient(130deg, transparent, var(--c-gradient-highlight) 26%, transparent 35%, transparent 70%, var(--c-gradient-shadow)), linear-gradient(90deg, var(--c-background-main) 66%, var(--c-background-extra) 75%);
   background-color: var(--c-background);
   background-blend-mode: overlay;
 }
@@ -1257,8 +1259,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-normal);
 }
 
-.pta.actor [data-type-extra=normal].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-normal);
+.pta.actor [data-type-main][data-type-extra=normal].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-normal) !important;
 }
 
 .pta.actor [data-type-main=fire].pta-sheet-header {
@@ -1266,8 +1268,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-fire);
 }
 
-.pta.actor [data-type-extra=fire].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-fire);
+.pta.actor [data-type-main][data-type-extra=fire].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-fire) !important;
 }
 
 .pta.actor [data-type-main=water].pta-sheet-header {
@@ -1275,8 +1277,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-water);
 }
 
-.pta.actor [data-type-extra=water].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-water);
+.pta.actor [data-type-main][data-type-extra=water].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-water) !important;
 }
 
 .pta.actor [data-type-main=electric].pta-sheet-header {
@@ -1284,8 +1286,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-electric);
 }
 
-.pta.actor [data-type-extra=electric].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-electric);
+.pta.actor [data-type-main][data-type-extra=electric].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-electric) !important;
 }
 
 .pta.actor [data-type-main=grass].pta-sheet-header {
@@ -1293,8 +1295,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-grass);
 }
 
-.pta.actor [data-type-extra=grass].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-grass);
+.pta.actor [data-type-main][data-type-extra=grass].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-grass) !important;
 }
 
 .pta.actor [data-type-main=ice].pta-sheet-header {
@@ -1302,8 +1304,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-ice);
 }
 
-.pta.actor [data-type-extra=ice].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-ice);
+.pta.actor [data-type-main][data-type-extra=ice].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-ice) !important;
 }
 
 .pta.actor [data-type-main=fighting].pta-sheet-header {
@@ -1311,8 +1313,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-fighting);
 }
 
-.pta.actor [data-type-extra=fighting].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-fighting);
+.pta.actor [data-type-main][data-type-extra=fighting].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-fighting) !important;
 }
 
 .pta.actor [data-type-main=poison].pta-sheet-header {
@@ -1320,8 +1322,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-poison);
 }
 
-.pta.actor [data-type-extra=poison].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-poison);
+.pta.actor [data-type-main][data-type-extra=poison].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-poison) !important;
 }
 
 .pta.actor [data-type-main=ground].pta-sheet-header {
@@ -1329,8 +1331,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-ground);
 }
 
-.pta.actor [data-type-extra=ground].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-ground);
+.pta.actor [data-type-main][data-type-extra=ground].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-ground) !important;
 }
 
 .pta.actor [data-type-main=flying].pta-sheet-header {
@@ -1338,8 +1340,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-flying);
 }
 
-.pta.actor [data-type-extra=flying].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-flying);
+.pta.actor [data-type-main][data-type-extra=flying].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-flying) !important;
 }
 
 .pta.actor [data-type-main=psychic].pta-sheet-header {
@@ -1347,8 +1349,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-psychic);
 }
 
-.pta.actor [data-type-extra=psychic].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-psychic);
+.pta.actor [data-type-main][data-type-extra=psychic].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-psychic) !important;
 }
 
 .pta.actor [data-type-main=bug].pta-sheet-header {
@@ -1356,8 +1358,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-bug);
 }
 
-.pta.actor [data-type-extra=bug].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-bug);
+.pta.actor [data-type-main][data-type-extra=bug].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-bug) !important;
 }
 
 .pta.actor [data-type-main=rock].pta-sheet-header {
@@ -1365,8 +1367,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-rock);
 }
 
-.pta.actor [data-type-extra=rock].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-rock);
+.pta.actor [data-type-main][data-type-extra=rock].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-rock) !important;
 }
 
 .pta.actor [data-type-main=ghost].pta-sheet-header {
@@ -1374,8 +1376,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-ghost);
 }
 
-.pta.actor [data-type-extra=ghost].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-ghost);
+.pta.actor [data-type-main][data-type-extra=ghost].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-ghost) !important;
 }
 
 .pta.actor [data-type-main=dragon].pta-sheet-header {
@@ -1383,8 +1385,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-dragon);
 }
 
-.pta.actor [data-type-extra=dragon].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-dragon);
+.pta.actor [data-type-main][data-type-extra=dragon].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-dragon) !important;
 }
 
 .pta.actor [data-type-main=dark].pta-sheet-header {
@@ -1392,8 +1394,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-dark);
 }
 
-.pta.actor [data-type-extra=dark].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-dark);
+.pta.actor [data-type-main][data-type-extra=dark].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-dark) !important;
 }
 
 .pta.actor [data-type-main=steel].pta-sheet-header {
@@ -1401,8 +1403,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-steel);
 }
 
-.pta.actor [data-type-extra=steel].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-steel);
+.pta.actor [data-type-main][data-type-extra=steel].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-steel) !important;
 }
 
 .pta.actor [data-type-main=fairy].pta-sheet-header {
@@ -1410,8 +1412,8 @@ button.pta-clear-button:focus {
   --c-background-extra: var(--pta-c-type-fairy);
 }
 
-.pta.actor [data-type-extra=fairy].pta-sheet-header {
-  --c-background-extra: var(--pta-c-type-fairy);
+.pta.actor [data-type-main][data-type-extra=fairy].pta-sheet-header {
+  --c-background-extra: var(--pta-c-type-fairy) !important;
 }
 
 .pta.sheet.actor .pta-sheet-header img {

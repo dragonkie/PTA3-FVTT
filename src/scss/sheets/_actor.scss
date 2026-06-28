@@ -4,6 +4,8 @@
     --c-gradient-highlight: rgba(212, 212, 212, 0.7);
     --c-gradient-shadow: rgba(36, 36, 36, 0.6);
     --c-background: #686868;
+    --c-background-main: transparent;
+    --c-background-extra: transparent;
 
     padding: 0.5rem;
     border-radius: 10px;
@@ -15,7 +17,7 @@
     background:
         //linear-gradient(180deg, rgba(52, 73, 142, 0.5), transparent),
         linear-gradient(130deg, transparent, var(--c-gradient-highlight) 26%, transparent 35%, transparent 70%, var(--c-gradient-shadow)),
-        linear-gradient(90deg, var(--c-background-main) 66%, var(--c-background-extra) 85%);
+        linear-gradient(90deg, var(--c-background-main) 66%, var(--c-background-extra) 75%);
     background-color: var(--c-background);
     background-blend-mode: overlay;
 
@@ -38,8 +40,8 @@
         --c-background-extra: var(--pta-c-type-#{$type});
     }
 
-    .pta.actor [data-type-extra=#{$type}].pta-sheet-header {
-        --c-background-extra: var(--pta-c-type-#{$type});
+    .pta.actor [data-type-main][data-type-extra=#{$type}].pta-sheet-header {
+        --c-background-extra: var(--pta-c-type-#{$type}) !important;
     }
 }
 
