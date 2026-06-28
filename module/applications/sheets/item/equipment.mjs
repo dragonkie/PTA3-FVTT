@@ -39,6 +39,6 @@ export default class PtaEquipmentSheet extends PtaItemSheet {
                     [index]: _del
                 }
             }
-        }, { recursive: false, applyOperators: true})
+        }, { recursive: true, applyOperators: true })
     }
 }
