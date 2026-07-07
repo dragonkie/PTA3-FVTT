@@ -22,7 +22,7 @@ import { PTA } from './helpers/config.mjs';
 import PtaSocketManager from './helpers/socket.mjs';
 
 // Import DataModel classes
-import * as models from './data/_module.mjs';
+import models from './data/_module.mjs';
 import registerPtaHandlebars from './helpers/handlebars.mjs';
 import registerSystemSettings from './helpers/settings.mjs';
 import registerHooks from './helpers/hooks.mjs';
@@ -63,8 +63,8 @@ Hooks.once('init', function () {
     CONFIG.Actor.documentClass = PtaActor;
     CONFIG.Item.documentClass = PtaItem;
     CONFIG.ActiveEffect.documentClass = PtaActiveEffect;
-    CONFIG.Actor.dataModels = models.ActorConfig;
-    CONFIG.Item.dataModels = models.ItemConfig;
+    CONFIG.Actor.dataModels = models.Actor;
+    CONFIG.Item.dataModels = models.Item;
 
     // Register sheet application classes
     foundry.documents.collections.Actors.unregisterSheet('core', foundry.appv1.sheets.ActorSheet);

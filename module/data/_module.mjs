@@ -13,34 +13,18 @@ import FeatureData from "./item/feature.mjs";
 import MoveData from "./item/move.mjs";
 import PokeballData from "./item/pokeball.mjs";
 
-export const ActorModels = {
-    ActorData,
-    CharacterData,
-    NpcData,
-    PokemonData,
-}
-
-export const ActorConfig = {
-    character: CharacterData,
-    npc: NpcData,
-    pokemon: PokemonData
-}
-
-export const ItemModels = {
-    ItemData,
-    FeatureData,
-    ConsumableData,
-    MoveData,
-    EquipmentData,
-    PokeballData,
-    CareerData,
-}
-
-export const ItemConfig = {
-    pokeball: PokeballData,
-    consumable: ConsumableData,
-    feature: FeatureData,
-    move: MoveData,
-    equipment: EquipmentData,
-    career: CareerData,
+export default {
+    Actor: {
+        character: CharacterData,
+        npc: NpcData,
+        pokemon: PokemonData
+    },
+    Item: {
+        pokeball: PokeballData,
+        consumable: ConsumableData,
+        feature: FeatureData,
+        move: MoveData,
+        equipment: EquipmentData,
+        career: CareerData,
+    }
 }
