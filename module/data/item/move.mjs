@@ -24,6 +24,9 @@ export default class MoveData extends ItemData {
             initial: 'physical'
         })
 
+        // basically and equipped / unequipped mvoe state to help sort moves that get swapped in and out regularly
+        schema.memorized = new BooleanField({ initial: true });
+
         // Move typing
         const TypeChoices = {};
         for (const a in PTA.pokemonTypes) TypeChoices[a] = utils.localize(PTA.pokemonTypes[a]);
