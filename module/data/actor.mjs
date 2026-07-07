@@ -1,6 +1,7 @@
 import utils from "../helpers/utils.mjs";
 import DataModel from "./abstract.mjs";
 import { PTA } from "../helpers/config.mjs";
+import MoveData from "./item/move.mjs";
 
 const { SchemaField, NumberField, BooleanField, StringField, ArrayField, DataField, ObjectField, HTMLField } = foundry.data.fields;
 
@@ -199,4 +200,40 @@ export default class ActorData extends DataModel {
   get isDead() { return this.isFainted };
   get isAlive() { return !this.isFainted };
   get getTypes() { return [this.types.primary, this.types.secondary] }
+
+  /**
+   * A rest function for reseting actor sheets to their daily states
+   * restores all health, and replenishes all limited move and item uses
+   * all extending functions must call super._onRest *LAST*
+   * changes added to the update after the super call will be lost
+   * extending functions can use custom logic to cancel a rest action by refusing to call super
+   * 
+   * @param {Object} data - The list of updates to be run
+   * @returns {Promise}
+   */
+  async _onRest(updates = []) {
+    updates.push({ _id: this.parent.id, system: { hp: { value: this.hp.max } } });
+
+    // update all of the actors
+    await Actor.implementation.updateDocuments(updates, {});
+
+    // restore uses of all move items
+    const itemUpdates = [];
+    for (const item of this.parent.items) {
+      if (item.system instanceof MoveData) {
+        if (item.system.uses.value < item.system.uses.max) {
+          itemUpdates.push({
+            _id: item.id,
+            system: {
+              uses: {
+                value: item.system.uses.max
+              }
+            }
+          })
+        }
+      }
+    }
+
+    await this.parent.updateEmbeddedDocuments("Item", itemUpdates);
+  }
 }
