@@ -950,9 +950,9 @@ button.pta-clear-button:focus {
 
 .progress-bar {
   width: 100%;
-  background-color: black;
   box-sizing: border-box;
-  border-radius: 0 4px 4px 0;
+  background-color: black;
+  border-radius: 4px;
   display: flex;
   flex-direction: row;
   overflow: hidden;
@@ -1215,7 +1215,7 @@ button.pta-clear-button:focus {
   display: none;
 }
 .pta.sheet .window-content {
-  padding: 0.5rem;
+  padding: 0.2rem 0.2rem;
 }
 .pta.sheet:hover .pta-bookmark {
   opacity: 100%;
@@ -1238,7 +1238,7 @@ button.pta-clear-button:focus {
   border-radius: 10px;
   border: 2px solid #797c81;
   box-shadow: 0px 4px 10px 6px black;
-  margin: 0.5em;
+  margin: 0.5rem 0.5rem 1rem 0.5rem;
   background: linear-gradient(130deg, transparent, var(--c-gradient-highlight) 26%, transparent 35%, transparent 70%, var(--c-gradient-shadow)), linear-gradient(90deg, var(--c-background-main) 66%, var(--c-background-extra) 75%);
   background-color: var(--c-background);
   background-blend-mode: overlay;
@@ -1525,10 +1525,7 @@ button.pta-clear-button:focus {
 .pta .pta-tab {
   height: 100%;
   width: 100%;
-  padding: 0.5rem;
-}
-.pta .pta-tab.pta-companion-tab {
-  min-height: 535px;
+  padding: 0 0.5rem;
 }
 .pta .remote-image-browser .sprite-gallery {
   display: grid;
@@ -1550,3 +1547,5 @@ button.pta-clear-button:focus {
   border: none;
   image-rendering: pixelated;
 }
+
+/*# sourceMappingURL=pta3.css.map */

@@ -12,7 +12,7 @@
     border: 2px solid #797c81;
 
     box-shadow: 0px 4px 10px 6px black;
-    margin: 0.5em;
+    margin: 0.5rem 0.5rem 1rem 0.5rem;
 
     background:
         //linear-gradient(180deg, rgba(52, 73, 142, 0.5), transparent),
@@ -74,7 +74,6 @@
 
     .window-content {
         background:
-            //radial-gradient(at top, rgba(68, 0, 255, 0.1) 30%, transparent),
             linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 60%, transparent),
             url("../assets/textures/slash_it.webp");
 
