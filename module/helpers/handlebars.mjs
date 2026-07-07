@@ -46,7 +46,6 @@ function getSystemField(system, path, options) {
 
     // if we didn't find the field, check for dynamic elements, such as TypedObjectField | ArrayField
     if (!field) {
-        console.log("Path", { path })
         const path_pieces = path.split(".");
         var ref = system.schema;
         for (const piece of path_pieces) {
@@ -94,18 +93,18 @@ function registerHelpers() {
         objectIsEmpty: (obj) => Object.keys(obj).length <= 0,
         objectValue: (obj, key) => obj[key],
         systemConfig: () => PTA,
-        //=======================================================================
+        //=================================================================================================
         //>  Strings and Text
-        //=======================================================================
+        //=================================================================================================
         toLowerCase: (str) => str.toLowerCase(),
         toTitleCase: (str) => str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()),
         selected: (val) => {
             if (val) return new Handlebars.SafeString('selected');
             return '';
         },
-        //=======================================================================
+        //=================================================================================================
         //>  Math                              
-        //=======================================================================
+        //=================================================================================================
         addition: (a, b) => a + b,
         ceil: (a) => Math.ceil(a),
         divide: (a, b) => a / b,
@@ -148,7 +147,6 @@ function registerHelpers() {
         },
         systemFieldInput(system, path, options) {
             const data = getSystemField(system, path, options);
-            console.log(data)
             const group = data.field.toInput(data.config.input);
             return new Handlebars.SafeString(group.outerHTML);
         },
@@ -186,8 +184,8 @@ function registerHelpers() {
 }
 
 export default function registerPtaHandlebars() {
-    console.log('registering handlebars templates');
+    console.log('PTA|registering handlebars templates');
     registerTemplates();
-    console.log('registering handlebars helpers');
+    console.log('PTA|registering handlebars helpers');
     registerHelpers();
 }
