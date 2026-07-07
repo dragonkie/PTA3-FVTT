@@ -109,6 +109,15 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
         return item.use(event, target, action);
     };
 
+    /**
+     * Allows an actor to rest, clearing status effects and fully healing hp
+     * @param {Event} event - Triggering event
+     * @param {HTMLElement} target - the element that the action originates from
+     */
+    static async _onRest(event, target) {
+
+    }
+
     static SORTING_METHODS = {
         NAME: 1,
         TYPE: 2,
