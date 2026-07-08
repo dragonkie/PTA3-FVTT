@@ -15,6 +15,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
             trainTalent: this._onTrainTalent,
             editResistance: this._onEditResistance,
             importMoves: this._onImportMoves,
+            rest: this._onRest,
         }
     }
 
@@ -115,7 +116,7 @@ export default class PtaActorSheet extends PtaSheetMixin(foundry.applications.sh
      * @param {HTMLElement} target - the element that the action originates from
      */
     static async _onRest(event, target) {
-
+        return this.document.system._onRest();
     }
 
     static SORTING_METHODS = {

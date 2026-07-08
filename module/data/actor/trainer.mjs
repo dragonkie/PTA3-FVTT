@@ -55,10 +55,12 @@ export default class TrainerData extends ActorData {
                 // if the update is ready, perform it
                 if (opt != "none" && targets.length > 0) game.actors.updateAll(
                     (doc) => { // function to configure update data
-                        return { "system.hp.value": doc.system.hp.max };
+                        for (const status of doc.statuses) doc.toggleStatusEffect(status, { active: false });
+                        if (doc.system.hp.value < doc.system.hp.max) return { "system.hp.value": doc.system.hp.max };
+                        return {};
                     },
                     (doc) => { // Conditional function to see who to update
-                        for (const t of targets) if (t.uuid == doc.uuid && doc.system.hp.value < doc.system.hp.max) return true;
+                        for (const t of targets) if (t.uuid == doc.uuid) return true;
                         return false;
                     },
                     { recursive: true }

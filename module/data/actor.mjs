@@ -216,6 +216,7 @@ export default class ActorData extends DataModel {
 
     // update all of the actors
     await Actor.implementation.updateDocuments(updates, {});
+    for (const status of this.parent.statuses) this.parent.toggleStatusEffect(status, { active: false });
 
     // restore uses of all move items
     const itemUpdates = [];
