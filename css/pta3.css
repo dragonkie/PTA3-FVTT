@@ -363,6 +363,10 @@ button.pta-clear-button:focus {
   flex-wrap: nowrap;
 }
 
+.pta-pos-relative {
+  position: relative;
+}
+
 /* Components */
 .pta-search-container {
   background-color: #302831;

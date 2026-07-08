@@ -15,7 +15,7 @@
   img {
     flex: 0;
   }
-  
+
   .profile-img {
     flex: 0 0 100px;
     height: 100px;
@@ -111,9 +111,11 @@
 
   &.stacked {
     flex-direction: column;
+
     label {
       flex: 0;
     }
+
     input {
       text-align: center;
     }
@@ -123,6 +125,6 @@
 .pta-link-wrap {
   border-radius: 4px;
   border: var(--pta-border, 1px solid rgb(159, 132, 117, 1));
-  background: var(--pta-link-bg, rgba(255,255,255,0.1));
+  background: var(--pta-link-bg, rgba(255, 255, 255, 0.1));
   padding: 0.2rem 0.5rem;
 }

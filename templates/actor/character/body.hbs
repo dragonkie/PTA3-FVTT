@@ -1,5 +1,10 @@
 <div class="pta-sheet-body flexcol">
-    <div class="flexrow flex-gap-l pta-actor-sheet-header pta-sheet-header sheet-header">
+    <div class="flexrow flex-gap-l pta-actor-sheet-header pta-sheet-header sheet-header pta-pos-relative">
+        {{!-- Longrest button --}}
+        <button style="position: absolute; left: 100%; top: 100%; transform: translate(-100%, -100%);" data-action="rest">
+            <i class="fas fa-bed"></i>
+        </button>
+
         <img class="flex0" title="{{document.type}} " data-action="editImage" height="150" src="{{document.img}}">
         {{!-- Header fields --}}
         <div class="pta-id-card flexrow flex-align-start flex-gap-m">

@@ -5,6 +5,7 @@
 @use 'global/window';
 @use 'global/grid';
 @use 'global/flex';
+@use 'global/position';
 
 /* Components */
 @use 'components/searchbar';
@@ -26,6 +27,7 @@
 
 /* Styles limited to pta3 sheets */
 .pta {
+
     // force our sheets to use the set font instead of foundrys very specific declarations
     input[type=text] {
         font-family: "DM Sans", serif;
