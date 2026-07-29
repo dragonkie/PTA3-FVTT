@@ -733,7 +733,9 @@ PTA.contextMenu = {
   activate: 'PTA.ContextMenu.Activate',
   deactivate: 'PTA.ContextMenu.Deactivate',
   reload: 'PTA.ContextMenu.Reload',
-  refresh: 'PTA.ContextMenu.Refresh'
+  refresh: 'PTA.ContextMenu.Refresh',
+  memorize: 'PTA.ContextMenu.Memorize',
+  forget: 'PTA.ContextMenu.Forget',
 }
 
 // list used in the rules setup

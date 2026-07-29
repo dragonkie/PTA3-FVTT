@@ -193,6 +193,18 @@ export default class MoveData extends ItemData {
             group: group,
             icon: `<i class="fas fa-arrow-rotate-right"></i>`,
             callback: () => this._onUseReload()
+        }, {
+            label: PTA.contextMenu.memorize,
+            visible: !this.memorized,
+            group: group,
+            icon: `<i class="fas fa-brain"></i>`,
+            callback: () => this.parent.update({ system: { memorized: true } })
+        }, {
+            label: PTA.contextMenu.forget,
+            visible: this.memorized,
+            group: group,
+            icon: `<i class="fas fa-brain"></i>`,
+            callback: () => this.parent.update({ system: { memorized: false } })
         })
         return actions;
     }

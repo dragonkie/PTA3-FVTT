@@ -57,7 +57,7 @@ export default class ItemData extends DataModel {
    * @param {*} action 
    */
   async use(event, action) {
-    console.warn('No uses defined for this object!');
+    console.warn('No USE defined for this object!');
   }
 
   /**

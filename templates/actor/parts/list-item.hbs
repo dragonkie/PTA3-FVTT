@@ -4,13 +4,13 @@
     {{item.system.damage.formula}}
   </div>
   <div class="pta-item-detail pta-move-uses flex-align-center">
-    <button class="pta-clear-button" data-action="use" data-use="reload">
-      {{#if (gt item.system.uses.max 0)}}
+    {{#if (gt item.system.uses.max 0)}}
+      <button class="pta-clear-button" data-action="use" data-use="reload">
         {{item.system.uses.value}}/{{item.system.uses.max}}
-      {{else}}
-        N/A
-      {{/if}}
-    </button>
+      </button>
+    {{else}}
+      <div>N/A</div>
+    {{/if}}
   </div>
   <div class="pta-item-detail pta-type-tag pta-type-{{item.system.type}} pta-fill">
     {{localize (objectValue @root.config.pokemonTypes item.system.type)}}

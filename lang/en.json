@@ -8,7 +8,9 @@
       "Damage": "Damage",
       "Use": "Use",
       "Equip": "Equip",
-      "Unequip": "Unequip"
+      "Unequip": "Unequip",
+      "Memorize": "Memorize",
+      "Forget": "Forget"
     },
     "Ability": {
       "Atk": {
@@ -135,7 +137,10 @@
       "Sweet": "Sweet"
     },
     "Generic": {
-      "Feature":"Feature",
+      "Memorized": "Memorized",
+      "Forgotten": "Forgotten",
+      "Moves": "Moves",
+      "Feature": "Feature",
       "Ability": "Ability",
       "Accuracy": "Accuracy",
       "Age": "Age",
@@ -179,7 +184,7 @@
       "Special": "Special",
       "Species": "Species",
       "Status": "Status",
-      "Level":"Level",
+      "Level": "Level",
       "Sync": {
         "abbr": "sync",
         "long": "Synchronize"
