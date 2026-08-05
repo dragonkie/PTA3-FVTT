@@ -9,7 +9,7 @@
     ],
     "license": "LICENSE.txt",
     "readme": "README.md",
-    "bugs": "Replace this with a link to file issues or tickets",
+    "bugs": "https://github.com/dragonkie/PTA3-FVTT/issues",
     "changelog": "CHANGELOG.md",
     "media": [
         {
@@ -18,7 +18,7 @@
             "thumbnail": "systems/pta3/assets/anvil-impact.png"
         }
     ],
-    "version": "2.2.2",
+    "version": "2.2.0",
     "compatibility": {
         "minimum": "14",
         "verified": "14.364"
